@@ -1,0 +1,32 @@
+@import '../../../../theme.scss';
+
+.page-content{
+    margin-bottom: 30px;
+        .welcome{
+            height: 42px;
+            width: 341px;
+            font-family: 'Poppins';
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 42px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: rgba(255, 255, 255, 1);
+
+
+        }
+        .date{
+            height: 27px;
+            width: 104px;
+            font-family: 'Poppins';
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 27px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: rgba(255, 255, 255, 1);
+
+        }
+}

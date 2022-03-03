@@ -1,0 +1,176 @@
+//
+// authentication.scss
+//
+
+.auth-body-bg {
+  background-color: $card-bg;
+
+}
+
+.authentication-bg {
+  background-image: url('../../../images/AuthBackground-Image.svg');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  .bg-overlay {
+    // background-color: #292626;
+    background-image: linear-gradient(180deg, rgba(54, 159, 42, 0.8) 0%, rgba(24, 124, 196, 0.8) 100%);
+  }
+
+  .overlay-text h1{
+    position: absolute;
+    color: white;
+    width: 480px;
+    height: 96px;
+    left: 100px;
+    top: 40vh;
+    font-family: Poppins;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 96px;
+  }
+
+  .overlay-text p{
+    color: white;
+    position: absolute;
+    width: 529px;
+    height: 60px;
+    left: 100px;
+    top: 60vh;
+    font-family: Poppins;
+    font-size: 40px;
+    line-height: 60px;
+  }
+
+  @media (max-width: 991px) {
+    display: none;
+  }
+}
+
+.authentication-page-content {
+  height: 100vh;
+  display: flex;
+}
+
+.auth-form-group-custom {
+  position: relative;
+  .form-control {
+    height: 60px;
+    padding-top: 28px;
+    padding-left: 60px;
+  }
+
+  label {
+    position: absolute;
+    top: 7px;
+    left: 60px;
+  }
+
+  .auti-custom-input-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 19px;
+    font-size: 24px;
+    color: $primary;
+  }
+}
+
+.form-group-custom {
+  .form-ctrl {
+    padding: 7px;
+  }
+}
+
+// authentication home icon
+.home-btn {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  z-index: 9;
+}
+
+.switch{
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+}
+
+.switch input{
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.slider{
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 1px solid rgb(185, 181, 181);
+  // background-color: #000;
+  transition: 0.4s;
+}
+
+.slider::before{
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 0;
+  bottom: 0;
+  background-color: #369F2A;
+  transition: 0.4s;
+}
+
+.input-check:checked + .slider{
+  background-color:  #369F2A63;
+}
+
+.input-check:checked + .slider::before{
+  transform: translateX(15px);
+}
+
+.slider.rounded{
+  border-radius: 40px;
+}
+
+.slider.rounded::before{
+  border-radius: 50%;
+
+}
+
+.customCtrl > span{
+  margin-left: 5px;
+}
+
+.agentLink, .landlordLink{
+  box-shadow: 0px 4px 30px rgba(98, 134, 154, 0.38);
+  border-radius: 10px;
+}
+
+.optionTag{
+  font-weight: 800;
+}
+
+.terms{
+  width: 55%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.terms p a {
+  color: #369F2A;
+}
+
+.Individual, .Company{
+  width: 350px;
+  height: 120px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 30px rgba(98, 134, 154, 0.38);
+}
