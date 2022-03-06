@@ -105,7 +105,9 @@ class ChangePassword extends Component {
                               </div>
 
                               <div className="mt-4 text-center">
-                                <p className="text-muted">Do you need you help?</p>
+                                <p className="text-muted">
+                                  Do you need you help?
+                                </p>
                                 <Link to="#"> Customer Support </Link>
                               </div>
                             </AvForm>
@@ -125,7 +127,7 @@ class ChangePassword extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Login;
+  const { loginError } = state.Account;
   return { loginError };
 };
 

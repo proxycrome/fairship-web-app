@@ -1,9 +1,9 @@
 import { all } from 'redux-saga/effects'
 
 //public
-import accountSaga from './auth/register/saga';
-import loginSaga from './auth/login/saga';
-import forgetSaga from './auth/forgetpwd/saga';
+import accountSaga from './auth/saga';
+// import loginSaga from './auth/login/saga';
+// import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 
 export default function* rootSaga() {
@@ -11,8 +11,8 @@ export default function* rootSaga() {
         
         //public
         accountSaga(),
-        loginSaga(),
-        forgetSaga(),
+        // loginSaga(),
+        // forgetSaga(),
         LayoutSaga()
     ])
 }

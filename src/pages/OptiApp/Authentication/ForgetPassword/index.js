@@ -115,7 +115,7 @@ class ChangePassword extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Login;
+  const { loginError } = state.Account;
   return { loginError };
 };
 

@@ -9,6 +9,8 @@ import { withRouter, Link } from 'react-router-dom';
 // availity-reactstrap-validation
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
+import Switch from 'react-switch';
+
 // actions
 import { checkLogin, apiError } from '../../../../../src/store/actions';
 
@@ -18,12 +20,19 @@ import logodark from '../../../../assets/images/FairshipLogo.svg';
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: 'admin@themesdesign.in', password: '123456' };
+    this.state = {
+      username: 'agent101@gmail.com',
+      password: 'Testing1@',
+      checkLogin: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event, values) {
-    this.props.checkLogin(values, this.props.history);
+    const formData = {...values}
+    formData.platformType ="MOBILE_AGENT"
+    console.log(formData)
+    this.props.checkLogin(formData, this.props.history);
   }
 
   componentDidMount() {
@@ -72,9 +81,7 @@ class Login extends Component {
                       <Col lg={9}>
                         <div>
                           <div className="text-center">
-                            <h3 className=" mt-4 font-weight-bold">
-                              Log in
-                            </h3>
+                            <h3 className=" mt-4 font-weight-bold">Log in</h3>
                             <p className="text-muted">
                               Lorem ipsum dolor sit amet consectetur
                             </p>
@@ -116,18 +123,22 @@ class Login extends Component {
 
                               <div className="d-flex align-items-center justify-content-between">
                                 <div className="customCtrl">
-                                  <label
-                                    htmlFor="customInlineControl"
-                                    className="switch"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                      className="input-check"
-                                      id="customInlineControl"
+                                  <label className="d-flex align-items-center">
+                                    <Switch
+                                    className="mr-2 mt-1"
+                                      onColor="#4db783"
+                                      onChange={() =>
+                                        this.setState({
+                                          checkLogin: !this.state.checkLogin,
+                                        })
+                                      }
+                                      checked={this.state.checkLogin}
+                                      uncheckedIcon={false}
+                                      width={40}
+                                      height={18}
                                     />
-                                    <span className="slider rounded" />
+                                    <span>Keep me logged in</span>
                                   </label>
-                                  <span>Keep me logged in</span>
                                 </div>
                                 <Link to="/forget_password">
                                   Forgot password?
@@ -162,7 +173,7 @@ class Login extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Login;
+  const { loginError } = state.Account;
   return { loginError };
 };
 

@@ -14,55 +14,64 @@ import NonAuthLayout from "./components/NonAuthLayout";
 // Import scss
 import "./theme.scss";
 
+import { loadUser } from './store/auth/actions';
+import { auth } from "firebase";
+
 //Fake backend
-import fakeBackend from './helpers/AuthType/fakeBackend';
+// import fakeBackend from './helpers/AuthType/fakeBackend';
 
 //Firebase helper
-import { initFirebaseBackend } from "./helpers/firebase_helper";
+// import { initFirebaseBackend } from "./helpers/firebase_helper";
 
 // Activating fake backend
-fakeBackend();
+// fakeBackend();
 
-const firebaseConfig = {
-	apiKey: process.env.REACT_APP_APIKEY,
-	authDomain: process.env.REACT_APP_AUTHDOMAIN,
-	databaseURL: process.env.REACT_APP_DATABASEURL,
-	projectId: process.env.REACT_APP_PROJECTID,
-	storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-	messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-	appId: process.env.REACT_APP_APPID,
-	measurementId: process.env.REACT_APP_MEASUREMENTID,
-};
+// const firebaseConfig = {
+// 	apiKey: process.env.REACT_APP_APIKEY,
+// 	authDomain: process.env.REACT_APP_AUTHDOMAIN,
+// 	databaseURL: process.env.REACT_APP_DATABASEURL,
+// 	projectId: process.env.REACT_APP_PROJECTID,
+// 	storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+// 	messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+// 	appId: process.env.REACT_APP_APPID,
+// 	measurementId: process.env.REACT_APP_MEASUREMENTID,
+// };
   
 // init firebase backend
-initFirebaseBackend(firebaseConfig);
+// initFirebaseBackend(firebaseConfig);
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {  };
-		this.getLayout = this.getLayout.bind(this);
+		// this.getLayout = this.getLayout.bind(this);
 	}
+
+	componentDidMount() {
+    // this.props.loadUser();
+  }
  
  	/**
 	 * Returns the layout
 	 */
-	getLayout = () => {
-		let layoutCls = VerticalLayout;
+	// getLayout = () => {
+	// 	let layoutCls = VerticalLayout;
 
-		switch (this.props.layout.layoutType) {
-			case "horizontal":
-				layoutCls = HorizontalLayout;
-				break;
-			default:
-				layoutCls = VerticalLayout;
-				break;
-		}
-		return layoutCls;
-	};
+	// 	switch (this.props.layout.layoutType) {
+	// 		case "horizontal":
+	// 			layoutCls = HorizontalLayout;
+	// 			break;
+	// 		default:
+	// 			layoutCls = VerticalLayout;
+	// 			break;
+	// 	}
+	// 	return layoutCls;
+	// };
 
 	render() {
-		const Layout = this.getLayout();
+		// const Layout = this.getLayout();
+		const Layout = VerticalLayout;
+		console.log(this.props.auth)
 
 		return (
 			<React.Fragment>
@@ -96,9 +105,10 @@ class App extends Component {
 
 const mapStateToProps = state => {
 	return {
-		layout: state.Layout
+		layout: state.Layout,
+		auth: state.Account
 	};
 };
 
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, {loadUser})(App);
