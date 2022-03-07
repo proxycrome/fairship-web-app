@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Card, CardBody, Row, Col, Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 //Import Breadcrumb
 import { MDBDataTable } from 'mdbreact';
 import './dataTables.scss';
+
+// actions
+import { fetchAppointment } from '../../../store/actions';
 
 class Appointment extends Component {
   constructor(props) {
@@ -24,12 +28,14 @@ class Appointment extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchAppointment()
     document
       .getElementsByClassName('pagination')[0]
       .classList.add('pagination-rounded');
   }
 
   render() {
+    console.log(this.props.appointment);
     const data = {
       columns: [
         {
@@ -99,7 +105,7 @@ class Appointment extends Component {
           actions: (
             <>
               <Link to="#" className="mr-3 text-primary" id="edit1">
-                <span clas py-0sName="border border-1 p-1 rounded">
+                <span className="border border-1 p-1 rounded">
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
@@ -145,7 +151,7 @@ class Appointment extends Component {
           actions: (
             <>
               <Link to="#" className="mr-3 text-primary" id="edit1">
-                <span clas py-0sName="border border-1 p-1 rounded">
+                <span className="border border-1 p-1 rounded">
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
@@ -191,7 +197,7 @@ class Appointment extends Component {
           actions: (
             <>
               <Link to="#" className="mr-3 text-primary" id="edit1">
-                <span clas py-0sName="border border-1 p-1 rounded">
+                <span className="border border-1 p-1 rounded">
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
@@ -237,7 +243,7 @@ class Appointment extends Component {
           actions: (
             <>
               <Link to="#" className="mr-3 text-primary" id="edit1">
-                <span clas py-0sName="border border-1 p-1 rounded">
+                <span className="border border-1 p-1 rounded">
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
@@ -283,7 +289,7 @@ class Appointment extends Component {
           actions: (
             <>
               <Link to="#" className="mr-3 text-primary" id="edit1">
-                <span clas py-0sName="border border-1 p-1 rounded">
+                <span className="border border-1 p-1 rounded">
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
@@ -329,7 +335,7 @@ class Appointment extends Component {
           actions: (
             <>
               <Link to="#" className="mr-3 text-primary" id="edit1">
-                <span clas py-0sName="border border-1 p-1 rounded">
+                <span className="border border-1 p-1 rounded">
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
@@ -385,4 +391,11 @@ class Appointment extends Component {
   }
 }
 
-export default Appointment;
+const mapStateToProps = (state) => {
+  const {appointment} = state.Appointment;
+  return { appointment };
+};
+
+export default withRouter(
+  connect(mapStateToProps, { fetchAppointment })(Appointment)
+);

@@ -2,7 +2,7 @@ import { all } from 'redux-saga/effects'
 
 //public
 import accountSaga from './auth/saga';
-// import loginSaga from './auth/login/saga';
+import appointment from './appointment/saga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 
@@ -11,7 +11,7 @@ export default function* rootSaga() {
         
         //public
         accountSaga(),
-        // loginSaga(),
+        appointment(),
         // forgetSaga(),
         LayoutSaga()
     ])

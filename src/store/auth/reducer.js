@@ -45,10 +45,10 @@ const Account = (state = initialState, action) => {
       };
       break;
     case LOGIN_USER_SUCCESSFUL:
-      localStorage.setItem('userToken', action.payload);
+      localStorage.setItem('fairshipToken', action.payload.token);
       state = {
         ...state,
-        pra_token: action.payload,
+        user: action.payload,
         isAuthenticated: true,
         loading: false,
       };

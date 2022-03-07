@@ -5,13 +5,14 @@ import Layout from './layout/reducer';
 
 // Authentication Module
 import Account from './auth/reducer';
-// import Login from './auth/login/reducer';
+import Appointment from './appointment/reducer';
 // import Forget from './auth/forgetpwd/reducer';
 
 const rootReducer = combineReducers({
 
     // public
     Layout,
+    Appointment,
 
     // Authentication
     Account,

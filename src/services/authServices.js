@@ -2,7 +2,7 @@ import HttpService from './HttpService';
 
 export const LoginService = (payload) => {
   const http = new HttpService();
-  const url = 'auth/login';
+  const url = 'login';
   return http.postData(payload, url);
 };
 

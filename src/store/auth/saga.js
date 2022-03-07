@@ -49,22 +49,20 @@ function* loadUserHandler() {
 //If user is login then dispatch redux action's are directly from here.
 function* loginUser({ payload: { user, history } }) {
   try {
-    const response = yield call(LoginService, {
-      email: user.username,
-      password: user.password,
-    });
-    yield put(loginUserSuccessful(response.data.token));
-    yield call(loadUserHandler);
+    const response = yield call(LoginService, user);
+    yield put(loginUserSuccessful(response.data));
+    console.log(response);
+    // yield call(loadUserHandler);
     history.push('/dashboard');
   } catch (error) {
-    console.log(error);
-    yield put(apiError(error?.response?.data));
+    console.log(error.response);
+    yield put(apiError(error?.response?.data.message));
   }
 }
 
 function* logoutUser() {
   try {
-    localStorage.removeItem('userToken');
+    localStorage.removeItem('fairshipToken');
     yield put(logoutUserSuccess());
   } catch (error) {
     yield put(apiError(error));

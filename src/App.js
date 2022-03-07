@@ -50,29 +50,10 @@ class App extends Component {
 	componentDidMount() {
     // this.props.loadUser();
   }
- 
- 	/**
-	 * Returns the layout
-	 */
-	// getLayout = () => {
-	// 	let layoutCls = VerticalLayout;
-
-	// 	switch (this.props.layout.layoutType) {
-	// 		case "horizontal":
-	// 			layoutCls = HorizontalLayout;
-	// 			break;
-	// 		default:
-	// 			layoutCls = VerticalLayout;
-	// 			break;
-	// 	}
-	// 	return layoutCls;
-	// };
 
 	render() {
 		// const Layout = this.getLayout();
 		const Layout = VerticalLayout;
-		console.log(this.props.auth)
-
 		return (
 			<React.Fragment>
 				<HashRouter>

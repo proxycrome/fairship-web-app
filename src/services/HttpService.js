@@ -3,10 +3,10 @@ import axios from 'axios';
 
 class HttpService {
   constructor() {
-    this.token = localStorage.getItem('userToken');
+    this.token = localStorage.getItem('fairshipToken');
     this.baseUrl = process.env.REACT_APP_BASE_URL;
   }
-  
+
   postData = async (payload, url) => {
     return axios.post(this.baseUrl + url, payload);
   };
