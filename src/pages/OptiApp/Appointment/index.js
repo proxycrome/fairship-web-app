@@ -9,6 +9,9 @@ import './dataTables.scss';
 
 // actions
 import { fetchAppointment } from '../../../store/actions';
+import Loader from '../../../components/Common/Loading/index';
+
+import emptyCan from '../../../assets/images/EmptyCan.png';
 
 class Appointment extends Component {
   constructor(props) {
@@ -28,10 +31,10 @@ class Appointment extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchAppointment()
-    document
-      .getElementsByClassName('pagination')[0]
-      .classList.add('pagination-rounded');
+    this.props.fetchAppointment();
+    // document
+    //   .getElementsByClassName('pagination')[0]
+    //   .classList.add('pagination-rounded');
   }
 
   render() {
@@ -364,26 +367,45 @@ class Appointment extends Component {
       <React.Fragment>
         <div className="page-content">
           <Container fluid>
-            <Row>
-              <Col lg={12}>
-                <Card>
-                  <CardBody className="pt-3">
-                    <div>
-                      <div className="float-right">
-                        <select className="custom-select custom-select-sm bg-light">
-                          <option defaultValue>All Appointment</option>
-                          <option value="1">Accepted</option>
-                          <option value="2">Accept</option>
-                          <option value="3">Rejected</option>
-                        </select>
+            {this.props?.loading ? (
+              <Card>
+                <CardBody>
+                  <Loader loading={this.props.loading} />
+                </CardBody>
+              </Card>
+            ) : (
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody className="pt-3">
+                      <div>
+                        <div className="float-right">
+                          <select className="custom-select custom-select-sm bg-light">
+                            <option defaultValue>All Appointment</option>
+                            <option value="1">Accepted</option>
+                            <option value="2">Accept</option>
+                            <option value="3">Rejected</option>
+                          </select>
+                        </div>
+                        <h2 className=" mb-4">Tenants</h2>
                       </div>
-                      <h2 className=" mb-4">Tenants</h2>
-                    </div>
-                    <MDBDataTable responsive data={data} className="mt-4" />
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
+                      {this.props.appointment?.length !== 0 ? (
+                        <MDBDataTable responsive data={data} className="mt-4" />
+                      ) : (
+                        <div className="text-center">
+                          <img
+                            src={emptyCan}
+                            alt="empty"
+                            className="rounded mb-2"
+                          />
+                          <h4> Table is Empty </h4>
+                        </div>
+                      )}
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+            )}
           </Container>
         </div>
       </React.Fragment>
@@ -392,8 +414,8 @@ class Appointment extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const {appointment} = state.Appointment;
-  return { appointment };
+  const { appointment, loading } = state.Appointment;
+  return { appointment, loading };
 };
 
 export default withRouter(

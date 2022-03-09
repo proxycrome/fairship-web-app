@@ -3,6 +3,21 @@
     {
       "type": "aws-sam",
       "request": "direct-invoke",
+      "name": "fairshipWeb:src/store/auth/actions.createNewPassword (nodejs14.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/",
+        "lambdaHandler": "src/store/auth/actions.createNewPassword"
+      },
+      "lambda": {
+        "runtime": "nodejs14.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
       "name": "fairshipWeb:src/store/appointment/actions.fetchAppointmentSuccessful (nodejs14.x)",
       "invokeTarget": {
         "target": "code",

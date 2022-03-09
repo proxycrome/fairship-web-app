@@ -9,6 +9,7 @@ import {
   ACTIVATE_USER,
   FORGET_USER,
   CREATE_NEW_PASSWORD,
+  FETCH_DASHBOARD,
 } from './actionTypes';
 import {
   apiError,
@@ -24,6 +25,8 @@ import {
   userForgetPasswordError,
   createNewPasswordError,
   createNewPasswordSuccessful,
+  fetchDashboardSuccessful,
+  fetchDashboardError,
 } from './actions';
 
 import {
@@ -33,6 +36,7 @@ import {
   ActivateServices,
   ForgetPasswordServices,
   createNewPasswordServices,
+  fetchDashboardService,
 } from '../../services/authServices';
 
 function* loadUserHandler() {
@@ -128,6 +132,17 @@ function* CreateNewPassword({ payload: { user, history } }) {
   }
 }
 
+// create new password
+function* fetchDashboard() {
+  try {
+    const response = yield call(fetchDashboardService);
+    yield put(fetchDashboardSuccessful(response));
+  } catch (error) {
+    console.log(error?.response?.data);
+    yield put(fetchDashboardError(error?.response?.data));
+  }
+}
+
 export function* watchUserLogin() {
   yield takeEvery(CHECK_LOGIN, loginUser);
 }
@@ -155,6 +170,10 @@ export function* watchCreateNewForget() {
   yield takeEvery(CREATE_NEW_PASSWORD, CreateNewPassword);
 }
 
+export function* watchFetchDashboard() {
+  yield takeEvery(FETCH_DASHBOARD, fetchDashboard);
+}
+
 function* loginSaga() {
   yield all([
     fork(watchUserLogin),
@@ -164,6 +183,7 @@ function* loginSaga() {
     fork(watchAccountActivation),
     fork(watchUserForget),
     fork(watchCreateNewForget),
+    fork(watchFetchDashboard),
   ]);
 }
 

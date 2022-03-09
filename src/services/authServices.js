@@ -42,3 +42,8 @@ export const createNewPasswordServices = (payload) => {
   return http.postData(payload, url);
 };
 
+export const fetchDashboardService = () => {
+  const http = new HttpService();
+  const url = 'auth/dashboard-stats/agent-and-property-owner';
+  return http.getData(url);
+};

@@ -19,12 +19,16 @@ import {
   CREATE_NEW_PASSWORD,
   CREATE_NEW_PASSWORD_SUCCESSFUL,
   CREATE_NEW_PASSWORD_API_FAILED,
+  FETCH_DASHBOARD,
+  FETCH_DASHBOARD_SUCCESSFUL,
+  FETCH_DASHBOARD_API_FAILED,
 } from './actionTypes';
 
 const initialState = {
   user: null,
   loginError: null,
   isAuthenticated: null,
+  dashboard: null,
   registrationError: null,
   isRegistered: false,
   activationError: null,
@@ -37,6 +41,7 @@ const initialState = {
 const Account = (state = initialState, action) => {
   switch (action.type) {
     case CHECK_LOGIN:
+    case FETCH_DASHBOARD:
     case LOAD_USER:
       state = {
         ...state,
@@ -62,6 +67,23 @@ const Account = (state = initialState, action) => {
         ...state,
         token: null,
         isAuthenticated: false,
+        loading: false,
+      };
+      break;
+
+    case FETCH_DASHBOARD_SUCCESSFUL:
+      state = {
+        ...state,
+        dashboard: action.payload.data,
+        loading: false,
+      };
+      break;
+
+    case FETCH_DASHBOARD_API_FAILED:
+      state = {
+        ...state,
+        dashboard: null,
+        message: action.payload,
         loading: false,
       };
       break;

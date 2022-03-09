@@ -95,7 +95,7 @@ class EarningReports extends Component {
                     </div>
 
                     <p className="text-muted text-truncate mb-2">Tenants</p>
-                    <h5>523</h5>
+                    <h5>{this.props?.data?.tenantCount}</h5>
                   </div>
                 </CardBody>
               </Card>
@@ -117,7 +117,7 @@ class EarningReports extends Component {
                     </div>
 
                     <p className="text-muted text-truncate mb-2">Properties</p>
-                    <h5>235</h5>
+                    <h5>{this.props?.data?.propertiesCount}</h5>
                   </div>
                 </CardBody>
               </Card>
@@ -140,7 +140,7 @@ class EarningReports extends Component {
                     </div>
 
                     <p className="text-muted text-truncate mb-2">Unit</p>
-                    <h5>523</h5>
+                    <h5>{this.props?.data?.unitPropertyCount}</h5>
                   </div>
                 </CardBody>
               </Card>
@@ -164,7 +164,7 @@ class EarningReports extends Component {
                     <p className="text-muted text-truncate mb-2">
                       Occupied Units
                     </p>
-                    <h5>35</h5>
+                    <h5>{this.props?.data?.purchasedProperty}</h5>
                   </div>
                 </CardBody>
               </Card>

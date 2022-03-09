@@ -15,6 +15,7 @@ const Appointment = (state = initialState, action) => {
     case FETCH_APPOINTMENT:
       state = {
         ...state,
+        appointment: null,
         appointmentError: null,
         loading: true,
       };

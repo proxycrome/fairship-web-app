@@ -20,6 +20,9 @@ import {
   CREATE_NEW_PASSWORD,
   CREATE_NEW_PASSWORD_SUCCESSFUL,
   CREATE_NEW_PASSWORD_API_FAILED,
+  FETCH_DASHBOARD,
+  FETCH_DASHBOARD_SUCCESSFUL,
+  FETCH_DASHBOARD_API_FAILED,
 } from './actionTypes';
 
 export const checkLogin = (user, history) => {
@@ -168,6 +171,27 @@ export const createNewPasswordSuccessful = (message) => {
 export const createNewPasswordError = (error) => {
   return {
     type: CREATE_NEW_PASSWORD_API_FAILED,
+    payload: error,
+  };
+};
+
+// DashBoard Module
+export const fetchDashboard = () => {
+  return {
+    type: FETCH_DASHBOARD,
+  };
+};
+
+export const fetchDashboardSuccessful = (payload) => {
+  return {
+    type: FETCH_DASHBOARD_SUCCESSFUL,
+    payload: payload,
+  };
+};
+
+export const fetchDashboardError = (error) => {
+  return {
+    type: FETCH_DASHBOARD_API_FAILED,
     payload: error,
   };
 };
