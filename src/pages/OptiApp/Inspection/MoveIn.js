@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Row,
   Col,
@@ -7,16 +7,63 @@ import {
   Collapse,
   CardHeader,
   Button,
-  FormGroup,
-  Input,
-  Label,
-  Form,
+  Label
 } from 'reactstrap';
+import { AvForm, AvRadio, AvField, AvRadioGroup, AvGroup, } from 'availity-reactstrap-validation';
 import { Link } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
+import { postInspection } from '../../../store/inspection/actions';
 import SendToTenant from './SendToTenant';
 
-const MoveIn = ({BacktoHome}) => {
+const MoveIn = ({BacktoHome, postInspection}) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [inspectionName, setInspectionName] = useState("");
+  const dispatch = useDispatch();
+
+  const headerNameRef = useRef(null);
+  
+  useEffect(() => {
+    const inspectionAreaName = headerNameRef.current.innerHTML
+    setInspectionName(inspectionAreaName)
+  }, []);
+
+  const handleSubmit = (event, values) => {
+    console.log(values);
+
+    const formData = {
+      generalComment: values.generalComment,
+      inspectionAreas: [
+        {
+          inspectionItems: [
+            {
+              comment: values.inspectionItemComment1,
+              images: [
+                {
+                  encodedUpload: ""
+                }
+              ],
+              itemName: values.inspectionItemName1,
+              itemState: values.itemState1
+            }
+          ],
+          inventoryItems: [
+            {
+              comment: values.inventoryItemComment1,
+              itemName: values.inventoryItemName1,
+              quantity: +values.quantity1
+            }
+          ],
+          name: inspectionName
+        }
+      ],
+      rendId: 0,
+      type: "MOVE_IN"
+    }
+    // dispatch(postInspection(formData))
+    console.log(formData);
+    
+  }
+ 
   const [col1, setCol1] = useState(true);
   const [col2, setCol2] = useState(false);
   const [col3, setCol3] = useState(false);
@@ -33,14 +80,14 @@ const MoveIn = ({BacktoHome}) => {
     setCol3(!col3);
   };
 
-  if (isClicked) {
-    return <SendToTenant BacktoHome={BacktoHome}/>;
-  }
+  // if (isClicked) {
+  //   return <SendToTenant BacktoHome={BacktoHome}/>;
+  // } 
 
   return (
     <div className="page-content">
       <h5 className="ml-5 mb-2">Move In</h5>
-      <Form>
+      <AvForm onValidSubmit={handleSubmit}>
         <Row>
           <Col xl={11} className="mx-auto">
             <Card>
@@ -54,18 +101,22 @@ const MoveIn = ({BacktoHome}) => {
                       className="text-dark"
                     >
                       <CardHeader id="headingOne">
-                        <h6 className="m-0 font-14">
-                          <i
-                            className={
-                              col1
-                                ? 'fas fa-caret-down mr-4'
-                                : 'fas fa-caret-right mr-4'
-                            }
-                          ></i>
-                          Kitchen
-                          <i className="ri-indeterminate-circle-line float-right"></i>
-                          <i className="fas fa-pen float-right mr-4"></i>
-                        </h6>
+                        <div className="m-0 font-14 d-flex justify-content-between">
+                          <div className='d-flex'>
+                            <i
+                              className={
+                                col1
+                                  ? 'fas fa-caret-down mr-4'
+                                  : 'fas fa-caret-right mr-4'
+                              }
+                            ></i>
+                            <h6 ref={headerNameRef}>Kitchen</h6>
+                          </div>
+                          <div>
+                            <i className="ri-indeterminate-circle-line float-right"></i>
+                            <i className="fas fa-pen float-right mr-4"></i>
+                          </div> 
+                        </div>
                       </CardHeader>
                     </Link>
                     <Collapse isOpen={col1}>
@@ -91,35 +142,45 @@ const MoveIn = ({BacktoHome}) => {
                             <h6>Comment</h6>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-1">
-                          <Col ls={4}>Door</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Average" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Poor" />
-                            </Col>
+                        <Row className="mb-1">
+                          <Col ls={4}>
+                          <AvField type="select" name="inspectionItemName1">
+                            <option>Door</option>
+                            <option>Flooring</option>
+                            <option>Walls</option>
+                            <option>Painting</option>
+                          </AvField>
                           </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState1">
+                              <Col sm={12}
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="door-comment"
+                              name="inspectionItemComment1"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -131,39 +192,45 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Flooring</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="flooring" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input
-                                type="radio"
-                                name="flooring"
-                                id="Average"
-                              />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="flooring" id="Poor" />
-                            </Col>
+                        <Row className="mb-1">
+                          <Col ls={4}>
+                            <AvField type="select" name="inspectionItemName2">
+                              <option>Door</option>
+                              <option>Flooring</option>
+                              <option>Walls</option>
+                              <option>Painting</option>
+                            </AvField>
                           </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState2">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="flooring-comment"
+                              name="inspectionItemComment2"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -175,35 +242,45 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Walls</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Average" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Poor" />
-                            </Col>
+                        <Row className="mb-1">
+                          <Col ls={4}>
+                            <AvField type="select" name="inspectionItemName3">
+                              <option>Door</option>
+                              <option>Flooring</option>
+                              <option>Walls</option>
+                              <option>Painting</option>
+                            </AvField>
                           </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState3">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="walls-comment"
+                              name="inspectionItemComment3"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -215,39 +292,44 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Painting</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="painting" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input
-                                type="radio"
-                                name="painting"
-                                id="Average"
-                              />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="painting" id="Poor" />
-                            </Col>
-                          </Col>
+                        <Row className="mb-1">
                           <Col ls={4}>
-                            <input
+                            <AvField type="select" name="inspectionItemName4">
+                              <option>Door</option>
+                              <option>Flooring</option>
+                              <option>Walls</option>
+                              <option>Painting</option>
+                            </AvField></Col>
+                          <Col ls={4}>
+                            <AvRadioGroup name="itemState4">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="painting-comment"
+                              name="inspectionItemComment4"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -282,21 +364,28 @@ const MoveIn = ({BacktoHome}) => {
                           </Col>
                         </Row>
                         <Row className="align-items-center mb-2">
-                          <Col ls={4}>Door</Col>
+                          <Col ls={4}>
+                            <AvField type="select" name="inventoryItemName1">
+                              <option>Door</option>
+                              <option>Socket</option>
+                              <option>Doors</option>
+                              <option>Refrigerator</option>
+                            </AvField>
+                          </Col>
                           <Col
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="door"
+                              name="quantity1"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="door-comment"
+                              name="inventoryItemComment1"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -309,21 +398,28 @@ const MoveIn = ({BacktoHome}) => {
                           </Col>
                         </Row>
                         <Row className="align-items-center mb-2">
-                          <Col ls={4}>Socket</Col>
+                          <Col ls={4}>
+                            <AvField type="select" name="inventoryItemName2">
+                              <option>Door</option>
+                              <option>Socket</option>
+                              <option>Doors</option>
+                              <option>Refrigerator</option>
+                            </AvField>
+                          </Col>
                           <Col
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="socket"
+                              name="quantity2"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="socket-comment"
+                              name="inventoryItemComment2"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -336,21 +432,28 @@ const MoveIn = ({BacktoHome}) => {
                           </Col>
                         </Row>
                         <Row className="align-items-center mb-2">
-                          <Col ls={4}>Doors</Col>
+                          <Col ls={4}>
+                            <AvField type="select" name="inventoryItemName3">
+                              <option>Door</option>
+                              <option>Socket</option>
+                              <option>Doors</option>
+                              <option>Refrigerator</option>
+                            </AvField>
+                          </Col>
                           <Col
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="doors"
+                              name="quantity3"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="doors-comment"
+                              name="inventoryItemComment3"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -363,21 +466,28 @@ const MoveIn = ({BacktoHome}) => {
                           </Col>
                         </Row>
                         <Row className="align-items-center mb-2">
-                          <Col ls={4}>Refrigerator</Col>
+                          <Col ls={4}>
+                            <AvField type="select" name="inventoryItemName4">
+                              <option>Door</option>
+                              <option>Socket</option>
+                              <option>Doors</option>
+                              <option>Refrigerator</option>
+                            </AvField>
+                          </Col>
                           <Col
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="refrigerator"
+                              name="quantity4"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="refrigerator-comment"
+                              name="inventoryItemComment4"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -422,7 +532,7 @@ const MoveIn = ({BacktoHome}) => {
                       </CardHeader>
                     </Link>
                     <Collapse isOpen={col2}>
-                      <CardBody>
+                    <CardBody>
                         <Row>
                           <Col ls={4}>
                             <h6>Inspection items</h6>
@@ -444,35 +554,38 @@ const MoveIn = ({BacktoHome}) => {
                             <h6>Comment</h6>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-1">
+                        <Row className="mb-1">
                           <Col ls={4}>Door</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Average" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Door">
+                              <Col sm={12}
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="door-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -484,39 +597,38 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
+                        <Row className="mb-1">
                           <Col ls={4}>Flooring</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="flooring" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input
-                                type="radio"
-                                name="flooring"
-                                id="Average"
-                              />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="flooring" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Flooring">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="flooring-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -528,35 +640,38 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
+                        <Row className="mb-1">
                           <Col ls={4}>Walls</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Average" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Walls">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="walls-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -568,39 +683,38 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
+                        <Row className="mb-1">
                           <Col ls={4}>Painting</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="painting" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input
-                                type="radio"
-                                name="painting"
-                                id="Average"
-                              />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="painting" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Painting">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="painting-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -640,16 +754,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="door"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="door-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -667,16 +781,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="socket"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="socket-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -694,16 +808,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="doors"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="doors-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -721,16 +835,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="refrigerator"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="refrigerator-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -768,14 +882,14 @@ const MoveIn = ({BacktoHome}) => {
                                 : 'fas fa-caret-right mr-4'
                             }
                           ></i>
-                          Dinning room
+                          Bedroom 1
                           <i className="ri-indeterminate-circle-line float-right"></i>
                           <i className="fas fa-pen float-right mr-4"></i>
                         </h6>
                       </CardHeader>
                     </Link>
                     <Collapse isOpen={col3}>
-                      <CardBody>
+                    <CardBody>
                         <Row>
                           <Col ls={4}>
                             <h6>Inspection items</h6>
@@ -797,35 +911,38 @@ const MoveIn = ({BacktoHome}) => {
                             <h6>Comment</h6>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-1">
+                        <Row className="mb-1">
                           <Col ls={4}>Door</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Average" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="door" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Door">
+                              <Col sm={12}
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="door-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -837,39 +954,38 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
+                        <Row className="mb-1">
                           <Col ls={4}>Flooring</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="flooring" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input
-                                type="radio"
-                                name="flooring"
-                                id="Average"
-                              />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="flooring" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Flooring">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="flooring-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -881,35 +997,38 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
+                        <Row className="mb-1">
                           <Col ls={4}>Walls</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Average" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="walls" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Walls">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="walls-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -921,39 +1040,38 @@ const MoveIn = ({BacktoHome}) => {
                             </Button>
                           </Col>
                         </Row>
-                        <Row className="align-items-center mb-2">
+                        <Row className="mb-1">
                           <Col ls={4}>Painting</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="painting" id="Good" />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input
-                                type="radio"
-                                name="painting"
-                                id="Average"
-                              />
-                            </Col>
-                            <Col
-                              ls={4}
-                              className="d-flex justify-content-center"
-                            >
-                              <input type="radio" name="painting" id="Poor" />
-                            </Col>
-                          </Col>
                           <Col ls={4}>
-                            <input
+                            <AvRadioGroup name="itemState-Painting">
+                              <Col
+                                className="d-flex justify-content-between"
+                              >
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Good" value="Good" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Average" value="Average" />
+                                </Col>
+                                <Col
+                                  ls={4}
+                                  className="d-flex justify-content-center"
+                                >
+                                  <AvRadio id="Poor" value="Poor" />
+                                </Col>  
+                              </Col>
+                            </AvRadioGroup>
+                          </Col>
+                          <Col ls={4} className="d-flex align-items-start">
+                            <AvField
                               type="text"
-                              name="painting-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -968,10 +1086,7 @@ const MoveIn = ({BacktoHome}) => {
                               outline
                               className="waves-effect"
                             >
-                              <i
-                                className="ri-add-circle-line"
-                                style={{ color: '#149509' }}
-                              ></i>
+                              <i className="ri-add-circle-line"></i>
                             </Button>
                           </Col>
                         </Row>
@@ -996,16 +1111,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="door"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="door-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -1023,16 +1138,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="socket"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="socket-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -1050,16 +1165,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="doors"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="doors-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -1077,16 +1192,16 @@ const MoveIn = ({BacktoHome}) => {
                             ls={4}
                             className="d-flex justify-content-between"
                           >
-                            <input
+                            <AvField
                               type="number"
-                              name="refrigerator"
+                              name="quantity"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                           </Col>
-                          <Col ls={4}>
-                            <input
+                          <Col ls={4} className="d-flex">
+                            <AvField
                               type="text"
-                              name="refrigerator-comment"
+                              name="comment"
                               style={{ background: '#F4F4F4', border: 'none' }}
                             />
                             <Button
@@ -1101,10 +1216,7 @@ const MoveIn = ({BacktoHome}) => {
                               outline
                               className="waves-effect"
                             >
-                              <i
-                                className="ri-add-circle-line"
-                                style={{ color: '#149509' }}
-                              ></i>
+                              <i className="ri-add-circle-line"></i>
                             </Button>
                           </Col>
                         </Row>
@@ -1131,15 +1243,16 @@ const MoveIn = ({BacktoHome}) => {
         </Row>
         <Row>
           <Col xl="11 mx-auto mb-4">
-            <FormGroup>
+            <AvGroup>
               <Label htmlFor="comments">General Comment</Label>
-              <Input
+              <AvField
                 type="textarea"
+                name="generalComment"
                 id="comments"
                 placeholder="Type in your comments"
                 rows="5"
               />
-            </FormGroup>
+            </AvGroup>
           </Col>
         </Row>
         <Row>
@@ -1169,6 +1282,7 @@ const MoveIn = ({BacktoHome}) => {
         <Row>
           <Col xl={3} className="mx-auto my-4">
             <Button
+              type="submit"
               color="success"
               className="waves-effect pr-5 pl-5"
               onClick={() => setIsClicked(!isClicked)}
@@ -1177,9 +1291,14 @@ const MoveIn = ({BacktoHome}) => {
             </Button>
           </Col>
         </Row>
-      </Form>
+      </AvForm>
     </div>
   );
 };
 
-export default MoveIn;
+const mapStateToProps = (state) => {
+  const {inspectionData, loading} = state.Inspections;
+  return {inspectionData, loading}
+}
+
+export default connect(mapStateToProps, {postInspection})(MoveIn);
