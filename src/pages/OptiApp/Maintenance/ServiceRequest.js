@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MDBDataTable } from 'mdbreact';
 import { Link } from 'react-router-dom';
 import livingRoom from '../../../assets/images/Living.png';

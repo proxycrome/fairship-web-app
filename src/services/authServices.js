@@ -47,3 +47,10 @@ export const fetchDashboardService = () => {
   const url = 'auth/dashboard-stats/agent-and-property-owner';
   return http.getData(url);
 };
+
+
+export const fetchProfileService = () => {
+  const http = new HttpService();
+  const url = 'auth/users';
+  return http.getData(url);
+};

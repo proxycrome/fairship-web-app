@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, Table, Card, CardBody, Container } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import profileImage from '../../../assets/images/home.png';
 import CreateProperty from './CreateProperty';
 import PreviewProperty from './PreviewProperty';
 
-const Inspection = () => {
+// actions
+import { fetchProperties } from '../../../store/actions';
+
+// Redux
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+
+const Properties = ({ fetchProperties }) => {
   const [showPreview, SetShowPreview] = useState(false);
   const [ShowCreateProperty, SetCreateProperty] = useState(false);
 
-  if (ShowCreateProperty)
-    return <CreateProperty SetCreateProperty={SetCreateProperty} />;
+  useEffect(() => {
+    fetchProperties();
+  }, []);
 
   if (showPreview) return <PreviewProperty BackToHome={SetShowPreview} />;
   return (
@@ -29,12 +36,9 @@ const Inspection = () => {
             </div>
           </div>
           <div className="text-right">
-            <Button
-              color="success"
-              onClick={() => SetCreateProperty(!ShowCreateProperty)}
-            >
-              Upload Properties
-            </Button>
+            <Link to="/create_property">
+              <Button color="success">Upload Properties</Button>
+            </Link>
           </div>
         </div>
 
@@ -65,7 +69,11 @@ const Inspection = () => {
                           to="#"
                           onClick={() => SetShowPreview(!showPreview)}
                         >
-                          <img src={profileImage} alt="home" className="avatar-sm rounded" />
+                          <img
+                            src={profileImage}
+                            alt="home"
+                            className="avatar-sm rounded"
+                          />
                           <span className="co-name mx-2">Cusy Studio</span>{' '}
                         </Link>
                       </td>
@@ -81,7 +89,11 @@ const Inspection = () => {
                     </tr>
                     <tr>
                       <td className="d-flex align-items-center">
-                        <img src={profileImage} alt="home" className="avatar-sm rounded" />
+                        <img
+                          src={profileImage}
+                          alt="home"
+                          className="avatar-sm rounded"
+                        />
                         <span className="co-name mx-2">Cusy Studio</span>
                       </td>
                       <td>Rent</td>
@@ -96,7 +108,11 @@ const Inspection = () => {
                     </tr>
                     <tr>
                       <td className="d-flex align-items-center">
-                        <img src={profileImage} alt="home" className="avatar-sm rounded" />
+                        <img
+                          src={profileImage}
+                          alt="home"
+                          className="avatar-sm rounded"
+                        />
                         <span className="co-name mx-2">Cusy Studio</span>
                       </td>
                       <td>Rent</td>
@@ -111,7 +127,11 @@ const Inspection = () => {
                     </tr>
                     <tr>
                       <td className="d-flex align-items-center">
-                        <img src={profileImage} alt="home" className="avatar-sm rounded" />
+                        <img
+                          src={profileImage}
+                          alt="home"
+                          className="avatar-sm rounded"
+                        />
                         <span className="co-name mx-2">Cusy Studio</span>
                       </td>
                       <td>Rent</td>
@@ -137,4 +157,11 @@ const Inspection = () => {
   );
 };
 
-export default Inspection;
+const mapStatetoProps = (state) => {
+  const { properties, loading } = state.Properties;
+  return { properties, loading };
+};
+
+export default withRouter(
+  connect(mapStatetoProps, { fetchProperties })(Properties)
+);

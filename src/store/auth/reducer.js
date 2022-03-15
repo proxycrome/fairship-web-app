@@ -22,16 +22,21 @@ import {
   FETCH_DASHBOARD,
   FETCH_DASHBOARD_SUCCESSFUL,
   FETCH_DASHBOARD_API_FAILED,
+  FETCH_PROFILE,
+  FETCH_PROFILE_SUCCESSFUL,
+  FETCH_PROFILE_API_FAILED,
 } from './actionTypes';
 
 const initialState = {
   user: null,
+  profile: null,
   loginError: null,
   isAuthenticated: null,
   dashboard: null,
   registrationError: null,
   isRegistered: false,
   activationError: null,
+  profileError: null,
   message: null,
   forgetError: null,
   message: null,
@@ -150,6 +155,32 @@ const Account = (state = initialState, action) => {
         activationError: action.payload,
       };
       break;
+
+      // Profile
+      case FETCH_PROFILE:
+        state = {
+          ...state,
+          profileError: null,
+          loading: true,
+          profile: null,
+        };
+        break;
+  
+      case FETCH_PROFILE_SUCCESSFUL:
+        state = {
+          ...state,
+          loading: true,
+          profile: action.payload,
+        };
+        break;
+  
+      case FETCH_PROFILE_API_FAILED:
+        state = {
+          ...state,
+          loading: true,
+          profileError: action.payload,
+        };
+        break;
 
     // Reset password
     case FORGET_USER:

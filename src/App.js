@@ -15,7 +15,7 @@ import NonAuthLayout from "./components/NonAuthLayout";
 import "./theme.scss";
 
 import { loadUser } from './store/auth/actions';
-import { auth } from "firebase";
+// import { auth } from "firebase";
 
 //Fake backend
 // import fakeBackend from './helpers/AuthType/fakeBackend';
