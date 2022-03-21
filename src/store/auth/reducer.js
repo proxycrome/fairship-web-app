@@ -34,7 +34,6 @@ const initialState = {
   activationError: null,
   message: null,
   forgetError: null,
-  message: null,
   loading: false,
 };
 

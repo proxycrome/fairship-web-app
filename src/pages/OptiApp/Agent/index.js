@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input, Button, Table, Card, CardBody } from 'reactstrap';
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import profileImage from '../../../assets/images/ProfileImage.svg';
 import Preview from './Preview';
 import CreateAgent from './CreateAgent';
+import { connect, useDispatch } from 'react-redux';
+import { getLandlordAgents } from '../../../store/agent/actions';
 
-const Agent = () => {
+const Agent = ({ user, landlordAgents, getLandlordAgents }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
+  const dispatch = useDispatch();
+  // const [landlordId, setLandlordId] = useState(1);  
+
+
+  useEffect(() => {
+    dispatch(getLandlordAgents(user?.id))
+  }, [dispatch]);
+
+  // const {landlordAgents} = useSelector(state => state.Agents);
+
+  console.log(landlordAgents);
 
   if (preview) {
     return <Preview BackToHome={() => setPreview(false)} />;
@@ -268,4 +281,12 @@ const Agent = () => {
   );
 };
 
-export default Agent;
+const mapStatetoProps = (state) => {
+  const { user } = state.Account;
+  const { landlordAgents } = state.Agents;
+  return { landlordAgents, user };
+};
+
+export default withRouter(
+  connect(mapStatetoProps, { getLandlordAgents })(Agent)
+);

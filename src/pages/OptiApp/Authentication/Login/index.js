@@ -21,8 +21,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'agent101@gmail.com',
-      password: 'Testing1@',
+      username: 'e.v.ezeonwuka@gmail.com',
+      password: 'Testing01@',
       checkLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +30,7 @@ class Login extends Component {
 
   handleSubmit(event, values) {
     const formData = {...values}
-    formData.platformType ="MOBILE_AGENT"
+    formData.platformType ="WEB"
     console.log(formData)
     this.props.checkLogin(formData, this.props.history);
   }
@@ -173,8 +173,8 @@ class Login extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Account;
-  return { loginError };
+  const { loginError, user } = state.Account;
+  return { loginError, user };
 };
 
 export default withRouter(

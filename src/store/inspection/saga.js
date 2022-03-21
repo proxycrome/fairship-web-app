@@ -1,6 +1,5 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
-// Login Redux States
 import { 
   FETCH_INSPECTIONS, 
   POST_INSPECTION, 

@@ -7,6 +7,7 @@ import Layout from './layout/reducer';
 import Account from './auth/reducer';
 import Appointment from './appointment/reducer';
 import Inspections from './inspection/reducer';
+import Agents from './agent/reducer';
 // import Forget from './auth/forgetpwd/reducer';
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     Inspections,
     // Authentication
     Account,
+    Agents,
     // Login,
     // Forget
 

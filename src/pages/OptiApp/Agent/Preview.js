@@ -72,16 +72,16 @@ const Preview = ({ BackToHome }) => {
                     <h4 className="my-2  mb-lg-0">Chris Turner</h4>
                     <div className="row justify-content-md-center text-center my-3">
                       <div className="col-4">
-                        <span class="avatar-xs mr-1">
-                          <span class="avatar-title bg-light rounded-circle text-primary font-size-24">
+                        <span className="avatar-xs mr-1">
+                          <span className="avatar-title bg-light rounded-circle text-primary font-size-24">
                             <i className=" dripicons-phone"></i>
                           </span>
                         </span>
                       </div>
                       <div className="col-4">
-                        <span class="avatar-xs mr-1">
-                          <span class="avatar-title bg-light rounded-circle text-primary font-size-24">
-                            <i class=" fas fa-video"></i>
+                        <span className="avatar-xs mr-1">
+                          <span className="avatar-title bg-light rounded-circle text-primary font-size-24">
+                            <i className=" fas fa-video"></i>
                           </span>
                         </span>
                       </div>

@@ -21,7 +21,7 @@ const MoveIn = ({BacktoHome, postInspection}) => {
   const dispatch = useDispatch();
 
   const headerNameRef = useRef(null);
-  
+
   useEffect(() => {
     const inspectionAreaName = headerNameRef.current.innerHTML
     setInspectionName(inspectionAreaName)

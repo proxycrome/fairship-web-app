@@ -6,6 +6,7 @@ import appointment from './appointment/saga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 import InspectionsSaga from './inspection/saga';
+import AgentsSaga from './agent/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -15,6 +16,7 @@ export default function* rootSaga() {
         appointment(),
         // forgetSaga(),
         LayoutSaga(),
-        InspectionsSaga()
+        InspectionsSaga(),
+        AgentsSaga()
     ])
 }
