@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Card,
@@ -15,19 +15,45 @@ import RejectionForm from '../RejectionForm';
 
 // user
 import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRentalRecommendation, PutTenantRecommendation } from '../../../../store/actions';
 
-const Preview = ({ SetShowPreview }) => {
+const Preview = (props) => {
   const [approve, SetApprove] = useState(false);
   const [modalOpen, ModalToggle] = useState(false);
+  const [tenant, setTenant] = useState('')
+  const dispatch = useDispatch();
+
+  // console.log(props)
 
   const ModalToggleHandler = () => {
     alert('hello');
   };
+
+  useEffect(() => {
+    dispatch(fetchRentalRecommendation(props.id));
+  }, [dispatch])
+
+  const Agent = useSelector((state) => state.RentalRecommendation);
+  
+  // console.log(Agent.rentalId)
+
+  const TenantRecom = () => {
+    const data ={
+      recommendationNotes: tenant 
+    }
+    dispatch(PutTenantRecommendation(props.id, data))
+
+
+  }
+  // console.log(Agent.rentalId)
+
   return (
     <React.Fragment>
       <div>
-        <Container fluid>
-          <span onClick={SetShowPreview} className="mx-2 font-size-14 mb-2">
+        <Container fluid  style={{margin:'100px 0'}}>
+          {/* <span onClick={SetShowPreview} className="mx-2 font-size-14 mb-2"> */}
+          <span  className="mx-2 font-size-14 mb-2">
             <span>
               <i
                 className="fas fa-arrow-left
@@ -36,7 +62,7 @@ const Preview = ({ SetShowPreview }) => {
             </span>
             Back
           </span>
-          <Row>
+          <Row className='my-5'>
             <Col lg={12}>
               <Card>
                 <CardBody>
@@ -177,16 +203,16 @@ const Preview = ({ SetShowPreview }) => {
                       <h4 className="my-2  mb-lg-0">Chris Turner</h4>
                       <div className="row justify-content-md-center text-center my-3">
                         <div className="col-4">
-                          <span class="avatar-sm mr-1">
-                            <span class="avatar-title bg-light rounded-circle text-primary font-size-24">
+                          <span className="avatar-sm mr-1">
+                            <span className="avatar-title bg-light rounded-circle text-primary font-size-24">
                               <i className=" dripicons-phone"></i>
                             </span>
                           </span>
                         </div>
                         <div className="col-4">
-                          <span class="avatar-sm mr-1">
-                            <span class="avatar-title bg-light rounded-circle text-primary font-size-24">
-                              <i class=" fas fa-video"></i>
+                          <span className="avatar-sm mr-1">
+                            <span className="avatar-title bg-light rounded-circle text-primary font-size-24">
+                              <i className=" fas fa-video"></i>
                             </span>
                           </span>
                         </div>
@@ -381,16 +407,16 @@ const Preview = ({ SetShowPreview }) => {
                         <h5 className="font-size-12 text-capitalize mt-2">
                           Recommendation
                         </h5>
-                        <p className="text-muted mb-0">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                        <textarea className="text-muted mb-0 border-0" style={{outline:'none',width:'100%'}} rows='4' value={tenant} onChange={(e)=>setTenant(e.target.value)}>
+                          {/* Lorem ipsum dolor sit amet, consectetur adipiscing
                           elit. Et tristique orci faucibus turpis neque. Velit
                           elit duis leo lobortis duis eu nulla et pellentesque.
                           Et gravida sit luctus amet. Semper malesuada tortor,
                           nisi sed habitasse in enim blandit. Congue volutpat
                           vel nulla feugiat scelerisque viverra nulla. Justo,
                           lorem justo elementum pulvinar augue ipsum cras
-                          venenatis.
-                        </p>
+                          venenatis. */}
+                        </textarea>
                       </Col>
                     </Row>
                   </CardBody>
@@ -407,7 +433,7 @@ const Preview = ({ SetShowPreview }) => {
               Reason For Rejectionn
             </ModalHeader>
             <ModalBody>
-              <RejectionForm />
+              <RejectionForm id={props.id} />
             </ModalBody>
           </Modal>
           <div className="mb-4">
@@ -417,7 +443,7 @@ const Preview = ({ SetShowPreview }) => {
             >
               Create Due Diligence{' '}
             </button>
-            <button className="btn btn-success" onClick={ModalToggleHandler}>
+            <button className="btn btn-success" onClick={TenantRecom}>
               Create Tenant Recommendation
             </button>
           </div>
@@ -427,4 +453,7 @@ const Preview = ({ SetShowPreview }) => {
   );
 };
 
-export default Preview;
+
+export default Preview
+
+

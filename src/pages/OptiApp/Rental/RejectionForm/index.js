@@ -10,7 +10,7 @@ import {
   Label,
 } from 'reactstrap';
 
-const RejectionForm = () => {
+const RejectionForm = ({id}) => {
   return (
     <div>
       <Card>
