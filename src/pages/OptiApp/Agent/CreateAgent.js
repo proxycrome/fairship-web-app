@@ -38,7 +38,6 @@ const CreateAgent = ({ BackToHome }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postAgents(formData));
-    BackToHome();
   }
 
   const {agents, postAgentData} = useSelector(state => state.Agents);

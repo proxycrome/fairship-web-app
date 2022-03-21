@@ -2,7 +2,7 @@ import HttpService from './HttpService';
 
 export const getAgentsService = () => {
   const http = new HttpService();
-  const url = 'auth/users/all?role=AGENT';
+  const url = 'auth/users/all?role=AGENT&limit=50';
   return http.getData(url);
 };
 
