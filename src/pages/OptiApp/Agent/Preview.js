@@ -20,7 +20,6 @@ import home from '../../../assets/images/home.png';
 const Preview = (props) => {
   const dispatch = useDispatch();
 
-
   const email = props.location.pathname.split('/')[2];
 
   useEffect(() => {
@@ -29,7 +28,6 @@ const Preview = (props) => {
 
   const {agent, loading} = useSelector(state => state.Agents)
 
-  console.log(agent);
 
   return (
     <div className="page-content">
@@ -82,7 +80,7 @@ const Preview = (props) => {
                         <Col sm={6}>
                           <p className="text-muted mb-0">Phone No</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            +{agent?.phone}
+                            {agent?.phone}
                           </h5>
                         </Col>
                       </Row>
