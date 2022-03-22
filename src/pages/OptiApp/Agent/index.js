@@ -83,7 +83,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                     {landlordAgents?.data?.agents.map((agent) => (
                       <tr key={agent.id}>
                         <td className="d-flex align-items-center">
-                          <Link to="#" onClick={() => setPreview(true)}>
+                          <Link to={`/agents/${agent.email}`} onClick={() => setPreview(true)}>
                             <img
                               src={profileImage}
                               alt="profile"

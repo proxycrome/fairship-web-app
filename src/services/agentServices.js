@@ -17,3 +17,9 @@ export const getLandlordAgentsService = (landlordId) => {
     const url = "property-owner/all-agents/" + landlordId;
     return http.getDataWithoutToken(url);
 }
+
+export const fetchAgentService = (email) => {
+    const http = new HttpService();
+    const url = `auth/${email}/users`
+    return http.getData(url);
+}

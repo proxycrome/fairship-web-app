@@ -8,6 +8,9 @@ import {
     GET_LANDLORD_AGENTS,
     GET_LANDLORD_AGENTS_SUCCESS,
     GET_LANDLORD_AGENTS_FAILURE,
+    FETCH_AGENT,
+    FETCH_AGENT_SUCCESS,
+    FETCH_AGENT_FAILURE,
 } from './actionTypes'
 
 export const getAgents = () => {
@@ -69,5 +72,26 @@ export const getLandlordAgentsFailure = (error) => {
     return {
         type: GET_LANDLORD_AGENTS_FAILURE,
         payload : error
+    }
+}
+
+export const fetchAgent = (agentEmail) => {
+    return {
+        type: FETCH_AGENT,
+        payload: { agentEmail }
+    }
+}
+
+export const fetchAgentSuccess = (data) => {
+    return {
+        type: FETCH_AGENT_SUCCESS,
+        payload: data
+    }
+}
+
+export const fetchAgentFailure = (error) => {
+    return {
+        type: FETCH_AGENT_FAILURE,
+        payload: error
     }
 }

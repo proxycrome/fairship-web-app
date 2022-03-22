@@ -1,6 +1,6 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
-import { GET_ALL_AGENTS, POST_AGENT, GET_LANDLORD_AGENTS } from "./actionTypes";
+import { GET_ALL_AGENTS, POST_AGENT, GET_LANDLORD_AGENTS, FETCH_AGENT } from "./actionTypes";
 
 import {
   getAgentsSuccessful,
@@ -9,12 +9,15 @@ import {
   postAgentFailure,
   getLandlordAgentsSuccess,
   getLandlordAgentsFailure,
+  fetchAgentSuccess,
+  fetchAgentFailure
 } from "./actions";
 
 import {
   getAgentsService,
   getLandlordAgentsService,
   postAgentService,
+  fetchAgentService,
 } from "../../services/agentServices";
 
 function* getAgents() {
@@ -37,12 +40,20 @@ function* postAgent({ payload: { formData } }) {
 
 function* getLandlordAgents({payload: {landlordId}}) {
   try {
-    
     const response = yield call(getLandlordAgentsService, landlordId);
     yield put(getLandlordAgentsSuccess(response.data));
   } catch (error) {
     yield put(getLandlordAgentsFailure(error?.response?.data));
   }
+}
+
+function* fetchAgent ({payload: {agentEmail}}) {
+    try {
+        const response = yield call(fetchAgentService, agentEmail);
+        yield put(fetchAgentSuccess(response.data)); 
+    } catch (error) {
+        yield put(fetchAgentFailure(error?.response?.data));
+    }
 }
 
 export function* watchgetAgents() {
@@ -57,8 +68,17 @@ export function* watchgetLandlordAgents() {
   yield takeEvery(GET_LANDLORD_AGENTS, getLandlordAgents);
 }
 
+export function* watchfetchAgent() {
+    yield takeEvery(FETCH_AGENT, fetchAgent);
+}
+
 function* AgentsSaga() {
-  yield all([fork(watchgetAgents), fork(watchpostAgent), fork(watchgetLandlordAgents)]);
+  yield all([
+      fork(watchgetAgents), 
+      fork(watchpostAgent), 
+      fork(watchgetLandlordAgents),
+      fork(watchfetchAgent)
+    ])
 }
 
 export default AgentsSaga;

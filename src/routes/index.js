@@ -46,12 +46,14 @@ import Tenants from '../pages/OptiApp/Tenants';
 // OptiTenants
 import Opti_Welcome from '../pages/OptiApp/Authentication/WelcomePage';
 import OptiRentalApplication from '../pages/OptiApp/Rental';
+import AgentPreview from '../pages/OptiApp/Agent/Preview'
 
 const authProtectedRoutes = [
   //FairShip Board
   { path: '/dashboard', component: Dashboard1 },
   { path: '/properties', component: Properties },
   { path: '/agents', component: Agent },
+  { path: '/agents/:email', component: AgentPreview},
   // { path: '/unit_property', component: UnitProperties },
   { path: '/listing_properties', component: ListingProperties },
   { path: '/accounting', component: Accounting },

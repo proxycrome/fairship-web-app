@@ -8,6 +8,9 @@ import {
     GET_LANDLORD_AGENTS,
     GET_LANDLORD_AGENTS_SUCCESS,
     GET_LANDLORD_AGENTS_FAILURE,
+    FETCH_AGENT,
+    FETCH_AGENT_SUCCESS,
+    FETCH_AGENT_FAILURE,
 } from './actionTypes';
 
 const initialState = {
@@ -18,6 +21,8 @@ const initialState = {
     postAgentError: null,
     landlordAgents: null,
     landlordAgentsError: null,
+    agent: null,
+    agentError: null
 }
 
 const Agents = (state = initialState, action) => {
@@ -25,6 +30,7 @@ const Agents = (state = initialState, action) => {
         case GET_ALL_AGENTS:
         case POST_AGENT:
         case GET_LANDLORD_AGENTS:
+        case FETCH_AGENT:
             state = {
                 ...state,
                 loading: true,
@@ -77,7 +83,8 @@ const Agents = (state = initialState, action) => {
                 landlordAgents: action.payload,
                 landlordAgentsError: null,
                 agentsError: null,
-                postAgentError: null
+                postAgentError: null,
+                agentError: null
             }
         break;
 
@@ -89,6 +96,31 @@ const Agents = (state = initialState, action) => {
                 landlordAgentsError: action.payload,
                 agentsError: null,
                 postAgentError: null,
+                agentError: null
+            }
+        break;
+
+        case FETCH_AGENT_SUCCESS:
+            state = {
+                ...state,
+                loading: false,
+                agent: action.payload,
+                landlordAgentsError: null,
+                agentsError: null,
+                postAgentError: null,
+                agentError: null
+            }
+        break;
+
+        case FETCH_AGENT_FAILURE:
+            state = {
+                ...state,
+                loading: false,
+                agent: null,
+                landlordAgentsError: null,
+                agentsError: null,
+                postAgentError: null,
+                agentError: action.payload
             }
         break;
 
