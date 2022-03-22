@@ -55,7 +55,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
         <Row className="mb-3">
           {selectedFiles.map((f, i) => {
             return (
-              <Col sm={3}>
+              <Col sm={3} key={i}>
                 <Card
                   className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
                   key={i + '-file'}

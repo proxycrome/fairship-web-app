@@ -4,6 +4,7 @@ import { all } from 'redux-saga/effects'
 import accountSaga from './auth/saga';
 import appointment from './appointment/saga';
 import properties from './properties/saga';
+import agent from './Agent/saga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 
@@ -15,6 +16,7 @@ export default function* rootSaga() {
         accountSaga(),
         appointment(),
         properties(),
+        agent(),
         // forgetSaga(),
         LayoutSaga()
     ])

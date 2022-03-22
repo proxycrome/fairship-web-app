@@ -37,7 +37,6 @@ const initialState = {
   isRegistered: false,
   activationError: null,
   profileError: null,
-  message: null,
   forgetError: null,
   message: null,
   loading: false,

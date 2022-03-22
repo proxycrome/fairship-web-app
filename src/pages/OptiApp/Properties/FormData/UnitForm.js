@@ -19,11 +19,11 @@ class CreateProperty extends Component {
       selectedFiles: [],
     };
     this.toggleTab = this.toggleTab.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(events, values) {
     const formData = { ...values };
-    console.log(values)
     formData.propertyImg = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
@@ -235,8 +235,7 @@ class CreateProperty extends Component {
             </Row>
             <div className="text-center">
               <Button color="success" className="px-2">
-                {' '}
-                Create Property{' '}
+                Create Property
               </Button>
             </div>
           </AvForm>

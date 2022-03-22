@@ -6,7 +6,7 @@ export const fetchPropertiesService = () => {
   return http.getData(url);
 };
 
-export const createProperties = (payload) => {
+export const createPropertiesService = (payload) => {
   const http = new HttpService();
   const url = 'auth/single-entity-properties';
   return http.postDataWithToken(payload, url);

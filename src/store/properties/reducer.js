@@ -2,6 +2,9 @@ import {
   FETCH_PROPERTIES,
   FETCH_PROPERTIES_SUCCESSFUL,
   FETCH_PROPERTIES_ERROR,
+  CREATE_PROPERTIES,
+  CREATE_PROPERTIES_SUCCESSFUL,
+  CREATE_PROPERTIES_ERROR,
 } from './actionTypes';
 
 const initialState = {
@@ -27,6 +30,22 @@ const Properties = (state = initialState, action) => {
         loading: false,
       };
       break;
+    case CREATE_PROPERTIES:
+      state = {
+        ...state,
+        properties: null,
+        propertiesError: null,
+        loading: true,
+      };
+      break;
+    case CREATE_PROPERTIES_SUCCESSFUL:
+      state = {
+        ...state,
+        properties: action.payload,
+        loading: false,
+      };
+      break;
+    case CREATE_PROPERTIES_ERROR:
     case FETCH_PROPERTIES_ERROR:
       state = {
         ...state,
