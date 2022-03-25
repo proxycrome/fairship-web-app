@@ -4,7 +4,6 @@ import axios from 'axios';
 class HttpService {
   constructor() {
     this.token = localStorage.getItem('fairshipToken');
-    console.log(this.token)
     this.baseUrl = process.env.REACT_APP_BASE_URL;
   }
 

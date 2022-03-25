@@ -93,7 +93,6 @@ const Account = (state = initialState, action) => {
       break;
 
     case LOAD_USER_SUCCESSFUL:
-      console.log(action.payload);
       state = {
         ...state,
         user: action.payload,

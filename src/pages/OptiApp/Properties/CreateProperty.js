@@ -72,6 +72,8 @@ class CreateProperty extends Component {
     super(props);
     this.state = {
       activeTab: 1,
+      propertyData: null,
+      unitData: null,
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.updateProperty = this.updateProperty.bind(this);

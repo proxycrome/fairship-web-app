@@ -18,9 +18,9 @@ class CreateProperty extends Component {
   }
 
   handleSubmit(events, values) {
-    const formData = {...values}
-    formData.propertyImg = this.state.selectedFiles
-    this.props.updateProperty(formData)
+    const formData = { ...values };
+    formData.propertyImg = this.state.selectedFiles;
+    this.props.updateProperty(formData);
   }
 
   toggleTab(tab) {
@@ -167,7 +167,9 @@ class CreateProperty extends Component {
                 </FormGroup>
               </Col>
             </Row>
-            <Button color="success"> Next </Button>
+            <div className="text-center">
+              <Button color="success" className="px-4"> Next </Button>
+            </div>
           </AvForm>
         </div>
       </React.Fragment>

@@ -59,7 +59,6 @@ function* loginUser({ payload: { user, history } }) {
   try {
     const response = yield call(LoginService, user);
     yield put(loginUserSuccessful(response.data));
-    console.log(response);
     yield call(loadUserHandler);
     history.push('/dashboard');
   } catch (error) {

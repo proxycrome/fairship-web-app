@@ -21,7 +21,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'agent101@gmail.com',
+      username: 'e.v.ezeonwuka@gmail.com',
+      // username: 'agent101@gmail.com',
       password: 'Testing1@',
       checkLogin: false,
     };
@@ -31,6 +32,7 @@ class Login extends Component {
   handleSubmit(event, values) {
     const formData = {...values}
     formData.platformType ="MOBILE_AGENT"
+    formData.platformType ="WED"
     console.log(formData)
     this.props.checkLogin(formData, this.props.history);
   }
