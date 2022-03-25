@@ -8,7 +8,7 @@ export const LoginService = (payload) => {
 
 export const loadUserServer = () => {
   const http = new HttpService();
-  const url = 'user';
+  const url = 'auth/users';
   return http.getData(url);
 };
 

@@ -16,10 +16,6 @@ import { Link } from 'react-router-dom';
 import NotificationDropdown from '../CommonForBoth/TopbarDropdown/NotificationDropdown';
 import ProfileMenu from '../CommonForBoth/TopbarDropdown/ProfileMenu';
 
-//Import i18n
-import { withNamespaces } from 'react-i18next';
-
-
 // Redux Store
 import { toggleRightSidebar } from '../../store/actions';
 
@@ -160,8 +156,7 @@ class Header extends Component {
                         <Input
                           type="text"
                           className="form-control"
-                          placeholder={this.props.t('Search')}
-                        />
+                          placeholder='Search'/>
                         <InputGroupAddon addonType="append">
                           <Button color="primary" type="submit">
                             <i className="ri-search-line"></i>
@@ -273,6 +268,4 @@ const mapStatetoProps = (state) => {
   return { layoutType };
 };
 
-export default connect(mapStatetoProps, { toggleRightSidebar })(
-  withNamespaces()(Header)
-);
+export default connect(mapStatetoProps, { toggleRightSidebar })(Header);

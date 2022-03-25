@@ -46,7 +46,7 @@ import {
 function* loadUserHandler() {
   try {
     const response = yield call(loadUserServer);
-    yield put(loadUserSuccessful(response.data.result));
+    yield put(loadUserSuccessful(response.data));
     localStorage.setItem('authUser', JSON.stringify(response.data.result));
   } catch (error) {
     console.log(error);
@@ -60,9 +60,10 @@ function* loginUser({ payload: { user, history } }) {
     const response = yield call(LoginService, user);
     yield put(loginUserSuccessful(response.data));
     console.log(response);
-    // yield call(loadUserHandler);
+    yield call(loadUserHandler);
     history.push('/dashboard');
   } catch (error) {
+    console.log(error);
     console.log(error.response);
     yield put(apiError(error?.response?.data.message));
   }

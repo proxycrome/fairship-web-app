@@ -31,7 +31,7 @@ const initialState = {
   user: null,
   profile: null,
   loginError: null,
-  isAuthenticated: null,
+  isAuthenticated: false,
   dashboard: null,
   registrationError: null,
   isRegistered: false,
@@ -93,6 +93,7 @@ const Account = (state = initialState, action) => {
       break;
 
     case LOAD_USER_SUCCESSFUL:
+      console.log(action.payload);
       state = {
         ...state,
         user: action.payload,
@@ -155,31 +156,31 @@ const Account = (state = initialState, action) => {
       };
       break;
 
-      // Profile
-      case FETCH_PROFILE:
-        state = {
-          ...state,
-          profileError: null,
-          loading: true,
-          profile: null,
-        };
-        break;
-  
-      case FETCH_PROFILE_SUCCESSFUL:
-        state = {
-          ...state,
-          loading: true,
-          profile: action.payload,
-        };
-        break;
-  
-      case FETCH_PROFILE_API_FAILED:
-        state = {
-          ...state,
-          loading: true,
-          profileError: action.payload,
-        };
-        break;
+    // Profile
+    case FETCH_PROFILE:
+      state = {
+        ...state,
+        profileError: null,
+        loading: true,
+        profile: null,
+      };
+      break;
+
+    case FETCH_PROFILE_SUCCESSFUL:
+      state = {
+        ...state,
+        loading: true,
+        profile: action.payload,
+      };
+      break;
+
+    case FETCH_PROFILE_API_FAILED:
+      state = {
+        ...state,
+        loading: true,
+        profileError: action.payload,
+      };
+      break;
 
     // Reset password
     case FORGET_USER:
