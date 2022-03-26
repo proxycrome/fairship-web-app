@@ -24,7 +24,7 @@ class HttpService {
   };
 
   getDataWithoutToken = async (url) => {
-    return axios.get(this.baseUrl + url).then((res) => res);
+    return axios.get(this.baseUrl + url);
   };
 
   putData = async (formData, url) => {

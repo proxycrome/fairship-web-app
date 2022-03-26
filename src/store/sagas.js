@@ -7,6 +7,8 @@ import properties from './properties/saga';
 import agent from './Agent/saga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
+import InspectionsSaga from './inspection/saga';
+import AgentsSaga from './agent/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -18,6 +20,8 @@ export default function* rootSaga() {
         properties(),
         agent(),
         // forgetSaga(),
-        LayoutSaga()
+        LayoutSaga(),
+        InspectionsSaga(),
+        AgentsSaga()
     ])
 }
