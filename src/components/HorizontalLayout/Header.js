@@ -7,9 +7,6 @@ import { Link } from "react-router-dom";
 // reactstrap
 import { Row, Col, Dropdown, DropdownToggle, DropdownMenu, Form, Input, InputGroup, InputGroupAddon, Button, FormGroup } from "reactstrap";
 
-//i18n
-import { withNamespaces } from "react-i18next";
-
 // Import menuDropdown
 import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
 import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
@@ -369,4 +366,4 @@ const mapStatetoProps = state => {
   return { layoutType };
 };
 
-export default connect(mapStatetoProps, { toggleRightSidebar })(withNamespaces()(Header));
+export default connect(mapStatetoProps, { toggleRightSidebar })(Header);

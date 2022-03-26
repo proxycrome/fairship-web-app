@@ -5,13 +5,13 @@
 
 /* Dropzone */
 .dropzone {
-  min-height: 230px;
+  min-height: 200px;
   border: 2px dashed $gray-400;
   background: $card-bg;
   border-radius: 6px;
 
   .dz-message {
-    font-size: 24px;
+    font-size: 20px;
     width: 100%;
   }
 }
