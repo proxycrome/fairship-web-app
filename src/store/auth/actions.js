@@ -23,6 +23,9 @@ import {
   FETCH_DASHBOARD,
   FETCH_DASHBOARD_SUCCESSFUL,
   FETCH_DASHBOARD_API_FAILED,
+  FETCH_PROFILE,
+  FETCH_PROFILE_SUCCESSFUL,
+  FETCH_PROFILE_API_FAILED,
 } from './actionTypes';
 
 export const checkLogin = (user, history) => {
@@ -192,6 +195,27 @@ export const fetchDashboardSuccessful = (payload) => {
 export const fetchDashboardError = (error) => {
   return {
     type: FETCH_DASHBOARD_API_FAILED,
+    payload: error,
+  };
+};
+
+// Profile Module
+export const fetchProfile = () => {
+  return {
+    type: FETCH_PROFILE,
+  };
+};
+
+export const fetchProfileSuccessful = (payload) => {
+  return {
+    type: FETCH_PROFILE_SUCCESSFUL,
+    payload: payload,
+  };
+};
+
+export const fetchProfileError = (error) => {
+  return {
+    type: FETCH_PROFILE_API_FAILED,
     payload: error,
   };
 };

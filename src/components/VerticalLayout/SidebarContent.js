@@ -5,9 +5,6 @@ import MetisMenu from 'metismenujs';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-//i18n
-import { withNamespaces } from 'react-i18next';
-
 import { connect } from 'react-redux';
 import {
   changeLayout,
@@ -101,14 +98,11 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="properties">{this.props.t('My Properties')}</Link>
+                  <Link to="properties">My Properties</Link>
                 </li>
-                {/* <li>
-                  <Link to="unit_property">{this.props.t('Units')}</Link>
-                </li> */}
                 <li>
                   <Link to="listing_properties">
-                    {this.props.t('Listings')}
+                    Listings
                   </Link>
                 </li>
               </ul>
@@ -154,14 +148,6 @@ class SidebarContent extends Component {
               </Link>
             </li>
 
-            {/* Chat */}
-            {/* <li>
-              <Link to="chats" className="waves-effect">
-                <i className=" ri-wechat-line"></i>
-                <span className="ml-1">Charts</span>
-              </Link>
-            </li> */}
-
             {/* appointments */}
             <li>
               <Link to="appointments" className="waves-effect">
@@ -186,23 +172,10 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="inspection">{this.props.t('Inspections')}</Link>
+                  <Link to="inspection">Inspections</Link>
                 </li>
-                {/* <li>
-                  <Link to="items">{this.props.t('Items')}</Link>
-                </li>
-                <li>
-                  <Link to="keys_meters">{this.props.t('Keys & Meters')}</Link>
-                </li> */}
               </ul>
             </li>
-
-            {/* <li>
-              <Link to="settings" className="waves-effect">
-                <i className=" ri-settings-2-line"></i>
-                <span className="ml-1">Settings</span>
-              </Link>
-            </li> */}
           </ul>
         </div>
       </React.Fragment>
@@ -221,5 +194,5 @@ export default withRouter(
     changeSidebarType,
     changeLayoutWidth,
     changePreloader,
-  })(withNamespaces()(SidebarContent))
+  })(SidebarContent)
 );

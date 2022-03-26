@@ -3,6 +3,51 @@
     {
       "type": "aws-sam",
       "request": "direct-invoke",
+      "name": "fairshipWeb:src/store/properties/actions.fetchAppointment (nodejs14.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/",
+        "lambdaHandler": "src/store/properties/actions.fetchAppointment"
+      },
+      "lambda": {
+        "runtime": "nodejs14.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "fairshipWeb:src/store/properties/actions.fetchPropertiesSuccessful (nodejs14.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/",
+        "lambdaHandler": "src/store/properties/actions.fetchPropertiesSuccessful"
+      },
+      "lambda": {
+        "runtime": "nodejs14.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "fairshipWeb:src/store/auth/actions.fetchProfileSuccessful (nodejs14.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "${workspaceFolder}/",
+        "lambdaHandler": "src/store/auth/actions.fetchProfileSuccessful"
+      },
+      "lambda": {
+        "runtime": "nodejs14.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
       "name": "fairshipWeb:src/store/auth/actions.createNewPassword (nodejs14.x)",
       "invokeTarget": {
         "target": "code",

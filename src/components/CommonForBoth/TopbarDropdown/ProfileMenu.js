@@ -7,9 +7,6 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-//i18n
-import { withNamespaces } from 'react-i18next';
-
 // users
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 
@@ -61,25 +58,25 @@ class ProfileMenu extends Component {
           <DropdownMenu right>
             <DropdownItem tag={Link} to="/profile">
               <i className="ri-user-line align-middle mr-1"></i>{' '}
-              {this.props.t('Profile')}
+              Profile
             </DropdownItem>
             <DropdownItem href="#">
               <i className="ri-wallet-2-line align-middle mr-1"></i>{' '}
-              {this.props.t('My Wallet')}
+              My Wallet
             </DropdownItem>
             <DropdownItem className="d-block" href="#">
               <span className="badge badge-success float-right mt-1">11</span>
               <i className="ri-settings-2-line align-middle mr-1"></i>{' '}
-              {this.props.t('Settings')}
+              Settings
             </DropdownItem>
             <DropdownItem href="#">
               <i className="ri-lock-unlock-line align-middle mr-1"></i>{' '}
-              {this.props.t('Lock screen')}
+              Lock screen
             </DropdownItem>
             <DropdownItem divider />
             <DropdownItem className="text-danger" href="/logout">
               <i className="ri-shut-down-line align-middle mr-1 text-danger"></i>{' '}
-              {this.props.t('Logout')}
+              Logout
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -88,4 +85,4 @@ class ProfileMenu extends Component {
   }
 }
 
-export default withNamespaces()(ProfileMenu);
+export default (ProfileMenu);

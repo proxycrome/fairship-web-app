@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 
-import {
-  Row,
-  Col,
-  Button,
-  Alert,
-  Container,
-} from 'reactstrap';
+import { Row, Col, Button, Alert, Container } from 'reactstrap';
 
 import WelcomeLandlord from './WelcomeLandlord';
 
@@ -54,6 +48,8 @@ class Welcome extends Component {
       return <WelcomeLandlord />;
     }
 
+    console.log(this.props.login);
+
     return (
       <React.Fragment>
         <div>
@@ -98,11 +94,11 @@ class Welcome extends Component {
                             </p>
                           </div>
 
-                          {this.props.loginError && this.props.loginError ? (
+                          {/* {this.props.loginError && this.props.loginError ? (
                             <Alert color="danger">
                               {this.props.loginError}
                             </Alert>
-                          ) : null}
+                          ) : null} */}
 
                           <div className="p-2 mt-5">
                             <AvForm
@@ -144,10 +140,8 @@ class Welcome extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Login;
-  return { loginError };
+  const login = state.Account;
+  return { login };
 };
 
-export default withRouter(
-  connect(mapStatetoProps, { checkLogin, apiError })(Welcome)
-);
+export default withRouter(connect(mapStatetoProps, { checkLogin, apiError })(Welcome));
