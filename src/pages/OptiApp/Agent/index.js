@@ -24,11 +24,13 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
     setFilteredAgents(
       landlordAgents?.data?.agents.filter(
         (agent) =>
-          agent.firstName === searchName ||
-          agent.lastName === searchName
+          agent.firstName.toLowerCase() === searchName.toLowerCase() ||
+          agent.lastName.toLowerCase() === searchName.toLowerCase() ||
+          agent.email.toLowerCase() === searchName.toLowerCase()
       )
     );
   }, [searchName]);
+
 
   if (preview) {
     return <Preview BackToHome={() => setPreview(false)} />;

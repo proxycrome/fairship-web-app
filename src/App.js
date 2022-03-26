@@ -70,6 +70,7 @@ class App extends Component {
 
 						{authProtectedRoutes.map((route, idx) => (
 							<AppRoute
+								exact
 								path={route.path}
 								layout={Layout}
 								component={route.component}

@@ -9,7 +9,7 @@ import {
   Table,
 } from 'reactstrap';
 import { fetchAgent } from '../../../store/agent/actions';
-import { withRouter } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../components/Common/Loading/index';
 
@@ -19,8 +19,11 @@ import home from '../../../assets/images/home.png';
 
 const Preview = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory()
 
   const email = props.location.pathname.split('/')[2];
+
+  console.log(props);
 
   useEffect(() => {
     dispatch(fetchAgent(email));
@@ -32,7 +35,7 @@ const Preview = (props) => {
   return (
     <div className="page-content">
       <Container fluid>
-        <span onClick={props.BackToHome} className="mx-2 font-size-14 mb-2">
+        <span onClick={() => history.push('/agents')} className="mx-2 font-size-14 mb-2">
           <span>
             <i
               className="fas fa-arrow-left

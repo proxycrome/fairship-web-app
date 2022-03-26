@@ -46,20 +46,25 @@ import Tenants from '../pages/OptiApp/Tenants';
 // OptiTenants
 import Opti_Welcome from '../pages/OptiApp/Authentication/WelcomePage';
 import OptiRentalApplication from '../pages/OptiApp/Rental';
-import AgentPreview from '../pages/OptiApp/Agent/Preview'
+import AgentPreview from '../pages/OptiApp/Agent/Preview';
+import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
+import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
+import ProfilePage from '../pages/OptiApp/Profile/ProfilePage';
 
 const authProtectedRoutes = [
   //FairShip Board
   { path: '/dashboard', component: Dashboard1 },
   { path: '/properties', component: Properties },
   { path: '/agents', component: Agent },
-  { path: '/agents/:email', component: AgentPreview},
+  { path: '/agents/:email', component: AgentPreview },
   // { path: '/unit_property', component: UnitProperties },
   { path: '/listing_properties', component: ListingProperties },
   { path: '/accounting', component: Accounting },
   { path: '/documents', component: Documents },
   { path: '/tenants', component: Tenants },
   { path: '/maintenance', component: Maintenance },
+  { path: '/maintenance/:propertyId', component: MaintenancePreview },
+  { path: '/maintenance/:bookedServiceId', component: ServicePreview },
   { path: '/service', component: Service },
   { path: '/chats', component: Chats },
   { path: '/appointments', component: Appointment },
@@ -71,6 +76,7 @@ const authProtectedRoutes = [
   { path: '/settings', component: Settings },
   { path: '/PowerMonitory', component: PowerMonitory },
   { path: '/Profile', component: Profile },
+  { path: '/ProfilePage', component: ProfilePage},
 
   // this route should be at the end of all other routes
   { path: '/', exact: true, component: () => <Redirect to="/login" /> },
