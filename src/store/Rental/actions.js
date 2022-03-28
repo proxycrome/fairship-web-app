@@ -11,7 +11,10 @@ import {
   FETCH_RENTAL_RECOMMENDATION_ERROR,
   PUT_TENANT_RECOMMENDATION,
   PUT_TENANT_RECOMMENDATION_SUCCESSFUL,
-  PUT_TENANT_RECOMMENDATION_ERROR
+  PUT_TENANT_RECOMMENDATION_ERROR,
+  PUT_DATA_RECOMMENDATION,
+  PUT_DATA_RECOMMENDATION_SUCCESSFUL,
+  PUT_DATA_RECOMMENDATION_ERROR
 }  from './actionTypes';
   
   // Fetch Rental
@@ -45,9 +48,10 @@ import {
   };
   
   export const fetchRentalRecommendationSuccessful = (data) => {
+    console.log(data)
     return {
       type: FETCH_RENTAL_RECOMMENDATION_SUCCESSFUL,
-      data
+      payload: data
     };
   };
   
@@ -60,10 +64,11 @@ import {
 
   //PutTenant Recommendation
 
-  export const PutTenantRecommendation = (rentalId, data) => {
+  export const PutTenantRecommendation = (tenantId, data) => {
+    // console.log(tenantId, data)
     return {
       type: PUT_TENANT_RECOMMENDATION,
-      payload : {rentalId, data}
+      payload : {tenantId, data}
     };
   };
   
@@ -81,4 +86,26 @@ import {
     };
   };
 
+  ////Put data for review part of rejection
+
+  export const PutDataRecommendation = (data) => {
+    console.log(data)
+    return {
+      type: PUT_DATA_RECOMMENDATION,
+      payload : {data}
+    };
+  };
   
+  export const PutDataRecommendationSuccessful = (data) => {
+    return {
+      type: PUT_DATA_RECOMMENDATION_SUCCESSFUL,
+      data
+    };
+  };
+  
+  export const PutDataRecommendationError = (error) => {
+    return {
+      type: PUT_DATA_RECOMMENDATION_ERROR,
+      error
+    };
+  };

@@ -5,7 +5,7 @@ import {
   } from './actionTypes';
   
   const initialState = {
-    rental: null,
+    rental: [],
     rentalError: null,
     loading: false,
   };
@@ -15,7 +15,7 @@ import {
       case FETCH_RENTAL:
         state = {
           ...state,
-          rental: null,
+          rental: [],
           rentalError: null,
           loading: true,
         };

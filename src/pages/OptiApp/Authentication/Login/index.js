@@ -21,8 +21,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'agent101@gmail.com',
-      password: 'Testing1@',
+      username: 'cooldonstylo@gmail.com',
+      password: 'Z1FKFKAG',
       checkLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);

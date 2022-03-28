@@ -6,20 +6,25 @@ export const fetchRentalService = () => {
   return http.getData(url);
 };
 
-export const fetchRentalRecommendation = ({rentalId}) =>{
+export const fetchRentalRecommendation = (rentalId) =>{
+  console.log(rentalId)
   const http = new HttpService();
-  const initialurl = 'auth/rent-applications/';
-  const id = `${rentalId}`;
-  const url = initialurl + id;
-  return http.getData(url);
+  const initialurl = `auth/rent-applications/details/${rentalId}`;
+  return http.getData(initialurl);
 }
 
 
-export const PutTenantRecommendation = (rentalId, data) => {
+
+export const PutTenantRecommendationService = (tenantId, data) => {
+  console.log(tenantId)
   const http = new HttpService();
-  const initialurl = 'auth/rent-applications/tenant-recommendation-form/';
-  const id = `${rentalId}`;
-  const url = initialurl + id;
-  return http.putData(data, url);
+  const initialurl = `auth/rent-applications/tenant-recommendation-form/${tenantId}`;
+  return http.putData(data, initialurl);
 }
 
+
+export const PutDataTenantRecommendationService = (data) => {
+  const http = new HttpService();
+  const initialurl = 'auth/review-rent-application';
+  return http.postDataWithToken(data, initialurl);
+}

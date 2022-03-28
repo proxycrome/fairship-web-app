@@ -7,7 +7,7 @@ import Layout from './layout/reducer';
 import Account from './auth/reducer';
 import Appointment from './appointment/reducer';
 import Rental from './Rental/reducer';
-import PreviewReducer from './Rental/previewReducer'
+import PreviewReducer from './Rental/previewReducer';
 // import Forget from './auth/forgetpwd/reducer';
 
 const rootReducer = combineReducers({
