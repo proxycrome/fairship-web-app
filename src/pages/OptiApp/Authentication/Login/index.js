@@ -24,6 +24,7 @@ class Login extends Component {
       username: 'e.v.ezeonwuka@gmail.com',
       // username: 'agent101@gmail.com',
       password: 'Testing01@',
+
       checkLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
