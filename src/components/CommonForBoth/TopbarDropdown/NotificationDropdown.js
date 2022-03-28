@@ -10,9 +10,6 @@ import {
 } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 
-//i18b
-import { withNamespaces } from 'react-i18next';
-
 //Import images
 import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 import avatar4 from '../../../assets/images/users/avatar-4.jpg';
@@ -55,12 +52,11 @@ class NotificationDropdown extends Component {
             <div className="p-3">
               <Row className="align-items-center">
                 <Col>
-                  <h6 className="m-0"> {this.props.t('Notifications')} </h6>
+                  <h6 className="m-0">Notifications</h6>
                 </Col>
                 <div className="col-auto">
                   <Link to="#" className="small">
-                    {' '}
-                    {this.props.t('View All')}
+                    View All
                   </Link>
                 </div>
               </Row>
@@ -74,18 +70,13 @@ class NotificationDropdown extends Component {
                     </span>
                   </div>
                   <Media body>
-                    <h6 className="mt-0 mb-1">
-                      {this.props.t('Your order is placed')}
-                    </h6>
+                    <h6 className="mt-0 mb-1">Your order is placed</h6>
                     <div className="font-size-12 text-muted">
                       <p className="mb-1">
-                        {this.props.t(
-                          'If several languages coalesce the grammar'
-                        )}
+                        If several languages coalesce the grammar
                       </p>
                       <p className="mb-0">
-                        <i className="mdi mdi-clock-outline"></i>{' '}
-                        {this.props.t('3 min ago')}
+                        <i className="mdi mdi-clock-outline"></i> 3 min ago
                       </p>
                     </div>
                   </Media>
@@ -99,16 +90,13 @@ class NotificationDropdown extends Component {
                     alt="user-pic"
                   />
                   <Media body>
-                    <h6 className="mt-0 mb-1">
-                      {this.props.t('James Lemire')}
-                    </h6>
+                    <h6 className="mt-0 mb-1">James Lemire</h6>
                     <div className="font-size-12 text-muted">
                       <p className="mb-1">
-                        {this.props.t('It will seem like simplified English.')}
+                        It will seem like simplified English.
                       </p>
                       <p className="mb-0">
-                        <i className="mdi mdi-clock-outline"></i>{' '}
-                        {this.props.t('1 hours ago')}
+                        <i className="mdi mdi-clock-outline"></i> 1 hours ago
                       </p>
                     </div>
                   </Media>
@@ -122,18 +110,13 @@ class NotificationDropdown extends Component {
                     </span>
                   </div>
                   <Media body>
-                    <h6 className="mt-0 mb-1">
-                      {this.props.t('Your item is shipped')}
-                    </h6>
+                    <h6 className="mt-0 mb-1">Your item is shipped</h6>
                     <div className="font-size-12 text-muted">
                       <p className="mb-1">
-                        {this.props.t(
-                          'If several languages coalesce the grammar'
-                        )}
+                        If several languages coalesce the grammar
                       </p>
                       <p className="mb-0">
-                        <i className="mdi mdi-clock-outline"></i>{' '}
-                        {this.props.t('3 min ago')}
+                        <i className="mdi mdi-clock-outline"></i> 3 min ago
                       </p>
                     </div>
                   </Media>
@@ -148,18 +131,13 @@ class NotificationDropdown extends Component {
                     alt="user-pic"
                   />
                   <Media body>
-                    <h6 className="mt-0 mb-1">
-                      {this.props.t('Salena Layfield')}
-                    </h6>
+                    <h6 className="mt-0 mb-1">Salena Layfield</h6>
                     <div className="font-size-12 text-muted">
                       <p className="mb-1">
-                        {this.props.t(
-                          'As a skeptical Cambridge friend of mine occidental.'
-                        )}
+                        As a skeptical Cambridge friend of mine occidental.
                       </p>
                       <p className="mb-0">
-                        <i className="mdi mdi-clock-outline"></i>{' '}
-                        {this.props.t('1 hours ago')}
+                        <i className="mdi mdi-clock-outline"></i> 1 hours ago
                       </p>
                     </div>
                   </Media>
@@ -172,7 +150,7 @@ class NotificationDropdown extends Component {
                 className="btn btn-sm btn-link font-size-14 btn-block text-center"
               >
                 <i className="mdi mdi-arrow-right-circle mr-1"></i>
-                {this.props.t(' View More')}
+                View More
               </Link>
             </div>
           </DropdownMenu>
@@ -181,4 +159,4 @@ class NotificationDropdown extends Component {
     );
   }
 }
-export default withNamespaces()(NotificationDropdown);
+export default NotificationDropdown;

@@ -3,12 +3,13 @@ import HttpService from './HttpService';
 export const LoginService = (payload) => {
   const http = new HttpService();
   const url = 'login';
+  console.log(payload)
   return http.postData(payload, url);
 };
 
 export const loadUserServer = () => {
   const http = new HttpService();
-  const url = 'user';
+  const url = 'auth/users';
   return http.getData(url);
 };
 
@@ -45,5 +46,12 @@ export const createNewPasswordServices = (payload) => {
 export const fetchDashboardService = () => {
   const http = new HttpService();
   const url = 'auth/dashboard-stats/agent-and-property-owner';
+  return http.getData(url);
+};
+
+
+export const fetchProfileService = () => {
+  const http = new HttpService();
+  const url = 'auth/users';
   return http.getData(url);
 };

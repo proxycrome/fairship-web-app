@@ -109,5 +109,8 @@
   },
   "resolutions": {
     "moment": "2.24.0"
+  },
+  "devDependencies": {
+    "react-error-overlay": "^6.0.9"
   }
 }

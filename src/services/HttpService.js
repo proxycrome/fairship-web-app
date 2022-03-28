@@ -13,23 +13,23 @@ class HttpService {
 
   postDataWithToken = async (formData, url) => {
     return axios.post(this.baseUrl + url, formData, {
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { Authorization: this.token },
     });
   };
 
   getData = async (url) => {
     return axios.get(this.baseUrl + url, {
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { Authorization: this.token },
     });
   };
 
   getDataWithoutToken = async (url) => {
-    return axios.get(this.baseUrl + url).then((res) => res);
+    return axios.get(this.baseUrl + url);
   };
 
   putData = async (formData, url) => {
     return axios.put(this.baseUrl + url, formData, {
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { Authorization: this.token },
     });
   };
 
@@ -39,7 +39,7 @@ class HttpService {
 
   deleteData = async (url) => {
     return axios.delete(this.baseUrl + url, {
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { Authorization: this.token },
     });
   };
 }
