@@ -21,9 +21,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'e.v.ezeonwuka@gmail.com',
+      email: 'e.v.ezeonwuka@gmail.com',
       // username: 'agent101@gmail.com',
-      password: 'Testing1@',
+      password: 'Testing01@',
       checkLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,9 +31,8 @@ class Login extends Component {
 
   handleSubmit(event, values) {
     const formData = {...values}
-    formData.platformType ="MOBILE_AGENT"
-    formData.platformType ="WED"
-    console.log(formData)
+    // formData.platformType ="MOBILE_AGENT"
+    formData.platformType ="WEB"
     this.props.checkLogin(formData, this.props.history);
   }
 
@@ -103,7 +102,7 @@ class Login extends Component {
                               <FormGroup className="form-group-custom mb-4">
                                 <AvField
                                   name="email"
-                                  value={this.state.username}
+                                  value={this.state.email}
                                   type="email"
                                   className="form-ctrl"
                                   id="email"

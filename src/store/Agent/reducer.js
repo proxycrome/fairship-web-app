@@ -23,7 +23,7 @@ const Agent = (state = initialState, action) => {
     case FETCH_AGENT_SUCCESSFUL:
       state = {
         ...state,
-        properties: action.payload,
+        agents: action.payload,
         loading: false,
       };
       break;

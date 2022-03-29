@@ -10,7 +10,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
 // actions
-import { checkLogin, apiError } from '../../../../store/actions';
+import { apiError, registerUser } from '../../../../store/actions';
 
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
@@ -30,7 +30,15 @@ class Register extends Component {
   }
 
   handleSubmit(event, values) {
-    this.props.checkLogin(values, this.props.history);
+    const formData = { ...values };
+    const agentDetails = {
+      type: this.props.landlordType,
+      companyName: values.serviceProviderDetails?.companyName,
+    };
+    formData.agentDetails = agentDetails;
+    formData.role = 'PROPERTY_OWNER';
+    console.log(formData);
+    this.props.registerUser(formData, this.props.history);
   }
 
   componentDidMount() {
@@ -66,13 +74,8 @@ class Register extends Component {
                       </Link>
                       <div>
                         <Link to="/login">
-                          <Button color="light" className="mr-2">
-                            Log in
-                          </Button>
-                        </Link>
-                        <Link to="/register">
                           <Button color="success" className="mr-4">
-                            Sign up
+                            Log in
                           </Button>
                         </Link>
                       </div>
@@ -89,9 +92,9 @@ class Register extends Component {
                             </p>
                           </div>
 
-                          {this.props.loginError && this.props.loginError ? (
+                          {this.props.registrationError && this.props.registrationError ? (
                             <Alert color="danger">
-                              {this.props.loginError}
+                              {this.props.registrationError}
                             </Alert>
                           ) : null}
 
@@ -100,98 +103,120 @@ class Register extends Component {
                               className="form-horizontal"
                               onValidSubmit={this.handleSubmit}
                             >
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="name"
-                                  value={this.state.name}
-                                  type="text"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="name"
-                                  placeholder="Company Name"
-                                />
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="phone"
-                                  value={this.state.phone}
-                                  type="text"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="phone"
-                                  placeholder="Contact Phone No"
-                                />
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  type="select"
-                                  name="country"
-                                  className="form-ctrl bg-light border border-0"
-                                >
-                                  <option>Country</option>
-                                  <option>Nigeria</option>
-                                  <option>Ghana</option>
-                                  <option>Cameroun</option>
-                                  <option>Tanzania</option>
-                                  <option>South Africa</option>
-                                </AvField>
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="address"
-                                  value={this.state.address}
-                                  type="text"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="address"
-                                  placeholder="Address"
-                                />
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="email"
-                                  value={this.state.email}
-                                  type="email"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="email"
-                                  validate={{ email: true, required: true }}
-                                  placeholder="Email"
-                                />
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="password"
-                                  value={this.state.password}
-                                  type="password"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="userpassword"
-                                  placeholder="Password"
-                                />
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="companyName"
-                                  value={this.state.address}
-                                  type="text"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="companyName"
-                                  placeholder="Company Name"
-                                />
-                              </FormGroup>
-
-                              <FormGroup className="form-group-custom mb-3">
-                                <AvField
-                                  name="companyAddress"
-                                  value={this.state.address}
-                                  type="text"
-                                  className="form-ctrl bg-light border border-0"
-                                  id="companyAddress"
-                                  placeholder="Company Address"
-                                />
-                              </FormGroup>
+                              <Row>
+                                <Col sm={12}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="serviceProviderDetails.companyName"
+                                      type="text"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="companyName"
+                                      placeholder="Company Name"
+                                      required
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={6}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="firstName"
+                                      type="text"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="name"
+                                      placeholder="Enter FirstName"
+                                      required
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={6}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="lastName"
+                                      type="text"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="name"
+                                      placeholder="Enter Last Name"
+                                      required
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={12}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="phone"
+                                      type="text"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="phone"
+                                      placeholder="Contact Phone No"
+                                      required
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={12}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="address.houseNoAddress"
+                                      type="text"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="houseNoAddress"
+                                      placeholder="Address"
+                                      required
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={6}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="address.state"
+                                      type="text"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="state"
+                                      placeholder="State"
+                                      required
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={6}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      type="select"
+                                      name="address.country"
+                                      required
+                                      className="form-ctrl bg-light border border-0"
+                                    >
+                                      <option>Country</option>
+                                      <option>Nigeria</option>
+                                      <option>Ghana</option>
+                                      <option>Cameroun</option>
+                                      <option>Tanzania</option>
+                                      <option>South Africa</option>
+                                    </AvField>
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={6}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="email"
+                                      type="email"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="email"
+                                      required
+                                      placeholder="Email"
+                                    />
+                                  </FormGroup>
+                                </Col>
+                                <Col sm={6}>
+                                  <FormGroup className="form-group-custom mb-3">
+                                    <AvField
+                                      name="password"
+                                      type="password"
+                                      className="form-ctrl bg-light border border-0"
+                                      id="password"
+                                      placeholder="Password"
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              </Row>
 
                               <div className="mt-4 text-center">
                                 <Button
@@ -226,10 +251,11 @@ class Register extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Account;
-  return { loginError };
+  const { registrationError } = state.Account;
+  return { registrationError };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { checkLogin, apiError })(Register)
+  connect(mapStatetoProps, { registerUser, apiError })(Register)
 );
+

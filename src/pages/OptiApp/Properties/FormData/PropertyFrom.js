@@ -12,6 +12,10 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      city: 'Lagos',
+      country: 'Nigeria',
+      state: 'Lagos',
+      type: 'Flat',
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,6 +23,14 @@ class CreateProperty extends Component {
 
   handleSubmit(events, values) {
     const formData = { ...values };
+    console.log(this.state.selectedFiles)
+    formData.agentIds = [
+      this.props.agents.entities.find((agent) => {
+        if (agent.firstName === values.agentId) {
+          return agent.id;
+        }
+      }).id,
+    ];
     formData.propertyImg = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
@@ -48,6 +60,7 @@ class CreateProperty extends Component {
                     className="form-ctrl"
                     id="text"
                     placeholder="title"
+                    required
                   />
                 </FormGroup>
               </Col>
@@ -56,7 +69,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="type"
-                    // label="Option"
+                    value={this.state.type}
                     helpMessage="type of building"
                   >
                     <option>Flat</option>
@@ -68,22 +81,7 @@ class CreateProperty extends Component {
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    type="select"
-                    name="location"
-                    // label="Option"
-                    helpMessage="Location"
-                  >
-                    <option>Lagos</option>
-                    <option>Abuja</option>
-                    <option>Lekki</option>
-                  </AvField>
-                </FormGroup>
-              </Col>
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
                     name="square_meter"
-                    // value={this.state.Title}
                     type="text"
                     className="form-ctrl"
                     id="text"
@@ -94,34 +92,7 @@ class CreateProperty extends Component {
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    name="area"
-                    // value={this.state.Title}
-                    type="text"
-                    className="form-ctrl"
-                    id="text"
-                    placeholder="area"
-                  />
-                </FormGroup>
-              </Col>
-
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    name="zipcode"
-                    // value={this.state.Title}
-                    type="text"
-                    className="form-ctrl"
-                    id="text"
-                    placeholder="zipcode"
-                  />
-                </FormGroup>
-              </Col>
-
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    name="address"
-                    // value={this.state.Title}
+                    name="address.houseNoAddress"
                     type="text"
                     className="form-ctrl"
                     id="text"
@@ -129,7 +100,45 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-
+              <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    type="select"
+                    name="address.state"
+                    value={this.state.state}
+                    // label="Option"
+                    helpMessage="state here"
+                  >
+                    <option>Lagos</option>
+                    <option>Abuja</option>
+                    <option>Lekki</option>
+                  </AvField>
+                </FormGroup>
+              </Col>
+              <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    type="select"
+                    name="address.country"
+                    helpMessage="state here"
+                    value={this.state.country}
+                  >
+                    <option>Nigeria</option>
+                    <option>Ghana</option>
+                  </AvField>
+                </FormGroup>
+              </Col>
+              <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    name="address.zipcode"
+                    type="text"
+                    className="form-ctrl"
+                    id="text"
+                    placeholder="zipcode"
+                  />
+                </FormGroup>
+              </Col>
               <Col xs={12}>
                 <DropZone
                   selectedFiles={this.state.selectedFiles}
@@ -141,13 +150,18 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="agent"
+                    name="agentId"
                     label="Add Agent"
+                    required
                     // helpMessage="Location"
                   >
-                    <option>Agent 1</option>
-                    <option>Agent 2</option>
-                    <option>agent 3</option>
+                    {this.props.agents !== null ? (
+                      this.props.agents.entities.map((agent) => (
+                        <option key={agent.id}>{agent?.firstName}</option>
+                      ))
+                    ) : (
+                      <option>Loading ...</option>
+                    )}
                   </AvField>
                 </FormGroup>
               </Col>
@@ -157,7 +171,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="account"
-                    label="Option"
+                    label="Add Account"
                     // helpMessage="Location"
                   >
                     <option>Account 1</option>
@@ -168,7 +182,10 @@ class CreateProperty extends Component {
               </Col>
             </Row>
             <div className="text-center">
-              <Button color="success" className="px-4"> Next </Button>
+              <Button color="success" className="px-4">
+                {' '}
+                Next{' '}
+              </Button>
             </div>
           </AvForm>
         </div>

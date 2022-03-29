@@ -5,8 +5,8 @@ import { Row, Col, Button, FormGroup } from 'reactstrap';
 import {
   AvForm,
   AvField,
-  AvCheckboxGroup,
-  AvCheckbox,
+  AvRadioGroup,
+  AvRadio,
 } from 'availity-reactstrap-validation';
 
 import DropZone from '../../../../components/Common/imageUpload';
@@ -24,7 +24,8 @@ class CreateProperty extends Component {
 
   handleSubmit(events, values) {
     const formData = { ...values };
-    formData.propertyImg = this.state.selectedFiles;
+    console.log(formData);
+    formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
 
@@ -75,9 +76,9 @@ class CreateProperty extends Component {
                     name="bedrooms"
                     helpMessage="Bedroom No"
                   >
-                    <option>1 bedroom</option>
-                    <option>2 bedrooms</option>
-                    <option>3 bedrooms</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -85,12 +86,12 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="bedrooms_2"
+                    name="bathrooms"
                     helpMessage="Bedrooms No"
                   >
-                    <option>1 bedroom</option>
-                    <option>2 bedrooms</option>
-                    <option>3 bedrooms</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -98,13 +99,11 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="packingSpace"
+                    name="packingLot"
                     helpMessage="Packing space"
                   >
-                    <option>1 packing Space</option>
-                    <option>2 packing Space</option>
-                    <option>3 packing Space</option>
-                    <option>4 packing Space</option>
+                    <option>True</option>
+                    <option>False</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -112,7 +111,7 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="serviced"
+                    name="isServiced"
                     helpMessage="Serviced Apartment"
                   >
                     <option>Yes</option>
@@ -122,11 +121,7 @@ class CreateProperty extends Component {
               </Col>
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    type="select"
-                    name="rentAmount"
-                    helpMessage="Rent Amount"
-                  >
+                  <AvField type="select" name="price" helpMessage="Rent Amount">
                     <option>300,000</option>
                     <option>400,000</option>
                   </AvField>
@@ -135,10 +130,10 @@ class CreateProperty extends Component {
 
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField type="select" name="period" helpMessage="Years">
-                    <option>1 Year</option>
-                    <option>2 Years</option>
-                    <option>3 Years</option>
+                  <AvField type="select" name="periodInMonths" helpMessage="Years">
+                    <option values={1}>1 Year</option>
+                    <option values={2}>2 Years</option>
+                    <option values={3}>3 Years</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -146,24 +141,24 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="furnishing"
+                    name="isFurnished"
                     helpMessage="furnishing"
                   >
-                    <option>Furnished</option>
-                    <option>Not Furnished</option>
+                    <option>True</option>
+                    <option>False</option>
                   </AvField>
                 </FormGroup>
               </Col>
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField type="select" name="shared" helpMessage="shared">
+                  <AvField type="select" name="isShared" helpMessage="shared">
                     <option>Shared</option>
                     <option>Not Shared</option>
                   </AvField>
                 </FormGroup>
               </Col>
 
-              <Col xs={6}>
+              {/* <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="zipcode"
@@ -187,42 +182,42 @@ class CreateProperty extends Component {
                     placeholder="address"
                   />
                 </FormGroup>
-              </Col>
+              </Col> */}
 
               <Col xs={12}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvCheckboxGroup
-                    name="Ammenities"
-                    label="Ammenities!"
+                  <AvRadioGroup
+                    name="otherAmenities"
+                    label="Amenities!"
                     required
                   >
-                    <AvCheckbox
+                    <AvRadio
                       className="mb-2"
                       label="Air Condition"
                       value="AC"
                     />
-                    <AvCheckbox
+                    <AvRadio
                       className="mb-2"
                       label="water Heaters"
                       value="heater"
                     />
-                    <AvCheckbox
+                    <AvRadio
                       className="mb-2"
                       label="Microwave"
                       value="microwave"
                     />
-                    <AvCheckbox
+                    <AvRadio
                       className="mb-2"
                       label="Gas Cooker"
                       value="Cooker"
                     />
-                    <AvCheckbox
+                    <AvRadio
                       className="mb-2"
                       label="Clean Water"
                       value="water"
                     />
-                    <AvCheckbox className="mb-2" label="Gym" value="Gym" />
-                  </AvCheckboxGroup>
+                    <AvRadio className="mb-2" label="Gym" value="Gym" />
+                  </AvRadioGroup>
                 </FormGroup>
               </Col>
 

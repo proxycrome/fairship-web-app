@@ -16,7 +16,7 @@ export const loadUserServer = () => {
 export const RegisterService = (payload) => {
   console.log(payload);
   const http = new HttpService();
-  const url = 'user';
+  const url = 'users';
   return http.postData(payload, url);
 };
 
@@ -25,7 +25,7 @@ export const ActivateServices = (id) => {
     id: id,
   };
   const http = new HttpService();
-  const url = 'user/activate';
+  const url = 'users/verify-phone';
   return http.putData(payload, url);
 };
 

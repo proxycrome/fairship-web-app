@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Row, Col, Button, Alert, Container } from 'reactstrap';
 
-import WelcomeLandlord from './WelcomeLandlord';
+import WelcomeLandlord from '../Register/WelcomeLandlord';
 
 // Redux
 import { connect } from 'react-redux';
@@ -77,9 +77,9 @@ class Welcome extends Component {
                             Log in
                           </Button>
                         </Link>
-                        <Link to="register">
+                        {/* <Link to="register">
                           <Button color="light">Sign up</Button>
-                        </Link>
+                        </Link> */}
                       </div>
                     </div>
                     <Row className="justify-content-center">
@@ -107,7 +107,7 @@ class Welcome extends Component {
                             >
                               <div className="signupOptions d-flex justify-content-center">
                                 <div className="agentLink d-flex flex-column mr-4">
-                                  <Link to="/register">
+                                  <Link to="/agent_register">
                                     <img src={RealtorLogo} alt="Agent" />
                                   </Link>
                                   <h6 className="optionTag d-flex justify-content-center">
@@ -115,7 +115,7 @@ class Welcome extends Component {
                                   </h6>
                                 </div>
                                 <div className="landlordLink d-flex flex-column">
-                                  <Link to="#" onClick={this.clickHandler}>
+                                  <Link to="/landLord_register" >
                                     <img src={LandlordLogo} alt="Landlord" />
                                   </Link>
                                   <h6 className="optionTag d-flex justify-content-center">
