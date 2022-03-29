@@ -107,7 +107,7 @@ class Tenants extends Component {
             </>
           ),
           unitNumber: "001",
-          property: `${rents?.property?.description}`,
+          property: `${rents?.property?.description}`, //`${rents?.property?.description}`
           address: `${rents?.tenant?.address?.houseNoAddress}`,
           out_payment:'' ,
           total: '$172',

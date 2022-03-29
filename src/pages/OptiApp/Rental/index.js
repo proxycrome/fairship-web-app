@@ -122,15 +122,15 @@ class RentalApplication extends Component {
               /*map data from api here for each Tenant */
               <>
                 <Link
-                   to={`/preview/${rents.rentApplicationForm.id}`}
+                   to={`/preview/${rents?.id}`}
                   onClick={this.SetShowPreview}
                   className="mr-3"
                   id="edit1"
                 >
                   <img
                     className="rounded-circle header-profile-user mr-1"
-                    // src={rents?.tenant?.profilePhoto}
-                    src={avatar2}
+                    src={rents?.tenant?.profilePhoto}
+                    // src={avatar2}
                     alt="Header Avatar"
                   />
                   <span> {rents.rentApplicationForm.name} </span>
@@ -140,7 +140,7 @@ class RentalApplication extends Component {
             unitNumber: '001',
             property: `${rents?.property?.description}`,
             address: `${rents?.property?.address?.houseNoAddress}`,
-            date: `${rents?.startDate}`,
+            date: `${rents?.createdAt}`,
             total: '$172',
             status: (
               <div className="badge badge-soft-success font-size-12">

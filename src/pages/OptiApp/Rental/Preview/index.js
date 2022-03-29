@@ -233,8 +233,8 @@ const Preview = (props) => {
                     </Col>
                     <Col sm={3} className="text-center">
                       <CardImg
-                        // src={rentalId?.tenant?.profilePhoto} //no profilePhoto key on rentapplication
-                        src={avatar4}
+                        src={rentalId?.tenant?.profilePhoto} //no profilePhoto key on rentapplication
+                        // src={avatar4}
                         alt="Nazox"
                         className="rounded avatar-lg"
                       />
