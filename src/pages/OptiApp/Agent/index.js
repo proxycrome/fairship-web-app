@@ -9,7 +9,7 @@ import { getLandlordAgents } from "../../../store/agent/actions";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
 
-const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
+const Agent = ({ profile, landlordAgents, getLandlordAgents, loading }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
   const [searchName, setSearchName] = useState("");
@@ -17,7 +17,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLandlordAgents(user?.id));
+    dispatch(getLandlordAgents(profile?.id));
   }, [dispatch]);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                             <tr key={agent.id}>
                               <td className="d-flex align-items-center">
                                 <Link
-                                  to={`/agents/${agent.email}`}
+                                  to={`/agentpreview/${agent.email}`}
                                   onClick={() => setPreview(true)}
                                 >
                                   <img
@@ -127,7 +127,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                             <tr key={agent.id}>
                               <td className="d-flex align-items-center">
                                 <Link
-                                  to={`/agents/${agent.email}`}
+                                  to={`/agentpreview/${agent.email}`}
                                   onClick={() => setPreview(true)}
                                 >
                                   <img
@@ -171,9 +171,9 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
 };
 
 const mapStatetoProps = (state) => {
-  const { user } = state.Account;
+  const { profile } = state.Account;
   const { landlordAgents, loading } = state.Agents;
-  return { landlordAgents, user, loading };
+  return { landlordAgents, profile, loading };
 };
 
 export default withRouter(

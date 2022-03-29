@@ -94,7 +94,7 @@ const Preview = (props) => {
                         alt="Nazox"
                         className="rounded avatar-lg"
                       />
-                      <h4 className="my-2  mb-lg-0">Chris Turner</h4>
+                      <h4 className="my-2  mb-lg-0">{agent?.fullName}</h4>
                       <div className="row justify-content-md-center text-center my-3">
                         <div className="col-4">
                           <span className="avatar-xs mr-1">
