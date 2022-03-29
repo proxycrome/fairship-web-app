@@ -5,7 +5,7 @@ import accountSaga from './auth/saga';
 import appointment from './appointment/saga';
 
 import properties from './properties/saga';
-import agent from './Agent/saga';
+// import agent from './agent/saga';
 
 import RentalSaga from './Rental/saga';
 import RentalPreviewRecommendationSaga from './Rental/previewSaga';
@@ -24,7 +24,7 @@ export default function* rootSaga() {
         appointment(),
 
         properties(),
-        agent(),
+        // agent(),
 
         RentalSaga(),
         RentalPreviewRecommendationSaga(),

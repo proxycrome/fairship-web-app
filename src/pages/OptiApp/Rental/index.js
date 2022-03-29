@@ -20,7 +20,7 @@ import emptyCan from '../../../assets/images/EmptyCan.png';
 //Import Breadcrumb
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
-import Preview from './Preview';
+import Preview from './Preview/index';
 
 // user
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
@@ -56,7 +56,7 @@ class RentalApplication extends Component {
   SetShowPreview() {
     this.setState({
       ...this.state,
-      showPreview: !this.state.showPreview,
+      showPreview: true,
     });
   }
 
@@ -71,9 +71,8 @@ class RentalApplication extends Component {
 
   render() {
 
-    if(this.state.showPreview){
-      return <Preview SetShowPreview={this.SetShowPreview}/>
-    }
+    
+   
 
     console.log(this.props.rental)
     const data = {
@@ -124,14 +123,14 @@ class RentalApplication extends Component {
               <>
                 <Link
                    to={`/preview/${rents.rentApplicationForm.id}`}
-                  // to={`preview/${tenant.email}`}
-                  onClick={this.setShowPreview}
+                  onClick={this.SetShowPreview}
                   className="mr-3"
                   id="edit1"
                 >
                   <img
                     className="rounded-circle header-profile-user mr-1"
-                    src={rents?.tenant?.profilePhoto}
+                    // src={rents?.tenant?.profilePhoto}
+                    src={avatar2}
                     alt="Header Avatar"
                   />
                   <span> {rents.rentApplicationForm.name} </span>
@@ -168,6 +167,10 @@ class RentalApplication extends Component {
         ))
        
     };
+
+    if(this.state.showPreview){
+      return <Preview GoHome={() => this.setState({...this.state, showPreview: false})} />
+    }
    
     return (
       <React.Fragment>
@@ -200,7 +203,11 @@ class RentalApplication extends Component {
               </Row>
                 ) : (
                 //  <Preview SetShowPreview={this.SetShowPreview}/>
-                <div className="text-center">
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody >
+                      <div className="text-center">
                           <img
                             src={emptyCan}
                             alt="empty"
@@ -208,6 +215,10 @@ class RentalApplication extends Component {
                           />
                           <h4> Table is Empty </h4>
                         </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
                 )}
                 </>
                 )}

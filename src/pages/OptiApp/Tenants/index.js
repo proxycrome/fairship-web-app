@@ -109,7 +109,7 @@ class Tenants extends Component {
           unitNumber: "001",
           property: `${rents?.property?.description}`,
           address: `${rents?.tenant?.address?.houseNoAddress}`,
-          out_payment: `${rents?.property?.price}`,
+          out_payment:'' ,
           total: '$172',
           status: (
             <div className="badge badge-soft-success font-size-12">
@@ -152,9 +152,9 @@ class Tenants extends Component {
             breadcrumbItems={this.state.breadcrumbItems}
           />
 
-    {this.props.rental?.entities?.length !==0 ?
-                (
-                
+           {this.props.rental?.entities?.length !==0 ?
+               
+               (                
               <Row>
                 <Col lg={12}>
                   <Card>
@@ -165,8 +165,11 @@ class Tenants extends Component {
                 </Col>
               </Row>
                 ) : (
-                //  <Preview SetShowPreview={this.SetShowPreview}/>
-                <div className="text-center">
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody >
+                        <div className="text-center">
                           <img
                             src={emptyCan}
                             alt="empty"
@@ -174,6 +177,10 @@ class Tenants extends Component {
                           />
                           <h4> Table is Empty </h4>
                         </div>
+                        </CardBody>
+                  </Card>
+                </Col>
+              </Row>    
                 )}
           </>
           )}  

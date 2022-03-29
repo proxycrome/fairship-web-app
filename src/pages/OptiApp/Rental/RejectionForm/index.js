@@ -44,7 +44,7 @@ const RejectionForm = ({id}) => {
     e.preventDefault()
     const data = {
       rentId: id,
-      reviewAction: "APPROVED",
+      reviewAction: "REJECTED",
       reviewComments: Optis
     }
     dispatch(PutDataRecommendation(data))
@@ -62,7 +62,7 @@ const RejectionForm = ({id}) => {
     setTwelveth('')
     setThirteenth('')
     setFourteenth('')
-    window.location.reload(1)
+    // window.location.reload(1)
   }
   return (
     <div>

@@ -16,9 +16,10 @@ import RejectionForm from '../RejectionForm';
 
 // user
 import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchRentalRecommendation, PutTenantRecommendation } from '../../../../store/actions';
+import { fetchRentalRecommendation, PutTenantRecommendation, PutDataRecommendation } from '../../../../store/actions';
+
 
 const Preview = (props) => {
   const [approve, SetApprove] = useState(false);
@@ -28,15 +29,29 @@ const Preview = (props) => {
 
  
 
-  console.log(props?.match?.params?.id)
+  console.log(props)
 
-  const tenantId = props?.match?.params?.id;
+  const tenantId =props?. match?.params?.id;
 
   console.log(tenantId)
 
   const ModalToggleHandler = () => {
     alert('hello');
   };
+
+
+  const review = (e) => {
+    e.preventDefault()
+    const data = {
+      rentId: tenantId,
+      reviewAction: "APPROVED",
+      reviewComments: ''
+    }
+    dispatch(PutDataRecommendation(data))
+    SetApprove(true)
+    console.log(data)
+    // window.location.reload(1)
+  }
 
   useEffect(() => {
     dispatch(fetchRentalRecommendation(tenantId)); //id
@@ -69,28 +84,27 @@ const Preview = (props) => {
   }
   // console.log(data)
 
+  
+
   return (
     <React.Fragment>
       <div>
         <Container fluid  style={{margin:'100px 0'}}>
           {/* <span onClick={SetShowPreview} className="mx-2 font-size-14 mb-2"> */}
-          <span  className="mx-2 font-size-14 mb-2">
+          <Link style={{'color':'Black'}} to='/rental_application' className="mx-2 font-size-14 mb-2">
             <span>
               <i
                 className="fas fa-arrow-left
- font-size-14 mr-2"
+                 font-size-14 mr-2"
               />
             </span>
             Back
-          </span>
+          </Link>
           <Row className='my-5'>
-            {/* {rentalId.entities.map(rents => 
-              )} */}
             <Col lg={12}>
               <Card>
                 <CardBody>
                   <h4> Personal Details </h4>
-                  {/* {rentalId.id} */}
                   <Row>
                     <Col sm={9}>
                       <Row>
@@ -219,7 +233,8 @@ const Preview = (props) => {
                     </Col>
                     <Col sm={3} className="text-center">
                       <CardImg
-                        src={rentalId?.tenant?.profilePhoto}
+                        // src={rentalId?.tenant?.profilePhoto} //no profilePhoto key on rentapplication
+                        src={avatar4}
                         alt="Nazox"
                         className="rounded avatar-lg"
                       />
@@ -243,11 +258,12 @@ const Preview = (props) => {
                       <div className="text-center">
                         {approve ? (
                           <h4 className="text-success"> Accepted </h4>
-                        ) : (
-                          <>
+                        ) : (                          
+                            rentalId?.status === 'PENDING_APPROVAL' ?
+                            <>
                             <div>
                               <button
-                                onClick={() => SetApprove(true)}
+                                onClick={review}
                                 className="btn btn-success mb-2 w-100"
                               >
                                 Aprove
@@ -261,7 +277,8 @@ const Preview = (props) => {
                                 Decline
                               </button>
                             </div>
-                          </>
+                          </> : null
+                          
                         )}
                       </div>
                     </Col>

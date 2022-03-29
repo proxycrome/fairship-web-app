@@ -21,9 +21,12 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'e.v.ezeonwuka@gmail.com',
+      username: 'cooldonstylo@gmail.com', //stanley as Agent that is populated with Rent application and tenants
+      // username:'e.v.ezeonwuka@gmail.com',  //
       // username: 'agent101@gmail.com',
-      password: 'Testing01@',
+      password: 'Z1FKFKAG',  //stanley's Password
+      // password: 'Testing1@',
+      // password: 'Testing01@',
 
       checkLogin: false,
     };
@@ -47,6 +50,7 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props.user)
     return (
       <React.Fragment>
         <div>
