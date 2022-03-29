@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Row, Col } from "reactstrap";
 
-import livingRoom from "../../../assets/images/Living.png";
-import CircuitImg from "../../../assets/images/Circuit.png";
+// import livingRoom from "../../../assets/images/Living.png";
+// import CircuitImg from "../../../assets/images/Circuit.png";
 import profileImage from '../../../assets/images/ProfileImage.svg';
 import { Link, withRouter } from "react-router-dom";
 import { fetchService } from "../../../store/actions";

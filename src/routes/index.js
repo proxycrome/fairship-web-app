@@ -48,7 +48,7 @@ import Tenants from '../pages/OptiApp/Tenants';
 import Opti_Welcome from '../pages/OptiApp/Authentication/WelcomePage';
 import OptiRentalApplication from '../pages/OptiApp/Rental';
 import AgentPreview from '../pages/OptiApp/Agent/Preview';
-import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
+// import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
 
 const authProtectedRoutes = [

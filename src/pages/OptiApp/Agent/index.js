@@ -5,7 +5,7 @@ import profileImage from "../../../assets/images/ProfileImage.svg";
 import Preview from "./Preview";
 import CreateAgent from "./CreateAgent";
 import { connect, useDispatch } from "react-redux";
-import { getLandlordAgents } from "../../../store/agent/actions";
+import { getLandlordAgents } from "../../../store/actions";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
 
