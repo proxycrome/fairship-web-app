@@ -13,6 +13,7 @@ import {
     FETCH_AGENT_FAILURE,
 } from './actionTypes';
 
+
 const initialState = {
     agents: null,
     loading: false,

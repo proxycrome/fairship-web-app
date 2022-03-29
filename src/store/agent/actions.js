@@ -13,6 +13,7 @@ import {
     FETCH_AGENT_FAILURE,
 } from './actionTypes'
 
+
 export const getAgents = () => {
     return {
         type: GET_ALL_AGENTS,
