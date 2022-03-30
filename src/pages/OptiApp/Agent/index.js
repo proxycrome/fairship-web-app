@@ -9,7 +9,7 @@ import { getLandlordAgents } from "../../../store/actions";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
 
-const Agent = ({ profile, landlordAgents, getLandlordAgents, loading }) => {
+const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
   const [searchName, setSearchName] = useState("");
@@ -17,7 +17,7 @@ const Agent = ({ profile, landlordAgents, getLandlordAgents, loading }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLandlordAgents(profile?.id));
+    dispatch(getLandlordAgents(user?.id));
   }, [dispatch]);
 
   useEffect(() => {
@@ -171,9 +171,9 @@ const Agent = ({ profile, landlordAgents, getLandlordAgents, loading }) => {
 };
 
 const mapStatetoProps = (state) => {
-  const { profile } = state.Account;
+  const { user } = state.Account;
   const { landlordAgents, loading } = state.Agents;
-  return { landlordAgents, profile, loading };
+  return { landlordAgents, user, loading };
 };
 
 export default withRouter(

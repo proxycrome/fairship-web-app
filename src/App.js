@@ -19,7 +19,7 @@ import { loadUser, fetchProfile } from "./store/auth/actions";
 
 import {
   getAllServiceReqComplete,
-  getAllServiceReqPending,
+  getAllServiceReqPending
 } from "./store/actions";
 
 class App extends Component {
@@ -84,5 +84,5 @@ export default connect(mapStateToProps, {
   loadUser,
   fetchProfile,
   getAllServiceReqComplete,
-  getAllServiceReqPending,
+  getAllServiceReqPending
 })(App);
