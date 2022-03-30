@@ -80,7 +80,8 @@ const Preview = (props) => {
     console.log(data)
     dispatch(PutTenantRecommendation(tenantId, data))
     setTenant('') 
-    window.location.reload(1)
+    window.location.reload(1) //did reload here cos i was loosing
+    // data of the details page of the rent application,hence you need to comment this to view the tenant recommendation put request sent
   }
   // console.log(data)
 
