@@ -26,7 +26,8 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
         (agent) =>
           agent.firstName.toLowerCase() === searchName.toLowerCase() ||
           agent.lastName.toLowerCase() === searchName.toLowerCase() ||
-          agent.email.toLowerCase() === searchName.toLowerCase()
+          agent.email.toLowerCase() === searchName.toLowerCase() || 
+          (agent.firstName + " " + agent.lastName).toLowerCase() === searchName.toLowerCase()
       )
     );
   }, [searchName]);
@@ -111,10 +112,10 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                                   </span>
                                 </Link>
                               </td>
-                              <td>3</td>
+                              <td></td>
                               <td>{agent.email}</td>
-                              <td>3rd Jul 2020</td>
-                              <td>3rd Jul 2020</td>
+                              <td></td>
+                              <td></td>
                               <td>
                                 <span>Active</span>
                               </td>
@@ -141,10 +142,10 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                                   </span>
                                 </Link>
                               </td>
-                              <td>3</td>
+                              <td></td>
                               <td>{agent.email}</td>
-                              <td>3rd Jul 2020</td>
-                              <td>3rd Jul 2020</td>
+                              <td></td>
+                              <td></td>
                               <td>
                                 <span>Active</span>
                               </td>
