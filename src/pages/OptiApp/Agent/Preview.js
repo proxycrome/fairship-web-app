@@ -8,7 +8,7 @@ import {
   CardImg,
   Table,
 } from 'reactstrap';
-import { fetchAgent } from '../../../store/agent/actions';
+import { fetchAgent } from '../../../store/actions';
 import { useHistory, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../components/Common/Loading/index';

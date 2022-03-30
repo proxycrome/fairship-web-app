@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { getAgents, postAgents } from "../../../store/agent/actions";
+import { getAgents, postAgents } from "../../../store/actions";
 import Loader from "../../../components/Common/Loading/index";
 
 const CreateAgent = ({ BackToHome }) => {

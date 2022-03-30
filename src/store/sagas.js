@@ -7,8 +7,8 @@ import properties from './properties/saga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 import InspectionsSaga from './inspection/saga';
-import AgentsSaga from './agent/saga';
-import MaintenanceSaga from './maintenance/saga';
+import AgentsSaga from './Agent/saga';
+import MaintenanceSaga from './Maintenance/saga';
 
 export default function* rootSaga() {
     yield all([

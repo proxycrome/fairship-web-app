@@ -7,10 +7,9 @@ import Layout from './layout/reducer';
 import Account from './auth/reducer';
 import Appointment from './appointment/reducer';
 import Properties from './properties/reducer';
-import Agent from './agent/reducer';
 import Inspections from './inspection/reducer';
-import Agents from './agent/reducer';
-import Maintenance from './maintenance/reducer';
+import Agents from './Agent/reducer';
+import Maintenance from './Maintenance/reducer';
 // import Forget from './auth/forgetpwd/reducer';
 
 const rootReducer = combineReducers({
@@ -19,7 +18,6 @@ const rootReducer = combineReducers({
     Layout,
     Appointment,
     Properties,
-    Agent,
     Inspections,
     // Authentication
     Account,
