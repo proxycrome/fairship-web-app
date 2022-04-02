@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Card,
@@ -9,34 +9,99 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  Form
 } from 'reactstrap';
 
 import RejectionForm from '../RejectionForm';
 
 // user
 import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
+import { Link, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRentalRecommendation, PutTenantRecommendation, PutDataRecommendation } from '../../../../store/actions';
 
-const Preview = ({ SetShowPreview }) => {
+
+const Preview = (props) => {
   const [approve, SetApprove] = useState(false);
   const [modalOpen, ModalToggle] = useState(false);
+  const [tenant, setTenant] = useState('');
+  const dispatch = useDispatch();
+
+ 
+
+  console.log(props)
+
+  const tenantId =props?. match?.params?.id;
+
+  console.log(tenantId)
 
   const ModalToggleHandler = () => {
     alert('hello');
   };
+
+
+  const review = (e) => {
+    e.preventDefault()
+    const data = {
+      rentId: tenantId,
+      reviewAction: "APPROVED",
+      reviewComments: ''
+    }
+    dispatch(PutDataRecommendation(data))
+    SetApprove(true)
+    console.log(data)
+    // window.location.reload(1)
+  }
+
+  useEffect(() => {
+    dispatch(fetchRentalRecommendation(tenantId)); //id
+  }, [tenantId])
+
+
+  
+
+  const {rentalId} = useSelector(state => state.PreviewReducer)
+  
+  
+  console.log('sodiq>>>>>>>>>',rentalId)
+  
+  
+
+  // console.log(rentalId.tenant)
+  
+  // console.log(loading)
+
+  const TenantRecom = (e) => {
+    e.preventDefault()
+    console.log('first')
+    const data ={
+      recommendationNotes: tenant 
+    }
+    console.log(data)
+    dispatch(PutTenantRecommendation(tenantId, data))
+    setTenant('') 
+    window.location.reload(1) //did reload here cos i was loosing
+    // data of the details page of the rent application,hence you need to comment this to view the tenant recommendation put request sent
+  }
+  // console.log(data)
+
+  
+
   return (
     <React.Fragment>
       <div>
-        <Container fluid>
-          <span onClick={SetShowPreview} className="mx-2 font-size-14 mb-2">
+        <Container fluid  style={{margin:'100px 0'}}>
+          {/* <span onClick={SetShowPreview} className="mx-2 font-size-14 mb-2"> */}
+          <Link style={{'color':'Black'}} to='/rental_application' className="mx-2 font-size-14 mb-2">
             <span>
               <i
                 className="fas fa-arrow-left
- font-size-14 mr-2"
+                 font-size-14 mr-2"
               />
             </span>
             Back
-          </span>
-          <Row>
+          </Link>
+          <Row className='my-5'>
             <Col lg={12}>
               <Card>
                 <CardBody>
@@ -47,26 +112,26 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">First Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Chris
+                            {rentalId?.rentApplicationForm?.name.split(' ')[0]}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">Last Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Turner
+                          {rentalId?.rentApplicationForm?.name.split(' ')[1]}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">Email</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            ChrisTurner@gmail.com
+                          {rentalId?.rentApplicationForm?.email}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Religion</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Christian
+                          {rentalId?.rentApplicationForm?.religion}
                           </h5>
                         </Col>
                       </Row>
@@ -74,14 +139,13 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">State Of Origin</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Lagos
+                          {rentalId?.rentApplicationForm?.stateOfOrigin}
                           </h5>
                         </Col>
                         <Col sm={9}>
                           <p className="text-muted mb-0">Address</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            808 Mandilas Mall, Marina, victorial island Lagos
-                            Nigeria.
+                          {rentalId?.rentApplicationForm?.address}
                           </h5>
                         </Col>
                       </Row>
@@ -89,26 +153,26 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">Marital Status</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Single
+                          {rentalId?.rentApplicationForm?.maritalStatus}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">No of Spouse</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            0
+                            {rentalId?.rentApplicationForm?.noOfSpouse}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">No of Children</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            0
+                          {rentalId?.rentApplicationForm?.noOfChildren}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
-                          <p className="text-muted mb-0">No of Children</p>
+                          <p className="text-muted mb-0">No of Cars</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            0
+                          {rentalId?.rentApplicationForm?.noOfCars}
                           </h5>
                         </Col>
                       </Row>
@@ -116,20 +180,20 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">No of Relatives</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            6
+                          {rentalId?.rentApplicationForm?.noOfOtherLiveInRelatives}
                           </h5>
                         </Col>
                         <Col sm={6}>
                           <p className="text-muted mb-0">Relatives Names</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Mandilas, Marina, Victoria, Jane
+                          {rentalId?.rentApplicationForm?.relativesNames}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Phone No</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            +2348023452345
+                          {rentalId?.rentApplicationForm?.phone}
                           </h5>
                         </Col>
                       </Row>
@@ -144,49 +208,50 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">Referees Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Joe Dao
+                          {rentalId?.rentApplicationForm?.refreesName}
                           </h5>
                         </Col>
                         <Col sm={6}>
                           <p className="text-muted mb-0">Address</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            808 Mandilas Mall, Marina, Victoria Island Lagos.
+                          {rentalId?.rentApplicationForm?.refreeAddress}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Referees Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Jane Dao
+                          {rentalId?.rentApplicationForm?.refreesName}
                           </h5>
                         </Col>
                         <Col sm={3} className="mt-2">
                           <p className="text-muted mb-0">Phone No</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            +2348023452345
+                          {rentalId?.rentApplicationForm?.refreePhoneNo}
                           </h5>
                         </Col>
                       </Row>
                     </Col>
                     <Col sm={3} className="text-center">
                       <CardImg
-                        src={avatar4}
+                        src={rentalId?.tenant?.profilePhoto} //no profilePhoto key on rentapplication
+                        // src={avatar4}
                         alt="Nazox"
                         className="rounded avatar-lg"
                       />
-                      <h4 className="my-2  mb-lg-0">Chris Turner</h4>
+                      <h4 className="my-2  mb-lg-0">{rentalId?.rentApplicationForm?.name}</h4>
                       <div className="row justify-content-md-center text-center my-3">
                         <div className="col-4">
-                          <span class="avatar-sm mr-1">
-                            <span class="avatar-title bg-light rounded-circle text-primary font-size-24">
+                          <span className="avatar-sm mr-1">
+                            <span className="avatar-title bg-light rounded-circle text-primary font-size-24">
                               <i className=" dripicons-phone"></i>
                             </span>
                           </span>
                         </div>
                         <div className="col-4">
-                          <span class="avatar-sm mr-1">
-                            <span class="avatar-title bg-light rounded-circle text-primary font-size-24">
-                              <i class=" fas fa-video"></i>
+                          <span className="avatar-sm mr-1">
+                            <span className="avatar-title bg-light rounded-circle text-primary font-size-24">
+                              <i className=" fas fa-video"></i>
                             </span>
                           </span>
                         </div>
@@ -194,11 +259,12 @@ const Preview = ({ SetShowPreview }) => {
                       <div className="text-center">
                         {approve ? (
                           <h4 className="text-success"> Accepted </h4>
-                        ) : (
-                          <>
+                        ) : (                          
+                            rentalId?.status === 'PENDING_APPROVAL' ?
+                            <>
                             <div>
                               <button
-                                onClick={() => SetApprove(true)}
+                                onClick={review}
                                 className="btn btn-success mb-2 w-100"
                               >
                                 Aprove
@@ -212,7 +278,8 @@ const Preview = ({ SetShowPreview }) => {
                                 Decline
                               </button>
                             </div>
-                          </>
+                          </> : null
+                          
                         )}
                       </div>
                     </Col>
@@ -229,26 +296,26 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">First Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Chris
+                          {rentalId?.rentApplicationForm?.nextOfKinName}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">Last Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Turner
+                          {rentalId?.rentApplicationForm?.nextOfKinName}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">Email</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            ChrisTurner@gmail.com
+                          {rentalId?.rentApplicationForm?.nextOfKinEmail}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Phone No</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            +23480123456
+                          {rentalId?.rentApplicationForm?.nextOfKinPhoneNo}
                           </h5>
                         </Col>
                       </Row>
@@ -267,20 +334,20 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">Company's Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Optisoft
+                          {rentalId?.rentApplicationForm?.companyDetails}
                           </h5>
                         </Col>
                         <Col sm={6}>
                           <p className="text-muted mb-0">Address</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            808 Mandilas Mall, Marina, Victoria Island Lagos.
+                          {rentalId?.workAddress}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Employment Status </p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Employed
+                          {rentalId?.rentApplicationForm?.employmentStatus}
                           </h5>
                         </Col>
                       </Row>
@@ -288,13 +355,13 @@ const Preview = ({ SetShowPreview }) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">job Title</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            UI Designer
+                          {rentalId?.rentApplicationForm?.jobTitle}
                           </h5>
                         </Col>
                         <Col sm={3}>
                           <p className="text-muted mb-0">Salary Range</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            180 - 200K
+                          {rentalId?.rentApplicationForm?.salaryRange}
                           </h5>
                         </Col>
                       </Row>
@@ -309,7 +376,7 @@ const Preview = ({ SetShowPreview }) => {
                         Reason for leaving previous apartment
                       </p>
                       <h5 className="font-size-12 text-capitalize mt-2">
-                        Lorem Ipmus donor sit amet, consecteur adipiscing elit.
+                      {rentalId?.rentApplicationForm?.reasonForLeavingPreviousApartment}
                       </h5>
                     </Col>
                     <Col sm={9}>
@@ -319,20 +386,20 @@ const Preview = ({ SetShowPreview }) => {
                             Name of Prev. Landlord
                           </p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Baba Jide
+                          {rentalId?.rentApplicationForm?.nameOfPreviousLandLord}
                           </h5>
                         </Col>
                         <Col sm={6}>
                           <p className="text-muted mb-0">Address</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            808 Mandilas Mall, Marina, Victoria Island Lagos.
+                          {rentalId?.rentApplicationForm?.address}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Phone No </p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            +2348023354652
+                          {rentalId?.rentApplicationForm?.phoneNoOfPreviousLandLord}
                           </h5>
                         </Col>
                       </Row>
@@ -342,7 +409,7 @@ const Preview = ({ SetShowPreview }) => {
                             Who is responsible for payment of Rent
                           </p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            Chris Turner
+                          {rentalId?.whoIsResponsibleForPaymentOfRent}
                           </h5>
                         </Col>
                         <Col sm={6}>
@@ -350,14 +417,14 @@ const Preview = ({ SetShowPreview }) => {
                             How long do you want your lease
                           </p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            1 years
+                          {rentalId?.rentApplicationForm?.proposedLeaseTenureInMonths}
                           </h5>
                         </Col>
 
                         <Col sm={3}>
                           <p className="text-muted mb-0">Total No of Cars</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                            2
+                          {rentalId?.rentApplicationForm?.noOfCars}
                           </h5>
                         </Col>
                       </Row>
@@ -376,23 +443,16 @@ const Preview = ({ SetShowPreview }) => {
                 <h4> Tenant Recommendation </h4>
                 <Card>
                   <CardBody>
+                    <Form>
                     <Row>
                       <Col sm={12}>
                         <h5 className="font-size-12 text-capitalize mt-2">
                           Recommendation
                         </h5>
-                        <p className="text-muted mb-0">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Et tristique orci faucibus turpis neque. Velit
-                          elit duis leo lobortis duis eu nulla et pellentesque.
-                          Et gravida sit luctus amet. Semper malesuada tortor,
-                          nisi sed habitasse in enim blandit. Congue volutpat
-                          vel nulla feugiat scelerisque viverra nulla. Justo,
-                          lorem justo elementum pulvinar augue ipsum cras
-                          venenatis.
-                        </p>
+                        <textarea className="text-muted mb-0 border-0" style={{outline:'none',width:'100%'}} rows='4' value={tenant} onChange={(e)=>setTenant(e.target.value)}/>
                       </Col>
                     </Row>
+                    </Form>
                   </CardBody>
                 </Card>
               </div>
@@ -407,7 +467,7 @@ const Preview = ({ SetShowPreview }) => {
               Reason For Rejectionn
             </ModalHeader>
             <ModalBody>
-              <RejectionForm />
+              <RejectionForm id={rentalId.id} />
             </ModalBody>
           </Modal>
           <div className="mb-4">
@@ -417,7 +477,7 @@ const Preview = ({ SetShowPreview }) => {
             >
               Create Due Diligence{' '}
             </button>
-            <button className="btn btn-success" onClick={ModalToggleHandler}>
+            <button type='submit' className="btn btn-success" onClick={TenantRecom}>
               Create Tenant Recommendation
             </button>
           </div>
@@ -427,4 +487,9 @@ const Preview = ({ SetShowPreview }) => {
   );
 };
 
-export default Preview;
+
+
+
+export default withRouter(Preview)
+
+
