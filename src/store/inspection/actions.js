@@ -7,7 +7,7 @@ import {
     POST_INSPECTION_FAILURE
   } from './actionTypes.js';
   
-// Fetch appointment
+// Fetch inspections
 export const fetchInspections = () => {
   return {
     type: FETCH_INSPECTIONS,

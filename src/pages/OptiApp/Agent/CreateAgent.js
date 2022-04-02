@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Card,
@@ -7,62 +7,66 @@ import {
   FormGroup,
   Form,
   Label,
-} from 'reactstrap';
-import Select from 'react-select';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAgents, postAgents } from '../../../store/agent/actions';
+} from "reactstrap";
+import Select from "react-select";
+import { useDispatch, useSelector } from "react-redux";
+import { getAgents, postAgents } from "../../../store/actions";
+import Loader from "../../../components/Common/Loading/index";
 
 const CreateAgent = ({ BackToHome }) => {
   const dispatch = useDispatch();
-  const [selectedOption, setSelectedOption] = useState(null)
+  const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState({
     agentId: 0,
-    landlordId: 0
+    landlordId: 0,
   });
 
   useEffect(() => {
     dispatch(getAgents());
   }, [dispatch]);
 
-  const {user} = useSelector(state => state.Account);
-
+  const { user } = useSelector((state) => state.Account);
 
   const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption)
+    setSelectedOption(selectedOption);
 
-    setFormData({...formData, agentId: selectedOption.value, landlordId: user?.id })
-  }
-  
-
+    setFormData({
+      ...formData,
+      agentId: selectedOption.value,
+      landlordId: user?.id,
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(postAgents(formData));
-  }
+  };
 
-  const {agents, postAgentData} = useSelector(state => state.Agents);
+  const { agents, postAgentData, loading } = useSelector(
+    (state) => state.Agents
+  );
 
   console.log(postAgentData?.message);
-  
 
   const optionGroup = [
     {
-      label: 'Select an Agent',
+      label: "Select an Agent",
       options: agents?.entities.map((agent) => {
-        return { label: `${agent.firstName} ${agent.lastName}`, value: agent.id }
-      })
+        return {
+          label: `${agent.firstName} ${agent.lastName}`,
+          value: agent.id,
+        };
+      }),
     },
   ];
 
   return (
     <React.Fragment>
-      <div className="page-content" style={{height: "100vh"}}>
+      <div className="page-content" style={{ height: "100vh" }}>
         <Container fluid>
           <span onClick={BackToHome} className="mx-2 font-size-14 mb-2">
             <span>
-              <i
-                className="fas fa-arrow-left font-size-14 mr-2"
-              />
+              <i className="fas fa-arrow-left font-size-14 mr-2" />
             </span>
             Back
           </span>
@@ -84,7 +88,10 @@ const CreateAgent = ({ BackToHome }) => {
                 </FormGroup>
 
                 <div className="text-center">
-                  <button className="btn btn-success px-5" onClick={handleSubmit}>
+                  <button
+                    className="btn btn-success px-5"
+                    onClick={handleSubmit}
+                  >
                     Add
                   </button>
                 </div>

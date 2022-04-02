@@ -28,7 +28,7 @@ const PropertiesTable = ({ tableData }) => {
             // onClick={() => previewHandler(data.id)}
             className="text-dark font-weight-bold"
           >
-            <img src={data.indexImage} className="avatar-sm rounded mr-2" />
+            <img src={data.indexImage} alt="indexImage" className="avatar-sm rounded mr-2" />
             {`${data.entityLevel}`}
           </Link>
         ),
