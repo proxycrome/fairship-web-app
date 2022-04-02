@@ -26,7 +26,7 @@ export const postMaintenanceReqService = (formData) => {
 
 export const getMaintenanceReqService = () => {
   const http = new HttpService();
-  const url = 'landlord/maintenance-list/153';
+  const url = 'landlord/maintenance-list/153?size=100';
   return http.getData(url);
 }
 

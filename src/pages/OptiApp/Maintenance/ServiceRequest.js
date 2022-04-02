@@ -1,9 +1,10 @@
 import React from "react";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
-import livingRoom from "../../../assets/images/Living.png";
+// import livingRoom from "../../../assets/images/Living.png";
 import { useSelector } from "react-redux";
 import Loader from "../../../components/Common/Loading/index";
+import avatar from "../../../assets/images/avi.jpg";
 
 
 const ServiceRequest = ({ setShowPreview }) => {
@@ -12,17 +13,31 @@ const ServiceRequest = ({ setShowPreview }) => {
   const pendingServices = useSelector((state) => state.Maintenance?.pendingServices )
   const loading = useSelector((state) => state.Maintenance?.loading)
 
+  console.log(pendingServices)
+  console.log(services);
+
   const pendingRequests = pendingServices?.entities?.map((pendingService) => ({
     property: (
       <>
         <Link to={`/serviceSummary/${pendingService?.id}`} className="mr-3" onClick={() => setShowPreview(true)}>
-          <img
-            className="mr-1"
-            src={livingRoom}
-            alt="Header Avatar"
-            width="70"
-            height="60"
-          />
+          {pendingService?.tenant?.profilePhoto ? (
+            <img
+              className="mr-1"
+              src={pendingService?.tenant?.profilePhoto}
+              alt="Header Avatar"
+              width="70"
+              height="60"
+            />
+          ) : (
+            <img
+              className="mr-1"
+              src={avatar}
+              alt="Header Avatar"
+              width="70"
+              height="60"
+            />
+          )}
+          
           <span>{pendingService?.tenant?.address?.houseNoAddress}</span>
         </Link>
       </>
@@ -37,13 +52,23 @@ const ServiceRequest = ({ setShowPreview }) => {
     property: (
       <>
         <Link to={`/serviceSummary/${service?.id}`} className="mr-3" onClick={() => setShowPreview(true)}>
-          <img
-            className="mr-1"
-            src={livingRoom}
-            alt="Header Avatar"
-            width="70"
-            height="60"
-          />
+          {service?.tenant?.profilePhoto ? (
+            <img
+              className="mr-1"
+              src={service?.tenant?.profilePhoto}
+              alt="Header Avatar"
+              width="70"
+              height="60"
+            />
+          ) : (
+            <img
+              className="mr-1"
+              src={avatar}
+              alt="Header Avatar"
+              width="70"
+              height="60"
+            />
+          )}
           <span>{service?.tenant?.address?.houseNoAddress}</span>
         </Link>
       </>
