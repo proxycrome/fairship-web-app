@@ -174,8 +174,8 @@ class Login extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Account;
-  return { loginError };
+  const { loginError, user } = state.Account;
+  return { loginError, user };
 };
 
 export default withRouter(

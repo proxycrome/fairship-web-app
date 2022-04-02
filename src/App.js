@@ -1,21 +1,26 @@
-import React, { Component } from 'react';
-import { Switch, BrowserRouter as Router, HashRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Switch, BrowserRouter as Router, HashRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 // Import Routes
-import { authProtectedRoutes, publicRoutes } from './routes/';
-import AppRoute from './routes/route';
-import AppRoutePublic from './routes/routePublic';
+import { authProtectedRoutes, publicRoutes } from "./routes/";
+import AppRoute from "./routes/route";
+import AppRoutePublic from "./routes/routePublic";
 
 // layouts
-import VerticalLayout from './components/VerticalLayout/';
-import NonAuthLayout from './components/NonAuthLayout';
-import Loader from './components/Common/Loading';
+import VerticalLayout from "./components/VerticalLayout/";
+import NonAuthLayout from "./components/NonAuthLayout";
+import Loader from "./components/Common/Loading";
 
 // Import scss
-import './theme.scss';
+import "./theme.scss";
 
-import { loadUser } from './store/auth/actions';
+import { loadUser, fetchProfile } from "./store/auth/actions";
+
+import {
+  getAllServiceReqComplete,
+  getAllServiceReqPending
+} from "./store/actions";
 
 class App extends Component {
   constructor(props) {
@@ -25,6 +30,9 @@ class App extends Component {
 
   componentDidMount() {
     this.props.loadUser();
+    this.props.fetchProfile();
+    this.props.getAllServiceReqComplete();
+    this.props.getAllServiceReqPending();
   }
 
   render() {
@@ -72,4 +80,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { loadUser })(App);
+export default connect(mapStateToProps, {
+  loadUser,
+  fetchProfile,
+  getAllServiceReqComplete,
+  getAllServiceReqPending
+})(App);

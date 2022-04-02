@@ -1,18 +1,95 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
+import { Container, Card, CardBody, Row, Col, Button } from "reactstrap";
 
 // Redux
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 // actions
-import { fetchProfile } from '../../../store/actions';
+import { fetchProfile } from "../../../store/actions";
 
-const Index = ({ fetchProfile }) => {
+import avatar from "../../../assets/images/avi.jpg";
+
+const Index = ({ fetchProfile, profile }) => {
   useEffect(() => {
     fetchProfile();
   }, []);
 
-  return <div className="page-content">profile</div>;
+  return (
+    <div className="page-content">
+      <Container fluid>
+        <h4>Profile Page</h4>
+        <Card>
+          <CardBody>
+            <Row className="d-flex">
+              <Col xl={6} style={{ flex: "1" }}>
+                <div>
+                  {profile?.profilePhoto ? (
+                    <img
+                      src={profile?.profilePhoto}
+                      alt="profile pix"
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={avatar}
+                      alt="profile pix"
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  )}
+                </div>
+              </Col>
+              <Col xl={6} style={{ flex: "1" }}>
+                <Col>
+                  <h3 className="mb-4">My Profile</h3>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">FirstName:</h6>
+                    <span>{profile?.fullName.split(" ")[0]}</span>
+                  </div>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">LastName:</h6>
+                    <span>{profile?.fullName.split(" ")[1]}</span>
+                  </div>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">Email:</h6>
+                    <span>{profile?.email}</span>
+                  </div>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">Date of birth:</h6>
+                    <span>{profile?.dob}</span>
+                  </div>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">Address:</h6>
+                    <span>{profile?.address.houseNoAddress}</span>
+                  </div>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">Phone number:</h6>
+                    <span>{profile?.phone}</span>
+                  </div>
+                  <div className="mb-2 d-flex">
+                    <h6 className="mr-4">Gender:</h6>
+                    <span>{profile?.gender}</span>
+                  </div>
+                  <Button className="btn btn-success w-50 mt-4">
+                    {" "}
+                    Edit profile{" "}
+                  </Button>
+                </Col>
+              </Col>
+            </Row>
+          </CardBody>
+        </Card>
+      </Container>
+    </div>
+  );
 };
 
 const mapStatetoProps = (state) => {

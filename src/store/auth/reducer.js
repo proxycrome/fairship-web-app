@@ -38,7 +38,6 @@ const initialState = {
   activationError: null,
   profileError: null,
   forgetError: null,
-  message: null,
   loading: false,
 };
 

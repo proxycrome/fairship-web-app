@@ -29,13 +29,13 @@ const data = {
     city: 'Lagos',
     country: 'Nigeria',
     houseNoAddress: 'No 22 Mandilass',
-    id: 23,
-    latitude: 'string',
-    lga: 'string',
-    longitude: 'string',
-    postCode: 'string',
+    // id: 23,
+    // latitude: 'string',
+    // lga: 'string',
+    // longitude: 'string',
+    // postCode: 'string',
     state: 'string',
-    zipCode: 'string',
+    // zipCode: 'string',
   },
   agentIds: [127],
   bathrooms: 2,
@@ -53,12 +53,12 @@ const data = {
   isShared: true,
   otherAmenities: 'string',
   parkingLot: true,
-  paymentItems: [
-    {
-      name: 'string',
-      percentageAmount: 0,
-    },
-  ],
+  // paymentItems: [
+  //   {
+  //     name: 'string',
+  //     percentageAmount: 0,
+  //   },
+  // ],
   periodInMonths: 2,
   price: 0,
   size: '200',
@@ -104,7 +104,7 @@ class CreateProperty extends Component {
       images: imgEncoded
     };
     console.log(formData);
-    this.props.createProperties(formData);
+    this.props.createProperties(data);
 
     this.setState({ unitData: values });
     // this.toggleTab(id);

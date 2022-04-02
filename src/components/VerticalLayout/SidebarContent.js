@@ -84,7 +84,7 @@ class SidebarContent extends Component {
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
             <li>
-              <Link to="dashboard" className="waves-effect">
+              <Link to="/dashboard" className="waves-effect">
                 <i className="ri-dashboard-line"></i>
                 <span className="ml-1">Dashboard</span>
               </Link>
@@ -98,10 +98,10 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="properties">My Properties</Link>
+                  <Link to="/properties">My Properties</Link>
                 </li>
                 <li>
-                  <Link to="listing_properties">
+                  <Link to="/listing_properties">
                     Listings
                   </Link>
                 </li>
@@ -110,7 +110,7 @@ class SidebarContent extends Component {
 
             {/* Accounting */}
             <li>
-              <Link to="accounting" className="waves-effect">
+              <Link to="/accounting" className="waves-effect">
                 <i className=" ri-book-read-fill"></i>
                 <span className="ml-1">Accounting</span>
               </Link>
@@ -118,7 +118,7 @@ class SidebarContent extends Component {
 
             {/* Documents */}
             <li>
-              <Link to="documents" className="waves-effect">
+              <Link to="/documents" className="waves-effect">
                 <i className="ri-folder-2-line"></i>
                 <span className="ml-1">Documents</span>
               </Link>
@@ -126,7 +126,7 @@ class SidebarContent extends Component {
 
             {/* Tenant */}
             <li>
-              <Link to="tenants" className="waves-effect">
+              <Link to="/tenants" className="waves-effect">
                 <i className="ri-user-line"></i>
                 <span className="ml-1">Tenants</span>
               </Link>
@@ -134,7 +134,7 @@ class SidebarContent extends Component {
 
             {/* Agent */}
             <li>
-              <Link to="agents" className="waves-effect">
+              <Link to="/agents" className="waves-effect">
                 <i className="ri-user-line"></i>
                 <span className="ml-1">Agent</span>
               </Link>
@@ -142,7 +142,7 @@ class SidebarContent extends Component {
 
             {/* Maintenance */}
             <li>
-              <Link to="maintenance" className="waves-effect">
+              <Link to="/maintenance" className="waves-effect">
                 <i className="ri-store-2-line"></i>
                 <span className="ml-1">Maintenance/Service</span>
               </Link>
@@ -150,7 +150,7 @@ class SidebarContent extends Component {
 
             {/* appointments */}
             <li>
-              <Link to="appointments" className="waves-effect">
+              <Link to="/appointments" className="waves-effect">
                 <i className=" ri-calendar-2-line"></i>
                 <span className="ml-1">Appointments</span>
               </Link>
@@ -158,7 +158,7 @@ class SidebarContent extends Component {
 
             {/* Rental Applications */}
             <li>
-              <Link to="rental_application" className="waves-effect">
+              <Link to="/rental_application" className="waves-effect">
                 <i className=" ri-pencil-line"></i>
                 <span className="ml-1">Rental Applications</span>
               </Link>
@@ -172,7 +172,7 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="inspection">Inspections</Link>
+                  <Link to="/inspection">Inspections</Link>
                 </li>
               </ul>
             </li>

@@ -50,6 +50,9 @@ import Tenants from '../pages/OptiApp/Tenants';
 // OptiTenants
 import Opti_Welcome from '../pages/OptiApp/Authentication/WelcomePage';
 import OptiRentalApplication from '../pages/OptiApp/Rental';
+import AgentPreview from '../pages/OptiApp/Agent/Preview';
+// import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
+import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
 
 const authProtectedRoutes = [
   //FairShip Board
@@ -58,12 +61,14 @@ const authProtectedRoutes = [
   { path: '/create_property', component: CreateProperty },
 
   { path: '/agents', component: Agent },
+  { path: '/agentpreview/:email', component: AgentPreview },
   // { path: '/unit_property', component: UnitProperties },
   { path: '/listing_properties', component: ListingProperties },
   { path: '/accounting', component: Accounting },
   { path: '/documents', component: Documents },
   { path: '/tenants', component: Tenants },
   { path: '/maintenance', component: Maintenance },
+  { path: '/serviceSummary/:bookedServiceId', component: ServicePreview },
   { path: '/service', component: Service },
   { path: '/chats', component: Chats },
   { path: '/appointments', component: Appointment },
