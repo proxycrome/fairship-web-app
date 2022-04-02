@@ -13,9 +13,6 @@ const ServiceRequest = ({ setShowPreview }) => {
   const pendingServices = useSelector((state) => state.Maintenance?.pendingServices )
   const loading = useSelector((state) => state.Maintenance?.loading)
 
-  console.log(pendingServices)
-  console.log(services);
-
   const pendingRequests = pendingServices?.entities?.map((pendingService) => ({
     property: (
       <>
