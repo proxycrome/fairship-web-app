@@ -55,7 +55,7 @@ const MaintenanceRequest = () => {
     rows: maintenanceRequests?.data?.list.map((request) => ({
       property: (
         <>
-          {/* <Link
+          <Link
             to="#"
             className="mr-3"
             onClick={() => setShowPreview(!showPreview)}
@@ -67,9 +67,9 @@ const MaintenanceRequest = () => {
               width="70"
               height="60"
             />
-            <span>Unit {request.unit}</span>
-          </Link> */}
-          <span>Unit {request?.unit}</span>
+            <span>Unit {request?.unit}</span>
+          </Link>
+          {/* <span>Unit {request?.unit}</span> */}
         </>
       ),
       description: `${request?.description}`,

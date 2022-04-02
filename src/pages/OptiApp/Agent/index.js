@@ -8,6 +8,7 @@ import { connect, useDispatch } from "react-redux";
 import { getLandlordAgents } from "../../../store/actions";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
+import avatar from "../../../assets/images/avi.jpg";
 
 const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
@@ -26,12 +27,12 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
         (agent) =>
           agent.firstName.toLowerCase() === searchName.toLowerCase() ||
           agent.lastName.toLowerCase() === searchName.toLowerCase() ||
-          agent.email.toLowerCase() === searchName.toLowerCase() || 
-          (agent.firstName + " " + agent.lastName).toLowerCase() === searchName.toLowerCase()
+          agent.email.toLowerCase() === searchName.toLowerCase() ||
+          (agent.firstName + " " + agent.lastName).toLowerCase() ===
+            searchName.toLowerCase()
       )
     );
   }, [searchName]);
-
 
   if (preview) {
     return <Preview BackToHome={() => setPreview(false)} />;
@@ -101,12 +102,21 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                                   to={`/agentpreview/${agent.email}`}
                                   onClick={() => setPreview(true)}
                                 >
-                                  <img
-                                    src={profileImage}
-                                    alt="profile"
-                                    width="38"
-                                    height="38"
-                                  />
+                                  {agent?.profilePhoto ? (
+                                    <img
+                                      src={agent?.profilePhoto}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={avatar}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  )}
                                   <span className="co-name mx-2">
                                     {agent.firstName} {agent.lastName}
                                   </span>
@@ -131,12 +141,21 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                                   to={`/agentpreview/${agent.email}`}
                                   onClick={() => setPreview(true)}
                                 >
-                                  <img
-                                    src={profileImage}
-                                    alt="profile"
-                                    width="38"
-                                    height="38"
-                                  />
+                                  {agent?.profilePhoto ? (
+                                    <img
+                                      src={agent?.profilePhoto}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={avatar}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  )}
                                   <span className="co-name mx-2">
                                     {agent.firstName} {agent.lastName}
                                   </span>

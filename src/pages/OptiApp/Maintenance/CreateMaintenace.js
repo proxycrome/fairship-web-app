@@ -70,6 +70,7 @@ const Maintenance = ({
                     label="Property"
                     className="form-ctrl"
                   >
+                    <option>Select Property</option>
                     {properties?.entities?.map((property) => (
                       <option key={property.id} value={property.id}>
                         {property.title}
@@ -85,6 +86,7 @@ const Maintenance = ({
                     className="form-ctrl"
                     label="Problem Type"
                   >
+                    <option>Select Problem type</option>
                     {serviceTypes?.map((service) => (
                       <option key={service.id} value={service.id}>
                         {service.name}
@@ -111,8 +113,6 @@ const Maintenance = ({
                     label="Unit"
                     className="form-ctrl"
                   >
-                    <option>0001</option>
-                    <option>0002</option>
                     {properties?.entities?.map((property) => (
                       <option key={property.id}>{property.unitNo}</option>
                     ))}

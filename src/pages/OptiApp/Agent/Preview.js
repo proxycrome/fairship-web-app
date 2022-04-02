@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../components/Common/Loading/index';
 
 // user
-import avatar4 from '../../../assets/images/users/avatar-2.jpg';
+import avatar from "../../../assets/images/avi.jpg";
 import home from '../../../assets/images/home.png';
 
 const Preview = (props) => {
@@ -22,8 +22,6 @@ const Preview = (props) => {
   const history = useHistory()
 
   const email = props.location.pathname.split('/')[2];
-
-  console.log(props);
 
   useEffect(() => {
     dispatch(fetchAgent(email));
@@ -89,11 +87,20 @@ const Preview = (props) => {
                       </Row>
                     </Col>
                     <Col sm={3} className="text-center">
-                      <CardImg
-                        src={avatar4}
-                        alt="Nazox"
-                        className="rounded avatar-lg"
-                      />
+                      {agent?.profilePhoto ? (
+                        <CardImg
+                          src={agent?.profilePhoto}
+                          alt="Nazox"
+                          className="rounded avatar-lg"
+                        />
+                      ) : (
+                        <CardImg
+                          src={avatar}
+                          alt="Nazox"
+                          className="rounded avatar-lg"
+                        />
+                      )}
+                      
                       <h4 className="my-2  mb-lg-0">{agent?.fullName}</h4>
                       <div className="row justify-content-md-center text-center my-3">
                         <div className="col-4">
@@ -147,7 +154,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
@@ -172,7 +179,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
@@ -197,7 +204,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
@@ -222,7 +229,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
