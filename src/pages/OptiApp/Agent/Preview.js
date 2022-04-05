@@ -8,17 +8,18 @@ import {
   CardImg,
   Table,
 } from 'reactstrap';
-import { fetchAgent } from '../../../store/agent/actions';
-import { withRouter } from 'react-router-dom';
+import { fetchAgent } from '../../../store/actions';
+import { useHistory, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../../components/Common/Loading/index';
 
 // user
-import avatar4 from '../../../assets/images/users/avatar-2.jpg';
+import avatar from "../../../assets/images/avi.jpg";
 import home from '../../../assets/images/home.png';
 
 const Preview = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory()
 
   const email = props.location.pathname.split('/')[2];
 
@@ -32,7 +33,7 @@ const Preview = (props) => {
   return (
     <div className="page-content">
       <Container fluid>
-        <span onClick={props.BackToHome} className="mx-2 font-size-14 mb-2">
+        <span onClick={() => history.push('/agents')} className="mx-2 font-size-14 mb-2">
           <span>
             <i
               className="fas fa-arrow-left
@@ -86,12 +87,21 @@ const Preview = (props) => {
                       </Row>
                     </Col>
                     <Col sm={3} className="text-center">
-                      <CardImg
-                        src={avatar4}
-                        alt="Nazox"
-                        className="rounded avatar-lg"
-                      />
-                      <h4 className="my-2  mb-lg-0">Chris Turner</h4>
+                      {agent?.profilePhoto ? (
+                        <CardImg
+                          src={agent?.profilePhoto}
+                          alt="Nazox"
+                          className="rounded avatar-lg"
+                        />
+                      ) : (
+                        <CardImg
+                          src={avatar}
+                          alt="Nazox"
+                          className="rounded avatar-lg"
+                        />
+                      )}
+                      
+                      <h4 className="my-2  mb-lg-0">{agent?.fullName}</h4>
                       <div className="row justify-content-md-center text-center my-3">
                         <div className="col-4">
                           <span className="avatar-xs mr-1">
@@ -144,7 +154,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
@@ -169,7 +179,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
@@ -194,7 +204,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />
@@ -219,7 +229,7 @@ const Preview = (props) => {
                           <td>Lorem Ipmus donor sit</td>
                           <td className="d-flex align-items-center">
                             <img
-                              src={avatar4}
+                              src={avatar}
                               alt="profile"
                               className="avatar-xs rounded-circle"
                             />

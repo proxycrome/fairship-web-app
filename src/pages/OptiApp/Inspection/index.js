@@ -57,7 +57,7 @@ const Inspection = ({inspections, fetchInspections, loading}) => {
                 </Button>
               </div>
             </div>
-            {inspections?.entities?.length !== 0 ? (
+            {inspections?.entities?.length === 0 ? (
               <div className="table-rep-plugin mt-4">
                 <div
                   className="table-responsive mb-0"

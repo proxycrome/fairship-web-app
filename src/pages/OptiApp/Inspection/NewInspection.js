@@ -38,7 +38,8 @@ const propertyOptionGroup = [
 ];
 
 const NewInspection = ({BackToHome}) => {
-  const [defaultDate, setDefaultDate] = useState(new Date());
+  const [moveInDate, setMoveInDate] = useState(new Date());
+  const [inspectionDate, setInspectionDate] = useState(new Date());
   const [isMoveIn, setIsMoveIn] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [propertySelectedGroup, setPropertySelectedGroup] = useState(
@@ -53,9 +54,13 @@ const NewInspection = ({BackToHome}) => {
     setPropertySelectedGroup(propertySelectedGroup);
   };
 
-  const handleDefault = (date) => {
-    setDefaultDate(date);
+  const handleMoveIn = (date) => {
+    setMoveInDate(date);
   };
+
+  const handleInspectionDate = (date) => {
+    setInspectionDate(date);
+  }
 
   if (isMoveIn) {
     return <MoveIn BacktoHome={() => setIsMoveIn(false)} />;
@@ -85,8 +90,8 @@ const NewInspection = ({BackToHome}) => {
                     <InputGroup>
                       <DatePicker
                         className="form-control"
-                        selected={defaultDate}
-                        onChange={handleDefault}
+                        selected={moveInDate}
+                        onChange={handleMoveIn}
                       />
                     </InputGroup>
                   </FormGroup>
@@ -97,8 +102,8 @@ const NewInspection = ({BackToHome}) => {
                     <InputGroup>
                       <DatePicker
                         className="form-control"
-                        selected={defaultDate}
-                        onChange={handleDefault}
+                        selected={inspectionDate}
+                        onChange={handleInspectionDate}
                       />
                     </InputGroup>
                   </FormGroup>

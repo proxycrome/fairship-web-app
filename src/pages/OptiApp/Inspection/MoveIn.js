@@ -80,9 +80,9 @@ const MoveIn = ({BacktoHome, postInspection}) => {
     setCol3(!col3);
   };
 
-  // if (isClicked) {
-  //   return <SendToTenant BacktoHome={BacktoHome}/>;
-  // } 
+  if (isClicked) {
+    return <SendToTenant BacktoHome={BacktoHome}/>;
+  } 
 
   return (
     <div className="page-content">

@@ -5,9 +5,10 @@ import profileImage from "../../../assets/images/ProfileImage.svg";
 import Preview from "./Preview";
 import CreateAgent from "./CreateAgent";
 import { connect, useDispatch } from "react-redux";
-import { getLandlordAgents } from "../../../store/agent/actions";
+import { getLandlordAgents } from "../../../store/actions";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
+import avatar from "../../../assets/images/avi.jpg";
 
 const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
@@ -24,8 +25,11 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
     setFilteredAgents(
       landlordAgents?.data?.agents.filter(
         (agent) =>
-          agent.firstName === searchName ||
-          agent.lastName === searchName
+          agent.firstName.toLowerCase() === searchName.toLowerCase() ||
+          agent.lastName.toLowerCase() === searchName.toLowerCase() ||
+          agent.email.toLowerCase() === searchName.toLowerCase() ||
+          (agent.firstName + " " + agent.lastName).toLowerCase() ===
+            searchName.toLowerCase()
       )
     );
   }, [searchName]);
@@ -95,24 +99,33 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                             <tr key={agent.id}>
                               <td className="d-flex align-items-center">
                                 <Link
-                                  to={`/agents/${agent.email}`}
+                                  to={`/agentpreview/${agent.email}`}
                                   onClick={() => setPreview(true)}
                                 >
-                                  <img
-                                    src={profileImage}
-                                    alt="profile"
-                                    width="38"
-                                    height="38"
-                                  />
+                                  {agent?.profilePhoto ? (
+                                    <img
+                                      src={agent?.profilePhoto}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={avatar}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  )}
                                   <span className="co-name mx-2">
                                     {agent.firstName} {agent.lastName}
                                   </span>
                                 </Link>
                               </td>
-                              <td>3</td>
+                              <td></td>
                               <td>{agent.email}</td>
-                              <td>3rd Jul 2020</td>
-                              <td>3rd Jul 2020</td>
+                              <td></td>
+                              <td></td>
                               <td>
                                 <span>Active</span>
                               </td>
@@ -125,24 +138,33 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                             <tr key={agent.id}>
                               <td className="d-flex align-items-center">
                                 <Link
-                                  to={`/agents/${agent.email}`}
+                                  to={`/agentpreview/${agent.email}`}
                                   onClick={() => setPreview(true)}
                                 >
-                                  <img
-                                    src={profileImage}
-                                    alt="profile"
-                                    width="38"
-                                    height="38"
-                                  />
+                                  {agent?.profilePhoto ? (
+                                    <img
+                                      src={agent?.profilePhoto}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={avatar}
+                                      alt="profile"
+                                      width="38"
+                                      height="38"
+                                    />
+                                  )}
                                   <span className="co-name mx-2">
                                     {agent.firstName} {agent.lastName}
                                   </span>
                                 </Link>
                               </td>
-                              <td>3</td>
+                              <td></td>
                               <td>{agent.email}</td>
-                              <td>3rd Jul 2020</td>
-                              <td>3rd Jul 2020</td>
+                              <td></td>
+                              <td></td>
                               <td>
                                 <span>Active</span>
                               </td>

@@ -98,10 +98,10 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="properties">My Properties</Link>
+                  <Link to="/properties">My Properties</Link>
                 </li>
                 <li>
-                  <Link to="listing_properties">
+                  <Link to="/listing_properties">
                     Listings
                   </Link>
                 </li>
@@ -172,7 +172,7 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="inspection">Inspections</Link>
+                  <Link to="/inspection">Inspections</Link>
                 </li>
               </ul>
             </li>

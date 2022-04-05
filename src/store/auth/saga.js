@@ -150,7 +150,7 @@ function* fetchDashboard() {
 function* fetchProfile() {
   try {
     const response = yield call(fetchProfileService);
-    yield put(fetchProfileSuccessful(response));
+    yield put(fetchProfileSuccessful(response.data));
   } catch (error) {
     console.log(error?.response?.data);
     yield put(fetchProfileError(error?.response?.data));
