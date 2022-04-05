@@ -10,8 +10,13 @@ import RentalPreviewRecommendationSaga from './Rental/previewSaga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 import InspectionsSaga from './inspection/saga';
+
+
+import TenantSaga from './Tenants/saga'
+
 import AgentsSaga from './Agent/saga';
 import MaintenanceSaga from './Maintenance/saga';
+
 
 export default function* rootSaga() {
     yield all([
@@ -20,6 +25,11 @@ export default function* rootSaga() {
         accountSaga(),
         appointment(),
         properties(),
+
+        // agent(),
+        TenantSaga(),
+
+
         RentalSaga(),
         RentalPreviewRecommendationSaga(),
         // forgetSaga(),

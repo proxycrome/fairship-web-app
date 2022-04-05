@@ -75,204 +75,27 @@ const Inspection = ({inspections, fetchInspections, loading}) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Move in</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Move Out</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>External</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Bi-annual</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>External</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Move In</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Move Out</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Bi-annual</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Bi-annual</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Bi-annual</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="d-flex align-items-center">
-                          <img
-                            src={profileImage}
-                            alt="profile"
-                            width="38"
-                            height="38"
-                          />
-                          <span className="co-name mx-2">Robert Williams</span>
-                        </td>
-                        <td>001</td>
-                        <td>Cosy Studio in the heart of lagos</td>
-                        <td>Move Out</td>
-                        <td>3rd Jul 2020</td>
-                        <td>
-                          <i className="ri-more-2-fill"></i>
-                        </td>
-                      </tr>
+                      {inspections?.entities?.map(inspect => (
+                          <tr key={inspect?.id}>
+                          <td className="d-flex align-items-center">
+                            <img
+                              src={inspect?.rent?.tenant?.profilePhoto}
+                              alt="profile"
+                              width="38"
+                              height="38"
+                            />
+                            <span className="co-name mx-2">{inspect?.rent?.tenant?.firstName} {inspect?.rent?.tenant?.lastName}</span>
+                          </td>
+                          <td>001</td>
+                          <td>{inspect?.rent?.property?.address?.houseNoAddress}</td>
+                          <td>{inspect?.type}</td>
+                          <td>{inspect?.createdAt}</td>
+                          <td>
+                            <i className="ri-more-2-fill"></i>
+                          </td>
+                        </tr>
+                      )                        
+                      )}
                     </tbody>
                   </Table>
                 </div>

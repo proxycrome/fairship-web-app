@@ -18,7 +18,7 @@ import Breadcrumbs from '../../../components/Common/Breadcrumb';
 // user
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import Loader from '../../../components/Common/Loading/index';
-import {fetchRental} from '../../../store/actions'
+import {fetchTenant, loadUser} from '../../../store/actions'
 
 import { MDBDataTable } from 'mdbreact';
 import './dataTables.scss';
@@ -45,14 +45,15 @@ class Tenants extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchRental();
+    this.props.fetchTenant(this.props.user?.id);
     // document
     //   .getElementsByClassName('pagination')[0]
     //   .classList.add('pagination-rounded');
   }
 
   render() {
-    console.log(this.props.rental)
+    console.log(this.props.tenant)
+    console.log(this.props?.user)
     const data = {
       columns: [
         {
@@ -93,27 +94,27 @@ class Tenants extends Component {
         },
       ],
       rows: 
-      this?.props?.rental?.entities?.map(rents =>
+      this?.props?.tenant?.entities?.map(tents =>
         (
         {
           tenants: (
             <>
               <img
                 className="rounded-circle header-profile-user mr-1"
-                src={rents?.tenant?.profilePhoto}
+                src={tents?.profilePhoto}
                 alt="Header Avatar"
               />
-              <span> {rents?.tenant?.firstName} {rents?.tenant?.lastName}</span>
+              <span> {tents?.firstName} {tents?.lastName}</span>
             </>
           ),
           unitNumber: "001",
-          property: `${rents?.property?.description}`, //`${rents?.property?.description}`
-          address: `${rents?.tenant?.address?.houseNoAddress}`,
+          property: '', //`${tents?.property?.description}`
+          address: `${tents?.address?.houseNoAddress}`,
           out_payment:'' ,
           total: '$172',
           status: (
             <div className="badge badge-soft-success font-size-12">
-              {rents.status}
+              
             </div>
           ),
           action: (
@@ -192,12 +193,15 @@ class Tenants extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { rental, loading } = state.Rental;
-  return { rental, loading };
+  const { tenant, loading } = state.Tenant
+  const { user } = state.Account
+  return { tenant, loading,  user }
 };
 
 
 
+
+
 export default withRouter(
-  connect(mapStateToProps,   {fetchRental})(Tenants)
+  connect(mapStateToProps,  {fetchTenant})(Tenants)
 );
