@@ -5,10 +5,14 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 
 // users
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
+
+import { logoutUser } from '../../../store/actions';
 
 class ProfileMenu extends Component {
   constructor(props) {
@@ -32,7 +36,7 @@ class ProfileMenu extends Component {
     //   const uNm = obj.email.split('@')[0];
     //   username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
     // }
-
+console.log(this.props.user)
     return (
       <React.Fragment>
         <Dropdown
@@ -51,30 +55,30 @@ class ProfileMenu extends Component {
               alt="Header Avatar"
             />
             <span className="d-none d-xl-inline-block ml-1 text-transform">
-              {username}
+              {this.props.user && this.props.user.fullName}
             </span>
             <i className="mdi mdi-chevron-down d-none ml-1 d-xl-inline-block"></i>
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem tag={Link} to="/profile">
-              <i className="ri-user-line align-middle mr-1"></i>{' '}
-              Profile
+              <i className="ri-user-line align-middle mr-1"></i> Profile
             </DropdownItem>
-            <DropdownItem href="#">
-              <i className="ri-wallet-2-line align-middle mr-1"></i>{' '}
-              My Wallet
-            </DropdownItem>
+            {/* <DropdownItem href="#">
+              <i className="ri-wallet-2-line align-middle mr-1"></i> My Wallet
+            </DropdownItem> */}
             <DropdownItem className="d-block" href="#">
               <span className="badge badge-success float-right mt-1">11</span>
-              <i className="ri-settings-2-line align-middle mr-1"></i>{' '}
-              Settings
+              <i className="ri-settings-2-line align-middle mr-1"></i> Settings
             </DropdownItem>
-            <DropdownItem href="#">
-              <i className="ri-lock-unlock-line align-middle mr-1"></i>{' '}
-              Lock screen
-            </DropdownItem>
+            {/* <DropdownItem href="#">
+              <i className="ri-lock-unlock-line align-middle mr-1"></i> Lock
+              screen
+            </DropdownItem> */}
             <DropdownItem divider />
-            <DropdownItem className="text-danger" href="/logout">
+            <DropdownItem
+              className="text-danger"
+              onClick={()=>this.props.logoutUser(this.props.history)}
+            >
               <i className="ri-shut-down-line align-middle mr-1 text-danger"></i>{' '}
               Logout
             </DropdownItem>
@@ -85,4 +89,9 @@ class ProfileMenu extends Component {
   }
 }
 
-export default (ProfileMenu);
+const mapStatetoProps = (state) => {
+  const { user } = state.Account;
+  return { user };
+};
+
+export default withRouter(connect(mapStatetoProps, { logoutUser })(ProfileMenu));

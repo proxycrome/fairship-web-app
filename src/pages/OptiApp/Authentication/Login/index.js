@@ -22,11 +22,11 @@ class Login extends Component {
     super(props);
     this.state = {
       // username: 'cooldonstylo@gmail.com', //stanley as Agent that is populated with Rent application and tenants
-      email:'e.v.ezeonwuka@gmail.com',  //victor
-      // username: 'agent101@gmail.com',
+      username:'e.v.ezeonwuka@gmail.com',  //victor
+      // username: 'agent101@gmail.com', //Tosin
       // password: 'Z1FKFKAG',  //stanley's Password
-      password: 'Testing01@',   //victor
-      // password: 'Testing1@', 
+      password: 'Testing01@', //Victor
+      // password: 'Testing1@', //Tosin
 
       checkLogin: false,
     };

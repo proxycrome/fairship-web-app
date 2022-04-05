@@ -1,9 +1,28 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, FormGroup, Input, CardBody } from 'reactstrap';
+import {
+  Col,
+  Button,
+  Card,
+  CardBody,
+  Row,
+  Form,
+  Input,
+  FormGroup,
+  Label, } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import MaintenanceRequest from '.';
+import { withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-const DueDiligenceForm = ({ GoHome }) => {
+const DueDiligenceForm = ({id}) => {
+
+const dispatch = useDispatch();
+
+console.log(id)
+const due = (e) => {
+    e.preventDefault();
+
+}
+
   return (
     <div className="page-content">
       <AvForm className="form-horizontal">
@@ -11,7 +30,6 @@ const DueDiligenceForm = ({ GoHome }) => {
           <CardBody>
             <Row className="mb-4">
               <Col xl={12} className="header-box">
-                <span className="ml-2">New DueDiligenceForm Request</span>
                 <h4> Reference Details </h4>
                 <Row>
                   <Col xl={12}>
@@ -97,10 +115,11 @@ const DueDiligenceForm = ({ GoHome }) => {
                     </Col>
                   </Row>
                   <Row>
-                    <Col xl={3} className="text-center">
+                    <Col xl={12} className="text-center">
                       <Button
                         color="success"
                         className="waves-effect pr-5 pl-5 w-lg"
+                        onClick={due}
                       >
                         Done
                       </Button>
@@ -116,4 +135,4 @@ const DueDiligenceForm = ({ GoHome }) => {
   );
 };
 
-export default DueDiligenceForm;
+export default withRouter(DueDiligenceForm);

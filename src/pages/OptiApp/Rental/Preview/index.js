@@ -19,11 +19,13 @@ import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
 import { Link, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRentalRecommendation, PutTenantRecommendation, PutDataRecommendation } from '../../../../store/actions';
+import DueDiligence from '../DueDiligence';
 
 
 const Preview = (props) => {
   const [approve, SetApprove] = useState(false);
   const [modalOpen, ModalToggle] = useState(false);
+  const [dueOpen, DueToggle] = useState(false);
   const [tenant, setTenant] = useState('');
   const dispatch = useDispatch();
 
@@ -340,7 +342,7 @@ const Preview = (props) => {
                         <Col sm={6}>
                           <p className="text-muted mb-0">Address</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                          {rentalId?.workAddress}
+                          {rentalId?.rentApplicationForm?.workAddress}
                           </h5>
                         </Col>
 
@@ -409,7 +411,7 @@ const Preview = (props) => {
                             Who is responsible for payment of Rent
                           </p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                          {rentalId?.whoIsResponsibleForPaymentOfRent}
+                          {rentalId?.rentApplicationForm?.whoIsResponsibleForPaymentOfRent}
                           </h5>
                         </Col>
                         <Col sm={6}>
@@ -467,13 +469,25 @@ const Preview = (props) => {
               Reason For Rejectionn
             </ModalHeader>
             <ModalBody>
-              <RejectionForm id={rentalId.id} />
+              <RejectionForm id={rentalId?.id} />
+            </ModalBody>
+          </Modal>
+          <Modal
+            size="lg"
+            isOpen={dueOpen}
+            toggle={() => DueToggle(!dueOpen)}
+          >
+            <ModalHeader toggle={() => DueToggle(!dueOpen)}>
+              Due Diligence
+            </ModalHeader>
+            <ModalBody>
+              <DueDiligence id={rentalId.id} />
             </ModalBody>
           </Modal>
           <div className="mb-4">
             <button
               className="btn btn-success mr-2"
-              onClick={ModalToggleHandler}
+              onClick={() => DueToggle(!dueOpen)}
             >
               Create Due Diligence{' '}
             </button>

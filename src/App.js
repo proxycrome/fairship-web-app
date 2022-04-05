@@ -15,12 +15,7 @@ import Loader from "./components/Common/Loading";
 // Import scss
 import "./theme.scss";
 
-import { loadUser, fetchProfile } from "./store/auth/actions";
-
-import {
-  getAllServiceReqComplete,
-  getAllServiceReqPending
-} from "./store/actions";
+import { loadUser } from "./store/auth/actions";
 
 class App extends Component {
   constructor(props) {
@@ -29,10 +24,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.props.loadUser();
-    // this.props.fetchProfile();
-    this.props.getAllServiceReqComplete();
-    this.props.getAllServiceReqPending();
+    this.props.loadUser();
   }
 
   render() {
@@ -81,8 +73,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  loadUser,
-  fetchProfile,
-  getAllServiceReqComplete,
-  getAllServiceReqPending
+  loadUser
 })(App);

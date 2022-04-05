@@ -10,9 +10,14 @@ import Appointment from './appointment/reducer';
 import Properties from './properties/reducer';
 import Rental from './Rental/reducer';
 import PreviewReducer from './Rental/previewReducer';
+
+import Tenant from './Tenants/reducer';
+
+
 import Inspections from './inspection/reducer';
 import Agents from './Agent/reducer';
 import Maintenance from './Maintenance/reducer';
+
 // import Forget from './auth/forgetpwd/reducer';
 
 const rootReducer = combineReducers({
@@ -24,6 +29,10 @@ const rootReducer = combineReducers({
     Inspections,
     Rental,
     PreviewReducer,
+
+    Tenant,
+
+
     // Authentication
     Account,
     Agents,

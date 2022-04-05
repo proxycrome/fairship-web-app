@@ -60,7 +60,7 @@ function* loginUser({ payload: { user, history } }) {
     const response = yield call(LoginService, user);
     yield put(loginUserSuccessful(response.data));
     yield call(loadUserHandler);
-    console.log(response)
+    console.log(response);
     history.push('/dashboard');
   } catch (error) {
     console.log(error);
@@ -69,10 +69,11 @@ function* loginUser({ payload: { user, history } }) {
   }
 }
 
-function* logoutUser() {
+function* logoutUser({ payload: {history} }) {
   try {
     localStorage.removeItem('fairshipToken');
     yield put(logoutUserSuccess());
+    history.push('/logout');
   } catch (error) {
     yield put(apiError(error));
   }
