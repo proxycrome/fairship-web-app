@@ -6,4 +6,5 @@ export * from './properties/actions';
 export * from './agent/actions';
 export * from './appointment/actions';
 export * from './Rental/actions'
+export * from './Tenants/actions'
 // export * from './auth/forgetpwd/actions';

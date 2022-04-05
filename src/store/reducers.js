@@ -14,6 +14,7 @@ import Agents from './agent/reducer';
 
 import Rental from './Rental/reducer';
 import PreviewReducer from './Rental/previewReducer';
+import Tenant from './Tenants/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
 
     Rental,
     PreviewReducer,
+    Tenant,
 
 
     // Authentication

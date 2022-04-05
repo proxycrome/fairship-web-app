@@ -14,6 +14,7 @@ import RentalPreviewRecommendationSaga from './Rental/previewSaga';
 import LayoutSaga from './layout/saga';
 import InspectionsSaga from './inspection/saga';
 import AgentsSaga from './agent/saga';
+import TenantSaga from './Tenants/saga'
 
 export default function* rootSaga() {
     yield all([
@@ -25,6 +26,7 @@ export default function* rootSaga() {
 
         properties(),
         // agent(),
+        TenantSaga(),
 
         RentalSaga(),
         RentalPreviewRecommendationSaga(),
