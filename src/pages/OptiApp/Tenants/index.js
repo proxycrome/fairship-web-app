@@ -7,13 +7,18 @@ import {
   Col,
   UncontrolledTooltip,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import emptyCan from '../../../assets/images/EmptyCan.png';
 
 //Import Breadcrumb
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
 // user
 import avatar2 from '../../../assets/images/users/avatar-2.jpg';
+import Loader from '../../../components/Common/Loading/index';
+import {fetchRental} from '../../../store/actions'
 
 import { MDBDataTable } from 'mdbreact';
 import './dataTables.scss';
@@ -40,12 +45,14 @@ class Tenants extends Component {
   }
 
   componentDidMount() {
-    document
-      .getElementsByClassName('pagination')[0]
-      .classList.add('pagination-rounded');
+    this.props.fetchRental();
+    // document
+    //   .getElementsByClassName('pagination')[0]
+    //   .classList.add('pagination-rounded');
   }
 
   render() {
+    console.log(this.props.rental)
     const data = {
       columns: [
         {
@@ -85,26 +92,28 @@ class Tenants extends Component {
           width: 135,
         },
       ],
-      rows: [
+      rows: 
+      this?.props?.rental?.entities?.map(rents =>
+        (
         {
           tenants: (
             <>
               <img
                 className="rounded-circle header-profile-user mr-1"
-                src={avatar2}
+                src={rents?.tenant?.profilePhoto}
                 alt="Header Avatar"
               />
-              <span> Robert Willians </span>
+              <span> {rents?.tenant?.firstName} {rents?.tenant?.lastName}</span>
             </>
           ),
           unitNumber: "001",
-          property: 'Casy studio in the heart of Lagos',
-          address: '808 Mandillas Mall, Marina, Lagos Nigeria',
-          out_payment: '04 Apr, 2020',
+          property: `${rents?.property?.description}`, //`${rents?.property?.description}`
+          address: `${rents?.tenant?.address?.houseNoAddress}`,
+          out_payment:'' ,
           total: '$172',
           status: (
             <div className="badge badge-soft-success font-size-12">
-              Active
+              {rents.status}
             </div>
           ),
           action: (
@@ -123,213 +132,58 @@ class Tenants extends Component {
               </UncontrolledTooltip>
             </>
           ),
-        },
-        {
-          tenants: (
-            <>
-              <img
-                className="rounded-circle header-profile-user mr-1"
-                src={avatar2}
-                alt="Header Avatar"
-              />
-              <span> Robert Willians </span>
-            </>
-          ),
-          unitNumber: '001',
-          property: 'Casy studio in the heart of Lagos',
-          address: '808 Mandillas Mall, Marina, Lagos Nigeria',
-          out_payment: '04 Apr, 2020',
-          total: '$172',
-          status: (
-            <div className="badge badge-soft-success font-size-12">
-              Active
-            </div>
-          ),
-          action: (
-            <>
-              <Link to="#" className="mr-3 text-primary" id="edit1">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="edit1">
-                Edit
-              </UncontrolledTooltip>
-              <Link to="#" className="text-danger" id="delete1">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="delete1">
-                Delete
-              </UncontrolledTooltip>
-            </>
-          ),
-        },
-        {
-          tenants: (
-            <>
-              <img
-                className="rounded-circle header-profile-user mr-1"
-                src={avatar2}
-                alt="Header Avatar"
-              />
-              <span> Robert Willians </span>
-            </>
-          ),
-          unitNumber: "001",
-          property: 'Casy studio in the heart of Lagos',
-          address: '808 Mandillas Mall, Marina, Lagos Nigeria',
-          out_payment: '04 Apr, 2020',
-          total: '$172',
-          status: (
-            <div className="badge badge-soft-success font-size-12">
-              Active
-            </div>
-          ),
-          action: (
-            <>
-              <Link to="#" className="mr-3 text-primary" id="edit1">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="edit1">
-                Edit
-              </UncontrolledTooltip>
-              <Link to="#" className="text-danger" id="delete1">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="delete1">
-                Delete
-              </UncontrolledTooltip>
-            </>
-          ),
-        },
-        {
-          tenants: (
-            <>
-              <img
-                className="rounded-circle header-profile-user mr-1"
-                src={avatar2}
-                alt="Header Avatar"
-              />
-              <span> Robert Willians </span>
-            </>
-          ),
-          unitNumber: "001",
-          property: 'Casy studio in the heart of Lagos',
-          address: '808 Mandillas Mall, Marina, Lagos Nigeria',
-          out_payment: '04 Apr, 2020',
-          total: '$172',
-          status: (
-            <div className="badge badge-soft-danger font-size-12">Inactive</div>
-          ),
-          action: (
-            <>
-              <Link to="#" className="mr-3 text-primary" id="edit1">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="edit1">
-                Edit
-              </UncontrolledTooltip>
-              <Link to="#" className="text-danger" id="delete1">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="delete1">
-                Delete
-              </UncontrolledTooltip>
-            </>
-          ),
-        },
-        {
-          tenants: (
-            <>
-              <img
-                className="rounded-circle header-profile-user mr-1"
-                src={avatar2}
-                alt="Header Avatar"
-              />
-              <span> Robert Willians </span>
-            </>
-          ),
-          unitNumber: "001",
-          property: 'Casy studio in the heart of Lagos',
-          address: '808 Mandillas Mall, Marina, Lagos Nigeria',
-          out_payment: '04 Apr, 2020',
-          total: '$172',
-          status: (
-            <div className="badge badge-soft-danger font-size-12">Inactive</div>
-          ),
-          action: (
-            <>
-              <Link to="#" className="mr-3 text-primary" id="edit1">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="edit1">
-                Edit
-              </UncontrolledTooltip>
-              <Link to="#" className="text-danger" id="delete1">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="delete1">
-                Delete
-              </UncontrolledTooltip>
-            </>
-          ),
-        },
-        {
-          tenants: (
-            <>
-              <img
-                className="rounded-circle header-profile-user mr-1"
-                src={avatar2}
-                alt="Header Avatar"
-              />
-              <span> Robert Willians </span>
-            </>
-          ),
-          unitNumber: "001",
-          property: 'Casy studio in the heart of Lagos',
-          address: '808 Mandillas Mall, Marina, Lagos Nigeria',
-          out_payment: '04 Apr, 2020',
-          total: '$172',
-          status: (
-            <div className="badge badge-soft-success font-size-12">
-              Active
-            </div>
-          ),
-          action: (
-            <>
-              <Link to="#" className="mr-3 text-primary" id="edit1">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="edit1">
-                Edit
-              </UncontrolledTooltip>
-              <Link to="#" className="text-danger" id="delete1">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="delete1">
-                Delete
-              </UncontrolledTooltip>
-            </>
-          ),
-        },
-      ],
-    };
+        }
+      ))
+    }
     return (
       <React.Fragment>
         <div className="page-content">
           <Container fluid>
+          { this.props.loading ? (
+              <Card>
+                <CardBody>
+                  <Loader loading={this.props.loading} />
+                </CardBody>
+              </Card>
+          ) : (
+            <>
             <Breadcrumbs
-              title="Tenants"
-              breadcrumbItems={this.state.breadcrumbItems}
-            />
+            title="Tenants"
+            breadcrumbItems={this.state.breadcrumbItems}
+          />
 
-            <Row>
-              <Col lg={12}>
-                <Card>
-                  <CardBody className="pt-0">
-                    <MDBDataTable responsive data={data} className="mt-4" />
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
+           {this.props.rental?.entities?.length !==0 ?
+               
+               (                
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody className="pt-0">
+                      <MDBDataTable responsive data={data} className="mt-4" />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+                ) : (
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody >
+                        <div className="text-center">
+                          <img
+                            src={emptyCan}
+                            alt="empty"
+                            className="rounded mb-2"
+                          />
+                          <h4> Table is Empty </h4>
+                        </div>
+                        </CardBody>
+                  </Card>
+                </Col>
+              </Row>    
+                )}
+          </>
+          )}  
           </Container>
         </div>
       </React.Fragment>
@@ -337,4 +191,13 @@ class Tenants extends Component {
   }
 }
 
-export default Tenants;
+const mapStateToProps = (state) => {
+  const { rental, loading } = state.Rental;
+  return { rental, loading };
+};
+
+
+
+export default withRouter(
+  connect(mapStateToProps,   {fetchRental})(Tenants)
+);

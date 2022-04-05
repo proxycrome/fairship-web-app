@@ -29,8 +29,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.loadUser();
-    this.props.fetchProfile();
+    // this.props.loadUser();
+    // this.props.fetchProfile();
     this.props.getAllServiceReqComplete();
     this.props.getAllServiceReqPending();
   }

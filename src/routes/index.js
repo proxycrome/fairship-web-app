@@ -53,6 +53,8 @@ import OptiRentalApplication from '../pages/OptiApp/Rental';
 import AgentPreview from '../pages/OptiApp/Agent/Preview';
 // import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
+import Preview from '../pages/OptiApp/Rental/Preview';
+
 
 const authProtectedRoutes = [
   //FairShip Board
@@ -80,6 +82,7 @@ const authProtectedRoutes = [
   { path: '/settings', component: Settings },
   { path: '/PowerMonitory', component: PowerMonitory },
   { path: '/Profile', component: Profile },
+  { path: '/preview/:id', component: Preview },
 
   // this route should be at the end of all other routes
   { path: '/', exact: true, component: () => <Redirect to="/login" /> },
@@ -95,6 +98,9 @@ const publicRoutes = [
   { path: '/landLord_register', component: Opti_Register },
   { path: '/agent_register', component: Opti_agentRegister },
   { path: '/register', component: Opti_Welcome },
+  { path: '/register', component: Opti_Register },
+  { path: '/welcome', component: Opti_Welcome },
+  
   // { path: '/login1', component: Login },
   // { path: '/forgot-password', component: ForgetPwd },
   // { path: '/register1', component: Register },

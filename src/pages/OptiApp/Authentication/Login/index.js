@@ -21,9 +21,13 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'e.v.ezeonwuka@gmail.com',
+      // username: 'cooldonstylo@gmail.com', //stanley as Agent that is populated with Rent application and tenants
+      email:'e.v.ezeonwuka@gmail.com',  //victor
       // username: 'agent101@gmail.com',
-      password: 'Testing01@',
+      // password: 'Z1FKFKAG',  //stanley's Password
+      password: 'Testing01@',   //victor
+      // password: 'Testing1@', 
+
       checkLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,6 +37,8 @@ class Login extends Component {
     const formData = {...values}
     // formData.platformType ="MOBILE_AGENT"
     formData.platformType ="WEB"
+    
+    console.log(formData)
     this.props.checkLogin(formData, this.props.history);
   }
 
@@ -46,6 +52,7 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props.user)
     return (
       <React.Fragment>
         <div>
