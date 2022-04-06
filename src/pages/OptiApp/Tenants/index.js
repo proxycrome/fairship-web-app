@@ -153,7 +153,7 @@ class Tenants extends Component {
             breadcrumbItems={this.state.breadcrumbItems}
           />
 
-           {this.props.rental?.entities?.length !==0 ?
+           {this.props.tenant?.entities?.length !== 0 ?
                
                (                
               <Row>
