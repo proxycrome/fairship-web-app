@@ -6,6 +6,7 @@ import {
   Col,
   FormGroup,
   Form,
+  Alert,
   Label,
 } from "reactstrap";
 import Select from "react-select";
@@ -72,6 +73,11 @@ const CreateAgent = ({ BackToHome }) => {
           </span>
           <Card className="mt-2">
             <CardBody>
+              {postAgentData && postAgentData?.message && (
+                <Alert color="success" className="text-center">
+                  {postAgentData?.message}
+                </Alert>
+              )}
               <h5>
                 <b>Add Agent</b>
               </h5>

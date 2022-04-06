@@ -19,7 +19,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
 
   useEffect(() => {
     dispatch(getLandlordAgents(user?.id));
-  }, [dispatch]);
+  }, [user]);
 
   useEffect(() => {
     setFilteredAgents(
