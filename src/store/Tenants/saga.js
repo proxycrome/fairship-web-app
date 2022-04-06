@@ -11,7 +11,7 @@ function* fetchTenant({tenantId}) {
     const response = yield call(fetchTenantService,tenantId);
     yield put(fetchTenantSuccessful(response.data));
   } catch (error) {
-    console.log(error.response);
+    
     yield put(fetchTenantError(error?.response?.data));
   }
 }

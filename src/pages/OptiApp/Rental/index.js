@@ -10,7 +10,7 @@ import {
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {fetchRental} from '../../../store/actions'
+import {fetchRental, fetchRental2, fetchRental3} from '../../../store/actions'
 
 
 
@@ -62,6 +62,8 @@ class RentalApplication extends Component {
 
   componentDidMount() {
     this.props.fetchRental();
+    this.props.fetchRental2();
+    this.props.fetchRental3();
     // document
     //   .getElementsByClassName('pagination')[0]
     //   .classList.add('pagination-rounded');
@@ -71,10 +73,165 @@ class RentalApplication extends Component {
 
   render() {
 
-    
-   
+   const processingRental = this?.props?.rental?.entities?.map(rents => 
+      (
+      {
+        application: (
+          /*map data from api here for each Tenant */
+          <>
+            <Link
+               to={`/preview/${rents?.id}`}
+              onClick={this.SetShowPreview}
+              className="mr-3"
+              id="edit1"
+            >
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={rents?.tenant?.profilePhoto}
+                // src={avatar2}
+                alt="Header Avatar"
+              />
+              <span> {rents.rentApplicationForm.name} </span>
+            </Link>
+          </>
+        ),
+        unitNumber: '001',
+        property: `${rents?.property?.description}`,
+        address: `${rents?.property?.address?.houseNoAddress}`,
+        date: `${rents?.createdAt}`,
+        total: '$172',
+        status: (
+          <div className="badge badge-soft-success font-size-12">
+            {rents?.status}
+          </div>
+        ),
+        action: (
+          <>
+            <Link to="#" className="mr-3 text-primary" id="edit1">
+              <i className="mdi mdi-pencil font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="edit1">
+              Edit
+            </UncontrolledTooltip>
+            <Link to="#" className="text-danger" id="delete1">
+              <i className="mdi mdi-trash-can font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="delete1">
+              Delete
+            </UncontrolledTooltip>
+          </>
+        ),
+      }
+    ))
+
+
+    const currentRental = this?.props?.rental2?.entities?.map(rents2 => 
+      (
+      {
+        application: (
+          /*map data from api here for each Tenant */
+          <>
+            <Link
+               to={`/preview/${rents2?.id}`}
+              onClick={this.SetShowPreview}
+              className="mr-3"
+              id="edit1"
+            >
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={rents2?.tenant?.profilePhoto}
+                // src={avatar2}
+                alt="Header Avatar"
+              />
+              <span> {rents2.rentApplicationForm.name} </span>
+            </Link>
+          </>
+        ),
+        unitNumber: '001',
+        property: `${rents2?.property?.description}`,
+        address: `${rents2?.property?.address?.houseNoAddress}`,
+        date: `${rents2?.createdAt}`,
+        total: '$172',
+        status: (
+          <div className="badge badge-soft-success font-size-12">
+            {rents2?.status}
+          </div>
+        ),
+        action: (
+          <>
+            <Link to="#" className="mr-3 text-primary" id="edit1">
+              <i className="mdi mdi-pencil font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="edit1">
+              Edit
+            </UncontrolledTooltip>
+            <Link to="#" className="text-danger" id="delete1">
+              <i className="mdi mdi-trash-can font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="delete1">
+              Delete
+            </UncontrolledTooltip>
+          </>
+        ),
+      }
+    ))
+
+
+    const exitedRental = this?.props?.rental3?.entities?.map(rents3 => 
+      (
+      {
+        application: (
+          /*map data from api here for each Tenant */
+          <>
+            <Link
+               to={`/preview/${rents3?.id}`}
+              onClick={this.SetShowPreview}
+              className="mr-3"
+              id="edit1"
+            >
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={rents3?.tenant?.profilePhoto}
+                // src={avatar2}
+                alt="Header Avatar"
+              />
+              <span> {rents3.rentApplicationForm.name} </span>
+            </Link>
+          </>
+        ),
+        unitNumber: '001',
+        property: `${rents3?.property?.description}`,
+        address: `${rents3?.property?.address?.houseNoAddress}`,
+        date: `${rents3?.createdAt}`,
+        total: '$172',
+        status: (
+          <div className="badge badge-soft-success font-size-12">
+            {rents3?.status}
+          </div>
+        ),
+        action: (
+          <>
+            <Link to="#" className="mr-3 text-primary" id="edit1">
+              <i className="mdi mdi-pencil font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="edit1">
+              Edit
+            </UncontrolledTooltip>
+            <Link to="#" className="text-danger" id="delete1">
+              <i className="mdi mdi-trash-can font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="delete1">
+              Delete
+            </UncontrolledTooltip>
+          </>
+        ),
+      }
+    ))
+
 
     console.log(this.props.rental)
+    console.log(this.props.rental2)
+    console.log(this.props.rental3)
     const data = {
       columns: [
         {
@@ -115,57 +272,9 @@ class RentalApplication extends Component {
         },
       ],
       rows: 
-        this?.props?.rental?.entities?.map(rents => 
-          (
-          {
-            application: (
-              /*map data from api here for each Tenant */
-              <>
-                <Link
-                   to={`/preview/${rents?.id}`}
-                  onClick={this.SetShowPreview}
-                  className="mr-3"
-                  id="edit1"
-                >
-                  <img
-                    className="rounded-circle header-profile-user mr-1"
-                    src={rents?.tenant?.profilePhoto}
-                    // src={avatar2}
-                    alt="Header Avatar"
-                  />
-                  <span> {rents.rentApplicationForm.name} </span>
-                </Link>
-              </>
-            ),
-            unitNumber: '001',
-            property: `${rents?.property?.description}`,
-            address: `${rents?.property?.address?.houseNoAddress}`,
-            date: `${rents?.createdAt}`,
-            total: '$172',
-            status: (
-              <div className="badge badge-soft-success font-size-12">
-                {rents?.status}
-              </div>
-            ),
-            action: (
-              <>
-                <Link to="#" className="mr-3 text-primary" id="edit1">
-                  <i className="mdi mdi-pencil font-size-18"></i>
-                </Link>
-                <UncontrolledTooltip placement="top" target="edit1">
-                  Edit
-                </UncontrolledTooltip>
-                <Link to="#" className="text-danger" id="delete1">
-                  <i className="mdi mdi-trash-can font-size-18"></i>
-                </Link>
-                <UncontrolledTooltip placement="top" target="delete1">
-                  Delete
-                </UncontrolledTooltip>
-              </>
-            ),
-          }
-        ))
-       
+          processingRental?.concat(currentRental, exitedRental).flatMap((el) => {
+            return el?.length <= 0 ? [] : el ;
+          })
     };
 
     if(this.state.showPreview){
@@ -231,14 +340,14 @@ class RentalApplication extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { rental, loading } = state.Rental;
-  return { rental, loading };
+  const { rental, rental2, rental3, loading } = state.Rental;
+  return { rental, rental2, rental3, loading };
 };
 
 
 
 export default withRouter(
-  connect(mapStateToProps,   {fetchRental})(RentalApplication)
+  connect(mapStateToProps,   {fetchRental, fetchRental2, fetchRental3})(RentalApplication)
 );
 
 // export default RentalApplication

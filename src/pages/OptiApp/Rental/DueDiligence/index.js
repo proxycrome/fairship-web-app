@@ -5,61 +5,67 @@ import {
   Card,
   CardBody,
   Row,
+  Alert,
   Form,
   Input,
   FormGroup,
   Label, } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { withRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { DiligenceRecommendation } from '../../../../store/actions';
 
-const DueDiligenceForm = ({id}) => {
+const DueDiligenceForm = ({tenantId}) => {
 
 const dispatch = useDispatch();
 
-console.log(id)
-const due = (e) => {
+console.log(tenantId)
+const handleSubmit = (e, values) => {
     e.preventDefault();
+    const formData = {
+      ...values,
+        "annualIncome": values.annualIncome,
+        "companyName": values.companyName,
+        "employmentStatus": values.employmentStatus,
+        "jobTitle": values.jobTitle,
+        "workAddress": values.workAddress 
+    }
 
+    console.log(values)
+
+    dispatch(DiligenceRecommendation(tenantId, formData)) 
 }
+
+const {diligence} = useSelector((state) => state.PreviewReducer)
 
   return (
     <div className="page-content">
-      <AvForm className="form-horizontal">
+      <AvForm className="form-horizontal" onValidSubmit={handleSubmit}>
         <Card>
           <CardBody>
             <Row className="mb-4">
               <Col xl={12} className="header-box">
-                <h4> Reference Details </h4>
                 <Row>
                   <Col xl={12}>
+                    <h4>Company Name</h4>
                     <AvField
-                      name="name"
+                      name="companyName"
                       // value="admin@themesbrand.com"
                       className="form-control bg-light"
-                      placeholder="name"
+                      placeholder="Company name"
                       type="text"
                       required
                     />
                   </Col>
-                </Row>
-                <Row>
-                  <Col xl={6}>
+               </Row>
+               <Row>
+                  <Col xl={12}>
+                  <h4>Work Address</h4>
                     <AvField
-                      name="address"
+                      name="workAddress"
                       // value="admin@themesbrand.com"
                       className="form-control bg-light"
-                      placeholder="address"
-                      type="text"
-                      required
-                    />
-                  </Col>
-                  <Col xl={6}>
-                    <AvField
-                      name="phoneNo"
-                      // value="admin@themesbrand.com"
-                      className="form-control bg-light"
-                      placeholder="Phone number"
+                      placeholder="work address"
                       type="text"
                       required
                     />
@@ -67,48 +73,48 @@ const due = (e) => {
                 </Row>
               </Col>
             </Row>
-
+            {diligence && diligence?.message && (
+                <Alert color='success' className='text-center'>
+                  {diligence?.message}
+                </Alert>
+              )}
             <Row className="my-4">
               <Col xl={12} className="header-box">
-                <AvForm className="form-horizontal">
-                  <h4> Next of Kin </h4>
+                
                   <Row>
                     <Col xl={12}>
+                    <h4>Employment Status</h4>
                       <AvField
-                        name="name"
+                        name="employmentStatus"
                         className="form-control bg-light"
-                        placeholder="name"
+                        placeholder="Employment Status"
+                        type="select"
+                        required>
+                          <option value='unemployed'>unemployed</option>
+                          <option value='employed'>employed</option>
+                        </AvField>
+                      
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col xl={12}>
+                    <h4>Job Title</h4>
+                      <AvField
+                        name="jobTitle"
+                        className="form-control bg-light"
+                        placeholder="JOB Title"
                         type="text"
                         required
                       />
                     </Col>
                   </Row>
                   <Row>
-                    <Col xl={6}>
+                    <Col xl={12}>
+                    <h4>Annual Income</h4>
                       <AvField
-                        name="email"
+                        name="annualIncome"
                         className="form-control bg-light"
-                        placeholder="Email"
-                        type="text"
-                        required
-                      />
-                    </Col>
-                    <Col xl={6}>
-                      <AvField
-                        name="phoneNo"
-                        className="form-control bg-light"
-                        placeholder="Phone number"
-                        type="text"
-                        required
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col xl={6}>
-                      <AvField
-                        name="address"
-                        className="form-control bg-light"
-                        placeholder="Address"
+                        placeholder="Annual Income"
                         type="text"
                         required
                       />
@@ -119,13 +125,13 @@ const due = (e) => {
                       <Button
                         color="success"
                         className="waves-effect pr-5 pl-5 w-lg"
-                        onClick={due}
+                        type="submit"
                       >
                         Done
                       </Button>
                     </Col>
                   </Row>
-                </AvForm>
+                
               </Col>
             </Row>
           </CardBody>

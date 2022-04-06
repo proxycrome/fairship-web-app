@@ -7,11 +7,17 @@
     PUT_TENANT_RECOMMENDATION_ERROR,
     PUT_DATA_RECOMMENDATION,
     PUT_DATA_RECOMMENDATION_SUCCESSFUL,
-    PUT_DATA_RECOMMENDATION_ERROR
+    PUT_DATA_RECOMMENDATION_ERROR,
+    DILIGENCE_RECOMMENDATION,
+    DILIGENCE_RECOMMENDATION_SUCCESSFUL,
+    DILIGENCE_RECOMMENDATION_ERROR
   } from './actionTypes';
   
   const initialState = {
     rentalId: {},
+    data: {},
+    put: {},
+    dilligence:{},
     rentalIdError: null,
     loading: false,
   };
@@ -45,7 +51,7 @@
         case PUT_TENANT_RECOMMENDATION:
           state = {
             ...state,
-            rentalId: {},
+            data: {},
             rentalIdError: null,
             loading: true,
           };
@@ -54,7 +60,7 @@
         case PUT_TENANT_RECOMMENDATION_SUCCESSFUL:
           state = {
             ...state,
-            rentalId: action.data,
+            data: action.data,
             loadingId: false,
           };
 
@@ -77,7 +83,7 @@
           case PUT_DATA_RECOMMENDATION_SUCCESSFUL:
             state = {
               ...state,
-              rentalId: action.data,
+              put: action.data,
               loadingId: false,
             };
   
@@ -89,8 +95,30 @@
               rentaldError: action.error,
             };
             break;  
-  
-      default:
+            case DILIGENCE_RECOMMENDATION:
+              state = {
+                ...state,
+                diligence: {},
+                rentalIdError: null,
+                loading: true,
+              };
+              break;
+            case DILIGENCE_RECOMMENDATION_SUCCESSFUL:
+              state = {
+                ...state,
+                diligence: action.data,
+                loadingId: false,
+              };
+    
+              break;
+            case DILIGENCE_RECOMMENDATION_ERROR:
+              state = {
+                ...state,
+                loading: false,
+                rentaldError: action.error,
+              };
+              break;    
+       default:
         state = { ...state };
         break;
     }

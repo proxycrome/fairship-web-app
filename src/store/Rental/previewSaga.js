@@ -1,25 +1,27 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 // Login Redux States
-import { FETCH_RENTAL_RECOMMENDATION,PUT_TENANT_RECOMMENDATION, PUT_DATA_RECOMMENDATION } from './actionTypes';
+import { FETCH_RENTAL_RECOMMENDATION,PUT_TENANT_RECOMMENDATION, PUT_DATA_RECOMMENDATION, DILIGENCE_RECOMMENDATION } from './actionTypes';
 import { 
    fetchRentalRecommendationSuccessful,
    fetchRentalRecommendationError,
    PutTenantRecommendationSuccessful,
    PutTenantRecommendationError,
    PutDataRecommendationSuccessful,
-   PutDataRecommendationError } from './actions';
+   PutDataRecommendationError,
+   DiligenceRecommendationSuccessful,
+   DiligenceRecommendationError } from './actions';
 
-import { fetchRentalRecommendation, PutTenantRecommendationService, PutDataTenantRecommendationService } from '../../services/rentalServices';
+import { fetchRentalRecommendation, PutTenantRecommendationService, PutDataTenantRecommendationService, DiligenceRecommendationService } from '../../services/rentalServices';
 
 function* fetchRecommendation({rentalId}) {
-  console.log(rentalId)
+  
   try {
     const response = yield call(fetchRentalRecommendation,rentalId);
     yield put(fetchRentalRecommendationSuccessful(response.data));
-    console.log(response.data)
+    
   } catch (error) {
-    console.log(error.response);
+    
     yield put(fetchRentalRecommendationError(error?.response?.data));
   }
 }
@@ -30,13 +32,12 @@ export function* watchFetchRentalRecommendation() {
 
 
 function* PutTenantRecommendation({payload:{tenantId, data}}) {
-  console.log(tenantId, data)
+  
   try {
     const response = yield call(PutTenantRecommendationService,tenantId, data);
     yield put(PutTenantRecommendationSuccessful(response?.data));
-    console.log(response)
   } catch (error) {
-    console.log(error?.response);
+    
     yield put(PutTenantRecommendationError(error?.response?.data));
   }
 }
@@ -47,13 +48,14 @@ export function* watchPutTenantRecommendation() {
 
 
 function* PutDataTenantRecommendation({payload:{data}}) {
-  console.log(data)
+ 
   try {
     const response = yield call(PutDataTenantRecommendationService,data);
     yield put(PutDataRecommendationSuccessful(response?.data));
-    console.log(response)
+    
+    
   } catch (error) {
-    console.log(error?.response);
+    
     yield put(PutDataRecommendationError(error?.response?.data));
   }
 }
@@ -62,9 +64,26 @@ export function* watchPutDataTenantRecommendation() {
   yield takeEvery(PUT_DATA_RECOMMENDATION, PutDataTenantRecommendation);
 }
 
+function* PutDiligenceTenantRecommendation({payload:{tenantId, data}}) {
+  
+  try {
+    const response = yield call(DiligenceRecommendationService,tenantId, data);
+    yield put(DiligenceRecommendationSuccessful(response?.data));
+    
+  } catch (error) {
+    
+    yield put( DiligenceRecommendationError(error?.response?.data));
+  }
+}
+
+export function* watchPutDiligenceTenantRecommendation() {
+  yield takeEvery(DILIGENCE_RECOMMENDATION, PutDiligenceTenantRecommendation);
+}
+
 
 function* RentalPreviewRecommendationSaga() {
-  yield all([fork(watchFetchRentalRecommendation),fork(watchPutTenantRecommendation), fork(watchPutDataTenantRecommendation)]);
+  yield all([fork(watchFetchRentalRecommendation),fork(watchPutTenantRecommendation),
+     fork(watchPutDataTenantRecommendation), fork(watchPutDiligenceTenantRecommendation)]);
 }
 
 export default RentalPreviewRecommendationSaga;
