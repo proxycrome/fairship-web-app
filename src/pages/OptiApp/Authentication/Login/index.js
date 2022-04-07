@@ -21,22 +21,14 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: 'cooldonstylo@gmail.com', //stanley as Agent that is populated with Rent application and tenants
-      // username:'e.v.ezeonwuka@gmail.com',  //victor
-      // username: 'agent101@gmail.com', //Tosin
-      password: 'Z1FKFKAG',  //stanley's Password
-      // password: 'Testing01@', //Victor
-      // password: 'Testing1@', //Tosin
-
       checkLogin: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event, values) {
-    const formData = {...values}
-    formData.platformType ="WEB"
-    console.log(formData)
+    const formData = { ...values };
+    formData.platformType = 'WEB';
     this.props.checkLogin(formData, this.props.history);
   }
 
@@ -50,7 +42,7 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props.user)
+    console.log(this.props.user);
     return (
       <React.Fragment>
         <div>
@@ -93,13 +85,12 @@ class Login extends Component {
                             </p>
                           </div>
 
-                          {this.props.loginError && this.props.loginError ? (
-                            <Alert color="danger">
-                              {this.props.loginError}
-                            </Alert>
-                          ) : null}
-
                           <div className="p-2 mt-5">
+                            {this.props.loginError && this.props.loginError ? (
+                              <Alert color="danger">
+                                {this.props.loginError}
+                              </Alert>
+                            ) : null}
                             <AvForm
                               className="form-horizontal"
                               onValidSubmit={this.handleSubmit}
@@ -107,7 +98,7 @@ class Login extends Component {
                               <FormGroup className="form-group-custom mb-4">
                                 <AvField
                                   name="email"
-                                  value={this.state.username}
+                                  value={this.state.email}
                                   type="email"
                                   className="form-ctrl"
                                   id="email"
@@ -131,7 +122,7 @@ class Login extends Component {
                                 <div className="customCtrl">
                                   <label className="d-flex align-items-center">
                                     <Switch
-                                    className="mr-2 mt-1"
+                                      className="mr-2 mt-1"
                                       onColor="#4db783"
                                       onChange={() =>
                                         this.setState({
@@ -156,8 +147,9 @@ class Login extends Component {
                                   color="success"
                                   className="w-100 waves-effect waves-light"
                                   type="submit"
+                                  disable={this.props.loading}
                                 >
-                                  Log In
+                                  {this.props.loading ? 'Loading...' : 'Log in'}
                                 </Button>
                               </div>
 
@@ -179,8 +171,8 @@ class Login extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError, user } = state.Account;
-  return { loginError, user };
+  const { loginError, user, loading } = state.Account;
+  return { loginError, user, loading };
 };
 
 export default withRouter(

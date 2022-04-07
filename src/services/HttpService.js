@@ -1,9 +1,9 @@
+import axiosInstance from '../utils/axiosInstance';
 import axios from 'axios';
 // import { getAccessToken, verifyToken } from '../utils/utilities';
 
 class HttpService {
   constructor() {
-    this.token = localStorage.getItem('fairshipToken');
     this.baseUrl = process.env.REACT_APP_BASE_URL;
   }
 
@@ -12,35 +12,27 @@ class HttpService {
   };
 
   postDataWithToken = async (formData, url) => {
-    return axios.post(this.baseUrl + url, formData, {
-      headers: { Authorization: this.token },
-    });
+    return axiosInstance.post(url, formData);
   };
 
   getData = async (url) => {
-    return axios.get(this.baseUrl + url, {
-      headers: { Authorization: this.token },
-    });
+    return axiosInstance.get(url);
   };
 
   getDataWithoutToken = async (url) => {
-    return axios.get(this.baseUrl + url);
+    return axiosInstance.get(url);
   };
 
   putData = async (formData, url) => {
-    return axios.put(this.baseUrl + url, formData, {
-      headers: { Authorization: this.token },
-    });
+    return axiosInstance.put(url, formData);
   };
 
   putDataWithoutToken = async (formData, url) => {
-    return axios.put(this.baseUrl + url, formData);
+    return axiosInstance.put(url, formData);
   };
 
   deleteData = async (url) => {
-    return axios.delete(this.baseUrl + url, {
-      headers: { Authorization: this.token },
-    });
+    return axiosInstance.delete(url);
   };
 }
 export default HttpService;
