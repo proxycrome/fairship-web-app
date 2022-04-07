@@ -127,6 +127,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           width: '252.14px',
                           color: 'rgba(255, 255, 255, 0.42)',
                           marginRight: '130px',
+                          marginTop: '20px'
                         }}
                       />
                       <div style={{ display: 'flex' }}>
