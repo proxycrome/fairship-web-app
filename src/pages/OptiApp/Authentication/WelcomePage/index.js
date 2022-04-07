@@ -77,9 +77,6 @@ class Welcome extends Component {
                             Log in
                           </Button>
                         </Link>
-                        {/* <Link to="register">
-                          <Button color="light">Sign up</Button>
-                        </Link> */}
                       </div>
                     </div>
                     <Row className="justify-content-center">
@@ -93,12 +90,6 @@ class Welcome extends Component {
                               I am creating an Account as...
                             </p>
                           </div>
-
-                          {/* {this.props.loginError && this.props.loginError ? (
-                            <Alert color="danger">
-                              {this.props.loginError}
-                            </Alert>
-                          ) : null} */}
 
                           <div className="p-2 mt-5">
                             <AvForm
@@ -115,7 +106,7 @@ class Welcome extends Component {
                                   </h6>
                                 </div>
                                 <div className="landlordLink d-flex flex-column">
-                                  <Link to="/landLord_register" >
+                                  <Link to="/landLord_register">
                                     <img src={LandlordLogo} alt="Landlord" />
                                   </Link>
                                   <h6 className="optionTag d-flex justify-content-center">
@@ -144,4 +135,6 @@ const mapStatetoProps = (state) => {
   return { login };
 };
 
-export default withRouter(connect(mapStatetoProps, { checkLogin, apiError })(Welcome));
+export default withRouter(
+  connect(mapStatetoProps, { checkLogin, apiError })(Welcome)
+);

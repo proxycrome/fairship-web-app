@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 // users
-import avatar2 from '../../../assets/images/users/avatar-2.jpg';
+// import avatar2 from '../../../assets/images/users/avatar-2.jpg';
+import avatar from '../../../assets/images/avi.jpg'
 
 import { logoutUser } from '../../../store/actions';
 
@@ -30,7 +31,7 @@ class ProfileMenu extends Component {
   }
 
   render() {
-    let username = 'Saheed Abdul';
+    let username = `${this.props.user?.fullName}`;
     // if (localStorage.getItem('authUser')) {
     //   const obj = JSON.parse(localStorage.getItem('authUser'));
     //   const uNm = obj.email.split('@')[0];
@@ -49,13 +50,21 @@ console.log(this.props.user)
             className="btn header-item waves-effect"
             id="page-header-user-dropdown"
           >
-            <img
-              className="rounded-circle header-profile-user mr-1"
-              src={avatar2}
-              alt="Header Avatar"
-            />
+            {this.props.user?.profilePhoto ? (
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={this.props.user?.profilePhoto}
+                alt="Header Avatar"
+              />
+            ) : (
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={avatar}
+                alt="Header Avatar"
+              />
+            )}
             <span className="d-none d-xl-inline-block ml-1 text-transform">
-              {this.props.user && this.props.user.fullName}
+              {this.props.user?.fullName && username}
             </span>
             <i className="mdi mdi-chevron-down d-none ml-1 d-xl-inline-block"></i>
           </DropdownToggle>

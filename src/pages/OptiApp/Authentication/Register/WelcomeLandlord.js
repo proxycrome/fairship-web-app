@@ -27,7 +27,9 @@ class WelcomeLandlord extends Component {
   }
 
   handleSubmit(event, values) {
-    this.props.checkLogin(values, this.props.history);
+    console.log(this.props.landlordType)
+    console.log(values)
+    // this.props.checkLogin(values, this.props.history);
   }
 
   componentDidMount() {
@@ -129,7 +131,7 @@ class WelcomeLandlord extends Component {
               </Row>
             </Container>
           ) : (
-            <LandLordRegistry landlordType={this.state.landlordType} />
+            <LandLordRegistry handleSubmit={this.props.handleSubmit} landlordType={this.state.landlordType} />
           )}
         </div>
       </React.Fragment>

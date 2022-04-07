@@ -43,16 +43,24 @@ const CreateAgent = ({ BackToHome }) => {
     dispatch(postAgents(formData));
   };
 
-  const { agents, postAgentData, loading } = useSelector(
+  const { agents, postAgentData, landlordAgents, loading } = useSelector(
     (state) => state.Agents
   );
+
+  const AgentsIdArray = landlordAgents?.data?.agents?.map((agent) => agent.id);
+
+  const filteredAgents = agents?.entities.filter(
+    (agent) => !AgentsIdArray.find((id) => id === agent.id)
+  );
+
+  console.log(filteredAgents);
 
   console.log(postAgentData?.message);
 
   const optionGroup = [
     {
       label: "Select an Agent",
-      options: agents?.entities.map((agent) => {
+      options: filteredAgents?.map((agent) => {
         return {
           label: `${agent.firstName} ${agent.lastName}`,
           value: agent.id,

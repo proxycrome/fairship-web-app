@@ -9,7 +9,8 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Form
+  Form,
+  Alert
 } from 'reactstrap';
 
 import RejectionForm from '../RejectionForm';
@@ -62,7 +63,7 @@ const Preview = (props) => {
 
   
 
-  const {rentalId} = useSelector(state => state.PreviewReducer)
+  const {rentalId, data } = useSelector( (state) => state.PreviewReducer)
   
   
   console.log('sodiq>>>>>>>>>',rentalId)
@@ -82,8 +83,7 @@ const Preview = (props) => {
     console.log(data)
     dispatch(PutTenantRecommendation(tenantId, data))
     setTenant('') 
-    window.location.reload(1) //did reload here cos i was loosing
-    // data of the details page of the rent application,hence you need to comment this to view the tenant recommendation put request sent
+     
   }
   // console.log(data)
 
@@ -92,9 +92,8 @@ const Preview = (props) => {
   return (
     <React.Fragment>
       <div>
-        <Container fluid  style={{margin:'100px 0'}}>
-          {/* <span onClick={SetShowPreview} className="mx-2 font-size-14 mb-2"> */}
-          <Link style={{'color':'Black'}} to='/rental_application' className="mx-2 font-size-14 mb-2">
+        <Container fluid  style={{margin:'80px 0'}}>
+          <Link style={{'color':'Black'}} to='/rental_application' className="mx-2 font-size-14">
             <span>
               <i
                 className="fas fa-arrow-left
@@ -103,7 +102,7 @@ const Preview = (props) => {
             </span>
             Back
           </Link>
-          <Row className='my-5'>
+          <Row className='my-3'>
             <Col lg={12}>
               <Card>
                 <CardBody>
@@ -442,6 +441,11 @@ const Preview = (props) => {
               </Card>
               {/* Tenant Recommendation */}
               <div>
+                {data && data?.message && (
+                  <Alert color='success' className='text-center'>
+                    {data?.message}
+                  </Alert>
+                )}
                 <h4> Tenant Recommendation </h4>
                 <Card>
                   <CardBody>
@@ -481,7 +485,7 @@ const Preview = (props) => {
               Due Diligence
             </ModalHeader>
             <ModalBody>
-              <DueDiligence id={rentalId.id} />
+              <DueDiligence tenantId={rentalId.id} />
             </ModalBody>
           </Modal>
           <div className="mb-4">

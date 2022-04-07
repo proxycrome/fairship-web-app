@@ -113,10 +113,10 @@ export const registerUserFailed = (error) => {
   };
 };
 
-export const activateAccount = (values, history) => {
+export const activateAccount = (values) => {
   return {
     type: ACTIVATE_USER,
-    payload: { values, history },
+    payload: { values },
   };
 };
 

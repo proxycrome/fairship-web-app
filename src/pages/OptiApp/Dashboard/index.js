@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 // actions
-import { fetchDashboard } from '../../../store/actions';
+import { fetchDashboard, fetchAppointment, getAllServiceReqPending } from '../../../store/actions';
 
 import ExpiringListAnalytics from './ExpiringListAnalytics';
 import OutstandingBalance from './OutstandingBalance';
@@ -14,12 +14,27 @@ import Reports from './Reports';
 import RevenueAnalytics from './RevenueAnalytics';
 import UpcomingPayment from './UpcomingPayment';
 import ServiceAnalytics from './listTable';
+import MaintenanceAnalytics from './maintenaceListTable';
 import Loader from '../../../components/Common/Loading/index';
+import { useSelector } from "react-redux";
 
-const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
+const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReqPending }) => {
+  const date = new Date();
+  const mm = date.getMonth();
+  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+  
+
   useEffect(() => {
     fetchDashboard();
+    fetchAppointment();
+    getAllServiceReqPending();
   }, []);
+
+  const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
+
+  const pendingServices = useSelector((state) => state.Maintenance?.pendingServices );
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -82,7 +97,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                           lineHeight: '42px',
                         }}
                       >
-                        Welcome Saheed Abdul
+                        Welcome {user && user?.fullName}
                       </p>
                       <p
                         className=" text-white"
@@ -91,10 +106,10 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                           font: 'Poppins',
                           fontWeight: 500,
                           fontSize: '18px',
-                          lineHeight: '27px',
+                          lineHeight: '4',
                         }}
                       >
-                        25 Jan 2021
+                        {date.getDate() + " " + month[mm] + " " + date.getFullYear()}
                       </p>
                       <hr
                         style={{
@@ -117,7 +132,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                         >
                           Your Appointments
                         </p>
-                        <p
+                        <Link 
+                          to="/appointments"
                           className="text-white"
                           style={{
                             width: '50px',
@@ -130,21 +146,20 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                           }}
                         >
                           View All
-                        </p>
+                        </Link>
                       </div>
                       <div style={{ display: 'flex' }}>
                         <p
                           className="text-white"
                           style={{
-                            width: '39px',
+                            width: '50px',
                             height: '24px',
                             font: 'Poppins',
                             fontSize: '18px',
-                            lineHeight: '23.58px',
                             fontWeight: 600,
                           }}
                         >
-                          7:45
+                          {recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[1]}
                         </p>
                         <div style={{ display: 'flex' }}>
                           <p
@@ -159,7 +174,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                               marginLeft: '2px',
                             }}
                           >
-                            am
+                            {recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[2]}
                           </p>
                           <p
                             className="text-white"
@@ -172,7 +187,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                               marginRight: '7px',
                             }}
                           ></p>
-                          <p className="text-white">January 18th</p>
+                          <p className="text-white">{recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[0]}</p>
                         </div>
                       </div>
                       <div style={{ display: 'flex' }}>
@@ -327,10 +342,10 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                 <UpcomingPayment />
               </Col>
               <Col md={6}>
-                <ServiceAnalytics Title={'Recent Service Request'} />
+                <ServiceAnalytics Title={'Recent Service Request'} pendingServices={pendingServices}/>
               </Col>
               <Col md={6}>
-                <ServiceAnalytics Title={'Recent Maintenance Request'} />
+                <MaintenanceAnalytics Title={'Recent Maintenance Request'} />
               </Col>
             </Row>
           )}
@@ -341,10 +356,11 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
 };
 
 const mapStatetoProps = (state) => {
-  const { dashboard, loading } = state.Account;
-  return { dashboard, loading };
+  const { dashboard, loading, user } = state.Account;
+  const { appointment } = state.Appointment;
+  return { dashboard, loading, user, appointment };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { fetchDashboard })(Dashboard)
+  connect(mapStatetoProps, { fetchDashboard, fetchAppointment, getAllServiceReqPending })(Dashboard)
 );

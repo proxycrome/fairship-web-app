@@ -8,15 +8,14 @@ import {
   Input,
   FormGroup,
   Label,
+  Alert
 } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PutDataRecommendation } from '../../../../store/actions';
 
 const RejectionForm = ({id}) => {
-
   
-
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
@@ -64,7 +63,11 @@ const RejectionForm = ({id}) => {
     setFourteenth('')
     // window.location.reload(1)
   }
+
+  const {put, rentaldError} = useSelector((state) => state.PreviewReducer);
+  console.log(put)
   return (
+
     <div>
       <Card>
         <CardBody>
@@ -219,6 +222,16 @@ const RejectionForm = ({id}) => {
                 </div>
               </Col>
             </Row>
+            {put && put?.message && (
+              <Alert color='success' className='text-center'>
+                {put?.message}
+              </Alert>
+            )}
+            {rentaldError && rentaldError?.message && (
+              <Alert color='danger' className='text-center'>
+                {rentaldError?.message}
+              </Alert>
+            )}
             <FormGroup className="my-4">
               <Label htmlFor="1billing-address">Other</Label>
               <textarea

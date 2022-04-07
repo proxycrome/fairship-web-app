@@ -84,7 +84,6 @@ function* registerUser({ payload: { userInfo, history } }) {
     const response = yield call(RegisterService, userInfo);
     console.log(response);
     yield put(registerUserSuccessful(response));
-    history.push(`/activation/${response.data.otp}`);
   } catch (error) {
     console.log(error);
     console.log(error?.response);
@@ -92,14 +91,14 @@ function* registerUser({ payload: { userInfo, history } }) {
   }
 }
 
-function* activateUser({ payload: { values, history } }) {
+function* activateUser({ payload: { values } }) {
   try {
     const response = yield call(ActivateServices, values);
     console.log(response);
     yield put(activateAccountSuccess(response));
-    history.push('/login');
   } catch (error) {
     console.log(error);
+    console.log(error.response);
     yield put(activateAccountFailed(error));
   }
 }

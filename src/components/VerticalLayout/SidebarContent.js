@@ -133,12 +133,16 @@ class SidebarContent extends Component {
             </li>
 
             {/* Agent */}
-            <li>
-              <Link to="/agents" className="waves-effect">
-                <i className="ri-user-line"></i>
-                <span className="ml-1">Agent</span>
-              </Link>
-            </li>
+
+            {
+              this.props.user?.role?.name !== "AGENT" && 
+              <li>
+                <Link to="/agents" className="waves-effect">
+                  <i className="ri-user-line"></i>
+                  <span className="ml-1">Agent</span>
+                </Link>
+              </li>
+            }
 
             {/* Maintenance */}
             <li>
@@ -184,7 +188,8 @@ class SidebarContent extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  return { ...state.Layout };
+  const {user} = state.Account
+  return { ...state.Layout, user };
 };
 
 export default withRouter(

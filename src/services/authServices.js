@@ -20,13 +20,10 @@ export const RegisterService = (payload) => {
   return http.postData(payload, url);
 };
 
-export const ActivateServices = (id) => {
-  let payload = {
-    id: id,
-  };
+export const ActivateServices = (payload) => {
   const http = new HttpService();
   const url = 'users/verify-phone';
-  return http.putData(payload, url);
+  return http.postData(payload, url);
 };
 
 export const ForgetPasswordServices = (payload) => {
