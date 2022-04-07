@@ -5,3 +5,12 @@
         fill: $text-muted !important;
     }
 }
+
+.appointDay {
+    color: white;
+    background-color: rgba(56,199,40,1);
+}
+
+.nonAppDay {
+    background-color: rgba(255,255,255,0.85);
+}

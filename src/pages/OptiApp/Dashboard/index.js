@@ -21,7 +21,8 @@ import { useSelector } from "react-redux";
 const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReqPending }) => {
   const date = new Date();
   const mm = date.getMonth();
-  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const day = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
   
 
@@ -34,6 +35,16 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
   const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
 
   const pendingServices = useSelector((state) => state.Maintenance?.pendingServices );
+
+  const appDate = new Date(recentAppointment && (recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[0] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[2]));
+  const dd = appDate.getDay();
+  
+  function getDifferenceInHours(date1, date2) {
+    const diffInMs = Math.abs(date2 - date1);
+    return Math.round(diffInMs / (1000 * 60 * 60));
+  }
+
+  const remainingHours = getDifferenceInHours(date, appDate)
 
   return (
     <React.Fragment>
@@ -192,9 +203,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                       </div>
                       <div style={{ display: 'flex' }}>
                         <p
-                          className="text-white"
+                          className={day[dd] === "Mo" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(56,199,40,1)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -204,8 +214,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Mo
                         </p>
                         <p
+                          className={day[dd] === "Tu" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -216,8 +226,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Tu
                         </p>
                         <p
+                          className={day[dd] === "We" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -228,8 +238,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           We
                         </p>
                         <p
+                          className={day[dd] === "Th" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -240,8 +250,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Th
                         </p>
                         <p
+                          className={day[dd] === "Fr" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -252,8 +262,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Fr
                         </p>
                         <p
+                          className={day[dd] === "Sa" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -264,8 +274,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Sa
                         </p>
                         <p
+                          className={day[dd] === "Su" ? "appointDay" : "nonAppDay"}
                           style={{
-                            backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
                             height: '23px',
                             borderRadius: '50%',
@@ -278,18 +288,18 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                         <p
                           className="text-white"
                           style={{
-                            width: '70px',
+                            width: '100px',
                             height: '13px',
                             borderRadius: '50%',
                             marginLeft: '12px',
                             font: 'Poppins',
                             fontWeight: 600,
                             marginTop: '4px',
-                            fontSize: '11px',
+                            fontSize: '14px',
                             lineHeight: '13.1px',
                           }}
                         >
-                          36 Hours left
+                          {remainingHours} Hours left
                         </p>
                       </div>
                     </div>
