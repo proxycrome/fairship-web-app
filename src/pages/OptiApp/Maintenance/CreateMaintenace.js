@@ -50,7 +50,7 @@ const Maintenance = ({
     dispatch(postMaintenanceReq(formData));
   };
 
-  console.log(maintenance);
+  // console.log(maintenance);
 
   return (
     <div className="page-content">
