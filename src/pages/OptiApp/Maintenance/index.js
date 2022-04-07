@@ -26,7 +26,6 @@ const MaintenanceRequest = () => {
 
   const { maintenanceRequests } = useSelector((state) => state.Maintenance);
 
-  console.log(maintenanceRequests);
 
   if (ShowMaintenance) {
     return <CreateMaintenace GoHome={() => SetShowMaintenance(false)} />;
