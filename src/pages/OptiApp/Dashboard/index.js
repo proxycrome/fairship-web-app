@@ -189,6 +189,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading }) => {
                           Mo
                         </p>
                         <p
+                        
                           style={{
                             backgroundColor: 'rgba(255,255,255,0.85)',
                             width: '23px',
