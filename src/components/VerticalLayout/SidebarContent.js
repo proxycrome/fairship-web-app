@@ -91,7 +91,7 @@ class SidebarContent extends Component {
             </li>
 
             {/* Properties */}
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className=" ri-home-3-line"></i>
                 <span className="ml-1">Property</span>
@@ -106,7 +106,7 @@ class SidebarContent extends Component {
                   </Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
             {/* Accounting */}
             <li>
@@ -169,7 +169,7 @@ class SidebarContent extends Component {
             </li>
 
             {/* inspections */}
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className=" ri-eye-line"></i>
                 <span className="ml-1">Inspections</span>
@@ -179,7 +179,7 @@ class SidebarContent extends Component {
                   <Link to="/inspection">Inspections</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </div>
       </React.Fragment>

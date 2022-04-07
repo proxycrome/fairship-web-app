@@ -42,6 +42,12 @@ const Register = ({
         history.push('/activation');
       }, [2000]);
     }
+
+    if (registrationError) {
+      setTimeout(() => {
+        registerUserFailed('');
+      }, [2000]);
+    }
   }, [message]);
 
   return (

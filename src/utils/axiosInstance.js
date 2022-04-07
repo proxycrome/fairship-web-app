@@ -4,7 +4,6 @@ const checkAuthTokens = () => {
   let authTokens = localStorage.getItem('fairshipToken')
     ? localStorage.getItem('fairshipToken')
     : null;
-console.log(localStorage.getItem('fairshipToken'))
   return authTokens;
 };
 
@@ -29,7 +28,7 @@ axiosInstance.interceptors.response.use(
     const originalConfig = error.config;
     if (error.response) {
       if (error.response.status === 401) {
-        window.location.href = `${process.env.REACT_APP_BASE_URL}/login`;
+        // window.location.href = `/`;
         // try {
         //   const rs = await refreshToken();
         //   const { result } = rs.data;

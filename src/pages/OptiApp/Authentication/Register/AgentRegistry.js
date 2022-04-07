@@ -19,7 +19,13 @@ import {
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
 
-const Register = ({ registerUser, registrationError, message, history, loading }) => {
+const Register = ({
+  registerUser,
+  registrationError,
+  message,
+  history,
+  loading,
+}) => {
   const handleSubmit = (event, values) => {
     const formData = { ...values };
     const agentDetails = {
@@ -219,7 +225,7 @@ const Register = ({ registerUser, registrationError, message, history, loading }
                                 className="w-100 waves-effect waves-light"
                                 type="submit"
                               >
-                                {this.props.loading ? 'Loading...' : 'Sign Up'}
+                                {loading ? 'Loading...' : 'Sign Up'}
                               </Button>
                             </div>
                           </AvForm>
