@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Container,
@@ -12,26 +13,42 @@ import {
   Button,
 } from 'reactstrap';
 
-import avatar3 from '../../../assets/images/users/avatar-3.jpg';
+import avatar from '../../../assets/images/avi.jpg'
+// import avatar3 from '../../../assets/images/users/avatar-3.jpg';
+
+
 const Profile = () => {
+
+  const {user} = useSelector(state => state.Account);
+  
+
   return (
     <div className="page-content">
       <Container fluid>
         {/* <Breadcrumbs title="Dashboard" breadcrumbItems={breadcrumbData} /> */}
-        <h4> Dashboard </h4>
+        <h4> Edit Profile </h4>
         <Card>
           <CardBody>
             <Row>
               <Col md="6">
                 <div className="mb-2 text-center">
-                  <img
-                    className="avatar-md align-self-start mr-3 bg-light rounded-circle mb-2"
-                    src={avatar3}
-                    alt="profile"
-                  />
+                  {user?.profilePhoto ? (
+                    <img
+                      className="avatar-md align-self-start mr-3 bg-light rounded-circle mb-2"
+                      src={user?.profilePhoto}
+                      alt="profile"
+                    />
+                  ) : (
+                    <img
+                      className="avatar-md align-self-start mr-3 bg-light rounded-circle mb-2"
+                      src={avatar}
+                      alt="profile"
+                    />
+                  )}
+                  
                   <h4 className="text-center">
-                    Jane Rodney</h4> 
-                    <p className="text-center">Agent</p> 
+                    {user?.fullName}</h4> 
+                    <p className="text-center">{user?.role?.name}</p> 
 
                 </div>
                 <Row className="mb-2">

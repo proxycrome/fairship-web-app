@@ -16,17 +16,14 @@ export const loadUserServer = () => {
 export const RegisterService = (payload) => {
   console.log(payload);
   const http = new HttpService();
-  const url = 'user';
+  const url = 'users';
   return http.postData(payload, url);
 };
 
-export const ActivateServices = (id) => {
-  let payload = {
-    id: id,
-  };
+export const ActivateServices = (payload) => {
   const http = new HttpService();
-  const url = 'user/activate';
-  return http.putData(payload, url);
+  const url = 'users/verify-phone';
+  return http.postData(payload, url);
 };
 
 export const ForgetPasswordServices = (payload) => {

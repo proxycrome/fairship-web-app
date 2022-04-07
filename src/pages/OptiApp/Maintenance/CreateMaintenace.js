@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, FormGroup, Label } from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, Alert } from "reactstrap";
 import { AvForm, AvField, AvGroup } from "availity-reactstrap-validation";
 import DropZone from "../../../components/Common/imageUpload";
 import {
@@ -50,7 +50,7 @@ const Maintenance = ({
     dispatch(postMaintenanceReq(formData));
   };
 
-  console.log(maintenance);
+  // console.log(maintenance);
 
   return (
     <div className="page-content">
@@ -60,6 +60,11 @@ const Maintenance = ({
             <i className="ri-arrow-left-line"></i>
           </Button>
           <span className="ml-2">New Maintenance Request</span>
+          {maintenance && maintenance?.message && (
+            <Alert color="success" className="text-center">
+              {maintenance?.message}
+            </Alert>
+          )}
           <AvForm className="form-horizontal" onValidSubmit={handleSubmit}>
             <Row>
               <Col xl={6}>
@@ -70,7 +75,7 @@ const Maintenance = ({
                     label="Property"
                     className="form-ctrl"
                   >
-                    <option>Select Property</option>
+                    <option value="">Select Property</option>
                     {properties?.entities?.map((property) => (
                       <option key={property.id} value={property.id}>
                         {property.title}
@@ -86,7 +91,7 @@ const Maintenance = ({
                     className="form-ctrl"
                     label="Problem Type"
                   >
-                    <option>Select Problem type</option>
+                    <option value="">Select Problem type</option>
                     {serviceTypes?.map((service) => (
                       <option key={service.id} value={service.id}>
                         {service.name}
@@ -113,6 +118,10 @@ const Maintenance = ({
                     label="Unit"
                     className="form-ctrl"
                   >
+
+                    <option value="">unit</option>
+                    <option>0001</option>
+                    <option>0002</option>
                     {properties?.entities?.map((property) => (
                       <option key={property.id}>{property.unitNo}</option>
                     ))}
@@ -130,7 +139,7 @@ const Maintenance = ({
                 </FormGroup>
 
                 <AvGroup className="form-group-custom m-4">
-                  <AvField name="fee" label="Amount" />
+                  <AvField name="fee" label="Amount" type="number" />
                 </AvGroup>
               </Col>
             </Row>

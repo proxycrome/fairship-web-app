@@ -39,7 +39,10 @@ import Service from '../pages/OptiApp/Services';
 import KeysMeters from '../pages/OptiApp/Inspection/Keys&Meters';
 
 // fairShip Route
-import Opti_Register from '../pages/OptiApp/Authentication/Register';
+import Opti_Register from '../pages/OptiApp/Authentication/Register/WelcomeLandlord';
+import Opti_agentRegister from '../pages/OptiApp/Authentication/Register/AgentRegistry';
+import Opti_AccountActivation from '../pages/OptiApp/Authentication/ValidationPage';
+
 import Opti_Login from '../pages/OptiApp/Authentication/Login';
 import Opti_ChangePassword from '../pages/OptiApp/Authentication/ChangePaassword';
 import Opti_ForgetPassword from '../pages/OptiApp/Authentication/ForgetPassword';
@@ -58,7 +61,7 @@ const authProtectedRoutes = [
   { path: '/dashboard', component: Dashboard1 },
   { path: '/properties', component: Properties },
   { path: '/create_property', component: CreateProperty },
-  
+
   { path: '/agents', component: Agent },
   { path: '/agentpreview/:email', component: AgentPreview },
   // { path: '/unit_property', component: UnitProperties },
@@ -88,24 +91,13 @@ const authProtectedRoutes = [
 const publicRoutes = [
   // { path: '/logout', component: Logout },
   { path: '/welcome_page', component: WelcomePage },
+  { path: '/activation', component: Opti_AccountActivation },
   { path: '/login', component: Opti_Login },
   { path: '/forget_password', component: Opti_ForgetPassword },
   { path: '/change_password', component: Opti_ChangePassword },
-  { path: '/register', component: Opti_Register },
-  { path: '/welcome', component: Opti_Welcome },
-  
-  // { path: '/login1', component: Login },
-  // { path: '/forgot-password', component: ForgetPwd },
-  // { path: '/register1', component: Register },
-  // { path: '/auth-lock-screen', component: AuthLockScreen },
-
-  // Authentication Inner
-  // { path: '/auth-login', component: Login1 },
-
-  // { path: '/pages-maintenance', component: Maintenance1 },
-  // { path: '/pages-comingsoon', component: CommingSoon },
-  // { path: '/pages-404', component: Error404 },
-  // { path: '/pages-500', component: Error500 },
+  { path: '/landLord_register', component: Opti_Register },
+  { path: '/agent_register', component: Opti_agentRegister },
+  { path: '/register', component: Opti_Welcome },
 ];
 
 export { authProtectedRoutes, publicRoutes };

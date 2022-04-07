@@ -5,10 +5,15 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 
 // users
-import avatar2 from '../../../assets/images/users/avatar-2.jpg';
+// import avatar2 from '../../../assets/images/users/avatar-2.jpg';
+import avatar from '../../../assets/images/avi.jpg'
+
+import { logoutUser } from '../../../store/actions';
 
 class ProfileMenu extends Component {
   constructor(props) {
@@ -26,13 +31,13 @@ class ProfileMenu extends Component {
   }
 
   render() {
-    let username = 'Saheed Abdul';
+    let username = `${this.props.user?.fullName}`;
     // if (localStorage.getItem('authUser')) {
     //   const obj = JSON.parse(localStorage.getItem('authUser'));
     //   const uNm = obj.email.split('@')[0];
     //   username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
     // }
-
+console.log(this.props.user)
     return (
       <React.Fragment>
         <Dropdown
@@ -45,36 +50,44 @@ class ProfileMenu extends Component {
             className="btn header-item waves-effect"
             id="page-header-user-dropdown"
           >
-            <img
-              className="rounded-circle header-profile-user mr-1"
-              src={avatar2}
-              alt="Header Avatar"
-            />
+            {this.props.user?.profilePhoto ? (
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={this.props.user?.profilePhoto}
+                alt="Header Avatar"
+              />
+            ) : (
+              <img
+                className="rounded-circle header-profile-user mr-1"
+                src={avatar}
+                alt="Header Avatar"
+              />
+            )}
             <span className="d-none d-xl-inline-block ml-1 text-transform">
-              {username}
+              {this.props.user?.fullName && username}
             </span>
             <i className="mdi mdi-chevron-down d-none ml-1 d-xl-inline-block"></i>
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem tag={Link} to="/profile">
-              <i className="ri-user-line align-middle mr-1"></i>{' '}
-              Profile
+              <i className="ri-user-line align-middle mr-1"></i> Profile
             </DropdownItem>
-            <DropdownItem href="#">
-              <i className="ri-wallet-2-line align-middle mr-1"></i>{' '}
-              My Wallet
-            </DropdownItem>
+            {/* <DropdownItem href="#">
+              <i className="ri-wallet-2-line align-middle mr-1"></i> My Wallet
+            </DropdownItem> */}
             <DropdownItem className="d-block" href="#">
               <span className="badge badge-success float-right mt-1">11</span>
-              <i className="ri-settings-2-line align-middle mr-1"></i>{' '}
-              Settings
+              <i className="ri-settings-2-line align-middle mr-1"></i> Settings
             </DropdownItem>
-            <DropdownItem href="#">
-              <i className="ri-lock-unlock-line align-middle mr-1"></i>{' '}
-              Lock screen
-            </DropdownItem>
+            {/* <DropdownItem href="#">
+              <i className="ri-lock-unlock-line align-middle mr-1"></i> Lock
+              screen
+            </DropdownItem> */}
             <DropdownItem divider />
-            <DropdownItem className="text-danger" href="/logout">
+            <DropdownItem
+              className="text-danger"
+              onClick={()=>this.props.logoutUser(this.props.history)}
+            >
               <i className="ri-shut-down-line align-middle mr-1 text-danger"></i>{' '}
               Logout
             </DropdownItem>
@@ -85,4 +98,9 @@ class ProfileMenu extends Component {
   }
 }
 
-export default (ProfileMenu);
+const mapStatetoProps = (state) => {
+  const { user } = state.Account;
+  return { user };
+};
+
+export default withRouter(connect(mapStatetoProps, { logoutUser })(ProfileMenu));

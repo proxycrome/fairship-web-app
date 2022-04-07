@@ -24,13 +24,14 @@ const Properties = ({ fetchProperties, properties, loading }) => {
   return (
     <div className="page-content">
       <Container fluid>
-        <div>
-          <div className="float-right">
+        <div className="d-flex justify-content-between mb-2">
+          <h5 className="ml-2"> Properties </h5>
+
+          <div>
             <Link to="/create_property">
               <Button color="success">Upload Properties</Button>
             </Link>
           </div>
-          <h5 className="ml-2"> Properties </h5>
         </div>
         {properties !== null && (
           <PropertiesTable tableData={properties?.entities} />
