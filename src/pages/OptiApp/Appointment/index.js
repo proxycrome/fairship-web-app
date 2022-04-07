@@ -38,6 +38,7 @@ class Appointment extends Component {
   }
 
   render() {
+    
     const data = {
       columns: [
         {

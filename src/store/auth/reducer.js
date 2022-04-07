@@ -33,6 +33,7 @@ const initialState = {
   loginError: null,
   isAuthenticated: false,
   dashboard: null,
+  message: null,
   registrationError: null,
   isRegistered: false,
   activationError: null,
@@ -49,6 +50,7 @@ const Account = (state = initialState, action) => {
       state = {
         ...state,
         loginError: null,
+        message: null,
         loading: true,
       };
       break;
@@ -115,6 +117,7 @@ const Account = (state = initialState, action) => {
       state = {
         ...state,
         user: action.payload.data,
+        message: 'User Created Successfully',
         isRegistered: true,
         loading: false,
         registrationError: null,
@@ -126,6 +129,8 @@ const Account = (state = initialState, action) => {
         ...state,
         loading: false,
         isRegistered: false,
+        message: null,
+        activationError: null,
         registrationError: action.payload,
       };
       break;
@@ -134,7 +139,8 @@ const Account = (state = initialState, action) => {
       state = {
         ...state,
         loading: true,
-        registrationError: action.payload,
+        activationError: null,
+        message: null,
       };
       break;
 

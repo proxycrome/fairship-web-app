@@ -9,6 +9,7 @@ import {
 
 const initialState = {
   properties: null,
+  agents: null,
   propertiesError: null,
   loading: false,
 };
