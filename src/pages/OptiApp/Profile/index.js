@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Card, CardBody, Row, Col, Button } from "reactstrap";
 
 // Redux
@@ -6,14 +6,18 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 
 // actions
-import { fetchProfile } from "../../../store/actions";
+// import { fetchProfile } from "../../../store/actions";
 
 import avatar from "../../../assets/images/avi.jpg";
+import Profile from "./updateProfile"
 
-const Index = ({ fetchProfile, profile }) => {
-  useEffect(() => {
-    fetchProfile();
-  }, []);
+const Index = ({ fetchProfile, user }) => {
+  const [isClicked, setIsClicked] = useState(false);
+
+  if(isClicked){
+    return <Profile />
+  }
+
 
   return (
     <div className="page-content">
@@ -24,9 +28,9 @@ const Index = ({ fetchProfile, profile }) => {
             <Row className="d-flex">
               <Col xl={6} style={{ flex: "1" }}>
                 <div>
-                  {profile?.profilePhoto ? (
+                  {user?.profilePhoto ? (
                     <img
-                      src={profile?.profilePhoto}
+                      src={user?.profilePhoto}
                       alt="profile pix"
                       style={{
                         objectFit: "cover",
@@ -52,33 +56,33 @@ const Index = ({ fetchProfile, profile }) => {
                   <h3 className="mb-4">My Profile</h3>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">FirstName:</h6>
-                    <span>{profile?.fullName.split(" ")[0]}</span>
+                    <span>{user?.fullName.split(" ")[0]}</span>
                   </div>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">LastName:</h6>
-                    <span>{profile?.fullName.split(" ")[1]}</span>
+                    <span>{user?.fullName.split(" ")[1]}</span>
                   </div>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">Email:</h6>
-                    <span>{profile?.email}</span>
+                    <span>{user?.email}</span>
                   </div>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">Date of birth:</h6>
-                    <span>{profile?.dob}</span>
+                    <span>{user?.dob}</span>
                   </div>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">Address:</h6>
-                    <span>{profile?.address.houseNoAddress}</span>
+                    <span>{user?.address.houseNoAddress}</span>
                   </div>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">Phone number:</h6>
-                    <span>{profile?.phone}</span>
+                    <span>{user?.phone}</span>
                   </div>
                   <div className="mb-2 d-flex">
                     <h6 className="mr-4">Gender:</h6>
-                    <span>{profile?.gender}</span>
+                    <span>{user?.gender}</span>
                   </div>
-                  <Button className="btn btn-success w-50 mt-4">
+                  <Button className="btn btn-success w-50 mt-4" onClick={() => setIsClicked(true)}>
                     {" "}
                     Edit profile{" "}
                   </Button>
@@ -93,8 +97,8 @@ const Index = ({ fetchProfile, profile }) => {
 };
 
 const mapStatetoProps = (state) => {
-  const { profile, loading } = state.Account;
-  return { profile, loading };
+  const { user, loading } = state.Account;
+  return { user, loading };
 };
 
-export default withRouter(connect(mapStatetoProps, { fetchProfile })(Index));
+export default withRouter(connect(mapStatetoProps)(Index));
