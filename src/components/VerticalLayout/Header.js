@@ -244,17 +244,6 @@ class Header extends Component {
               <NotificationDropdown />
 
               <ProfileMenu />
-
-              {/* <div className="dropdown d-inline-block">
-                <Button
-                  color="none"
-                  onClick={this.toggleRightbar}
-                  type="button"
-                  className="header-item noti-icon right-bar-toggle waves-effect"
-                >
-                  <i className="ri-settings-2-line"></i>
-                </Button>
-              </div> */}
             </div>
           </div>
         </header>

@@ -91,7 +91,7 @@ class SidebarContent extends Component {
             </li>
 
             {/* Properties */}
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className=" ri-home-3-line"></i>
                 <span className="ml-1">Property</span>
@@ -106,7 +106,7 @@ class SidebarContent extends Component {
                   </Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
 
             {/* Accounting */}
             <li>
@@ -133,12 +133,16 @@ class SidebarContent extends Component {
             </li>
 
             {/* Agent */}
-            <li>
-              <Link to="/agents" className="waves-effect">
-                <i className="ri-user-line"></i>
-                <span className="ml-1">Agent</span>
-              </Link>
-            </li>
+
+            {
+              this.props.user?.role?.name !== "AGENT" && 
+              <li>
+                <Link to="/agents" className="waves-effect">
+                  <i className="ri-user-line"></i>
+                  <span className="ml-1">Agent</span>
+                </Link>
+              </li>
+            }
 
             {/* Maintenance */}
             <li>
@@ -165,7 +169,7 @@ class SidebarContent extends Component {
             </li>
 
             {/* inspections */}
-            <li>
+            {/* <li>
               <Link to="/#" className="has-arrow waves-effect">
                 <i className=" ri-eye-line"></i>
                 <span className="ml-1">Inspections</span>
@@ -175,7 +179,7 @@ class SidebarContent extends Component {
                   <Link to="/inspection">Inspections</Link>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </div>
       </React.Fragment>
@@ -184,7 +188,8 @@ class SidebarContent extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  return { ...state.Layout };
+  const {user} = state.Account
+  return { ...state.Layout, user };
 };
 
 export default withRouter(

@@ -92,10 +92,10 @@ export const loadUserError = (error) => {
 };
 
 // Register Module
-export const registerUser = (userInfo) => {
+export const registerUser = (userInfo, history) => {
   return {
     type: REGISTER_USER,
-    payload: { userInfo },
+    payload: { userInfo, history },
   };
 };
 
@@ -113,10 +113,10 @@ export const registerUserFailed = (error) => {
   };
 };
 
-export const activateAccount = (id, history) => {
+export const activateAccount = (values) => {
   return {
     type: ACTIVATE_USER,
-    payload: { id, history },
+    payload: { values },
   };
 };
 
