@@ -11,7 +11,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 // users
 // import avatar2 from '../../../assets/images/users/avatar-2.jpg';
-import avatar from '../../../assets/images/avi.jpg'
+import avatar from '../../../assets/images/avi.jpg';
 
 import { logoutUser } from '../../../store/actions';
 
@@ -32,12 +32,6 @@ class ProfileMenu extends Component {
 
   render() {
     let username = `${this.props.user?.fullName}`;
-    // if (localStorage.getItem('authUser')) {
-    //   const obj = JSON.parse(localStorage.getItem('authUser'));
-    //   const uNm = obj.email.split('@')[0];
-    //   username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
-    // }
-console.log(this.props.user)
     return (
       <React.Fragment>
         <Dropdown
@@ -86,7 +80,7 @@ console.log(this.props.user)
             <DropdownItem divider />
             <DropdownItem
               className="text-danger"
-              onClick={()=>this.props.logoutUser(this.props.history)}
+              onClick={() => this.props.logoutUser(this.props.history)}
             >
               <i className="ri-shut-down-line align-middle mr-1 text-danger"></i>{' '}
               Logout
@@ -103,4 +97,6 @@ const mapStatetoProps = (state) => {
   return { user };
 };
 
-export default withRouter(connect(mapStatetoProps, { logoutUser })(ProfileMenu));
+export default withRouter(
+  connect(mapStatetoProps, { logoutUser })(ProfileMenu)
+);
