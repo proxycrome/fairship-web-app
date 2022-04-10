@@ -59,9 +59,9 @@ class RentalApplication extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchRental();
-    this.props.fetchRental2();
-    this.props.fetchRental3();
+    // this.props.fetchRental();
+    // this.props.fetchRental2();
+    // this.props.fetchRental3();
   }
   render() {
     const processingRental = this?.props?.rental?.entities?.map((rents) => ({
