@@ -33,7 +33,7 @@ export const fetchPropertiesError = (error) => {
 export const createProperties = (payload) => {
   return {
     type: CREATE_PROPERTIES,
-    payload: payload
+    payload
   };
 };
 

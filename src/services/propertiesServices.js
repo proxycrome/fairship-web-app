@@ -7,7 +7,8 @@ export const fetchPropertiesService = () => {
 };
 
 export const createPropertiesService = (payload) => {
+  console.log(payload);
   const http = new HttpService();
-  const url = 'auth/single-entity-properties';
+  const url = 'auth/collective-entity-properties';
   return http.postDataWithToken(payload, url);
 };

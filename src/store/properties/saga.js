@@ -25,7 +25,6 @@ function* fetchProperties() {
 }
 
 function* createProperties({ payload }) {
-  console.log(payload)
   try {
     const response = yield call(createPropertiesService, payload);
     yield put(createPropertiesSuccessful(response.data));

@@ -10,13 +10,12 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
   const [base64File, setBase64File] = useState([]);
   const [selectedUploadFiles, setUploadFile] = useState([]);
   const onDrop = useCallback((acceptedFiles, rejectFiles) => {
-    setBase64File([])
+    setBase64File([]);
     if (acceptedFiles) {
       handleAcceptedFiles(acceptedFiles);
       setFileError(false);
     }
     if (rejectFiles.length > 0) {
-      console.log(rejectFiles[0]);
       setFileError(true);
     }
   }, []);
@@ -42,15 +41,13 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
       reader.onload = () => {
         setBase64File((prevState) => [
           ...prevState,
-          { encodedString: reader.result },
+          { encodedString: reader.result.split('base64,')[1] },
         ]);
       };
       reader.readAsDataURL(file);
     });
   };
 
-
-  console.log(selectedFiles)
   useEffect(() => {
     if (base64File.length > 0) {
       setFile(base64File);

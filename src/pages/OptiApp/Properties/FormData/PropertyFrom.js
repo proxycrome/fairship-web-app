@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, FormGroup } from 'reactstrap';
+import { Row, Col, Button, FormGroup, Input, Label } from 'reactstrap';
 
 // availity-reactstrap-validation
 import { AvForm, AvField } from 'availity-reactstrap-validation';
@@ -12,6 +12,7 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      description: 'no description',
       city: 'Lagos',
       country: 'Nigeria',
       state: 'Lagos',
@@ -23,15 +24,15 @@ class CreateProperty extends Component {
 
   handleSubmit(events, values) {
     const formData = { ...values };
-    console.log(this.state.selectedFiles)
+    formData.description = this.state.description;
     formData.agentIds = [
       this.props.agents.entities.find((agent) => {
-        if (agent.firstName === values.agentId) {
+        if (agent.firstName === values.agentIds) {
           return agent.id;
         }
       }).id,
     ];
-    formData.propertyImg = this.state.selectedFiles;
+    formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
 
@@ -46,32 +47,30 @@ class CreateProperty extends Component {
   }
 
   render() {
-    console.log(this.state.selectedFiles)
     return (
       <React.Fragment>
         <div>
           <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
             <Row>
-              <Col xs={12}>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="title"
-                    // value={this.state.Title}
                     type="text"
                     className="form-ctrl"
                     id="text"
-                    placeholder="title"
+                    placeholder="Title"
                     required
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
                     name="type"
                     value={this.state.type}
-                    helpMessage="type of building"
+                    required
                   >
                     <option>Flat</option>
                     <option>Duplex</option>
@@ -79,18 +78,19 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    name="square_meter"
+                    name="size"
                     type="text"
                     className="form-ctrl"
                     id="text"
-                    placeholder="square Meter"
+                    placeholder="Enter Property Size"
+                    required
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="address.houseNoAddress"
@@ -98,17 +98,17 @@ class CreateProperty extends Component {
                     className="form-ctrl"
                     id="text"
                     placeholder="address"
+                    required
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="address.state"
+                    name="address.city"
                     value={this.state.state}
-                    // label="Option"
-                    helpMessage="state here"
+                    helpMessage="City"
                   >
                     <option>Lagos</option>
                     <option>Abuja</option>
@@ -116,12 +116,27 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={3}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    type="select"
+                    name="address.state"
+                    value={this.state.state}
+                    // label="Option"
+                    helpMessage="State"
+                  >
+                    <option>Lagos</option>
+                    <option>Abuja</option>
+                    <option>Lekki</option>
+                  </AvField>
+                </FormGroup>
+              </Col>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
                     name="address.country"
-                    helpMessage="state here"
+                    helpMessage="Country"
                     value={this.state.country}
                   >
                     <option>Nigeria</option>
@@ -129,7 +144,7 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={3}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="address.zipcode"
@@ -140,18 +155,34 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={12}>
+              <Col xs={6}>
                 <DropZone
                   selectedFiles={this.state.selectedFiles}
                   setFile={(files) => this.setState({ selectedFiles: files })}
                 />
+              </Col>
+              <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                  <Label for="description">Description</Label>
+                  <Input
+                    name="description"
+                    type="textarea"
+                    rows={8}
+                    className="form-ctrl"
+                    onChange={(e) =>
+                      this.setState({ description: e.target.value })
+                    }
+                    id="description"
+                    placeholder="Description"
+                  />
+                </FormGroup>
               </Col>
 
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="agentId"
+                    name="agentIds"
                     label="Add Agent"
                     required
                     // helpMessage="Location"
