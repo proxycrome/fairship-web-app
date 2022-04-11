@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Card, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 //Dropzone
-import Dropzone from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 
 const ImageUpload = ({ setFile, selectedFiles }) => {
+  const [isFileError, setFileError] = useState(false);
+  const [base64File, setBase64File] = useState([]);
+  const [selectedUploadFiles, setUploadFile] = useState([]);
+  const onDrop = useCallback((acceptedFiles, rejectFiles) => {
+    setBase64File([])
+    if (acceptedFiles) {
+      handleAcceptedFiles(acceptedFiles);
+      setFileError(false);
+    }
+    if (rejectFiles.length > 0) {
+      console.log(rejectFiles[0]);
+      setFileError(true);
+    }
+  }, []);
+
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    maxSize: 5000,
+    accept: 'image/jpeg, image/png',
+  });
+
   const handleAcceptedFiles = (files) => {
     files.map((file) =>
       Object.assign(file, {
@@ -14,8 +35,27 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
       })
     );
 
-    setFile(files);
+    setUploadFile(files);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setBase64File((prevState) => [
+          ...prevState,
+          { encodedString: reader.result },
+        ]);
+      };
+      reader.readAsDataURL(file);
+    });
   };
+
+
+  console.log(selectedFiles)
+  useEffect(() => {
+    if (base64File.length > 0) {
+      setFile(base64File);
+    }
+  }, [base64File]);
 
   /**
    * Formats the size
@@ -36,24 +76,28 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
         Attach Image(s)
       </h4>
       <p className="card-title-desc">Add at least 1 image here</p>
-      <Dropzone onDrop={(acceptedFiles) => handleAcceptedFiles(acceptedFiles)}>
-        {({ getRootProps, getInputProps }) => (
-          <div className="dropzone">
-            <div className="dz-message needsclick mt-2" {...getRootProps()}>
-              <input {...getInputProps()} />
-              <div className="mb-3">
-                <i className="display-4 text-muted ri-upload-cloud-2-line"></i>
-              </div>
-              <h4>Upload atleast one image here.</h4>
+      <div {...getRootProps()}>
+        <div className="dropzone">
+          <div className="dz-message needsclick mt-2">
+            <input {...getInputProps()} />
+            <div className="mb-3">
+              <i className="display-4 text-muted ri-upload-cloud-2-line"></i>
             </div>
+            {isFileError && (
+              <span className="text-danger font-size-12 font-weight-bold">
+                {' '}
+                please select proper file and size{' '}
+              </span>
+            )}
+            <h4>Upload atleast one image here.</h4>
           </div>
-        )}
-      </Dropzone>
+        </div>
+      </div>
 
       <p className="card-title-desc">Ensure Image are not more than 5mb</p>
       <div className="dropzone-previews mt-3" id="file-previews">
         <Row className="mb-3">
-          {selectedFiles.map((f, i) => {
+          {selectedUploadFiles.map((f, i) => {
             return (
               <Col sm={3} key={i}>
                 <Card

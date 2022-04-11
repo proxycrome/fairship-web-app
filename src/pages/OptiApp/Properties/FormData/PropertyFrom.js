@@ -46,6 +46,7 @@ class CreateProperty extends Component {
   }
 
   render() {
+    console.log(this.state.selectedFiles)
     return (
       <React.Fragment>
         <div>

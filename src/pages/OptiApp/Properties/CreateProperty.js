@@ -231,7 +231,7 @@ class CreateProperty extends Component {
 }
 const mapStatetoProps = (state) => {
   const { dashboard, loading } = state.Account;
-  const { agents } = state.Agent;
+  const { agents } = state.Agents;
   return { dashboard, loading, agents };
 };
 
