@@ -37,7 +37,7 @@ class ProfileMenu extends Component {
     //   const uNm = obj.email.split('@')[0];
     //   username = uNm.charAt(0).toUpperCase() + uNm.slice(1);
     // }
-console.log(this.props.user)
+    
     return (
       <React.Fragment>
         <Dropdown
