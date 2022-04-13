@@ -70,22 +70,22 @@ const PropertyCard = ({
                           </p>
                           <p>
                             <i className=" mr-2 text-success ri-building-2-line"></i>
-                            Bus-stop:
+                            Bus-stop: false
                           </p>
                           <p>
                             <i className=" mr-2 text-success ri-building-2-line"></i>
-                            Parking:
+                            Parking: {property?.parkingLot}
                           </p>
                           <p>
                             <i className=" mr-2 text-success ri-building-2-line"></i>
-                            Transit:
+                            Transit: false
                           </p>
                         </div>
                       </Col>
                     </Row>
                     <div className="mt-4">
                       <h4>Description</h4>
-                      <p>Property Description here</p>
+                      <p>{property?.description}</p>
                     </div>
                   </CardBody>
                 </Card>
@@ -96,12 +96,24 @@ const PropertyCard = ({
                       <h4 className="card-title">Agent</h4>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="d-flex align-items-center">
-                          <img src="#" alt="agent" className="avatar-sm mr-4" />
-                          <h5 className="card-title"> Agent Name</h5>
+                          <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
+                          <h5 className="card-title"> {property?.publishedBy?.firstName}  {property?.publishedBy?.lastName}</h5>
                         </div>
-                        <div>
-                          <span> Call </span>
-                          <span> Email </span>
+                        <div className='d-flex'>
+                          <div>
+                          <div className='d-flex rounded-circle justify-content-center align-items-center' 
+                            style={{backgroundColor:'lightGreen', height:'50%'}}>
+                          <i className="fa fa-phone" style={{color:'white'}}></i>
+                          </div>
+                          <p> Call </p>
+                          </div>
+                          <div className='ml-5'>
+                            <a href={`mailto:${property?.publishdBy?.email}`} className='d-flex rounded-circle justify-content-center align-items-center' 
+                            style={{backgroundColor:'lightGreen', height:'50%'}}>
+                            <i className=" fas fa-envelope" style={{color:'white'}}></i>
+                            </a>
+                          <p> Email </p>
+                          </div>
                         </div>
                       </div>
                     </CardBody>
@@ -124,9 +136,9 @@ const PropertyCard = ({
                           </thead>
                           <tbody>
                             <tr>
-                              <td>N1,000,000</td>
-                              <td>Not Sold</td>
-                              <td>Not Sold</td>
+                              <td>{property?.unitNo}</td>
+                              <td>{property?.description}</td>
+                              <td>{property?.rentedBy}</td>
                             </tr>
                           </tbody>
                         </Table>
