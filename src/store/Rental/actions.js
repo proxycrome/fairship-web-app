@@ -54,7 +54,6 @@ import {
   };
   
   export const fetchRentalSuccessful2 = (data) => {
-    console.log(data)
     return {
       type: FETCH_RENTAL_SUCCESSFUL2,
       payload: data,

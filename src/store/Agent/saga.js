@@ -25,6 +25,7 @@ function* getAgents() {
     const response = yield call(getAgentsService);
     yield put(getAgentsSuccessful(response.data));
   } catch (error) {
+    console.log(error.response)
     yield put(getAgentsFailure(error?.response?.data));
   }
 }
@@ -52,6 +53,7 @@ function* fetchAgent ({payload: {agentEmail}}) {
         const response = yield call(fetchAgentService, agentEmail);
         yield put(fetchAgentSuccess(response.data)); 
     } catch (error) {
+      console.log(error.response)
         yield put(fetchAgentFailure(error?.response?.data));
     }
 }

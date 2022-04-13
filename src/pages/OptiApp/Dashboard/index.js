@@ -300,7 +300,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                             lineHeight: '13.1px',
                           }}
                         >
-                          {remainingHours} Hours left
+                          {remainingHours ? remainingHours : 0 } Hours left
                         </p>
                       </div>
                     </div>
