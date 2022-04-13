@@ -64,32 +64,30 @@ const Accountant = () => {
                     }}
                     sm="12"
                   >
-                    <Row className="p-2 bg-white">
-                      <Col className="text-center">
+                    <div className="p-2 d-flex justify-content-around">
+                      <div className="text-center bg-white p-1 rounded">
                         <button
-                          className={`btn btn-sm ${
+                          className={`btn ${
                             showAccountTable
-                              ? 'bg-soft-success'
-                              : 'btn-soft-white'
-                          } mr-1`}
+                              ? 'bg-success text-white'
+                              : 'btn-white'
+                          } mr-1 px-4`}
                           onClick={() => SetAccountTable(true)}
                         >
                           Account
                         </button>
-                      </Col>
-                      <Col className="text-center">
                         <button
-                          className={`btn btn-sm ${
+                          className={`btn ${
                             !showAccountTable
-                              ? 'bg-soft-success'
-                              : 'btn-soft-white'
+                              ? 'bg-success text-white'
+                              : 'btn-white'
                           } mr-1`}
                           onClick={() => SetAccountTable(false)}
                         >
                           Transactions
                         </button>
-                      </Col>
-                    </Row>
+                      </div>
+                    </div>
                   </Col>
                 </Row>
                 {showAccountTable ? <AccountTable /> : <TransactionTable />}
