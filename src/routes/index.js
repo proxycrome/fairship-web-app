@@ -31,7 +31,11 @@ import Profile from '../pages/OptiApp/Profile';
 
 // import UnitProperties from '../pages/OptiApp/Properties/UnitProperties';
 import ListingProperties from '../pages/OptiApp/Properties/Listing';
+
+import ListingPreview from '../pages/OptiApp/Properties/ListPreview';
+
 import Properties from '../pages/OptiApp/Properties/index';
+import PreviewProperties from '../pages/OptiApp/Properties/PropertyCard';
 import CreateProperty from '../pages/OptiApp/Properties/CreateProperty';
 import Settings from '../pages/OptiApp/Settings';
 import Items from '../pages/OptiApp/Inspection/Items';
@@ -55,17 +59,18 @@ import AgentPreview from '../pages/OptiApp/Agent/Preview';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
 import Preview from '../pages/OptiApp/Rental/Preview';
 
-
 const authProtectedRoutes = [
   //FairShip Board
   { path: '/dashboard', component: Dashboard1 },
   { path: '/properties', component: Properties },
+  { path: '/property/:id', component: PreviewProperties },
   { path: '/create_property', component: CreateProperty },
 
   { path: '/agents', component: Agent },
   { path: '/agentpreview/:email', component: AgentPreview },
   // { path: '/unit_property', component: UnitProperties },
   { path: '/listing_properties', component: ListingProperties },
+  { path: '/list/:id', component: ListingPreview },
   { path: '/accounting', component: Accounting },
   { path: '/documents', component: Documents },
   { path: '/tenants', component: Tenants },

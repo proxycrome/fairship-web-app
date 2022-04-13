@@ -4,6 +4,7 @@ import profileImage from '../../../assets/images/home.png';
 import CreateProperty from './CreateProperty';
 import PreviewProperty from './PreviewProperty';
 import PropertiesTable from './propertiesTable';
+import Loading from '../../../components/Common/Loading'
 
 // actions
 import { fetchProperties } from '../../../store/actions';
@@ -33,8 +34,10 @@ const Properties = ({ fetchProperties, properties, loading }) => {
             </Link>
           </div>
         </div>
-        {properties !== null && (
+        {properties !== null ? (
           <PropertiesTable tableData={properties?.entities} />
+        ): (
+          <Loading/>
         )}
 
         {/* <ExtraPages /> */}
