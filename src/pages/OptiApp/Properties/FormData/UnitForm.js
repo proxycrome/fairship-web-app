@@ -24,7 +24,7 @@ class CreateProperty extends Component {
 
   handleSubmit(events, values) {
     const formData = { ...values };
-    formData.description = "new spacious unit"
+    formData.description = 'new spacious unit';
     formData.isServiced = values.isServiced === 'Yes' ? true : false;
     formData.isFurnished = values.isFurnished === 'Yes' ? true : false;
     formData.isShared = values.isShared === 'Yes' ? true : false;
@@ -168,6 +168,7 @@ class CreateProperty extends Component {
                   <AvField
                     name="price"
                     type="number"
+                    min={10000}
                     className="form-ctrl"
                     id="price"
                     placeholder="Price of the apartment"
@@ -221,11 +222,12 @@ class CreateProperty extends Component {
                     type="select"
                     name="agentIds"
                     label="Add Agent"
+                    value={this.props.agents?.entities[0].firstName}
                     required
                     // helpMessage="Location"
                   >
                     {this.props.agents !== null ? (
-                      this.props.agents.entities.map((agent) => (
+                      this.props.agents?.entities?.map((agent) => (
                         <option key={agent.id}>{agent?.firstName}</option>
                       ))
                     ) : (
@@ -277,7 +279,6 @@ class CreateProperty extends Component {
                   </AvRadioGroup>
                 </FormGroup>
               </Col>
-
             </Row>
             <div className="text-center">
               <Button color="success" className="px-2">

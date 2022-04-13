@@ -22,7 +22,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
-    maxSize: 5000,
+    maxSize: 500000,
     accept: 'image/jpeg, image/png',
   });
 
@@ -105,17 +105,15 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
                     <Row className="align-items-center">
                       <Col className="col-auto">
                         <img
-                          data-dz-thumbnail=""
-                          height="80"
-                          className="avatar-sm rounded bg-light"
+                          className="avatar-lg rounded bg-light"
                           alt={f.name}
                           src={f.preview}
                         />
                       </Col>
                       <Col>
-                        <Link to="#" className="text-muted font-weight-bold">
+                        {/* <Link to="#" className="text-muted font-weight-bold">
                           {f.name}
-                        </Link>
+                        </Link> */}
                         <p className="mb-0">
                           <strong>{f.formattedSize}</strong>
                         </p>
