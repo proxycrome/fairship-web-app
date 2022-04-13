@@ -16,8 +16,7 @@ import Loading from '../../../components/Common/Loading';
 import { fetchProperties } from '../../../store/actions';
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import img3 from '../../../assets/images/home.png';
+import { withRouter, Link } from 'react-router-dom';
 
 const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
   useEffect(() => {
@@ -41,9 +40,9 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
               <i className="mdi mdi-magnify search-icon"></i>
             </div>
           </div>
-          <div className="text-right">
+          {/* <div className="text-right">
             <Button color="success">List Property</Button>
-          </div>
+          </div> */}
         </div>
 
         {propertiesError && (
@@ -56,23 +55,25 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
           <Row>
             {properties?.entities.length > 0 &&
               properties.entities.map((data) => (
-                <Col mg={6} xl={3}>
-                  <Card>
-                    <CardImg
-                      top
-                      height="200"
-                      className="w-100"
-                      src={data.indexImage}
-                      alt="Skote"
-                    />
-                    <CardBody className="mb-1">
-                      <span className="text-muted">2 Beds, 2 Baths.</span>
-                      <h6 className="mt-2 card-title">{data.title}</h6>
-                      <p>
-                        From <span className="text-primary">450,000</span> /y
-                      </p>
-                    </CardBody>
-                  </Card>
+                <Col mg={6} xl={3} key={data.id}>
+                  <Link to={`list/${data.id}`}>
+                    <Card>
+                      <CardImg
+                        top
+                        height="200"
+                        className="w-100"
+                        src={data.indexImage}
+                        alt="Skote"
+                      />
+                      <CardBody className="mb-1">
+                        <span className="text-muted">2 Beds, 2 Baths.</span>
+                        <h6 className="mt-2 card-title">{data.title}</h6>
+                        <p>
+                          From <span className="text-primary">450,000</span> /y
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </Link>
                 </Col>
               ))}
           </Row>

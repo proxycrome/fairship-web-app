@@ -11,9 +11,8 @@ import {
 } from 'reactstrap';
 import Loading from '../../../components/Common/Loading';
 
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import img2 from '../../../assets/images/small/img-3.jpg';
 import { fetchEachProperties } from '../../../store/actions';
 
 const PropertyCard = ({
@@ -32,6 +31,13 @@ const PropertyCard = ({
     <>
       <div className="page-content">
         <Container fluid>
+          <div className="mb-2 text-right">
+            <Link to="/properties">
+              <button className="btn btn-success btn-sm">
+                <i className="fas fa-arrow-left mr-2" /> Back
+              </button>
+            </Link>
+          </div>
           {propertiesError && (
             <Alert color="danger" className="text-center">
               {propertiesError}

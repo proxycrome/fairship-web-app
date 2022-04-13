@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, FormGroup } from 'reactstrap';
+import { Row, Col, Button, FormGroup, Alert } from 'reactstrap';
 
 // availity-reactstrap-validation
 import {
@@ -17,12 +17,18 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      imageError: '',
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(events, values) {
+    this.setState({ ...this.state, imageError: '' });
+    if (this.state.selectedFiles.length === 0) {
+      this.setState({ ...this.state, imageError: "image can't be empty" });
+      return;
+    }
     const formData = { ...values };
     formData.description = 'new spacious unit';
     formData.isServiced = values.isServiced === 'Yes' ? true : false;
@@ -171,7 +177,7 @@ class CreateProperty extends Component {
                     min={10000}
                     className="form-ctrl"
                     id="price"
-                    placeholder="Price of the apartment"
+                    helpMessage="Price of Apartment"
                   />
                 </FormGroup>
               </Col>
@@ -216,68 +222,82 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={12}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    type="select"
-                    name="agentIds"
-                    label="Add Agent"
-                    value={this.props.agents?.entities[0].firstName}
-                    required
-                    // helpMessage="Location"
-                  >
-                    {this.props.agents !== null ? (
-                      this.props.agents?.entities?.map((agent) => (
-                        <option key={agent.id}>{agent?.firstName}</option>
-                      ))
-                    ) : (
-                      <option>Loading ...</option>
-                    )}
-                  </AvField>
-                </FormGroup>
-              </Col>
-
-              <Col xs={6}>
-                <DropZone
-                  selectedFiles={this.state.selectedFiles}
-                  setFile={(files) => this.setState({ selectedFiles: files })}
-                />
-              </Col>
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvRadioGroup
-                    name="otherAmenities"
-                    label="Amenities!"
-                    required
-                  >
-                    <AvRadio
-                      className="mb-2"
-                      label="Air Condition"
-                      value="AC"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="water Heaters"
-                      value="heater"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="Microwave"
-                      value="microwave"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="Gas Cooker"
-                      value="Cooker"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="Clean Water"
-                      value="water"
-                    />
-                    <AvRadio className="mb-2" label="Gym" value="Gym" />
-                  </AvRadioGroup>
-                </FormGroup>
+              <Col xm={12}>
+                <Row>
+                  <Col xs={6}>
+                    <Col xs={12}>
+                      <FormGroup className="form-group-custom mb-4">
+                        <AvField
+                          type="select"
+                          name="agentIds"
+                          label="Add Agent"
+                          value={this.props.agents?.entities[0].firstName}
+                          required
+                          // helpMessage="Location"
+                        >
+                          {this.props.agents !== null ? (
+                            this.props.agents?.entities?.map((agent) => (
+                              <option key={agent.id}>{agent?.firstName}</option>
+                            ))
+                          ) : (
+                            <option>Loading ...</option>
+                          )}
+                        </AvField>
+                      </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                      <FormGroup className="form-group-custom mb-4">
+                        <AvRadioGroup
+                          name="otherAmenities"
+                          label="Amenities!"
+                          required
+                        >
+                          <AvRadio
+                            className="mb-2"
+                            label="Air Condition"
+                            value="AC"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="water Heaters"
+                            value="heater"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="Microwave"
+                            value="microwave"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="Gas Cooker"
+                            value="Cooker"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="Clean Water"
+                            value="water"
+                          />
+                          <AvRadio className="mb-2" label="Gym" value="Gym" />
+                        </AvRadioGroup>
+                      </FormGroup>
+                    </Col>
+                  </Col>
+                  <Col xs={6}>
+                    <>
+                      <DropZone
+                        selectedFiles={this.state.selectedFiles}
+                        setFile={(files) =>
+                          this.setState({ selectedFiles: files })
+                        }
+                      />
+                      {this.state.imageError && (
+                        <Alert color="danger" className="text-danger">
+                          {this.state.imageError}
+                        </Alert>
+                      )}
+                    </>
+                  </Col>
+                </Row>
               </Col>
             </Row>
             <div className="text-center">
