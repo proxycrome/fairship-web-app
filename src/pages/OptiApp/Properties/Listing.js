@@ -28,7 +28,7 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
   return (
     <div className="page-content">
       <Container fluid>
-        <h5 className="ml-2"> Properties </h5>
+        <h5 className="ml-2"> List Properties </h5>
         <div className="d-flex justify-content-between mb-3">
           <div className="search-box">
             <div className="position-relative">

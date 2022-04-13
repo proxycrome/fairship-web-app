@@ -2,8 +2,7 @@ import React from 'react';
 import { Container, Card, CardBody, Alert } from 'reactstrap';
 import { withRouter, Link } from 'react-router-dom';
 
-
-const ListPreview = ({match}) => {
+const ListPreview = ({ match }) => {
   return (
     <div className="page-content">
       <Container fluid>
@@ -18,7 +17,9 @@ const ListPreview = ({match}) => {
           <CardBody>
             Preview List Item here
             <Alert className="text-center mt-4" color="danger">
-              The property with ID: {match.params.id} Page is under Construction
+              The property with ID:{' '}
+              <span className="font-weight-bolder"> {match.params.id}</span>{' '}
+              Page is under Construction
             </Alert>
           </CardBody>
         </Card>
