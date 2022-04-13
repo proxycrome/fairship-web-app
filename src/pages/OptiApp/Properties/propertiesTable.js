@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, CardBody } from 'reactstrap';
+import { Row, Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
 import Loader from '../../../components/Common/Loading';
 
@@ -28,14 +28,20 @@ const PropertiesTable = ({ tableData }) => {
             // onClick={() => previewHandler(data.id)}
             className="text-dark font-weight-bold"
           >
-            <img src={data.indexImage} alt="indexImage" className="avatar-sm rounded mr-2" />
-            {`${data.entityLevel}`}
+            <img
+              src={data.indexImage}
+              alt="indexImage"
+              className="avatar-sm rounded mr-2"
+            />
+            <span className="card-title text-capitalize">
+              {`${data.title}`}{' '}
+            </span>
           </Link>
         ),
         type: data.type,
         address: data.address.houseNoAddress,
         state: data.address.state,
-        unit: data.unitNo,
+        feature: data.feature,
         entityLevel: data.entityLevel,
         date: Moment(data.createdAt).format('l'),
         status: (
@@ -57,10 +63,14 @@ const PropertiesTable = ({ tableData }) => {
         ),
         date: Moment(data.createdAt).format('l'),
         action: (
-          <span>
-            {' '}
-            <i className="ri-more-2-fill"></i>{' '}
-          </span>
+          <>
+            <Link to={`/property/${data.id}`}  className="mr-3 text-primary" id="preview">
+              <i className="dripicons-preview font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="preview">
+              Previous
+            </UncontrolledTooltip>
+          </>
         ),
       };
       return newData;
@@ -92,8 +102,8 @@ const PropertiesTable = ({ tableData }) => {
           width: 60,
         },
         {
-          label: 'Unit No',
-          field: 'unit',
+          label: 'Feature',
+          field: 'feature',
           sort: 'asc',
           width: 135,
         },

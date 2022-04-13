@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, FormGroup } from 'reactstrap';
+import { Row, Col, Button, FormGroup, Alert } from 'reactstrap';
 
 // availity-reactstrap-validation
 import {
@@ -17,14 +17,35 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      imageError: '',
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(events, values) {
+    this.setState({ ...this.state, imageError: '' });
+    if (this.state.selectedFiles.length === 0) {
+      this.setState({ ...this.state, imageError: "image can't be empty" });
+      return;
+    }
     const formData = { ...values };
-    console.log(formData);
+    formData.description = 'new spacious unit';
+    formData.isServiced = values.isServiced === 'Yes' ? true : false;
+    formData.isFurnished = values.isFurnished === 'Yes' ? true : false;
+    formData.isShared = values.isShared === 'Yes' ? true : false;
+    formData.parkingLot = values.parkingLot === 'Yes' ? true : false;
+    formData.bathrooms = Number(values.bathrooms);
+    formData.bedrooms = Number(values.bedrooms);
+    formData.price = Number(values.price);
+    formData.periodInMonths = Number(values.periodInMonths);
+    formData.agentIds = [
+      this.props.agents.entities.find((agent) => {
+        if (agent.firstName === values.agentIds) {
+          return agent.id;
+        }
+      }).id,
+    ];
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
@@ -45,23 +66,37 @@ class CreateProperty extends Component {
         <div>
           <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit}>
             <Row>
-              <Col xs={6}>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    name="unitNumber"
+                    name="title"
                     type="text"
                     className="form-ctrl"
-                    id="unitNumber"
-                    placeholder="Unit Number"
+                    id="title"
+                    placeholder="Unit Title"
+                    helpMessage="Unit Title"
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    name="unitNo"
+                    type="text"
+                    className="form-ctrl"
+                    id="unitNo"
+                    placeholder="Unit Number"
+                    helpMessage="Unit Number"
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="unitType"
+                    name="type"
                     helpMessage="Type of Room"
+                    value="flat"
                   >
                     <option>Flat</option>
                     <option>Duplex</option>
@@ -69,12 +104,25 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    name="size"
+                    type="text"
+                    className="form-ctrl"
+                    id="size"
+                    helpMessage="size of apartment"
+                    placeholder="size of apartment"
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
                     name="bedrooms"
                     helpMessage="Bedroom No"
+                    value="1"
                   >
                     <option>1</option>
                     <option>2</option>
@@ -82,12 +130,13 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
                     name="bathrooms"
                     helpMessage="Bedrooms No"
+                    value="1"
                   >
                     <option>1</option>
                     <option>2</option>
@@ -99,11 +148,11 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
-                    name="packingLot"
+                    name="parkingLot"
                     helpMessage="Packing space"
                   >
-                    <option>True</option>
-                    <option>False</option>
+                    <option>Yes</option>
+                    <option>No</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -112,6 +161,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="isServiced"
+                    value="Yes"
                     helpMessage="Serviced Apartment"
                   >
                     <option>Yes</option>
@@ -121,19 +171,28 @@ class CreateProperty extends Component {
               </Col>
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField type="select" name="price" helpMessage="Rent Amount">
-                    <option>300,000</option>
-                    <option>400,000</option>
-                  </AvField>
+                  <AvField
+                    name="price"
+                    type="number"
+                    min={10000}
+                    className="form-ctrl"
+                    id="price"
+                    helpMessage="Price of Apartment"
+                  />
                 </FormGroup>
               </Col>
 
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField type="select" name="periodInMonths" helpMessage="Years">
-                    <option values={1}>1 Year</option>
-                    <option values={2}>2 Years</option>
-                    <option values={3}>3 Years</option>
+                  <AvField
+                    type="select"
+                    name="periodInMonths"
+                    helpMessage="Years of Rent"
+                    value="12"
+                  >
+                    <option values={1}>12 </option>
+                    <option values={2}>18 </option>
+                    <option values={3}>24 </option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -143,89 +202,102 @@ class CreateProperty extends Component {
                     type="select"
                     name="isFurnished"
                     helpMessage="furnishing"
+                    value="Yes"
                   >
-                    <option>True</option>
-                    <option>False</option>
+                    <option>Yes</option>
+                    <option>No</option>
                   </AvField>
                 </FormGroup>
               </Col>
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField type="select" name="isShared" helpMessage="shared">
-                    <option>Shared</option>
-                    <option>Not Shared</option>
+                  <AvField
+                    type="select"
+                    name="isShared"
+                    helpMessage="isShared"
+                    value="Yes"
+                  >
+                    <option>Yes</option>
+                    <option>No</option>
                   </AvField>
                 </FormGroup>
               </Col>
-
-              {/* <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    name="zipcode"
-                    // value={this.state.Title}
-                    type="text"
-                    className="form-ctrl"
-                    id="text"
-                    placeholder="zipcode"
-                  />
-                </FormGroup>
-              </Col>
-
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    name="address"
-                    // value={this.state.Title}
-                    type="text"
-                    className="form-ctrl"
-                    id="text"
-                    placeholder="address"
-                  />
-                </FormGroup>
-              </Col> */}
-
-              <Col xs={12}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvRadioGroup
-                    name="otherAmenities"
-                    label="Amenities!"
-                    required
-                  >
-                    <AvRadio
-                      className="mb-2"
-                      label="Air Condition"
-                      value="AC"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="water Heaters"
-                      value="heater"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="Microwave"
-                      value="microwave"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="Gas Cooker"
-                      value="Cooker"
-                    />
-                    <AvRadio
-                      className="mb-2"
-                      label="Clean Water"
-                      value="water"
-                    />
-                    <AvRadio className="mb-2" label="Gym" value="Gym" />
-                  </AvRadioGroup>
-                </FormGroup>
-              </Col>
-
-              <Col xs={12}>
-                <DropZone
-                  selectedFiles={this.state.selectedFiles}
-                  setFile={(files) => this.setState({ selectedFiles: files })}
-                />
+              <Col xm={12}>
+                <Row>
+                  <Col xs={6}>
+                    <Col xs={12}>
+                      <FormGroup className="form-group-custom mb-4">
+                        <AvField
+                          type="select"
+                          name="agentIds"
+                          label="Add Agent"
+                          value={this.props.agents?.entities[0].firstName}
+                          required
+                          // helpMessage="Location"
+                        >
+                          {this.props.agents !== null ? (
+                            this.props.agents?.entities?.map((agent) => (
+                              <option key={agent.id}>{agent?.firstName}</option>
+                            ))
+                          ) : (
+                            <option>Loading ...</option>
+                          )}
+                        </AvField>
+                      </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                      <FormGroup className="form-group-custom mb-4">
+                        <AvRadioGroup
+                          name="otherAmenities"
+                          label="Amenities!"
+                          required
+                        >
+                          <AvRadio
+                            className="mb-2"
+                            label="Air Condition"
+                            value="AC"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="water Heaters"
+                            value="heater"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="Microwave"
+                            value="microwave"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="Gas Cooker"
+                            value="Cooker"
+                          />
+                          <AvRadio
+                            className="mb-2"
+                            label="Clean Water"
+                            value="water"
+                          />
+                          <AvRadio className="mb-2" label="Gym" value="Gym" />
+                        </AvRadioGroup>
+                      </FormGroup>
+                    </Col>
+                  </Col>
+                  <Col xs={6}>
+                    <>
+                      <DropZone
+                        selectedFiles={this.state.selectedFiles}
+                        setFile={(files) =>
+                          this.setState({ selectedFiles: files })
+                        }
+                      />
+                      {this.state.imageError && (
+                        <Alert color="danger" className="text-danger">
+                          {this.state.imageError}
+                        </Alert>
+                      )}
+                    </>
+                  </Col>
+                </Row>
               </Col>
             </Row>
             <div className="text-center">

@@ -13,7 +13,6 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async (req) => {
-  console.log(checkAuthTokens())
   if (checkAuthTokens()) {
     req.headers.Authorization = checkAuthTokens();
   }
