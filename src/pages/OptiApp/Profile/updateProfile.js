@@ -13,6 +13,7 @@ import {
   FormGroup,
   Button,
   Form,
+  Alert,
 } from 'reactstrap';
 
 import avatar from '../../../assets/images/avi.jpg'
@@ -28,9 +29,14 @@ const Profile = () => {
   const [phone, setPhone] = useState('');
   const [dob, setDob] = useState('');
   const [gender, setGender] = useState('');
+  const [title, setTitle] = useState('')
 
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.Account);
+
+  console.log(user)
+
+  const {result, err} = useSelector( state => state.updateProfileReducer)
 
   const formSent = {
     firstName,
@@ -38,7 +44,7 @@ const Profile = () => {
     dob,
     phone,
     gender,
-    role:`${user?.role?.name}`
+    role:title
   }
 
   console.log(formSent)
@@ -59,6 +65,16 @@ const Profile = () => {
         <h4> Edit Profile </h4>
         <Card>
           <CardBody>
+          {result &&  (
+             <Alert color='success' className='text-center'>
+              {result}
+             </Alert>
+          )}
+          {err && err?.message && (
+            <Alert color='danger' className='text-center'>
+              {err?.message}
+             </Alert>
+          )}
             <Row>
               <Col md="6">
                 <div className="mb-2 text-center">
@@ -287,6 +303,7 @@ const Profile = () => {
                       </Col> */}
                     </FormGroup>
                   </Col>
+
                   <Col sm="12">
                     <FormGroup row>
                       <Label
@@ -329,13 +346,11 @@ const Profile = () => {
                       >
                         Title
                       </Label>
-                      <Col md={12}>
-                        <Input
-                          className="form-control"
-                          type="text"
-                          id="title"
-                        />
-                      </Col>
+                      <select  className="form-control" onChange={(e) => setTitle(e.target.value)}>
+                      <option value='' >CHOOSE ROLE</option>
+                        <option value='PROPERTY_OWNER' >PROPERTY OWNER</option>
+                        <option value='AGENT' >AGENT</option>
+                      </select>
                     </FormGroup>
                   </Col>
                   <Col sm="12" className="text-center">

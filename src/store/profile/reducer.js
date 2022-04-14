@@ -29,6 +29,7 @@ const updateProfileReducer = (state = initialState, action) => {
                loading: false,
                result:  action.payload,
            };
+           console.log(state.result)
            break;
 
         case UPDATE_PROFILE_ERROR:
