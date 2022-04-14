@@ -26,6 +26,7 @@ const Properties = (state = initialState, action) => {
       state = {
         ...state,
         properties: null,
+        createUnit: false,
         propertiesError: null,
         loading: true,
       };

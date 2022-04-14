@@ -32,7 +32,9 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
   }, [searchName]);
 
   useEffect(() => {
-    const isAuth = true;
+    const isAuth = {
+      type: "general"
+    };
     fetchProperties(isAuth);
   }, []);
 

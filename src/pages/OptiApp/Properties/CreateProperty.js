@@ -77,6 +77,13 @@ class CreateProperty extends Component {
             {!this.props.createUnit ? (
               <Row>
                 <Col lg={12}>
+                  <div className="mb-2 text-right">
+                    <Link to="/properties">
+                      <button className="btn btn-success btn-sm">
+                        <i className="fas fa-arrow-left mr-2" /> Back
+                      </button>
+                    </Link>
+                  </div>
                   <Card>
                     <CardBody>
                       <div
