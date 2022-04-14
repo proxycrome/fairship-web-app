@@ -34,6 +34,12 @@ import ListingProperties from '../pages/OptiApp/Properties/Listing';
 
 import ListingPreview from '../pages/OptiApp/Properties/ListPreview';
 
+import UnitProperties from '../pages/OptiApp/Properties/unitProperty';
+import PreviewUnitProperties from '../pages/OptiApp/Properties/unitProperty/PreviewUnitProperty';
+
+
+import CreateUnitProperties from '../pages/OptiApp/Properties/unitProperty/CreateUnitProperty';
+
 import Properties from '../pages/OptiApp/Properties/index';
 import PreviewProperties from '../pages/OptiApp/Properties/PropertyCard';
 import CreateProperty from '../pages/OptiApp/Properties/CreateProperty';
@@ -66,9 +72,12 @@ const authProtectedRoutes = [
   { path: '/property/:id', component: PreviewProperties },
   { path: '/create_property', component: CreateProperty },
 
+  { path: '/unit_properties', component: UnitProperties },
+  { path: '/unit_property/:id', component: PreviewUnitProperties },
+  { path: '/create_unit_property', component: CreateUnitProperties },
+
   { path: '/agents', component: Agent },
   { path: '/agentpreview/:email', component: AgentPreview },
-  // { path: '/unit_property', component: UnitProperties },
   { path: '/listing_properties', component: ListingProperties },
   { path: '/list/:id', component: ListingPreview },
   { path: '/accounting', component: Accounting },

@@ -101,9 +101,10 @@ class SidebarContent extends Component {
                   <Link to="/properties">My Properties</Link>
                 </li>
                 <li>
-                  <Link to="/listing_properties">
-                    Listings
-                  </Link>
+                  <Link to="/unit_properties"> Unit</Link>
+                </li>
+                <li>
+                  <Link to="/listing_properties">Listings</Link>
                 </li>
               </ul>
             </li>
@@ -134,15 +135,14 @@ class SidebarContent extends Component {
 
             {/* Agent */}
 
-            {
-              this.props.user?.role?.name !== "AGENT" && 
+            {this.props.user?.role?.name !== 'AGENT' && (
               <li>
                 <Link to="/agents" className="waves-effect">
                   <i className="ri-user-line"></i>
                   <span className="ml-1">Agent</span>
                 </Link>
               </li>
-            }
+            )}
 
             {/* Maintenance */}
             <li>
@@ -188,7 +188,7 @@ class SidebarContent extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const {user} = state.Account
+  const { user } = state.Account;
   return { ...state.Layout, user };
 };
 

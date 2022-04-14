@@ -26,7 +26,8 @@ function* fetchProperties({payload}) {
     const response = yield call(fetchPropertiesService, payload);
     yield put(fetchPropertiesSuccessful(response.data));
   } catch (error) {
-    console.log(error.response);
+    console.log(error);
+    console.log(error?.response);
     yield put(fetchPropertiesError(error?.response?.data));
   }
 }
@@ -47,8 +48,10 @@ function* createProperties({ payload }) {
   try {
     const response = yield call(createPropertiesService, payload);
     yield put(createPropertiesSuccessful(response.data));
+    console.log(response.data)
   } catch (error) {
-    console.log(error.response);
+    console.log(error);
+    console.log(error?.response);
     yield put(createPropertiesError(error?.response?.data));
   }
 }

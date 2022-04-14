@@ -72,7 +72,10 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
         <i className=" fas fa-star-of-life mr-1 pb-2 text-danger font-size-10" />
         Attach Image(s)
       </h4>
-      <p className="card-title-desc">Add at least 1 image here</p>
+      <p className="card-title-desc mb-0 pb-0">Add at least 1 image here</p>
+      <span className="text-danger">
+        Note: you can select multiple images once
+      </span>
       <div {...getRootProps()}>
         <div className="dropzone">
           <div className="dz-message needsclick mt-2">
