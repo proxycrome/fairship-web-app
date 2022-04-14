@@ -12,6 +12,7 @@ import Rental from './Rental/reducer';
 import PreviewReducer from './Rental/previewReducer';
 
 import Tenant from './Tenants/reducer';
+import updateProfileReducer from './profile/reducer';
 
 
 import Inspections from './inspection/reducer';
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
     Account,
     Agents,
     Maintenance,
+    updateProfileReducer
     // Login,
     // Forget
 

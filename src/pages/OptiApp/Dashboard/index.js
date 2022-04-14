@@ -215,7 +215,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Mo
                         </p>
                         <p
-                          className={day[dd] === "Tu" ? "appointDay" : "nonAppDay"}
+                 className={day[dd] === "Tu" ? "appointDay" : "nonAppDay"}
+
                           style={{
                             width: '23px',
                             height: '23px',

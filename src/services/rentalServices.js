@@ -1,6 +1,6 @@
 import HttpService from './HttpService';
 
-export const fetchRentalService = (filter) => {
+export const fetchRentalService = () => {
   const http = new HttpService();
   let url = 'auth/rent-applications?filter=PROCESSING';
   return http.getData(url);

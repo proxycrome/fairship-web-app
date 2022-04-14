@@ -99,11 +99,10 @@ class CreateProperty extends Component {
                     type="select"
                     name="type"
                     helpMessage="Type of Room"
-                    value="flat"
                   >
-                    <option>Flat</option>
-                    <option>Duplex</option>
-                    <option>mansion</option>
+                    <option value="flat">Flat</option>
+                    <option value="Duplex">Duplex</option>
+                    <option value="mansion">mansion</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -125,11 +124,10 @@ class CreateProperty extends Component {
                     type="select"
                     name="bedrooms"
                     helpMessage="Bedroom No"
-                    value="1"
                   >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -139,11 +137,10 @@ class CreateProperty extends Component {
                     type="select"
                     name="bathrooms"
                     helpMessage="Bedrooms No"
-                    value="1"
                   >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -154,8 +151,8 @@ class CreateProperty extends Component {
                     name="parkingLot"
                     helpMessage="Packing space"
                   >
-                    <option>Yes</option>
-                    <option>No</option>
+                    <option value='Yes'>Yes</option>
+                    <option value='No'>No</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -164,11 +161,10 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="isServiced"
-                    value="Yes"
                     helpMessage="Serviced Apartment"
                   >
-                    <option>Yes</option>
-                    <option>No</option>
+                    <option value='Yes'>Yes</option>
+                    <option value='No'>No</option>
                   </AvField>
                 </FormGroup>
               </Col>

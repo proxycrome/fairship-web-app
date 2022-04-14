@@ -37,6 +37,7 @@ function* fetchEachProperty({ payload }) {
   try {
     const response = yield call(fetchEachPropertiesService, payload);
     yield put(fetchEachPropertiesSuccessful(response.data));
+    console.log(response.data)
   } catch (error) {
     console.log(error);
     console.log(error.response);

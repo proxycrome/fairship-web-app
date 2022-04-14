@@ -1,5 +1,6 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import {
   Container,
@@ -11,15 +12,50 @@ import {
   Input,
   FormGroup,
   Button,
+  Form,
+  Alert,
 } from 'reactstrap';
 
 import avatar from '../../../assets/images/avi.jpg'
+
+import { updateProfile } from '../../../store/actions';
 // import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 
 
 const Profile = () => {
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dob, setDob] = useState('');
+  const [gender, setGender] = useState('');
+  const [title, setTitle] = useState('')
+
+  const dispatch = useDispatch();
   const {user} = useSelector(state => state.Account);
+
+  console.log(user)
+
+  const {result, err} = useSelector( state => state.updateProfileReducer)
+
+  const formSent = {
+    firstName,
+    lastName,
+    dob,
+    phone,
+    gender,
+    role:title
+  }
+
+  console.log(formSent)
+
+  const update = (e) => {
+    e.preventDefault();
+    dispatch(updateProfile(formSent))
+  }
+
+  
+  
   
 
   return (
@@ -29,6 +65,16 @@ const Profile = () => {
         <h4> Edit Profile </h4>
         <Card>
           <CardBody>
+          {result &&  (
+             <Alert color='success' className='text-center'>
+              {result}
+             </Alert>
+          )}
+          {err && err?.message && (
+            <Alert color='danger' className='text-center'>
+              {err?.message}
+             </Alert>
+          )}
             <Row>
               <Col md="6">
                 <div className="mb-2 text-center">
@@ -64,8 +110,10 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="Artisanal kale"
                           id="firstName"
+                          name='firstName'
+                          value={firstName}
+                          onChange={(e)=> setFirstName(e.target.value)}
                         />
                       </Col>
                     </FormGroup>
@@ -82,8 +130,10 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="kale"
                           id="lastName"
+                          name='lastName'
+                          value={lastName}
+                          onChange={(e)=> setLastName(e.target.value)}
                         />
                       </Col>
                     </FormGroup>
@@ -100,7 +150,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="password"
-                          defaultValue="kale"
                           id="password"
                         />
                       </Col>
@@ -118,7 +167,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="email"
-                          defaultValue="kale@gmail.com"
                           id="email"
                         />
                       </Col>
@@ -136,8 +184,10 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="tel"
-                          defaultValue="kale"
                           id="phone_no"
+                          name = 'phone'
+                          value={phone}
+                          onChange={(e)=> setPhone(e.target.value)}
                         />
                       </Col>
                     </FormGroup>
@@ -154,7 +204,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="No 234 Mandilas Mall, Lagos Island"
                           id="address"
                         />
                       </Col>
@@ -172,7 +221,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="Nigeria"
                           id="nationality"
                         />
                       </Col>
@@ -188,14 +236,16 @@ const Profile = () => {
                         htmlFor="gender"
                         className="col-md-12 col-form-label text-secondary"
                       >
-                        Gender
+                        Gender(UPPERCASE)
                       </Label>
                       <Col md={12}>
                         <Input
                           className="form-control"
                           type="Male"
-                          defaultValue="Artisanal kale"
                           id="gender"
+                          name = 'gender'
+                          value={gender}
+                          onChange={(e)=> setGender(e.target.value)}
                         />
                       </Col>
                     </FormGroup>
@@ -212,7 +262,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="English"
                           id="language"
                         />
                       </Col>
@@ -230,8 +279,10 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="date"
-                          defaultValue="kale"
                           id="dateOfBirth"
+                          name = 'dob'
+                          value={dob}
+                          onChange={(e)=> setDob(e.target.value)}
                         />
                       </Col>
                       {/* <Col md={4}>
@@ -252,6 +303,7 @@ const Profile = () => {
                       </Col> */}
                     </FormGroup>
                   </Col>
+
                   <Col sm="12">
                     <FormGroup row>
                       <Label
@@ -264,7 +316,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="LinkedIn/kale"
                           id="linkedIn"
                         />
                       </Col>
@@ -282,7 +333,6 @@ const Profile = () => {
                         <Input
                           className="form-control"
                           type="text"
-                          defaultValue="Lagos"
                           id="state"
                         />
                       </Col>
@@ -296,18 +346,15 @@ const Profile = () => {
                       >
                         Title
                       </Label>
-                      <Col md={12}>
-                        <Input
-                          className="form-control"
-                          type="text"
-                          defaultValue="Agent"
-                          id="title"
-                        />
-                      </Col>
+                      <select  className="form-control" onChange={(e) => setTitle(e.target.value)}>
+                      <option value='' >CHOOSE ROLE</option>
+                        <option value='PROPERTY_OWNER' >PROPERTY OWNER</option>
+                        <option value='AGENT' >AGENT</option>
+                      </select>
                     </FormGroup>
                   </Col>
                   <Col sm="12" className="text-center">
-                    <Button className="btn btn-success w-50 mt-4">
+                    <Button className="btn btn-success w-50 mt-4" onClick={update}>
                       {' '}
                       Save{' '}
                     </Button>
@@ -322,4 +369,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default withRouter(Profile);
