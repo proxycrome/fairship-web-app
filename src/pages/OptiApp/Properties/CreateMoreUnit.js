@@ -9,7 +9,11 @@ const CreateMoreUnit = ({ agents, message, property, createProperties, propertie
   const [showForm, setShowForm] = useState(false);
 
   const createUnitHandler = (formData) => {
-    createProperties(formData, property?.id);
+    const payload = {
+      type : "collective",
+      id:  property?.parentProperty.id
+    }
+    createProperties(formData,payload);
   };
 
   useEffect(() => {

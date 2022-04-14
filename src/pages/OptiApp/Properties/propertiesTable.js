@@ -24,7 +24,7 @@ const PropertiesTable = ({ tableData }) => {
       const newData = {
         property: (
           <Link
-            to={`/user/${data.id}`}
+            to={`/property/${data.id}`}
             // onClick={() => previewHandler(data.id)}
             className="text-dark font-weight-bold"
           >
@@ -64,7 +64,11 @@ const PropertiesTable = ({ tableData }) => {
         date: Moment(data.createdAt).format('l'),
         action: (
           <>
-            <Link to={`/property/${data.id}`}  className="mr-3 text-primary" id="preview">
+            <Link
+              to={`/property/${data.id}`}
+              className="mr-3 text-primary"
+              id="preview"
+            >
               <i className="dripicons-preview font-size-18"></i>
             </Link>
             <UncontrolledTooltip placement="top" target="preview">

@@ -20,7 +20,9 @@ import { withRouter, Link } from 'react-router-dom';
 
 const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
   useEffect(() => {
-    const isAuth = true;
+    const isAuth = {
+      type: "general"
+    };
     fetchProperties(isAuth);
   }, []);
 
