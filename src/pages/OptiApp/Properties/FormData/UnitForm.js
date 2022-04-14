@@ -5,9 +5,11 @@ import { Row, Col, Button, FormGroup, Alert } from 'reactstrap';
 import {
   AvForm,
   AvField,
-  AvRadioGroup,
-  AvRadio,
+  AvCheckboxGroup,
+  AvCheckbox,
 } from 'availity-reactstrap-validation';
+
+import { connect } from 'react-redux';
 
 import DropZone from '../../../../components/Common/imageUpload';
 
@@ -35,6 +37,7 @@ class CreateProperty extends Component {
     formData.isFurnished = values.isFurnished === 'Yes' ? true : false;
     formData.isShared = values.isShared === 'Yes' ? true : false;
     formData.parkingLot = values.parkingLot === 'Yes' ? true : false;
+    formData.otherAmenities = values.otherAmenities.toString();
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
     formData.price = Number(values.price);
@@ -247,38 +250,42 @@ class CreateProperty extends Component {
                     </Col>
                     <Col xs={12}>
                       <FormGroup className="form-group-custom mb-4">
-                        <AvRadioGroup
+                        <AvCheckboxGroup
                           name="otherAmenities"
                           label="Amenities!"
                           required
                         >
-                          <AvRadio
+                          <AvCheckbox
                             className="mb-2"
                             label="Air Condition"
                             value="AC"
                           />
-                          <AvRadio
+                          <AvCheckbox
                             className="mb-2"
                             label="water Heaters"
                             value="heater"
                           />
-                          <AvRadio
+                          <AvCheckbox
                             className="mb-2"
                             label="Microwave"
                             value="microwave"
                           />
-                          <AvRadio
+                          <AvCheckbox
                             className="mb-2"
                             label="Gas Cooker"
                             value="Cooker"
                           />
-                          <AvRadio
+                          <AvCheckbox
                             className="mb-2"
                             label="Clean Water"
                             value="water"
                           />
-                          <AvRadio className="mb-2" label="Gym" value="Gym" />
-                        </AvRadioGroup>
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Gym"
+                            value="Gym"
+                          />
+                        </AvCheckboxGroup>
                       </FormGroup>
                     </Col>
                   </Col>
@@ -302,7 +309,7 @@ class CreateProperty extends Component {
             </Row>
             <div className="text-center">
               <Button color="success" className="px-2">
-                Create Property
+                {this.props.loading ? 'Sending ...' : ' Create Property'}
               </Button>
             </div>
           </AvForm>
@@ -312,4 +319,9 @@ class CreateProperty extends Component {
   }
 }
 
-export default CreateProperty;
+const mapStatetoProps = (state) => {
+  const { loading } = state.Properties;
+  return { loading };
+};
+
+export default connect(mapStatetoProps, null)(CreateProperty);
