@@ -86,10 +86,10 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                     <thead>
                       <tr>
                         <th>Agent</th>
-                        <th data-priority="1">Properties</th>
+                        {/* <th data-priority="1">Properties</th> */}
                         <th data-priority="3">Email</th>
-                        <th data-priority="1">Date Added</th>
-                        <th data-priority="3">Last Active</th>
+                        {/* <th data-priority="1">Date Added</th> */}
+                        {/* <th data-priority="3">Last Active</th> */}
                         <th data-priority="3">Status</th>
                       </tr>
                     </thead>
@@ -161,10 +161,10 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                                   </span>
                                 </Link>
                               </td>
-                              <td></td>
+                              {/* <td></td> */}
                               <td>{agent.email}</td>
-                              <td></td>
-                              <td></td>
+                              {/* <td></td> */}
+                              {/* <td></td> */}
                               <td>
                                 <span>Active</span>
                               </td>

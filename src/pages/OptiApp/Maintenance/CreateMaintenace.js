@@ -111,7 +111,7 @@ const Maintenance = ({
                 </AvGroup>
               </Col>
               <Col xl={6}>
-                <AvGroup className="form-group-custom m-4">
+                {/* <AvGroup className="form-group-custom m-4">
                   <AvField
                     type="select"
                     name="unit"
@@ -126,7 +126,7 @@ const Maintenance = ({
                       <option key={property.id}>{property.unitNo}</option>
                     ))}
                   </AvField>
-                </AvGroup>
+                </AvGroup> */}
 
                 <FormGroup className="form-group-custom m-4">
                   <Label htmlFor="date">Date</Label>
@@ -139,7 +139,7 @@ const Maintenance = ({
                 </FormGroup>
 
                 <AvGroup className="form-group-custom m-4">
-                  <AvField name="fee" label="Amount" type="number" />
+                  <AvField name="fee" label="Amount" />
                 </AvGroup>
               </Col>
             </Row>

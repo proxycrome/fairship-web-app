@@ -6,6 +6,7 @@ import {
   FETCH_EACH_PROPERTIES,
   CREATE_PROPERTIES,
 } from './actionTypes';
+
 import {
   fetchPropertiesSuccessful,
   fetchPropertiesError,
@@ -65,7 +66,6 @@ function* PropertiesSaga() {
   yield all([
     fork(watchFetchProperties),
     fork(watchFetchEachProperties),
-    ,
     fork(watchCreateProperties),
   ]);
 }
