@@ -10,6 +10,11 @@ import {
   Alert,
 } from 'reactstrap';
 import Loading from '../../../components/Common/Loading';
+import Bustop from './images/Vector.svg';
+import Parking from './images/Vector (1).svg';
+import Transit from './images/Vector (2).svg'
+import chat from './images/chat.svg';
+
 
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -69,15 +74,15 @@ const PropertyCard = ({
                             {property.address.houseNoAddress}
                           </p>
                           <p>
-                            <i className=" mr-2 text-success ri-building-2-line"></i>
-                            Bus-stop: false
+                            <img src={Bustop} alt='bus-stop'/>
+                               Bus-stop: false
                           </p>
                           <p>
-                            <i className=" mr-2 text-success ri-building-2-line"></i>
+                          <img src={Parking} alt='bus-stop'/>
                             Parking: {property?.parkingLot}
                           </p>
                           <p>
-                            <i className=" mr-2 text-success ri-building-2-line"></i>
+                          <img src={Transit} alt='bus-stop'/>
                             Transit: false
                           </p>
                         </div>
@@ -95,15 +100,22 @@ const PropertyCard = ({
                     <CardBody>
                       <h4 className="card-title">Agent</h4>
                       <div className="d-flex justify-content-between align-items-center">
-                        <div className="d-flex align-items-center">
+                        <div className="align-items-center">
+                          <div className='d-flex'>
                           <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
                           <h5 className="card-title"> {property?.publishedBy?.firstName}  {property?.publishedBy?.lastName}</h5>
+                          </div>
+                          <div className='d-flex'>
+                          <img src={chat} alt='chat'/>
+                          <h6 className='ml-2'>Chat with this Agent</h6>
+                          </div>
                         </div>
                         <div className='d-flex'>
                           <div>
                           <div className='d-flex rounded-circle justify-content-center align-items-center' 
                             style={{backgroundColor:'lightGreen', height:'50%'}}>
                           <i className="fa fa-phone" style={{color:'white'}}></i>
+                          
                           </div>
                           <p> Call </p>
                           </div>
@@ -120,7 +132,7 @@ const PropertyCard = ({
                   </Card>
                 </div>
 
-                <div>
+                {/* <div>
                   <Card>
                     <CardBody>
                       <h4 className="card-title">Unit(Total)</h4>
@@ -145,7 +157,7 @@ const PropertyCard = ({
                       </div>
                     </CardBody>
                   </Card>
-                </div>
+                </div> */}
               </>
             )
           )}

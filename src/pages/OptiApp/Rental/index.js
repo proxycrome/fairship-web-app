@@ -38,6 +38,8 @@ class RentalApplication extends Component {
       ],
       activeTab: '1',
       showPreview: false,
+      filter: 'Current',
+      callOne: [],
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.SetShowPreview = this.SetShowPreview.bind(this);
@@ -58,13 +60,46 @@ class RentalApplication extends Component {
     });
   }
 
+  fair = (e) => {
+    console.log(e.target[e.target.selectedIndex].value)
+    this.setState({
+      filter: e.target[e.target.selectedIndex].value
+    })
+}
+
   componentDidMount() {
-    // this.props.fetchRental();
-    // this.props.fetchRental2();
-    // this.props.fetchRental3();
-  }
+   this.props.fetchRental()
+   this.props.fetchRental2()
+   this.props.fetchRental3()
+}
+
   render() {
-    const processingRental = this?.props?.rental?.entities?.map((rents) => ({
+ 
+     
+  //   if(this.state.filter === 'Current'){
+  //     return this.props.fetchRental();
+  //   }
+  //   else if(this.state.filter === 'Processing'){
+  //      return this.props.fetchRental2();
+  //   } else if(this.state.filter === 'Exited'){
+  //     return  this.props.fetchRental3();
+  // } else {
+  //   this.props.fetchRental();
+  // }
+
+
+
+    // const row =() => {
+    //   if(this.filter === 'Current'){
+    //      return currentRental
+    //   } else if(this.filter === 'Processing'){
+    //     return processingRental
+    //   } else {
+    //     return exitedRental
+    //   }
+    // }
+
+  const processingRental = this?.props?.rental?.entities?.map((rents) => ({
       application: (
         /*map data from api here for each Tenant */
         <>
@@ -111,8 +146,8 @@ class RentalApplication extends Component {
         </>
       ),
     }));
-
-    const currentRental = this?.props?.rental2?.entities?.map((rents2) => ({
+    
+  const  currentRental = this?.props?.rental2?.entities?.map((rents2) => ({
       application: (
         /*map data from api here for each Tenant */
         <>
@@ -159,8 +194,8 @@ class RentalApplication extends Component {
         </>
       ),
     }));
-
-    const exitedRental = this?.props?.rental3?.entities?.map((rents3) => ({
+    
+  const exitedRental = this?.props?.rental3?.entities?.map((rents3) => ({
       application: (
         /*map data from api here for each Tenant */
         <>
@@ -207,6 +242,8 @@ class RentalApplication extends Component {
         </>
       ),
     }));
+      
+
     const data = {
       columns: [
         {
@@ -246,11 +283,11 @@ class RentalApplication extends Component {
           width: 135,
         },
       ],
-      rows: processingRental
-        ?.concat(currentRental, exitedRental)
-        .flatMap((el) => {
-          return el?.length <= 0 ? [] : el;
-        }),
+      rows: this.state.filter === 'Current' ? currentRental : (this.state.filter === 'Processing' ? processingRental : exitedRental)
+        // ?.concat(currentRental, exitedRental)
+        // .flatMap((el) => {
+        //   return el?.length <= 0 ? [] : el;
+        // }),
     };
 
     if (this.state.showPreview) {
@@ -264,6 +301,14 @@ class RentalApplication extends Component {
     return (
       <React.Fragment>
         <div className="page-content">
+          <div className="float-right mr-3">
+            <select className="custom-select custom-select-sm bg-light" onChange={(e)=> {this.fair(e)}}>
+              <option value=''>All Rental application</option>
+              <option value="Current">Current</option>
+              <option value="Processing">Processing</option>
+              <option value="Exited">Exited</option>
+            </select>
+          </div>
           <Container fluid>
             {this.props.loading ? (
               <Card>
@@ -281,7 +326,7 @@ class RentalApplication extends Component {
                   <Row>
                     <Col lg={12}>
                       <Card>
-                        <CardBody className="pt-0">
+                        <CardBody className="pt-0"> 
                           <MDBDataTable
                             responsive
                             data={data}
@@ -293,7 +338,7 @@ class RentalApplication extends Component {
                   </Row>
                 ) : (
                   //  <Preview SetShowPreview={this.SetShowPreview}/>
-                  <Row>
+                  (<Row>
                     <Col lg={12}>
                       <Card>
                         <CardBody>
@@ -308,7 +353,7 @@ class RentalApplication extends Component {
                         </CardBody>
                       </Card>
                     </Col>
-                  </Row>
+                  </Row>)
                 )}
               </>
             )}
