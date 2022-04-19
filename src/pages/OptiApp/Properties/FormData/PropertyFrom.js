@@ -194,7 +194,7 @@ class CreateProperty extends Component {
                         required
                       >
                         {this.props.agents !== null ? (
-                          this.props.agents?.entities.map((agent) => (
+                          this.props.agents?.entities?.map((agent) => (
                             <option key={agent.id}>{agent?.firstName}</option>
                           ))
                         ) : (

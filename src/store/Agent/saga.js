@@ -24,7 +24,9 @@ function* getAgents({payload}) {
   try {
     const response = yield call(getAgentsService, payload);
     yield put(getAgentsSuccessful(response.data));
+    console.log(response)
   } catch (error) {
+    console.log(error)
     console.log(error.response)
     yield put(getAgentsFailure(error?.response?.data));
   }

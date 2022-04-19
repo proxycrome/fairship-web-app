@@ -66,6 +66,7 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user)
     this.props.getAgents(this.props.user?.id);
   }
 

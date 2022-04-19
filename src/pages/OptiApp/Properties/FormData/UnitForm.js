@@ -64,6 +64,8 @@ class CreateProperty extends Component {
   }
 
   render() {
+
+    console.log(this.props.agents)
     return (
       <React.Fragment>
         <div>
@@ -230,7 +232,7 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
-                          value={this.props.agents?.entities[0].firstName}
+                          // value={this.props.agents && this.props.agents?.entities[0]?.firstName}
                           required
                           // helpMessage="Location"
                         >
