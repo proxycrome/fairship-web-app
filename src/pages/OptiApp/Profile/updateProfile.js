@@ -36,7 +36,7 @@ const Profile = () => {
 
   console.log(user)
 
-  const {result, err} = useSelector( state => state.updateProfileReducer)
+  const {result, err} = useSelector(state => state.updateProfileReducer)
 
   const formSent = {
     firstName,
