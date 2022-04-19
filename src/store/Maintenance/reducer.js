@@ -1,10 +1,7 @@
 import {
-    GET_ALL_SERVICE_REQ_COMPLETE,
-    GET_ALL_SERVICE_REQ_COMPLETE_SUCCESS,
-    GET_ALL_SERVICE_REQ_COMPLETE_FAILURE,
-    GET_ALL_SERVICE_REQ_PENDING_SUCCESS,
-    GET_ALL_SERVICE_REQ_PENDING,
-    GET_ALL_SERVICE_REQ_PENDING_FAILURE,
+    GET_ALL_SERVICE_REQ,
+    GET_ALL_SERVICE_REQ_SUCCESS,
+    GET_ALL_SERVICE_REQ_FAILURE,
     GET_SERVICE_TYPES,
     GET_SERVICE_TYPES_SUCCESS,
     GET_SERVICE_TYPES_FAILURE,
@@ -23,7 +20,6 @@ const initialState = {
     services: null,
     loading: false,
     error: null,
-    pendingServices: null,
     serviceTypes: null,
     maintenance: null,
     maintenanceRequests: null,
@@ -32,8 +28,7 @@ const initialState = {
 
 const Maintenance = (state = initialState, action) => {
     switch(action.type) {
-        case GET_ALL_SERVICE_REQ_PENDING:
-        case GET_ALL_SERVICE_REQ_COMPLETE:
+        case GET_ALL_SERVICE_REQ:
         case GET_SERVICE_TYPES:
         case POST_MAINTENANCE_REQ:
         case GET_MAINTENANCE_REQ:
@@ -45,7 +40,7 @@ const Maintenance = (state = initialState, action) => {
             }
         break;
 
-        case GET_ALL_SERVICE_REQ_COMPLETE_SUCCESS:
+        case GET_ALL_SERVICE_REQ_SUCCESS:
             state = {
                 ...state,
                 loading: false,
@@ -54,7 +49,7 @@ const Maintenance = (state = initialState, action) => {
             }
         break;
 
-        case GET_ALL_SERVICE_REQ_COMPLETE_FAILURE:
+        case GET_ALL_SERVICE_REQ_FAILURE:
             state = {
                 ...state,
                 loading: false,
@@ -64,24 +59,6 @@ const Maintenance = (state = initialState, action) => {
             }
         break;
 
-        case GET_ALL_SERVICE_REQ_PENDING_SUCCESS:
-            state = {
-                ...state,
-                loading: false,
-                pendingServices: action.payload,
-                error: null
-            }
-        break;
-
-        case GET_ALL_SERVICE_REQ_PENDING_FAILURE:
-            state = {
-                ...state,
-                loading: false,
-                services: null,
-                pendingServices: null,
-                error: action.payload,
-            }
-        break;
 
         case GET_SERVICE_TYPES_SUCCESS:
             state = {

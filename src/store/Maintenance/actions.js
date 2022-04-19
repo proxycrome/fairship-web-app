@@ -1,10 +1,7 @@
 import {
-    GET_ALL_SERVICE_REQ_COMPLETE,
-    GET_ALL_SERVICE_REQ_COMPLETE_SUCCESS,
-    GET_ALL_SERVICE_REQ_COMPLETE_FAILURE,
-    GET_ALL_SERVICE_REQ_PENDING,
-    GET_ALL_SERVICE_REQ_PENDING_SUCCESS,
-    GET_ALL_SERVICE_REQ_PENDING_FAILURE,
+    GET_ALL_SERVICE_REQ,
+    GET_ALL_SERVICE_REQ_SUCCESS,
+    GET_ALL_SERVICE_REQ_FAILURE,
     GET_SERVICE_TYPES,
     GET_SERVICE_TYPES_SUCCESS,
     GET_SERVICE_TYPES_FAILURE,
@@ -19,44 +16,24 @@ import {
     FETCH_SERVICE_FAILURE,
   } from './actionTypes.js';
 
-  export const getAllServiceReqComplete = () => {
+  export const getAllServiceReq = () => {
       return {
-          type: GET_ALL_SERVICE_REQ_COMPLETE
+          type: GET_ALL_SERVICE_REQ
       }
   }
 
-  export const getAllServiceReqCompleteSuccess = (data) => {
+  export const getAllServiceReqSuccess = (data) => {
       return {
-          type: GET_ALL_SERVICE_REQ_COMPLETE_SUCCESS,
+          type: GET_ALL_SERVICE_REQ_SUCCESS,
           payload: data
       }
   }
 
-  export const getAllServiceReqCompleteFailure = (error) => {
+  export const getAllServiceReqFailure = (error) => {
       return {
-          type: GET_ALL_SERVICE_REQ_COMPLETE_FAILURE,
+          type: GET_ALL_SERVICE_REQ_FAILURE,
           payload: error
       }
-  }
-
-  export const getAllServiceReqPending = () => {
-      return {
-          type: GET_ALL_SERVICE_REQ_PENDING
-      }
-  }
-
-  export const getAllServiceReqPendingSuccess = (data) => {
-      return {
-          type: GET_ALL_SERVICE_REQ_PENDING_SUCCESS,
-          payload: data
-      }
-  }
-
-  export const getAllServiceReqPendingFailure = (error) => {
-    return {
-        type: GET_ALL_SERVICE_REQ_PENDING_FAILURE,
-        payload: error
-    }
   }
 
   export const getServiceTypes = () => {

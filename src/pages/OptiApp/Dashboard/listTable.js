@@ -3,8 +3,8 @@ import { Card, CardBody, Table } from 'reactstrap';
 import emptyCan from "../../../assets/images/EmptyCan.png"
 
 import img1 from '../../../assets/images/users/avatar-4.jpg';
-const ListTable = ({ Title, pendingServices }) => {
-  const recentServices = pendingServices?.entities?.slice(0, 4);
+const ListTable = ({ Title, services }) => {
+  const recentServices = services?.entities?.filter(service => service?.status === "PENDING").slice(0, 4);
 
   return (
     <div>

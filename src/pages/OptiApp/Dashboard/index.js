@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 // actions
-import { fetchDashboard, fetchAppointment, getAllServiceReqPending } from '../../../store/actions';
+import { fetchDashboard, fetchAppointment, getAllServiceReq } from '../../../store/actions';
 
 import ExpiringListAnalytics from './ExpiringListAnalytics';
 import OutstandingBalance from './OutstandingBalance';
@@ -18,7 +18,7 @@ import MaintenanceAnalytics from './maintenaceListTable';
 import Loader from '../../../components/Common/Loading/index';
 import { useSelector } from "react-redux";
 
-const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReqPending }) => {
+const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReq }) => {
   const date = new Date();
   const mm = date.getMonth();
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -29,19 +29,21 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
   useEffect(() => {
     fetchDashboard();
     fetchAppointment();
-    getAllServiceReqPending();
+    getAllServiceReq();
   }, []);
 
   const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
 
-  const pendingServices = useSelector((state) => state.Maintenance?.pendingServices );
+  const services = useSelector((state) => state.Maintenance?.services );
 
-  const appDate = new Date(recentAppointment && (recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[0] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[2]));
+  const appDate = new Date(recentAppointment && (recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[0] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[2] + " " + recentAppointment[0]?.startDateTime?.split(" ")[1] + " " + recentAppointment[0]?.startDateTime?.split(" ")[2]));
   const dd = appDate.getDay();
   
   function getDifferenceInHours(date1, date2) {
-    const diffInMs = Math.abs(date2 - date1);
-    return Math.round(diffInMs / (1000 * 60 * 60));
+    if(date2 >= date1){
+      const diffInMs = Math.abs(date2 - date1);
+      return Math.round(diffInMs / (1000 * 60 * 60));
+    }
   }
 
   const remainingHours = getDifferenceInHours(date, appDate)
@@ -354,7 +356,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                 <UpcomingPayment />
               </Col>
               <Col md={6}>
-                <ServiceAnalytics Title={'Recent Service Request'} pendingServices={pendingServices}/>
+                <ServiceAnalytics Title={'Recent Service Request'} services={services}/>
               </Col>
               <Col md={6}>
                 <MaintenanceAnalytics Title={'Recent Maintenance Request'} />
@@ -374,5 +376,5 @@ const mapStatetoProps = (state) => {
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { fetchDashboard, fetchAppointment, getAllServiceReqPending })(Dashboard)
+  connect(mapStatetoProps, { fetchDashboard, fetchAppointment, getAllServiceReq })(Dashboard)
 );
