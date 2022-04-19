@@ -13,9 +13,10 @@ import {
     FETCH_AGENT_FAILURE,
 } from './actionTypes'
 
-export const getAgents = () => {
+export const getAgents = (id) => {
     return {
         type: GET_ALL_AGENTS,
+        payload: id
     }
 }
 

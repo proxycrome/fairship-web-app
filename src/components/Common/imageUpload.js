@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 //Dropzone
 import { useDropzone } from 'react-dropzone';
 
-const ImageUpload = ({ setFile, selectedFiles }) => {
+const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
   const [isFileError, setFileError] = useState(false);
   const [base64File, setBase64File] = useState([]);
   const [selectedUploadFiles, setUploadFile] = useState([]);
@@ -41,7 +41,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
       reader.onload = () => {
         setBase64File((prevState) => [
           ...prevState,
-          { encodedString: reader.result.split('base64,')[1] },
+          { [typeName]: reader.result.split('base64,')[1] },
         ]);
       };
       reader.readAsDataURL(file);
