@@ -25,11 +25,10 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
     setFilteredAgents(
       landlordAgents?.data?.agents.filter(
         (agent) =>
-          agent.firstName.toLowerCase() === searchName.toLowerCase() ||
-          agent.lastName.toLowerCase() === searchName.toLowerCase() ||
-          agent.email.toLowerCase() === searchName.toLowerCase() ||
-          (agent.firstName + " " + agent.lastName).toLowerCase() ===
-            searchName.toLowerCase()
+          agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
+          agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
+          agent.email.toLowerCase().includes(searchName.toLowerCase()) ||
+          (agent.firstName + " " + agent.lastName).toLowerCase().includes(searchName.toLowerCase())
       )
     );
   }, [searchName]);

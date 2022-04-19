@@ -150,7 +150,7 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col>
-                    <Col xs={4}>
+                    {/* <Col xs={4}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="unitNo"
@@ -161,7 +161,7 @@ class CreateProperty extends Component {
                           helpMessage="Unit Number"
                         />
                       </FormGroup>
-                    </Col>
+                    </Col> */}
                     <Col xs={4}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
@@ -248,7 +248,7 @@ class CreateProperty extends Component {
                           type="text"
                           className="form-ctrl"
                           id="size"
-                          helpMessage="size of apartment"
+                          helpMessage="size of apartment (sqm)"
                           placeholder="size of apartment"
                         />
                       </FormGroup>
@@ -258,7 +258,7 @@ class CreateProperty extends Component {
                         <AvField
                           type="select"
                           name="bedrooms"
-                          helpMessage="Bedroom No"
+                          helpMessage="No. of Bedrooms"
                           value="1"
                         >
                           <option>1</option>
@@ -272,7 +272,7 @@ class CreateProperty extends Component {
                         <AvField
                           type="select"
                           name="bathrooms"
-                          helpMessage="Bedrooms No"
+                          helpMessage="No. of Bathrooms"
                           value="1"
                         >
                           <option>1</option>
@@ -322,15 +322,15 @@ class CreateProperty extends Component {
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
-                          type="select"
+                          type="text"
                           name="periodInMonths"
-                          helpMessage="Years of Rent"
-                          value="12"
-                        >
-                          <option values={1}>12 </option>
+                          helpMessage="Months of Rent"
+                          placeholder="Enter No. of Months"
+                        />
+                          {/* <option values={1}>12 </option>
                           <option values={2}>18 </option>
-                          <option values={3}>24 </option>
-                        </AvField>
+                          <option values={3}>24 </option> */}
+                        {/* </AvField> */}
                       </FormGroup>
                     </Col>
                     <Col xs={6}>
@@ -375,7 +375,7 @@ class CreateProperty extends Component {
                                 {this.props.agents !== null ? (
                                   this.props.agents?.entities?.map((agent) => (
                                     <option key={agent.id}>
-                                      {agent?.firstName}
+                                      {agent?.firstName} {agent?.lastName}
                                     </option>
                                   ))
                                 ) : (

@@ -7,22 +7,17 @@ import MaintenanceSummary from "./MaintenanceSummary";
 import ServiceRequest from "./ServiceRequest";
 import CreateMaintenace from "./CreateMaintenace";
 import { useDispatch, useSelector } from "react-redux";
-import { getMaintenanceReq, getAllServiceReqComplete, getAllServiceReqPending } from "../../../store/actions";
+// import { getMaintenanceReq } from "../../../store/actions";
 
 const MaintenanceRequest = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [ShowMaintenance, SetShowMaintenance] = useState(false);
   const [showService, setShowService] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMaintenanceReq());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(getAllServiceReqComplete());
-    dispatch(getAllServiceReqPending());
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getMaintenanceReq());
+  // }, [dispatch]);
 
   const { maintenanceRequests } = useSelector((state) => state.Maintenance);
 

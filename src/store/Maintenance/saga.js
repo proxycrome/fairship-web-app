@@ -2,18 +2,15 @@ import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 import { 
   FETCH_SERVICE,
-  GET_ALL_SERVICE_REQ_COMPLETE, 
-  GET_ALL_SERVICE_REQ_PENDING, 
+  GET_ALL_SERVICE_REQ,  
   GET_MAINTENANCE_REQ, 
   GET_SERVICE_TYPES, 
   POST_MAINTENANCE_REQ
 } from './actionTypes';
 
 import { 
-  getAllServiceReqCompleteSuccess,
-  getAllServiceReqCompleteFailure,
-  getAllServiceReqPendingSuccess,
-  getAllServiceReqPendingFailure,
+  getAllServiceReqSuccess,
+  getAllServiceReqFailure,
   getServiceTypesSuccess,
   getServiceTypesFailure,
   postMaintenanceReqSuccess,
@@ -26,29 +23,19 @@ import {
 
 import { 
   fetchServiceServer,
-  getAllServicesCompletedService, 
-  getAllServicesPendingService,
+  getAllServicesServer,
   getMaintenanceReqService,
   getServiceTypesService,
   postMaintenanceReqService
 } from '../../services/maintenanceServices';
 
-function* getAllServiceReqComplete() {
+function* getAllServiceReq() {
   try {
-    const response = yield call(getAllServicesCompletedService);
-    yield put(getAllServiceReqCompleteSuccess(response.data));
+    const response = yield call(getAllServicesServer);
+    yield put(getAllServiceReqSuccess(response.data));
   } catch (error) {
-    yield put(getAllServiceReqCompleteFailure(error?.response?.data));
+    yield put(getAllServiceReqFailure(error?.response?.data));
   }
-}
-
-function* getAllServiceReqPending() {
-    try {
-        const response = yield call(getAllServicesPendingService);
-        yield put(getAllServiceReqPendingSuccess(response.data));
-    } catch (error) {
-        yield put(getAllServiceReqPendingFailure(error?.response?.data));
-    }
 }
 
 function* getServiceTypes() {
@@ -92,16 +79,12 @@ export function* watchFetchService() {
   yield takeEvery(FETCH_SERVICE, fetchService)
 }
 
-export function* watchGetAllServiceReqComplete() {
-  yield takeEvery(GET_ALL_SERVICE_REQ_COMPLETE, getAllServiceReqComplete);
+export function* watchGetAllServiceReq() {
+  yield takeEvery(GET_ALL_SERVICE_REQ, getAllServiceReq);
 }
 
 export function* watchGetServiceTypes() {
     yield takeEvery(GET_SERVICE_TYPES, getServiceTypes)
-}
-
-export function* watchGetAllServiceReqPending() {
-    yield takeEvery(GET_ALL_SERVICE_REQ_PENDING, getAllServiceReqPending);
 }
 
 export function* watchPostMaintenanceReq() {
@@ -115,8 +98,7 @@ export function* watchGetMaintenanceReq() {
 function* MaintenanceSaga() {
   yield all([
     fork(watchFetchService),
-    fork(watchGetAllServiceReqComplete),
-    fork(watchGetAllServiceReqPending),
+    fork(watchGetAllServiceReq),
     fork(watchGetServiceTypes),
     fork(watchPostMaintenanceReq),
     fork(watchGetMaintenanceReq)

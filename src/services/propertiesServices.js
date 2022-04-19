@@ -8,6 +8,8 @@ export const fetchPropertiesService = (payload) => {
     url = `properties?limit=100`;
   } else if (payload?.type === 'unit_entity') {
     url = 'auth/properties?limit=100&entityLevel=UNIT_ENTITY';
+  } else if (payload?.type === 'all_user_properties') {
+    url = 'auth/properties-all-levels?limit=100';
   }
   return http.getData(url);
 };
