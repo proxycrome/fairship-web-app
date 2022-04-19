@@ -25,6 +25,7 @@ import Appointment from '../pages/OptiApp/Appointment';
 import Chats from '../pages/OptiApp/Chats';
 import Documents from '../pages/OptiApp/Documents';
 import Inspection from '../pages/OptiApp/Inspection';
+import create_inspection from '../pages/OptiApp/Inspection/MoveIn';
 import Maintenance from '../pages/OptiApp/Maintenance';
 import PowerMonitory from '../pages/OptiApp/PowerMonitory';
 import Profile from '../pages/OptiApp/Profile';
@@ -36,7 +37,6 @@ import ListingPreview from '../pages/OptiApp/Properties/ListPreview';
 
 import UnitProperties from '../pages/OptiApp/Properties/unitProperty';
 import PreviewUnitProperties from '../pages/OptiApp/Properties/unitProperty/PreviewUnitProperty';
-
 
 import CreateUnitProperties from '../pages/OptiApp/Properties/unitProperty/CreateUnitProperty';
 
@@ -90,6 +90,8 @@ const authProtectedRoutes = [
   { path: '/appointments', component: Appointment },
   { path: '/rental_application', component: OptiRentalApplication },
   { path: '/inspection', component: Inspection },
+  { path: '/create_inspection', component: create_inspection },
+  
   { path: '/items', component: Items },
   { path: '/keys_meters', component: KeysMeters },
 

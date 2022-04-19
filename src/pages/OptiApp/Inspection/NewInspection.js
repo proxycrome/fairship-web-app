@@ -46,26 +46,6 @@ const NewInspection = ({BackToHome}) => {
     'Search by unit or Tenant'
   );
 
-  const handleSelectGroup = (selectedGroup) => {
-    setSelectedGroup(selectedGroup);
-  };
-
-  const handlePropertySelectGroup = (propertySelectedGroup) => {
-    setPropertySelectedGroup(propertySelectedGroup);
-  };
-
-  const handleMoveIn = (date) => {
-    setMoveInDate(date);
-  };
-
-  const handleInspectionDate = (date) => {
-    setInspectionDate(date);
-  }
-
-  if (isMoveIn) {
-    return <MoveIn BacktoHome={() => setIsMoveIn(false)} />;
-  }
-
   return (
     <div className="page-content container">
       <h5 className="ml-5 mt-5">New Inspection</h5>
@@ -80,32 +60,10 @@ const NewInspection = ({BackToHome}) => {
                     <Label>Type</Label>
                     <Select
                       value={selectedGroup}
-                      onChange={handleSelectGroup}
+                      // onChange={handleSelectGroup}
                       options={optionGroup}
                       classNamePrefix="select2-selection"
                     />
-                  </FormGroup>
-                  <FormGroup className="mb-4">
-                    <Label>Move in Date</Label>
-                    <InputGroup>
-                      <DatePicker
-                        className="form-control"
-                        selected={moveInDate}
-                        onChange={handleMoveIn}
-                      />
-                    </InputGroup>
-                  </FormGroup>
-                </Col>
-                <Col lg="6">
-                  <FormGroup className="mb-4">
-                    <Label>Move in Inspection Date</Label>
-                    <InputGroup>
-                      <DatePicker
-                        className="form-control"
-                        selected={inspectionDate}
-                        onChange={handleInspectionDate}
-                      />
-                    </InputGroup>
                   </FormGroup>
                 </Col>
               </Row>
@@ -114,9 +72,9 @@ const NewInspection = ({BackToHome}) => {
                   <FormGroup className="select2-container">
                     <Label>Property</Label>
                     <Select
-                      value={propertySelectedGroup}
-                      onChange={handlePropertySelectGroup}
-                      options={propertyOptionGroup}
+                      // value={propertySelectedGroup}
+                      // onChange={handlePropertySelectGroup}
+                      // options={propertyOptionGroup}
                       classNamePrefix="select2-selection"
                     />
                   </FormGroup>

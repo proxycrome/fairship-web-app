@@ -20,9 +20,9 @@ import {
   fetchAgentService,
 } from "../../services/agentServices";
 
-function* getAgents() {
+function* getAgents({payload}) {
   try {
-    const response = yield call(getAgentsService);
+    const response = yield call(getAgentsService, payload);
     yield put(getAgentsSuccessful(response.data));
   } catch (error) {
     console.log(error.response)
