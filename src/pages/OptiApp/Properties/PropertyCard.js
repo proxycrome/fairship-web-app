@@ -14,6 +14,7 @@ import Loading from '../../../components/Common/Loading';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchEachProperties } from '../../../store/actions';
+import avatar from "../../../assets/images/avi.jpg";
 
 const PropertyCard = ({
   fetchEachProperties,
@@ -74,7 +75,7 @@ const PropertyCard = ({
                           </p>
                           <p>
                             <i className=" mr-2 text-success ri-building-2-line"></i>
-                            Parking: {property?.parkingLot}
+                            Parking: {property?.parkingLot === null ? 'false' : property?.parkingLot}
                           </p>
                           <p>
                             <i className=" mr-2 text-success ri-building-2-line"></i>
@@ -96,7 +97,12 @@ const PropertyCard = ({
                       <h4 className="card-title">Agent</h4>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="d-flex align-items-center">
-                          <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
+                          {property?.publishedBy?.profilePhoto ? (
+                            <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
+                          ) : (
+                            <img src={avatar} alt="agent" className="avatar-sm mr-4" />
+                          )}
+                          
                           <h5 className="card-title"> {property?.publishedBy?.firstName}  {property?.publishedBy?.lastName}</h5>
                         </div>
                         <div className='d-flex'>
@@ -108,7 +114,7 @@ const PropertyCard = ({
                           <p> Call </p>
                           </div>
                           <div className='ml-5'>
-                            <a href={`mailto:${property?.publishdBy?.email}`} className='d-flex rounded-circle justify-content-center align-items-center' 
+                            <a href={`mailto:${property?.publishedBy?.email}`} className='d-flex rounded-circle justify-content-center align-items-center' 
                             style={{backgroundColor:'lightGreen', height:'50%'}}>
                             <i className=" fas fa-envelope" style={{color:'white'}}></i>
                             </a>
