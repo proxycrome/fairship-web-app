@@ -66,7 +66,7 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
-    this.props.getAgents();
+    this.props.getAgents(this.props.user?.id);
   }
 
   render() {
@@ -189,10 +189,10 @@ class CreateProperty extends Component {
   }
 }
 const mapStatetoProps = (state) => {
-  const { dashboard, loading } = state.Account;
+  const { loading, user } = state.Account;
   const { message, property, createUnit } = state.Properties;
   const { agents } = state.Agents;
-  return { dashboard, loading, agents, message, property, createUnit };
+  return { loading, agents, message, property, createUnit, user };
 };
 
 export default withRouter(

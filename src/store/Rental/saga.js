@@ -7,9 +7,9 @@ import { fetchRentalSuccessful, fetchRentalError, fetchRentalSuccessful2 ,fetchR
 
 import { fetchRentalService, fetchRentalService2, fetchRentalService3 } from '../../services/rentalServices';
 
-function* fetchRental() {
+function* fetchRental({payload}) {
   try {
-    const response = yield call(fetchRentalService);
+    const response = yield call(fetchRentalService, payload);
     yield put(fetchRentalSuccessful(response.data));
   } catch (error) {
     

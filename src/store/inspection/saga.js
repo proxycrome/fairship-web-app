@@ -1,25 +1,22 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
-import { 
-  FETCH_INSPECTIONS, 
-  POST_INSPECTION, 
-} from './actionTypes';
+import { FETCH_INSPECTIONS, POST_INSPECTION } from './actionTypes';
 
-import { 
-  fetchInspectionsSuccessful, 
-  fetchInspectionsError, 
-  postInspectionSuccessful, 
-  postInspectionFailure, 
+import {
+  fetchInspectionsSuccessful,
+  fetchInspectionsError,
+  postInspectionSuccessful,
+  postInspectionFailure,
 } from './actions';
 
-import { 
-  fetchInspectionsService, 
-  postInspectionService, 
+import {
+  fetchInspectionsService,
+  postInspectionService,
 } from '../../services/inspectionsServices';
 
-function* fetchInspections() {
+function* fetchInspections({payload}) {
   try {
-    const response = yield call(fetchInspectionsService);
+    const response = yield call(fetchInspectionsService, payload);
     yield put(fetchInspectionsSuccessful(response.data));
   } catch (error) {
     console.log(error.response);
@@ -27,11 +24,15 @@ function* fetchInspections() {
   }
 }
 
-function* postInspection({ payload: { formData } }) {
+function* postInspection({ payload }) {
   try {
-    const response = yield call(postInspectionService(formData));
+    console.log(payload);
+    const response = yield call(postInspectionService, payload);
+    console.log(response);
     yield put(postInspectionSuccessful(response.data));
   } catch (error) {
+    console.log(error);
+    console.log(error.response);
     yield put(postInspectionFailure(error?.response?.data));
   }
 }
@@ -45,10 +46,7 @@ export function* watchPostInspections() {
 }
 
 function* InspectionsSaga() {
-  yield all([
-    fork(watchFetchInspections), 
-    fork(watchPostInspections)
-  ]);
+  yield all([fork(watchFetchInspections), fork(watchPostInspections)]);
 }
 
 export default InspectionsSaga;

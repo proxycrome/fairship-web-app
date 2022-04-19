@@ -27,9 +27,10 @@ import {
 }  from './actionTypes';
   
   // Fetch Rental
-  export const fetchRental = () => {
+  export const fetchRental = (payload) => {
     return {
       type: FETCH_RENTAL,
+      payload
     };
   };
   
