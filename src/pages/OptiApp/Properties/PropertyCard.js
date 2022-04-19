@@ -75,16 +75,16 @@ const PropertyCard = ({
                             {property.address.houseNoAddress}
                           </p>
                           <p>
-                            <img src={Bustop} alt='bus-stop'/>
+                            <img src={Bustop} alt='bus-stop' className='mr-2'/>
                                Bus-stop: false
                           </p>
                           <p>
-                            <img src={Parking} alt='bus-stop'/>
-                            <i className=" mr-2 text-success ri-building-2-line"></i>
+                            <img src={Parking} alt='bus-stop' className='mr-2'/>
+                            {/* <i className=" mr-2 text-success ri-building-2-line"></i> */}
                             Parking: {property?.parkingLot === null ? 'false' : property?.parkingLot}
                           </p>
                           <p>
-                          <img src={Transit} alt='bus-stop'/>
+                          <img src={Transit} alt='bus-stop' className='mr-2'/>
                             Transit: false
                           </p>
                         </div>
@@ -103,7 +103,7 @@ const PropertyCard = ({
                       <h4 className="card-title">Agent</h4>
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="align-items-center">
-                          <div className='d-flex'>
+                          <div className='d-flex mb-2'>
                           {property?.publishedBy?.profilePhoto ? (
                             <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
                           ) : (
