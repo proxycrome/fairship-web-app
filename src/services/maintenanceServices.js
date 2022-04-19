@@ -20,13 +20,13 @@ export const getServiceTypesService = () => {
 
 export const postMaintenanceReqService = (formData) => {
   const http = new HttpService();
-  const url = 'landlord/init-maintenance';
+  const url = 'authlandlord/init-maintenance';
   return http.postDataWithToken(formData, url);
 }
 
 export const getMaintenanceReqService = () => {
   const http = new HttpService();
-  const url = 'landlord/maintenance-list/153?size=100';
+  const url = 'authlandlord/maintenance-list/153?size=100';
   return http.getData(url);
 }
 

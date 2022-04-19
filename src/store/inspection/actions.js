@@ -8,9 +8,10 @@ import {
   } from './actionTypes.js';
   
 // Fetch inspections
-export const fetchInspections = () => {
+export const fetchInspections = (payload) => {
   return {
     type: FETCH_INSPECTIONS,
+    payload
   };
 };
 

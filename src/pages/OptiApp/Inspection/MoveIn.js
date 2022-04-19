@@ -7,63 +7,79 @@ import {
   Collapse,
   CardHeader,
   Button,
-  Label
+  Label,
+  Alert,
+  Container,
+  Form,
+  Select,
 } from 'reactstrap';
-import { AvForm, AvRadio, AvField, AvRadioGroup, AvGroup, } from 'availity-reactstrap-validation';
+import {
+  AvForm,
+  AvRadio,
+  AvField,
+  AvRadioGroup,
+  AvGroup,
+} from 'availity-reactstrap-validation';
 import { Link } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import { postInspection } from '../../../store/inspection/actions';
-import SendToTenant from './SendToTenant';
 
-const MoveIn = ({BacktoHome, postInspection}) => {
-  const [isClicked, setIsClicked] = useState(false);
-  const [inspectionName, setInspectionName] = useState("");
+import { fetchRental } from '../../../store/Rental/actions';
+
+import DropZone from '../../../components/Common/imageUpload';
+
+const MoveIn = ({
+  inspection,
+  loading,
+  message,
+  inspectionsError,
+  fetchRental,
+}) => {
+  const [selectedFiles, SetSelectedFiles] = useState([]);
+  const [type, setType] = useState(null);
+  const [rentId, setRentId] = useState(null);
+  
+  const [inspectionData, setInspectionData] = useState({});
+  const [startInspection, setStartInspection] = useState(false);
   const dispatch = useDispatch();
 
   const headerNameRef = useRef(null);
 
-  useEffect(() => {
-    const inspectionAreaName = headerNameRef.current.innerHTML
-    setInspectionName(inspectionAreaName)
-  }, []);
+  const formatData = (data, field, imageUrl) => {
+    const inspectionAreas = {
+      name: field,
+    };
+    inspectionAreas.inspectionItems = [];
+    inspectionAreas.inventoryItems = [];
+
+    for (const [key, value] of Object.entries(data[field].inspectionItems)) {
+      console.log(...imageUrl);
+      const newData = { ...value };
+      newData.itemName = key;
+      newData.images = imageUrl;
+      inspectionAreas.inspectionItems.push(newData);
+    }
+
+    for (const [key, value] of Object.entries(data[field].inventoryItems)) {
+      const newData = { ...value, quantity: Number(value.quantity) };
+      newData.itemName = key;
+      inspectionAreas.inventoryItems.push(newData);
+    }
+    return inspectionAreas;
+  };
 
   const handleSubmit = (event, values) => {
-    console.log(values);
+    let formData = { ...inspectionData };
+    formData.generalComment = values.generalComment;
+    formData.inspectionAreas = [];
+    formData.inspectionAreas.push(formatData(values, 'kitchen', selectedFiles));
+    formData.inspectionAreas.push(formatData(values, 'bedroom', selectedFiles));
+    formData.inspectionAreas.push(
+      formatData(values, 'sitting_room', selectedFiles)
+    );
+    dispatch(postInspection(formData));
+  };
 
-    const formData = {
-      generalComment: values.generalComment,
-      inspectionAreas: [
-        {
-          inspectionItems: [
-            {
-              comment: values.inspectionItemComment1,
-              images: [
-                {
-                  encodedUpload: ""
-                }
-              ],
-              itemName: values.inspectionItemName1,
-              itemState: values.itemState1
-            }
-          ],
-          inventoryItems: [
-            {
-              comment: values.inventoryItemComment1,
-              itemName: values.inventoryItemName1,
-              quantity: +values.quantity1
-            }
-          ],
-          name: inspectionName
-        }
-      ],
-      rendId: 0,
-      type: "MOVE_IN"
-    }
-    // dispatch(postInspection(formData))
-    console.log(formData);
-    
-  }
- 
   const [col1, setCol1] = useState(true);
   const [col2, setCol2] = useState(false);
   const [col3, setCol3] = useState(false);
@@ -80,1225 +96,1085 @@ const MoveIn = ({BacktoHome, postInspection}) => {
     setCol3(!col3);
   };
 
-  if (isClicked) {
-    return <SendToTenant BacktoHome={BacktoHome}/>;
-  } 
+  const handleSubmitEntering = (event, values) => {
+    setStartInspection(true);
+    setInspectionData({ ...values });
+    console.log(values);
+  };
+
+  useEffect(() => {
+   
+    let filter = 'PROCESSING';
+    if(type === "MOVE_OUT"){
+      filter = "CURRENT"
+    }
+    fetchRental(filter);
+  }, [type]);
 
   return (
     <div className="page-content">
-      <h5 className="ml-5 mb-2">Move In</h5>
-      <AvForm onValidSubmit={handleSubmit}>
-        <Row>
-          <Col xl={11} className="mx-auto">
-            <Card>
-              <CardBody>
-                <div id="accordion">
-                  <Card className="mb-2">
-                    <Link
-                      to="#"
-                      onClick={t_col1}
-                      style={{ cursor: 'pointer' }}
-                      className="text-dark"
+      <Container fluid>
+        {!startInspection ? (
+          <Card>
+            <CardBody>
+              <Form onSubmit={handleSubmitEntering}>
+                <Row>
+                  <Col md={6}>
+                    <select
+                      type="select"
+                      name="type"
+                      className="form-control"
+                      // value={type}
+                      onChange={(e) => setType(e.target.value)}
+                      required
                     >
-                      <CardHeader id="headingOne">
-                        <div className="m-0 font-14 d-flex justify-content-between">
-                          <div className='d-flex'>
-                            <i
-                              className={
-                                col1
-                                  ? 'fas fa-caret-down mr-4'
-                                  : 'fas fa-caret-right mr-4'
-                              }
-                            ></i>
-                            <h6 ref={headerNameRef}>Kitchen</h6>
-                          </div>
-                          <div>
-                            <i className="ri-indeterminate-circle-line float-right"></i>
-                            <i className="fas fa-pen float-right mr-4"></i>
-                          </div> 
-                        </div>
-                      </CardHeader>
-                    </Link>
-                    <Collapse isOpen={col1}>
-                      <CardBody>
-                        <Row>
-                          <Col ls={4}>
-                            <h6>Inspection items</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <div className="d-flex justify-content-around">
-                              <label htmlFor="Good" className="mr-1">
-                                Good
-                              </label>
-                              <label htmlFor="Average" className="mr-1">
-                                Average
-                              </label>
-                              <label htmlFor="Poor" className="mr-1">
-                                Poor
-                              </label>
-                            </div>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Comment</h6>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>
-                          <AvField type="select" name="inspectionItemName1">
-                            <option>Door</option>
-                            <option>Flooring</option>
-                            <option>Walls</option>
-                            <option>Painting</option>
-                          </AvField>
-                          </Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState1">
-                              <Col sm={12}
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="inspectionItemComment1"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>
-                            <AvField type="select" name="inspectionItemName2">
-                              <option>Door</option>
-                              <option>Flooring</option>
-                              <option>Walls</option>
-                              <option>Painting</option>
-                            </AvField>
-                          </Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState2">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="inspectionItemComment2"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>
-                            <AvField type="select" name="inspectionItemName3">
-                              <option>Door</option>
-                              <option>Flooring</option>
-                              <option>Walls</option>
-                              <option>Painting</option>
-                            </AvField>
-                          </Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState3">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="inspectionItemComment3"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>
-                            <AvField type="select" name="inspectionItemName4">
-                              <option>Door</option>
-                              <option>Flooring</option>
-                              <option>Walls</option>
-                              <option>Painting</option>
-                            </AvField></Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState4">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="inspectionItemComment4"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-add-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <h6 className="ml-2 mb-4">Inventory Items</h6>
-                        </Row>
-                        <Row>
-                          <Col ls={4}>
-                            <h6>Items</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Quantity</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Comment</h6>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>
-                            <AvField type="select" name="inventoryItemName1">
-                              <option>Door</option>
-                              <option>Socket</option>
-                              <option>Doors</option>
-                              <option>Refrigerator</option>
-                            </AvField>
-                          </Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity1"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="inventoryItemComment1"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>
-                            <AvField type="select" name="inventoryItemName2">
-                              <option>Door</option>
-                              <option>Socket</option>
-                              <option>Doors</option>
-                              <option>Refrigerator</option>
-                            </AvField>
-                          </Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity2"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="inventoryItemComment2"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>
-                            <AvField type="select" name="inventoryItemName3">
-                              <option>Door</option>
-                              <option>Socket</option>
-                              <option>Doors</option>
-                              <option>Refrigerator</option>
-                            </AvField>
-                          </Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity3"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="inventoryItemComment3"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>
-                            <AvField type="select" name="inventoryItemName4">
-                              <option>Door</option>
-                              <option>Socket</option>
-                              <option>Doors</option>
-                              <option>Refrigerator</option>
-                            </AvField>
-                          </Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity4"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="inventoryItemComment4"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-add-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </Collapse>
-                  </Card>
-                  <Card className="mb-2">
-                    <Link
-                      to="#"
-                      onClick={t_col2}
-                      style={{ cursor: 'pointer' }}
-                      className="text-dark"
+                      <option value="MOVE_IN">Move In</option>
+                      <option value="MOVE_OUT">Move Out</option>
+                    </select>
+                  </Col>
+                  <Col md={6}>
+                    <select
+                      type="select"
+                      name="rentId"
+                      className="form-control"
+                      value={rentId}
+                      onChange={(e) => setRentId(e.target.value)}
+                      required
                     >
-                      <CardHeader id="headingTwo">
-                        <h6 className="m-0 font-14">
-                          <i
-                            className={
-                              col2
-                                ? 'fas fa-caret-down mr-4'
-                                : 'fas fa-caret-right mr-4'
-                            }
-                          ></i>
-                          Sitting Room
-                          <i className="ri-indeterminate-circle-line float-right"></i>
-                          <i className="fas fa-pen float-right mr-4"></i>
-                        </h6>
-                      </CardHeader>
-                    </Link>
-                    <Collapse isOpen={col2}>
-                    <CardBody>
-                        <Row>
-                          <Col ls={4}>
-                            <h6>Inspection items</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <div className="d-flex justify-content-around">
-                              <label htmlFor="Good" className="mr-1">
-                                Good
-                              </label>
-                              <label htmlFor="Average" className="mr-1">
-                                Average
-                              </label>
-                              <label htmlFor="Poor" className="mr-1">
-                                Poor
-                              </label>
-                            </div>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Comment</h6>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Door</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Door">
-                              <Col sm={12}
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Flooring</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Flooring">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Walls</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Walls">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Painting</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Painting">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-add-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <h6 className="ml-2 mb-4">Inventory Items</h6>
-                        </Row>
-                        <Row>
-                          <Col ls={4}>
-                            <h6>Items</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Quantity</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Comment</h6>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Door</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Socket</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Doors</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Refrigerator</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-add-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </Collapse>{' '}
-                  </Card>
-                  <Card className="mb-2">
-                    <Link
-                      to="#"
-                      onClick={t_col3}
-                      style={{ cursor: 'pointer' }}
-                      className="text-dark"
-                    >
-                      <CardHeader id="headingThree">
-                        <h6 className="m-0 font-14">
-                          <i
-                            className={
-                              col3
-                                ? 'fas fa-caret-down mr-4'
-                                : 'fas fa-caret-right mr-4'
-                            }
-                          ></i>
-                          Bedroom 1
-                          <i className="ri-indeterminate-circle-line float-right"></i>
-                          <i className="fas fa-pen float-right mr-4"></i>
-                        </h6>
-                      </CardHeader>
-                    </Link>
-                    <Collapse isOpen={col3}>
-                    <CardBody>
-                        <Row>
-                          <Col ls={4}>
-                            <h6>Inspection items</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <div className="d-flex justify-content-around">
-                              <label htmlFor="Good" className="mr-1">
-                                Good
-                              </label>
-                              <label htmlFor="Average" className="mr-1">
-                                Average
-                              </label>
-                              <label htmlFor="Poor" className="mr-1">
-                                Poor
-                              </label>
-                            </div>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Comment</h6>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Door</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Door">
-                              <Col sm={12}
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Flooring</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Flooring">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Walls</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Walls">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="mb-1">
-                          <Col ls={4}>Painting</Col>
-                          <Col ls={4}>
-                            <AvRadioGroup name="itemState-Painting">
-                              <Col
-                                className="d-flex justify-content-between"
-                              >
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Good" value="Good" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Average" value="Average" />
-                                </Col>
-                                <Col
-                                  ls={4}
-                                  className="d-flex justify-content-center"
-                                >
-                                  <AvRadio id="Poor" value="Poor" />
-                                </Col>  
-                              </Col>
-                            </AvRadioGroup>
-                          </Col>
-                          <Col ls={4} className="d-flex align-items-start">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-add-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <hr />
-                        <Row>
-                          <h6 className="ml-2 mb-4">Inventory Items</h6>
-                        </Row>
-                        <Row>
-                          <Col ls={4}>
-                            <h6>Items</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Quantity</h6>
-                          </Col>
-                          <Col ls={4}>
-                            <h6>Comment</h6>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Door</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Socket</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Doors</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                        <Row className="align-items-center mb-2">
-                          <Col ls={4}>Refrigerator</Col>
-                          <Col
-                            ls={4}
-                            className="d-flex justify-content-between"
-                          >
-                            <AvField
-                              type="number"
-                              name="quantity"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                          </Col>
-                          <Col ls={4} className="d-flex">
-                            <AvField
-                              type="text"
-                              name="comment"
-                              style={{ background: '#F4F4F4', border: 'none' }}
-                            />
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-indeterminate-circle-line"></i>
-                            </Button>
-                            <Button
-                              color="link"
-                              outline
-                              className="waves-effect"
-                            >
-                              <i className="ri-add-circle-line"></i>
-                            </Button>
-                          </Col>
-                        </Row>
-                      </CardBody>
-                    </Collapse>{' '}
-                  </Card>
+                      <option value="MOVE_IN">Move In</option>
+                      <option value="MOVE_OUT">Move Out</option>
+                    </select>
+                  </Col>
+                  
+                </Row>
+                <div className="text-center mt-3">
+                  <Button type="submit" color="primary">
+                    Start Inspection
+                  </Button>
                 </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col xl="11 mx-auto mb-4">
-            <Button
-              color="success"
-              outline
-              block
-              className="waves-effect d-flex align-items-center justify-content-center"
-            >
-              <i className="ri-add-circle-line font-size-20 mr-2"></i>
-              Add
-            </Button>
-          </Col>
-        </Row>
-        <Row>
-          <Col xl="11 mx-auto mb-4">
-            <AvGroup>
-              <Label htmlFor="comments">General Comment</Label>
-              <AvField
-                type="textarea"
-                name="generalComment"
-                id="comments"
-                placeholder="Type in your comments"
-                rows="5"
-              />
-            </AvGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col xl={11} className="mx-auto mb-4">
-            <span>Attach image(s)</span>
-            <div className="d-flex">
-              <div className="photo-box mr-2 d-flex align-items-center justify-content-center">
-                <i className="ri-camera-line font-size-24"></i>
-              </div>
-              <div className="photo-box mr-2 d-flex align-items-center justify-content-center">
-                <i className="ri-camera-line font-size-24"></i>
-              </div>
-              <div className="photo-box mr-2 d-flex align-items-center justify-content-center">
-                <i className="ri-camera-line font-size-24"></i>
-              </div>
-              <Button
-                color="link"
-                outline
-                className="waves-effect d-flex align-items-center justify-content-center"
-              >
-                <i className="ri-add-circle-line font-size-20 mr-2"></i>
-                Add more
-              </Button>
+              </Form>
+            </CardBody>
+          </Card>
+        ) : (
+          <AvForm onValidSubmit={handleSubmit}>
+            {message && <Alert color="success">{message}</Alert>}
+            {inspectionsError && (
+              <Alert color="danger">{inspectionsError}</Alert>
+            )}
+
+            <div className="d-flex justify-content-between mb-2">
+              <h5>{inspectionData?.type}</h5>
+              <Link to="inspection">
+                <button className="btn btn-light btn-sm px-3"> Back </button>
+              </Link>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col xl={3} className="mx-auto my-4">
-            <Button
-              type="submit"
-              color="success"
-              className="waves-effect pr-5 pl-5"
-              onClick={() => setIsClicked(!isClicked)}
-            >
-              Save
-            </Button>
-          </Col>
-        </Row>
-      </AvForm>
+            <Row no-gutter>
+              <Col xl={12} className="mx-auto">
+                <Card>
+                  <CardBody>
+                    <div id="accordion">
+                      <Card className="mb-2">
+                        <Link
+                          to="#"
+                          onClick={t_col1}
+                          style={{ cursor: 'pointer' }}
+                          className="text-dark"
+                        >
+                          <CardHeader id="headingOne">
+                            <div className="m-0 font-14 d-flex justify-content-between">
+                              <div className="d-flex">
+                                <i
+                                  className={
+                                    col1
+                                      ? 'fas fa-caret-down mr-4'
+                                      : 'fas fa-caret-right mr-4'
+                                  }
+                                ></i>
+                                <h6 ref={headerNameRef}>Kitchen</h6>
+                              </div>
+                              <div>
+                                <i className="ri-indeterminate-circle-line float-right"></i>
+                                <i className="fas fa-pen float-right mr-4"></i>
+                              </div>
+                            </div>
+                          </CardHeader>
+                        </Link>
+                        <Collapse isOpen={col1}>
+                          <CardBody>
+                            <Row>
+                              <Col ls={4}>
+                                <h6>Inspection items</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <div className="d-flex justify-content-around">
+                                  <label htmlFor="Good" className="mr-1">
+                                    Good
+                                  </label>
+                                  <label htmlFor="Average" className="mr-1">
+                                    Average
+                                  </label>
+                                  <label htmlFor="Poor" className="mr-1">
+                                    Poor
+                                  </label>
+                                </div>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Comment</h6>
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>
+                                <Label> Door </Label>
+                              </Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="kitchen.inspectionItems.door.itemState"
+                                  value="GOOD"
+                                  value="GOOD"
+                                >
+                                  <Col
+                                    sm={12}
+                                    className="d-flex justify-content-between"
+                                  >
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inspectionItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>
+                                <Label> Flooring </Label>
+                              </Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="kitchen.inspectionItems.flooring.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inspectionItems.flooring.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>
+                                <Label> Walls </Label>
+                              </Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="kitchen.inspectionItems.walls.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inspectionItems.walls.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>
+                                <Label> Painting </Label>
+                              </Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="kitchen.inspectionItems.painting.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inspectionItems.painting.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <hr />
+                            <Row>
+                              <h6 className="ml-2 mb-4">Inventory Items</h6>
+                            </Row>
+                            <Row>
+                              <Col ls={4}>
+                                <h6>Items</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Quantity</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Comment</h6>
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>
+                                <Label> Door </Label>
+                              </Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="kitchen.inventoryItems.door.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inventoryItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>
+                                <Label> Socket </Label>
+                              </Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="kitchen.inventoryItems.socket.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inventoryItems.socket.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>
+                                <Label> Toilet </Label>
+                              </Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="kitchen.inventoryItems.toilet.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="kitchen.inventoryItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                          </CardBody>
+                        </Collapse>
+                      </Card>
+                      <Card className="mb-2">
+                        <Link
+                          to="#"
+                          onClick={t_col2}
+                          style={{ cursor: 'pointer' }}
+                          className="text-dark"
+                        >
+                          <CardHeader id="headingTwo">
+                            <h6 className="m-0 font-14">
+                              <i
+                                className={
+                                  col2
+                                    ? 'fas fa-caret-down mr-4'
+                                    : 'fas fa-caret-right mr-4'
+                                }
+                              ></i>
+                              Sitting Room
+                              <i className="ri-indeterminate-circle-line float-right"></i>
+                              <i className="fas fa-pen float-right mr-4"></i>
+                            </h6>
+                          </CardHeader>
+                        </Link>
+                        <Collapse isOpen={col2}>
+                          <CardBody>
+                            <Row>
+                              <Col ls={4}>
+                                <h6>Inspection items</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <div className="d-flex justify-content-around">
+                                  <label htmlFor="Good" className="mr-1">
+                                    Good
+                                  </label>
+                                  <label htmlFor="Average" className="mr-1">
+                                    Average
+                                  </label>
+                                  <label htmlFor="Poor" className="mr-1">
+                                    Poor
+                                  </label>
+                                </div>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Comment</h6>
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Door</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="sitting_room.inspectionItems.door.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col
+                                    sm={12}
+                                    className="d-flex justify-content-between"
+                                  >
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inspectionItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Flooring</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="sitting_room.inspectionItems.flooring.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inspectionItems.flooring.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Walls</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="sitting_room.inspectionItems.walls.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inspectionItems.walls.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Painting</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="sitting_room.inspectionItems.painting.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inspectionItems.painting.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <hr />
+                            <Row>
+                              <h6 className="ml-2 mb-4">Inventory Items</h6>
+                            </Row>
+                            <Row>
+                              <Col ls={4}>
+                                <h6>Items</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Quantity</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Comment</h6>
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>Door</Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="sitting_room.inventoryItems.door.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inventoryItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>Socket</Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="sitting_room.inventoryItems.socket.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inventoryItems.socket.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>Doors</Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="sitting_room.inventoryItems.toilet.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="sitting_room.inventoryItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                          </CardBody>
+                        </Collapse>{' '}
+                      </Card>
+                      <Card className="mb-2">
+                        <Link
+                          to="#"
+                          onClick={t_col3}
+                          style={{ cursor: 'pointer' }}
+                          className="text-dark"
+                        >
+                          <CardHeader id="headingThree">
+                            <h6 className="m-0 font-14">
+                              <i
+                                className={
+                                  col3
+                                    ? 'fas fa-caret-down mr-4'
+                                    : 'fas fa-caret-right mr-4'
+                                }
+                              ></i>
+                              Bedroom
+                              <i className="ri-indeterminate-circle-line float-right"></i>
+                              <i className="fas fa-pen float-right mr-4"></i>
+                            </h6>
+                          </CardHeader>
+                        </Link>
+                        <Collapse isOpen={col3}>
+                          <CardBody>
+                            <Row>
+                              <Col ls={4}>
+                                <h6>Inspection items</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <div className="d-flex justify-content-around">
+                                  <label htmlFor="Good" className="mr-1">
+                                    Good
+                                  </label>
+                                  <label htmlFor="Average" className="mr-1">
+                                    Average
+                                  </label>
+                                  <label htmlFor="Poor" className="mr-1">
+                                    Poor
+                                  </label>
+                                </div>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Comment</h6>
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Door</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="bedroom.inspectionItems.door.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col
+                                    sm={12}
+                                    className="d-flex justify-content-between"
+                                  >
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="bedroom.inspectionItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Flooring</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="bedroom.inspectionItems.flooring.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="bedroom.inspectionItems.flooring.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Walls</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="bedroom.inspectionItems.walls.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="bedroom.inspectionItems.walls.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="mb-1">
+                              <Col ls={4}>Painting</Col>
+                              <Col ls={4}>
+                                <AvRadioGroup
+                                  name="bedroom.inspectionItems.painting.itemState"
+                                  value="GOOD"
+                                >
+                                  <Col className="d-flex justify-content-between">
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Good" value="GOOD" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Average" value="AVERAGE" />
+                                    </Col>
+                                    <Col
+                                      ls={4}
+                                      className="d-flex justify-content-center"
+                                    >
+                                      <AvRadio id="Poor" value="POOR" />
+                                    </Col>
+                                  </Col>
+                                </AvRadioGroup>
+                              </Col>
+                              <Col ls={4} className="d-flex align-items-start">
+                                <AvField
+                                  type="text"
+                                  name="bedroom.inspectionItems.painting.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <hr />
+                            <Row>
+                              <h6 className="ml-2 mb-4">Inventory Items</h6>
+                            </Row>
+                            <Row>
+                              <Col ls={4}>
+                                <h6>Items</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Quantity</h6>
+                              </Col>
+                              <Col ls={4}>
+                                <h6>Comment</h6>
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>Door</Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="bedroom.inventoryItems.door.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>Socket</Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="bedroom.inventoryItems.socket.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="bedroom.inventoryItems.socket.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                            <Row className="align-items-center mb-2">
+                              <Col ls={4}>Doors</Col>
+                              <Col
+                                ls={4}
+                                className="d-flex justify-content-between"
+                              >
+                                <AvField
+                                  type="number"
+                                  name="bedroom.inventoryItems.door.quantity"
+                                  value="0"
+                                  min={0}
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                              <Col ls={4} className="d-flex">
+                                <AvField
+                                  type="text"
+                                  name="bedroom.inventoryItems.door.comment"
+                                  style={{
+                                    background: '#F4F4F4',
+                                    border: 'none',
+                                  }}
+                                />
+                              </Col>
+                            </Row>
+                          </CardBody>
+                        </Collapse>{' '}
+                      </Card>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+            <Row>
+              <Col xl="11 mx-auto mb-4">
+                <AvGroup>
+                  <Label htmlFor="comments">General Comment</Label>
+                  <AvField
+                    type="textarea"
+                    name="generalComment"
+                    id="comments"
+                    required
+                    placeholder="Type in your comments"
+                    rows="5"
+                  />
+                </AvGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xl={12} className="mx-auto mb-4">
+                <DropZone
+                  selectedFiles={selectedFiles}
+                  typeName="encodedUpload"
+                  setFile={(files) => SetSelectedFiles(files)}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col xl={3} className="mx-auto my-4">
+                <Button
+                  type="submit"
+                  color="success"
+                  className="waves-effect pr-5 pl-5"
+                >
+                  {loading ? 'Submitting ...' : 'Save'}
+                </Button>
+              </Col>
+            </Row>
+          </AvForm>
+        )}
+      </Container>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  const {inspectionData, loading} = state.Inspections;
-  return {inspectionData, loading}
-}
+  const { inspection, loading, message, inspectionsError } = state.Inspections;
+  const {  } = state.Rental;
+  return { inspection, loading, message, inspectionsError };
+};
 
-export default connect(mapStateToProps, {postInspection})(MoveIn);
+export default connect(mapStateToProps, { postInspection, fetchRental })(
+  MoveIn
+);

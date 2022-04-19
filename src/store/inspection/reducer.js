@@ -9,8 +9,10 @@ import {
   
   const initialState = {
     inspections: null,
+    inspection: null,
     inspectionsError: null,
     loading: false,
+    message: null,
     inspectionData: null
   };
   
@@ -21,7 +23,9 @@ import {
         state = {
           ...state,
           inspections: null,
+          inspection: null,
           inspectionsError: null,
+          message: null,
           loading: true,
         };
         break;
@@ -43,7 +47,8 @@ import {
         state = {
           ...state,
           loading: false,
-          inspectionData: action.payload,
+          inspection: action.payload,
+          message: "Inspection created Successfully",
           inspectionsError: null
         };
         break;

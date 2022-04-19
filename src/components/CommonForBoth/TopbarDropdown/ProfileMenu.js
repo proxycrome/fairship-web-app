@@ -32,6 +32,7 @@ class ProfileMenu extends Component {
 
   render() {
     let username = `${this.props.user?.fullName}`;
+    
     return (
       <React.Fragment>
         <Dropdown

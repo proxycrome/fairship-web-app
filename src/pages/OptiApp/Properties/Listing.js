@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Input,
   Button,
@@ -19,6 +19,18 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
+  const [searchName, setSearchName] = useState("");
+  const [filteredProperties, setFilteredProperties] = useState([]);
+
+  useEffect(() => {
+    setFilteredProperties(
+      properties?.entities?.filter(
+        (property) => 
+          property.title.toLowerCase() === searchName.toLowerCase()
+      )
+    );
+  }, [searchName]);
+
   useEffect(() => {
     const isAuth = {
       type: "general"
@@ -35,9 +47,11 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
           <div className="search-box">
             <div className="position-relative">
               <Input
+                value={searchName}
                 type="text"
                 className="form-control rounded"
                 placeholder="Search..."
+                onChange={(e) => setSearchName(e.target.value)}
               />
               <i className="mdi mdi-magnify search-icon"></i>
             </div>
@@ -56,7 +70,8 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
         {properties !== null ? (
           <Row>
             {properties?.entities.length > 0 &&
-              properties.entities.map((data) => (
+              searchName ?
+              filteredProperties?.map((data) => (
                 <Col mg={6} xl={3} key={data.id}>
                   <Link to={`list/${data.id}`}>
                     <Card>
@@ -68,10 +83,31 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
                         alt="Skote"
                       />
                       <CardBody className="mb-1">
-                        <span className="text-muted">2 Beds, 2 Baths.</span>
+                        <span className="text-muted">{data.bedrooms} Beds, {data.bathrooms} Baths.</span>
                         <h6 className="mt-2 card-title">{data.title}</h6>
                         <p>
-                          From <span className="text-primary">450,000</span> /y
+                          From <span className="text-primary">{data.price}</span> /y
+                        </p>
+                      </CardBody>
+                    </Card>
+                  </Link>
+                </Col>
+              )) : properties?.entities?.map((data) => (
+                <Col mg={6} xl={3} key={data.id}>
+                  <Link to={`list/${data.id}`}>
+                    <Card>
+                      <CardImg
+                        top
+                        height="200"
+                        className="w-100"
+                        src={data.indexImage}
+                        alt="Skote"
+                      />
+                      <CardBody className="mb-1">
+                        <span className="text-muted">{data.bedrooms} Beds, {data.bathrooms} Baths.</span>
+                        <h6 className="mt-2 card-title">{data.title}</h6>
+                        <p>
+                          From <span className="text-primary">{data.price}</span> /y
                         </p>
                       </CardBody>
                     </Card>
