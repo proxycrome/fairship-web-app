@@ -40,8 +40,10 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
   const dd = appDate.getDay();
   
   function getDifferenceInHours(date1, date2) {
-    const diffInMs = Math.abs(date2 - date1);
-    return Math.round(diffInMs / (1000 * 60 * 60));
+    if(date2 >= date1){
+      const diffInMs = Math.abs(date2 - date1);
+      return Math.round(diffInMs / (1000 * 60 * 60));
+    }
   }
 
   const remainingHours = getDifferenceInHours(date, appDate)
