@@ -30,3 +30,9 @@ export const createPropertiesService = ({ data, unitId }) => {
   }
   return http.postDataWithToken(data, url);
 };
+
+export const getPropertyTypesService = () => {
+  const http = new HttpService();
+  let url = 'property-types/main-categories';
+  return http.getData(url)
+}

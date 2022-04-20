@@ -81,7 +81,7 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={4}>
+              {/* <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="unitNo"
@@ -92,17 +92,20 @@ class CreateProperty extends Component {
                     helpMessage="Unit Number"
                   />
                 </FormGroup>
-              </Col>
+              </Col> */}
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
                     name="type"
-                    helpMessage="Type of Room"
+                    helpMessage="Property Type"
                   >
-                    <option value="flat">Flat</option>
+                    {this.props.propertyTypes?.map(type => (
+                      <option key={type.id}>{type.name}</option>
+                    ))}
+                    {/* <option value="flat">Flat</option>
                     <option value="Duplex">Duplex</option>
-                    <option value="mansion">mansion</option>
+                    <option value="mansion">mansion</option> */}
                   </AvField>
                 </FormGroup>
               </Col>
@@ -113,7 +116,7 @@ class CreateProperty extends Component {
                     type="text"
                     className="form-ctrl"
                     id="size"
-                    helpMessage="size of apartment"
+                    helpMessage="size of apartment (sqm)"
                     placeholder="size of apartment"
                   />
                 </FormGroup>
@@ -123,7 +126,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="bedrooms"
-                    helpMessage="Bedroom No"
+                    helpMessage="No of Bedrooms"
                   >
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -136,7 +139,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="bathrooms"
-                    helpMessage="Bedrooms No"
+                    helpMessage="No of Bathrooms"
                   >
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -172,7 +175,7 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="price"
-                    type="number"
+                    type="text"
                     min={10000}
                     className="form-ctrl"
                     id="price"
@@ -184,15 +187,15 @@ class CreateProperty extends Component {
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    type="select"
+                    type="text"
                     name="periodInMonths"
-                    helpMessage="Years of Rent"
-                    value="12"
-                  >
-                    <option values={1}>12 </option>
+                    helpMessage="Months of Rent"
+                    placeholder="Enter No. of Months"
+                  />
+                    {/* <option values={1}>12 </option>
                     <option values={2}>18 </option>
                     <option values={3}>24 </option>
-                  </AvField>
+                  </AvField> */}
                 </FormGroup>
               </Col>
               <Col xs={6}>
@@ -304,7 +307,7 @@ class CreateProperty extends Component {
               </Col>
             </Row>
             <div className="text-center">
-              <Button color="success" className="px-2">
+              <Button type="submit" color="success" className="px-2">
                 {this.props.loading ? 'Sending ...' : ' Create Property'}
               </Button>
             </div>

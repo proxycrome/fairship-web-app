@@ -19,7 +19,7 @@ import {
 } from 'availity-reactstrap-validation';
 import { Link } from 'react-router-dom';
 
-import { createProperties, getAgents } from '../../../../../store/actions';
+import { createProperties, getAgents, getPropertyTypes } from '../../../../../store/actions';
 
 import { connect } from 'react-redux';
 
@@ -82,6 +82,7 @@ class CreateProperty extends Component {
 
   componentDidMount() {
     this.props.getAgents();
+    this.props.getPropertyTypes();
   }
 
   render() {
@@ -167,12 +168,15 @@ class CreateProperty extends Component {
                         <AvField
                           type="select"
                           name="type"
-                          helpMessage="Type of Room"
-                          value="flat"
+                          helpMessage="Property Type"
+                          defaultValue="Flat/apartments"
                         >
-                          <option>Flat</option>
+                          {this.props.propertyTypes?.map(type => (
+                            <option key={type.id}>{type.name}</option>
+                          ))}
+                          {/* <option>Flat</option>
                           <option>Duplex</option>
-                          <option>mansion</option>
+                          <option>mansion</option> */}
                         </AvField>
                       </FormGroup>
                     </Col>
@@ -375,7 +379,7 @@ class CreateProperty extends Component {
                                 {this.props.agents !== null ? (
                                   this.props.agents?.entities?.map((agent) => (
                                     <option key={agent.id}>
-                                      {agent?.firstName} {agent?.lastName}
+                                      {agent?.firstName} 
                                     </option>
                                   ))
                                 ) : (
@@ -459,11 +463,11 @@ class CreateProperty extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loading, message, property, propertiesError } = state.Properties;
+  const { loading, message, property, propertiesError, propertyTypes } = state.Properties;
   const { agents } = state.Agents;
-  return { loading, agents, message, property, propertiesError };
+  return { loading, agents, message, property, propertiesError, propertyTypes };
 };
 
-export default connect(mapStatetoProps, { createProperties, getAgents })(
+export default connect(mapStatetoProps, { createProperties, getAgents, getPropertyTypes })(
   CreateProperty
 );

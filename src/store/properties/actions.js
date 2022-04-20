@@ -11,6 +11,9 @@ import {
   CREATE_PROPERTIES,
   CREATE_PROPERTIES_SUCCESSFUL,
   CREATE_PROPERTIES_ERROR,
+  GET_PROPERTY_TYPES,
+  GET_PROPERTY_TYPES_SUCCESS,
+  GET_PROPERTY_TYPES_ERROR,
 } from './actionTypes.js';
 
 // Fetch appointment
@@ -78,3 +81,23 @@ export const createPropertiesError = (error) => {
     payload: error,
   };
 };
+
+export const getPropertyTypes = () => {
+  return {
+    type: GET_PROPERTY_TYPES
+  }
+}
+
+export const getPropertyTypesSuccess = (data) => {
+  return {
+    type: GET_PROPERTY_TYPES_SUCCESS,
+    payload: data
+  }
+}
+
+export const getPropertyTypesError = (error) => {
+  return {
+    type: GET_PROPERTY_TYPES_ERROR,
+    payload: error
+  }
+}
