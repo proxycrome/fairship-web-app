@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, CardBody, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-
 //Import Charts
 import ReactApexChart from 'react-apexcharts';
 import './dashboard.scss';
@@ -61,8 +60,10 @@ class SalesAnalytics extends Component {
       <React.Fragment>
         <Card>
           <CardBody>
-            <div className="float-right text-success">
+            <div className="float-right">
+              <Link to='/tenants' className='text-success'>
               See Details
+              </Link>
             </div>
             <h4 className="card-title mb-4">Expiring Leases</h4>
 
