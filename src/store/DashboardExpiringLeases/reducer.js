@@ -26,32 +26,39 @@ const fetchReducerExpiring = (state = initialState, action) => {
            state = {
                ...state,
               rent: null,
+              error: null,
               loading: true
            }
+           break;
         case FETCH_EXPIRING_SUCCESSFUL : 
             state = {
                 ...state,
                 rent: action.payload,
-                loading: false
+                loading: false,
+                error: null
             }
+            break;
         case FETCH_EXPIRING_ERROR : 
              state = {
                  ...state,
                  error: action.payload,
                  loading: false
-             } 
+             }
+             break; 
         case FETCH_EXPIRING_SIXTY:
                 state = {
                     ...state,
                    sixty: null,
+                   errorsixty: null,
                    loading: true
                 }
-     
+                break;
         case FETCH_EXPIRING_SUCCESSFUL_SIXTY : 
                  state = {
                      ...state,
                      sixty: action.payload,
-                     loading: false
+                     loading: false,
+                     errorsixty: null
                  }
         case FETCH_EXPIRING_ERROR_SIXTY : 
                   state = {
@@ -59,28 +66,36 @@ const fetchReducerExpiring = (state = initialState, action) => {
                       errorsixty: action.payload,
                       loading: false
                   }  
+
+                  break;
         case FETCH_EXPIRING_ONETWENTY:
             state = {
                 ...state,
                twenty: null,
+               errortwenty: null,
                loading: true
             }
+            break;
         case FETCH_EXPIRING_SUCCESSFUL_ONETWENTY : 
              state = {
                  ...state,
                  twenty: action.payload,
-                 loading: false
+                 loading: false,
+                 errortwenty: null
              }
+             break;
         case FETCH_EXPIRING_ERROR_ONETWENTY : 
               state = {
                   ...state,
                   errortwenty: action.payload,
                   loading: false
-              }  
+              } 
+              break; 
         default:  
       state = {
           ...state
-      }   
+      } 
+      break;  
    }
        return state;
 }

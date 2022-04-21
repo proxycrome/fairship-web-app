@@ -6,13 +6,13 @@ export const fetchleaseServices = () => {
 
   
   d.setDate(d.getDate() + 30)
-  //console.log(d.toLocaleDateString('es-CL'))
+  console.log(d.toLocaleDateString('es-CL'))
   
   const currentDate = new Date();
   currentDate.setDate(currentDate.getDate())
-  //console.log(currentDate.toLocaleDateString('es-CL'))
+  console.log(currentDate.toLocaleDateString('es-CL'))
     const http = new HttpService();
-    const url = `/auth/expiring-lease/date-range?endDate=${d.toLocaleDateString('es-CL')}&startDate=${currentDate.toLocaleDateString('es-CL')}`;
+    const url = `/auth/expiring-lease/date-range?startDate=${d.toLocaleDateString('es-CL')}&endDate=${currentDate.toLocaleDateString('es-CL')}`;
     return http.getData(url);
   };
 
@@ -27,7 +27,7 @@ export const fetchleaseServices = () => {
     currentDates.setDate(currentDates.getDate() + 31)
     console.log(currentDates.toLocaleDateString('es-CL'))
       const http = new HttpService();
-      const url = `/auth/expiring-lease/date-range?endDate=${m.toLocaleDateString('es-CL')}&startDate=${currentDates.toLocaleDateString('es-CL')}`;
+      const url = `/auth/expiring-lease/date-range?startDate=${m.toLocaleDateString('es-CL')}&endDate=${currentDates.toLocaleDateString('es-CL')}`;
       return http.getData(url);
     };
 
@@ -39,7 +39,7 @@ export const fetchleaseServices = () => {
       console.log(m.toLocaleDateString('es-CL'))
       
       const currentDates = new Date();
-      currentDates.setDate(currentDates.getDate() + 120)
+      currentDates.setDate(currentDates.getDate() + 365)
       console.log(currentDates.toLocaleDateString('es-CL'))
         const http = new HttpService();
         const url = `/auth/expiring-lease/date-range?endDate=${m.toLocaleDateString('es-CL')}&startDate=${currentDates.toLocaleDateString('es-CL')}`;
