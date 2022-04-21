@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Row,
   Col,
@@ -9,7 +9,7 @@ import {
   Card,
   CardBody,
   Input,
-} from 'reactstrap';
+} from "reactstrap";
 
 // availity-reactstrap-validation
 import {
@@ -17,14 +17,19 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
-} from 'availity-reactstrap-validation';
-import { Link } from 'react-router-dom';
+} from "availity-reactstrap-validation";
+import { Link } from "react-router-dom";
 
-import { createProperties, getAgents, getPropertyTypes, getPropertySubcategory } from '../../../../../store/actions';
+import {
+  createProperties,
+  getLandlordAgents,
+  getPropertyTypes,
+  getPropertySubcategory,
+} from "../../../../../store/actions";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
-import DropZone from '../../../../../components/Common/imageUpload';
+import DropZone from "../../../../../components/Common/imageUpload";
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -32,44 +37,44 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
-      imageError: '',
-      feature: 'RENT',
+      imageError: "",
+      feature: "RENT",
       type: "Agricultural",
-      // price: "", 
+      price: "",
       id: 1,
-      formType: ""
+      formType: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(events, values) {
-    this.setState({ ...this.state, imageError: '' });
+    this.setState({ ...this.state, imageError: "" });
     if (this.state.selectedFiles.length === 0) {
       this.setState({ ...this.state, imageError: "image can't be empty" });
       return;
     }
     const formData = { ...values };
     formData.feature = this.state.feature;
-    formData.description = 'new spacious unit';
-    formData.isServiced = values.isServiced === 'Yes' ? true : false;
-    formData.isFurnished = values.isFurnished === 'Yes' ? true : false;
-    formData.isShared = values.isShared === 'Yes' ? true : false;
+    formData.description = "new spacious unit";
+    formData.isServiced = values.isServiced === "Yes" ? true : false;
+    formData.isFurnished = values.isFurnished === "Yes" ? true : false;
+    formData.isShared = values.isShared === "Yes" ? true : false;
     formData.otherAmenities = values.otherAmenities.toString();
-    formData.parkingLot = values.parkingLot === 'Yes' ? true : false;
+    formData.parkingLot = values.parkingLot === "Yes" ? true : false;
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
     formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
-      this.props.agents.entities.find((agent) => {
-        if (agent.firstName === values.agentIds) {
+      this.props.landlordAgents?.data?.agents.find((agent) => {
+        if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
           return agent.id;
         }
       }).id,
     ];
     const payload = {
-      type: 'unitEntity',
+      type: "unitEntity",
     };
     formData.images = this.state.selectedFiles;
     this.props.createProperties(formData, payload);
@@ -86,9 +91,9 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
-    this.props.getAgents();
+    this.props.getLandlordAgents(this.props.user?.id);
     this.props.getPropertyTypes();
-    this.props.getPropertySubcategory(this.state.id)
+    this.props.getPropertySubcategory(this.state.id);
   }
 
   componentDidUpdate(PrevProps, PrevState) {
@@ -96,46 +101,21 @@ class CreateProperty extends Component {
       (type) => type.name === this.state.formType
     );
     if (PrevState.formType !== this.state.formType) {
-      this.props.getPropertySubcategory(types.id);
+      this.props.getPropertySubcategory(types?.id);
     }
+
+    if(PrevProps.user !== this.props.user) {
+      this.props.getLandlordAgents(this.props.user?.id);
+      // this.props.getPropertyTypes();
+    }
+
   }
 
-  // numberWithCommas(x) {
-  //   x = x.toString();
-  //   var pattern = /\B(?=(\d{3})+(?!\d))/g;
-  //   while (pattern.test(x))
-  //       x = x.replace(pattern, ",");
-  //   return x;
-  // }
-
-  // includeCommas(bar) {
-  //   let num = bar.toString();
-  //   // SPLIT WHOLE AND DECIMAL NUMBERS
-  //   let cWhole = "";
-  //   let cDec = "";
-
-  //   let cDot = num.indexOf(".");
-
-  //   if(cDot !== -1){
-  //     cWhole = num.substring(0, cDot);
-  //     cDec = num.substring(cDot);
-  //   }
-
-  //   // MANUALLY ADD COMMA PER THOUSAND
-  //   if(cWhole.length > 3) {
-  //     let temp = "";
-  //     let j = 0;
-  //     for(let i = cWhole.length - 1; i >= 0; i--){
-  //       temp = cWhole[i] + temp;
-  //       j++;
-
-  //       if(j%3 === 0 && i !== 0){
-  //         temp = "," + temp
-  //       }
-  //     }
-  //     return temp;
-  //   }
-  // }
+  includeCommas(str) {
+    const num = Number(str.split(",").join(""));
+    const comma = num.toLocaleString();
+    return String(comma);  
+  }
 
   render() {
     return (
@@ -164,10 +144,10 @@ class CreateProperty extends Component {
                 )}
                 <div className="mb-4">
                   <Button
-                    color={this.state.feature === 'SALE' ? 'primary' : 'light'}
+                    color={this.state.feature === "SALE" ? "primary" : "light"}
                     onClick={() =>
                       this.setState({
-                        feature: 'SALE',
+                        feature: "SALE",
                       })
                     }
                     className="mr-2 px-4"
@@ -175,10 +155,10 @@ class CreateProperty extends Component {
                     Sale
                   </Button>
                   <Button
-                    color={this.state.feature === 'RENT' ? 'primary' : 'light'}
+                    color={this.state.feature === "RENT" ? "primary" : "light"}
                     onClick={() =>
                       this.setState({
-                        feature: 'RENT',
+                        feature: "RENT",
                       })
                     }
                     className="px-4"
@@ -222,10 +202,12 @@ class CreateProperty extends Component {
                           name="type"
                           helpMessage="Property Type"
                           value={this.state.type}
-                          onChange={(e) => this.setState({formType: e.target.value})}
+                          onChange={(e) =>
+                            this.setState({ formType: e.target.value })
+                          }
                           required
                         >
-                          {this.props.propertyTypes?.map(type => (
+                          {this.props.propertyTypes?.map((type) => (
                             <option key={type.id}>{type.name}</option>
                           ))}
                         </AvField>
@@ -238,9 +220,13 @@ class CreateProperty extends Component {
                           name="subcategory"
                           helpMessage="Property Subcategory"
                         >
-                          {this.props.propertySubcategories?.map((subcategory) => (
-                            <option key={subcategory.id}>{subcategory.name}</option>
-                          ))}
+                          {this.props.propertySubcategories?.map(
+                            (subcategory) => (
+                              <option key={subcategory.id}>
+                                {subcategory.name}
+                              </option>
+                            )
+                          )}
                         </AvField>
                       </FormGroup>
                     </Col>
@@ -383,8 +369,8 @@ class CreateProperty extends Component {
                           className="form-ctrl"
                           id="price"
                           helpMessage="Price of Apartment"
-                          // value={this.state.price}
-                          // onChange={(e) => this.setState({price: this.numberWithCommas(e.target.value)})}
+                          value={this.state.price}
+                          onChange={(e) => this.setState({price: this.includeCommas(e.target.value)})}
                         />
                       </FormGroup>
                     </Col>
@@ -434,14 +420,14 @@ class CreateProperty extends Component {
                                 type="select"
                                 name="agentIds"
                                 label="Add Agent"
-                                value={this.props.agents?.entities[0].firstName}
+                                value={this.props.landlordAgents?.data?.agents[0].firstName}
                                 required
                                 // helpMessage="Location"
                               >
-                                {this.props.agents !== null ? (
-                                  this.props.agents?.entities?.map((agent) => (
+                                {this.props.landlordAgents !== null ? (
+                                  this.props.landlordAgents?.data?.agents?.map((agent) => (
                                     <option key={agent.id}>
-                                      {agent?.firstName} 
+                                      {agent?.firstName} {agent?.lastName}
                                     </option>
                                   ))
                                 ) : (
@@ -511,7 +497,7 @@ class CreateProperty extends Component {
                   </Row>
                   <div className="text-center">
                     <Button color="success" className="px-2">
-                      {this.props.loading ? 'Sending ...' : ' Create Property'}
+                      {this.props.loading ? "Sending ..." : " Create Property"}
                     </Button>
                   </div>
                 </AvForm>
@@ -525,11 +511,32 @@ class CreateProperty extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loading, message, property, propertiesError, propertyTypes, propertySubcategories } = state.Properties;
-  const { agents } = state.Agents;
-  return { loading, agents, message, property, propertiesError, propertyTypes, propertySubcategories };
+  const { user } = state.Account;
+  const {
+    loading,
+    message,
+    property,
+    propertiesError,
+    propertyTypes,
+    propertySubcategories,
+  } = state.Properties;
+  const { agents, landlordAgents } = state.Agents;
+  return {
+    loading,
+    agents,
+    message,
+    property,
+    propertiesError,
+    propertyTypes,
+    propertySubcategories,
+    user,
+    landlordAgents,
+  };
 };
 
-export default connect(mapStatetoProps, { createProperties, getAgents, getPropertyTypes, getPropertySubcategory })(
-  CreateProperty
-);
+export default connect(mapStatetoProps, {
+  createProperties,
+  getLandlordAgents,
+  getPropertyTypes,
+  getPropertySubcategory,
+})(CreateProperty);

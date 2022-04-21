@@ -69,7 +69,7 @@ function* getPropertyTypes() {
   try {
     const response = yield call(getPropertyTypesService);
     yield put(getPropertyTypesSuccess(response.data));
-    console.log(response.data);
+    // console.log(response.data);
   } catch (error) {
     console.log(error?.response);
     yield put(getPropertyTypesError(error?.response?.data))
@@ -80,7 +80,7 @@ function* getPropertySubcategory({payload: {id}}) {
   try {
     const response = yield call(getPropertySubcategoryService, id)
     yield put(getPropertySubcategorySuccess(response.data))
-    console.log(response.data);
+    // console.log(response.data);
   } catch (error) {
     console.log(error?.response);
     yield put(getPropertySubcategoryError(error?.response?.data))
