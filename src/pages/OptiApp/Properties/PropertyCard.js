@@ -19,6 +19,7 @@ import chat from './images/chat.svg';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchEachProperties } from '../../../store/actions';
+import avatar from "../../../assets/images/avi.jpg";
 
 const PropertyCard = ({
   fetchEachProperties,
@@ -78,8 +79,9 @@ const PropertyCard = ({
                                Bus-stop: false
                           </p>
                           <p>
-                          <img src={Parking} alt='bus-stop'/>
-                            Parking: {property?.parkingLot}
+                            <img src={Parking} alt='bus-stop'/>
+                            <i className=" mr-2 text-success ri-building-2-line"></i>
+                            Parking: {property?.parkingLot === null ? 'false' : property?.parkingLot}
                           </p>
                           <p>
                           <img src={Transit} alt='bus-stop'/>
@@ -102,7 +104,12 @@ const PropertyCard = ({
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="align-items-center">
                           <div className='d-flex'>
-                          <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
+                          {property?.publishedBy?.profilePhoto ? (
+                            <img src={property?.publishedBy?.profilePhoto} alt="agent" className="avatar-sm mr-4" />
+                          ) : (
+                            <img src={avatar} alt="agent" className="avatar-sm mr-4" />
+                          )}
+   
                           <h5 className="card-title"> {property?.publishedBy?.firstName}  {property?.publishedBy?.lastName}</h5>
                           </div>
                           <div className='d-flex'>
@@ -120,7 +127,7 @@ const PropertyCard = ({
                           <p> Call </p>
                           </div>
                           <div className='ml-5'>
-                            <a href={`mailto:${property?.publishdBy?.email}`} className='d-flex rounded-circle justify-content-center align-items-center' 
+                            <a href={`mailto:${property?.publishedBy?.email}`} className='d-flex rounded-circle justify-content-center align-items-center' 
                             style={{backgroundColor:'lightGreen', height:'50%'}}>
                             <i className=" fas fa-envelope" style={{color:'white'}}></i>
                             </a>

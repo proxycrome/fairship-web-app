@@ -26,7 +26,7 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
     setFilteredProperties(
       properties?.entities?.filter(
         (property) => 
-          property.title.toLowerCase() === searchName.toLowerCase()
+          property.title.toLowerCase().includes(searchName.toLowerCase())
       )
     );
   }, [searchName]);

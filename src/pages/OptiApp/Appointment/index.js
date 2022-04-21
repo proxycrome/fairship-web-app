@@ -42,16 +42,16 @@ class Appointment extends Component {
     const data = {
       columns: [
         {
-          label: "Time",
+          label: "Start Time",
           field: "time",
           sort: "asc",
-          width: 80,
+          width: 30,
         },
         {
-          label: "Date",
+          label: "Start Date",
           field: "date",
           sort: "asc",
-          width: 120,
+          width: 100,
         },
         {
           label: "Client",
@@ -72,16 +72,28 @@ class Appointment extends Component {
           width: 110,
         },
         {
+          label: "End Time",
+          field: "endTime",
+          sort: "asc",
+          width: 30,
+        },
+        {
+          label: "End Date",
+          field: "endDate",
+          sort: "asc",
+          width: 120,
+        },
+        {
           label: "Actions",
           field: "actions",
           // sort: 'asc',
-          width: 135,
+          width: 150,
         },
         {
           label: "Status",
           field: "status",
           // sort: 'asc',
-          width: 135,
+          width: 150,
         },
       ],
       rows: this.props.appointment?.map((appoint) => ({
@@ -103,6 +115,13 @@ class Appointment extends Component {
         ),
         phone_no: `${appoint?.tenant?.phone}`,
         address: `${appoint?.tenant?.address?.houseNoAddress}`,
+        endTime: (
+          <span className="font-weight-bold">
+            {appoint?.endDateTime.split(" ")[1]}
+            {appoint?.endDateTime.split(" ")[2]}
+          </span>
+        ),
+        endDate: `${appoint?.endDateTime.split(" ")[0]}`,
         status: (
           <Button
             className={
@@ -117,12 +136,12 @@ class Appointment extends Component {
         ),
         actions: (
           <>
-            <Link to="#" className="mr-3 text-primary" id="edit1">
+            <Link to="#" className="mr-1 text-primary" id="edit1">
               <span className="border border-1 p-1 rounded">
                 <i className="text-success fab fa-rocketchat font-size-12"></i>
               </span>
             </Link>
-            <Link to="#" className="mr-3 text-primary" id="edit1">
+            <Link to="#" className="mr-1 text-primary" id="edit1">
               <span className="border border-1 p-1 py-0 rounded">
                 <i
                   className="text-secondary fas fa-user-alt
@@ -130,7 +149,7 @@ class Appointment extends Component {
                 ></i>
               </span>
             </Link>
-            <Link to="#" className="mr-3 text-primary" id="edit1">
+            <Link to="#" className="mr-1 text-primary" id="edit1">
               <span className="border border-1 p-1 py-0 rounded">
                 <i
                   className="text-danger fas fa-trash-alt

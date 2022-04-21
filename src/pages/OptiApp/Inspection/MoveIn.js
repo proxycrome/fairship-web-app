@@ -230,7 +230,6 @@ const MoveIn = ({
                                 <AvRadioGroup
                                   name="kitchen.inspectionItems.door.itemState"
                                   value="GOOD"
-                                  value="GOOD"
                                 >
                                   <Col
                                     sm={12}
