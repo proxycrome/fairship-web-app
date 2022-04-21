@@ -81,7 +81,7 @@ const Profile = () => {
               {err?.message}
              </Alert>
           )}
-            <AvForm onValidSubmit={handleSubmit} model={user}>
+            <AvForm onValidSubmit={handleSubmit}>
               <Row> 
                 <Col md="6">
                   <div className="mb-2 text-center">
@@ -139,6 +139,23 @@ const Profile = () => {
                           />
                         </Col>
                       </AvGroup>
+                    </Col>
+                    <Col sm="12">
+                      <FormGroup row>
+                        <Label
+                          htmlFor="password"
+                          className="col-md-12 col-form-label"
+                        >
+                          Password
+                        </Label>
+                        <Col md={12}>
+                          <Input
+                            className="form-control"
+                            type="password"
+                            id="password"
+                          />
+                        </Col>
+                      </FormGroup>
                     </Col>
                     <Col sm="6">
                       <FormGroup row>
@@ -267,22 +284,6 @@ const Profile = () => {
                             name = 'dob'
                           />
                         </Col>
-                        {/* <Col md={4}>
-                          <Input
-                            className="form-control"
-                            type="month"
-                            defaultValue="kale"
-                            id="dateOfBirth"
-                          />
-                        </Col>
-                        <Col md={4}>
-                          <Input
-                            className="form-control"
-                            type="month"
-                            defaultValue="kale"
-                            id="dateOfBirth"
-                          />
-                        </Col> */}
                       </AvGroup>
                     </Col>
 
