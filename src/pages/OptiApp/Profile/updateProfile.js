@@ -81,7 +81,7 @@ const Profile = () => {
               {err?.message}
              </Alert>
           )}
-            <AvForm onValidSubmit={handleSubmit}>
+            <AvForm onValidSubmit={handleSubmit} model={user}>
               <Row> 
                 <Col md="6">
                   <div className="mb-2 text-center">
@@ -139,23 +139,6 @@ const Profile = () => {
                           />
                         </Col>
                       </AvGroup>
-                    </Col>
-                    <Col sm="12">
-                      <FormGroup row>
-                        <Label
-                          htmlFor="password"
-                          className="col-md-12 col-form-label"
-                        >
-                          Password
-                        </Label>
-                        <Col md={12}>
-                          <Input
-                            className="form-control"
-                            type="password"
-                            id="password"
-                          />
-                        </Col>
-                      </FormGroup>
                     </Col>
                     <Col sm="6">
                       <FormGroup row>

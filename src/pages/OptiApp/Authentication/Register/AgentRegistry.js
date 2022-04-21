@@ -35,7 +35,6 @@ const Register = ({
     };
     formData.agentDetails = agentDetails;
     formData.role = 'AGENT';
-    console.log(formData)
     registerUser(formData, history);
   };
 
