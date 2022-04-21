@@ -18,6 +18,7 @@ import updateProfileReducer from './profile/reducer';
 import Inspections from './inspection/reducer';
 import Agents from './Agent/reducer';
 import Maintenance from './Maintenance/reducer';
+import fetchReducerExpiring from './DashboardExpiringLeases/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
     PreviewReducer,
 
     Tenant,
+    fetchReducerExpiring,
 
 
     // Authentication

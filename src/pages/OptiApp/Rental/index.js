@@ -74,30 +74,6 @@ class RentalApplication extends Component {
 }
 
   render() {
- 
-     
-  //   if(this.state.filter === 'Current'){
-  //     return this.props.fetchRental();
-  //   }
-  //   else if(this.state.filter === 'Processing'){
-  //      return this.props.fetchRental2();
-  //   } else if(this.state.filter === 'Exited'){
-  //     return  this.props.fetchRental3();
-  // } else {
-  //   this.props.fetchRental();
-  // }
-
-
-
-    // const row =() => {
-    //   if(this.filter === 'Current'){
-    //      return currentRental
-    //   } else if(this.filter === 'Processing'){
-    //     return processingRental
-    //   } else {
-    //     return exitedRental
-    //   }
-    // }
 
   const processingRental = this?.props?.rental?.entities?.map((rents) => ({
       application: (
@@ -303,7 +279,6 @@ class RentalApplication extends Component {
         <div className="page-content">
           <div className="float-right mr-3">
             <select className="custom-select custom-select-sm bg-light" onChange={(e)=> {this.fair(e)}}>
-              <option value=''>All Rental application</option>
               <option value="Current">Current</option>
               <option value="Processing">Processing</option>
               <option value="Exited">Exited</option>

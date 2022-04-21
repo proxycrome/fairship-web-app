@@ -29,14 +29,12 @@ const Rental = (state = initialState, action) => {
         rentalError: null,
         loading: true,
       };
-      break;
     case FETCH_RENTAL_SUCCESSFUL:
       state = {
         ...state,
         rental: action.payload,
         loading: false,
       };
-      break;
     case FETCH_RENTAL_ERROR:
       state = {
         ...state,
@@ -51,14 +49,12 @@ const Rental = (state = initialState, action) => {
         rentalError2: null,
         loading: true,
       };
-      break;
     case FETCH_RENTAL_SUCCESSFUL2:
       state = {
         ...state,
         rental2: action.payload,
         loading: false,
       };
-      break;
     case FETCH_RENTAL_ERROR2:
       state = {
         ...state,
@@ -73,14 +69,12 @@ const Rental = (state = initialState, action) => {
         rentalError3: null,
         loading: true,
       };
-      break;
     case FETCH_RENTAL_SUCCESSFUL3:
       state = {
         ...state,
         rental3: action.payload,
         loading: false,
       };
-      break;
     case FETCH_RENTAL_ERROR3:
       state = {
         ...state,
