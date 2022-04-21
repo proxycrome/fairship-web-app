@@ -2,21 +2,11 @@ import {
   FETCH_RENTAL,
   FETCH_RENTAL_SUCCESSFUL,
   FETCH_RENTAL_ERROR,
-  FETCH_RENTAL2,
-  FETCH_RENTAL_SUCCESSFUL2,
-  FETCH_RENTAL_ERROR2,
-  FETCH_RENTAL3,
-  FETCH_RENTAL_SUCCESSFUL3,
-  FETCH_RENTAL_ERROR3,
 } from './actionTypes';
 
 const initialState = {
   rental: null,
-  // rental2: null,
-  // rental3: null,
   rentalError: null,
-  // rentalError2: null,
-  // rentalError3: null,
   loading: false,
 };
 
@@ -35,6 +25,7 @@ const Rental = (state = initialState, action) => {
         ...state,
         rental: action.payload,
         loading: false,
+        rentalError: null
       };
       break;
     case FETCH_RENTAL_ERROR:
