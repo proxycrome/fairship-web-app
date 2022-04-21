@@ -8,8 +8,8 @@ import {
   AvCheckboxGroup,
   AvCheckbox,
 } from 'availity-reactstrap-validation';
-import { getPropertySubcategory } from "../../../../store/actions";
-import { withRouter } from "react-router-dom";
+import { getPropertySubcategory } from '../../../../store/actions';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import DropZone from '../../../../components/Common/imageUpload';
@@ -23,7 +23,7 @@ class CreateProperty extends Component {
       imageError: '',
       type: 'Agricultural',
       id: 1,
-      formType: "",
+      formType: '',
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -58,15 +58,15 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
-    this.props.getPropertySubcategory(this.state.id)
+    this.props.getPropertySubcategory(this.state.id);
   }
 
   componentDidUpdate(PrevProps, PrevState) {
-    const types = this.props.propertyTypes?.find((type) => 
-      type.name === this.state.formType
-    )
-    if(PrevState.formType !== this.state.formType){
-      this.props.getPropertySubcategory(types.id)
+    const types = this.props.propertyTypes?.find(
+      (type) => type.name === this.state.formType
+    );
+    if (PrevState.formType !== this.state.formType) {
+      this.props.getPropertySubcategory(types.id);
     }
   }
 
@@ -126,10 +126,12 @@ class CreateProperty extends Component {
                     name="type"
                     helpMessage="Property Type"
                     value={this.state.type}
-                    onChange={(e) => this.setState({formType: e.target.value})}
+                    onChange={(e) =>
+                      this.setState({ formType: e.target.value })
+                    }
                     required
                   >
-                    {this.props.propertyTypes?.map(type => (
+                    {this.props.propertyTypes?.map((type) => (
                       <option key={type.id}>{type.name}</option>
                     ))}
                   </AvField>
@@ -193,8 +195,8 @@ class CreateProperty extends Component {
                     name="parkingLot"
                     helpMessage="Packing space"
                   >
-                    <option value='Yes'>Yes</option>
-                    <option value='No'>No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -205,8 +207,8 @@ class CreateProperty extends Component {
                     name="isServiced"
                     helpMessage="Serviced Apartment"
                   >
-                    <option value='Yes'>Yes</option>
-                    <option value='No'>No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -231,7 +233,7 @@ class CreateProperty extends Component {
                     helpMessage="Months of Rent"
                     placeholder="Enter No. of Months"
                   />
-                    {/* <option values={1}>12 </option>
+                  {/* <option values={1}>12 </option>
                     <option values={2}>18 </option>
                     <option values={3}>24 </option>
                   </AvField> */}
@@ -272,17 +274,15 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
-<<<<<<< HEAD
                           // value={this.props.agents && this.props.agents?.entities[0]?.firstName}
-=======
-                          value={this.props.agents?.agents[0].firstName}
->>>>>>> origin/maintenance
                           required
                           // helpMessage="Location"
                         >
                           {this.props.agents !== null ? (
                             this.props.agents?.agents?.map((agent) => (
-                              <option key={agent.id}>{agent?.firstName} {agent?.lastName}</option>   
+                              <option key={agent.id}>
+                                {agent?.firstName} {agent?.lastName}
+                              </option>
                             ))
                           ) : (
                             <option>Loading ...</option>
@@ -366,4 +366,6 @@ const mapStatetoProps = (state) => {
   return { loading, propertySubcategories };
 };
 
-export default withRouter(connect(mapStatetoProps, {getPropertySubcategory})(CreateProperty));
+export default withRouter(
+  connect(mapStatetoProps, { getPropertySubcategory })(CreateProperty)
+);
