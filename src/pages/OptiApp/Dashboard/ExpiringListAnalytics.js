@@ -46,7 +46,7 @@ class SalesAnalytics extends Component {
    componentDidUpdate(Pp, Ps, Ss){
 
     if(Pp.rent !== this.props.rent){
-      console.log('Im updated')
+      
       this.setState({
             ...this.state,
             series: [this.props.rent?.entities?.length,this.props.sixty?.entities?.length, this.props.twenty?.entities?.length]

@@ -2,12 +2,12 @@ import {
     FETCH_RENTAL,
     FETCH_RENTAL_SUCCESSFUL,
     FETCH_RENTAL_ERROR,
-    FETCH_RENTAL2,
-    FETCH_RENTAL_SUCCESSFUL2,
-    FETCH_RENTAL_ERROR2,
-    FETCH_RENTAL3,
-    FETCH_RENTAL_SUCCESSFUL3,
-    FETCH_RENTAL_ERROR3,
+    // FETCH_RENTAL2,
+    // FETCH_RENTAL_SUCCESSFUL2,
+    // FETCH_RENTAL_ERROR2,
+    // FETCH_RENTAL3,
+    // FETCH_RENTAL_SUCCESSFUL3,
+    // FETCH_RENTAL_ERROR3,
   } from './actionTypes.js';
 
 //Fetch Rental Id import
@@ -48,46 +48,46 @@ import {
     };
   };
 
-  export const fetchRental2 = () => {
-    return {
-      type: FETCH_RENTAL2,
-    };
-  };
+  // export const fetchRental2 = () => {
+  //   return {
+  //     type: FETCH_RENTAL2,
+  //   };
+  // };
   
-  export const fetchRentalSuccessful2 = (data) => {
-    return {
-      type: FETCH_RENTAL_SUCCESSFUL2,
-      payload: data,
-    };
-  };
+  // export const fetchRentalSuccessful2 = (data) => {
+  //   return {
+  //     type: FETCH_RENTAL_SUCCESSFUL2,
+  //     payload: data,
+  //   };
+  // };
   
-  export const fetchRentalError2 = (error) => {
-    return {
-      type: FETCH_RENTAL_ERROR2,
-      payload: error,
-    };
-  };
+  // export const fetchRentalError2 = (error) => {
+  //   return {
+  //     type: FETCH_RENTAL_ERROR2,
+  //     payload: error,
+  //   };
+  // };
 
 
-  export const fetchRental3 = () => {
-    return {
-      type: FETCH_RENTAL3,
-    };
-  };
+  // export const fetchRental3 = () => {
+  //   return {
+  //     type: FETCH_RENTAL3,
+  //   };
+  // };
   
-  export const fetchRentalSuccessful3 = (data) => {
-    return {
-      type: FETCH_RENTAL_SUCCESSFUL3,
-      payload: data,
-    };
-  };
+  // export const fetchRentalSuccessful3 = (data) => {
+  //   return {
+  //     type: FETCH_RENTAL_SUCCESSFUL3,
+  //     payload: data,
+  //   };
+  // };
   
-  export const fetchRentalError3 = (error) => {
-    return {
-      type: FETCH_RENTAL_ERROR3,
-      payload: error,
-    };
-  };
+  // export const fetchRentalError3 = (error) => {
+  //   return {
+  //     type: FETCH_RENTAL_ERROR3,
+  //     payload: error,
+  //   };
+  // };
 
   //Fetch Rental id
 

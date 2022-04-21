@@ -12,8 +12,6 @@ import { connect } from 'react-redux';
 
 import {
   fetchRental,
-  fetchRental2,
-  fetchRental3,
 } from '../../../store/actions';
 
 import emptyCan from '../../../assets/images/EmptyCan.png';
@@ -38,8 +36,7 @@ class RentalApplication extends Component {
       ],
       activeTab: '1',
       showPreview: false,
-      filter: 'Current',
-      callOne: [],
+      filter: 'CURRENT'
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.SetShowPreview = this.SetShowPreview.bind(this);
@@ -65,12 +62,18 @@ class RentalApplication extends Component {
     this.setState({
       filter: e.target[e.target.selectedIndex].value
     })
+    console.log(this.state.filter)
 }
 
   componentDidMount() {
-   this.props.fetchRental()
-   this.props.fetchRental2()
-   this.props.fetchRental3()
+   this.props.fetchRental(this.state.filter)
+}
+
+
+componentDidUpdate(Pp,Ps, Ss){
+  if(Ps.filter !== this.state.filter){ 
+    this.props.fetchRental(this.state.filter)
+  } 
 }
 
   render() {
@@ -123,101 +126,101 @@ class RentalApplication extends Component {
       ),
     }));
     
-  const  currentRental = this?.props?.rental2?.entities?.map((rents2) => ({
-      application: (
-        /*map data from api here for each Tenant */
-        <>
-          <Link
-            to={`/preview/${rents2?.id}`}
-            onClick={this.SetShowPreview}
-            className="mr-3"
-            id="edit1"
-          >
-            <img
-              className="rounded-circle header-profile-user mr-1"
-              src={rents2?.tenant?.profilePhoto}
-              // src={avatar2}
-              alt="Header Avatar"
-            />
-            <span> {rents2.rentApplicationForm.name} </span>
-          </Link>
-        </>
-      ),
-      unitNumber: '001',
-      property: `${rents2?.property?.description}`,
-      address: `${rents2?.property?.address?.houseNoAddress}`,
-      date: `${rents2?.createdAt}`,
-      total: '$172',
-      status: (
-        <div className="badge badge-soft-success font-size-12">
-          {rents2?.status}
-        </div>
-      ),
-      action: (
-        <>
-          <Link to="#" className="mr-3 text-primary" id="edit1">
-            <i className="mdi mdi-pencil font-size-18"></i>
-          </Link>
-          <UncontrolledTooltip placement="top" target="edit1">
-            Edit
-          </UncontrolledTooltip>
-          <Link to="#" className="text-danger" id="delete1">
-            <i className="mdi mdi-trash-can font-size-18"></i>
-          </Link>
-          <UncontrolledTooltip placement="top" target="delete1">
-            Delete
-          </UncontrolledTooltip>
-        </>
-      ),
-    }));
+  // const  currentRental = this?.props?.rental2?.entities?.map((rents2) => ({
+  //     application: (
+  //       /*map data from api here for each Tenant */
+  //       <>
+  //         <Link
+  //           to={`/preview/${rents2?.id}`}
+  //           onClick={this.SetShowPreview}
+  //           className="mr-3"
+  //           id="edit1"
+  //         >
+  //           <img
+  //             className="rounded-circle header-profile-user mr-1"
+  //             src={rents2?.tenant?.profilePhoto}
+  //             // src={avatar2}
+  //             alt="Header Avatar"
+  //           />
+  //           <span> {rents2.rentApplicationForm.name} </span>
+  //         </Link>
+  //       </>
+  //     ),
+  //     unitNumber: '001',
+  //     property: `${rents2?.property?.description}`,
+  //     address: `${rents2?.property?.address?.houseNoAddress}`,
+  //     date: `${rents2?.createdAt}`,
+  //     total: '$172',
+  //     status: (
+  //       <div className="badge badge-soft-success font-size-12">
+  //         {rents2?.status}
+  //       </div>
+  //     ),
+  //     action: (
+  //       <>
+  //         <Link to="#" className="mr-3 text-primary" id="edit1">
+  //           <i className="mdi mdi-pencil font-size-18"></i>
+  //         </Link>
+  //         <UncontrolledTooltip placement="top" target="edit1">
+  //           Edit
+  //         </UncontrolledTooltip>
+  //         <Link to="#" className="text-danger" id="delete1">
+  //           <i className="mdi mdi-trash-can font-size-18"></i>
+  //         </Link>
+  //         <UncontrolledTooltip placement="top" target="delete1">
+  //           Delete
+  //         </UncontrolledTooltip>
+  //       </>
+  //     ),
+  //   }));
     
-  const exitedRental = this?.props?.rental3?.entities?.map((rents3) => ({
-      application: (
-        /*map data from api here for each Tenant */
-        <>
-          <Link
-            to={`/preview/${rents3?.id}`}
-            onClick={this.SetShowPreview}
-            className="mr-3"
-            id="edit1"
-          >
-            <img
-              className="rounded-circle header-profile-user mr-1"
-              src={rents3?.tenant?.profilePhoto}
-              // src={avatar2}
-              alt="Header Avatar"
-            />
-            <span> {rents3.rentApplicationForm.name} </span>
-          </Link>
-        </>
-      ),
-      unitNumber: '001',
-      property: `${rents3?.property?.description}`,
-      address: `${rents3?.property?.address?.houseNoAddress}`,
-      date: `${rents3?.createdAt}`,
-      total: '$172',
-      status: (
-        <div className="badge badge-soft-success font-size-12">
-          {rents3?.status}
-        </div>
-      ),
-      action: (
-        <>
-          <Link to="#" className="mr-3 text-primary" id="edit1">
-            <i className="mdi mdi-pencil font-size-18"></i>
-          </Link>
-          <UncontrolledTooltip placement="top" target="edit1">
-            Edit
-          </UncontrolledTooltip>
-          <Link to="#" className="text-danger" id="delete1">
-            <i className="mdi mdi-trash-can font-size-18"></i>
-          </Link>
-          <UncontrolledTooltip placement="top" target="delete1">
-            Delete
-          </UncontrolledTooltip>
-        </>
-      ),
-    }));
+  // const exitedRental = this?.props?.rental3?.entities?.map((rents3) => ({
+  //     application: (
+  //       /*map data from api here for each Tenant */
+  //       <>
+  //         <Link
+  //           to={`/preview/${rents3?.id}`}
+  //           onClick={this.SetShowPreview}
+  //           className="mr-3"
+  //           id="edit1"
+  //         >
+  //           <img
+  //             className="rounded-circle header-profile-user mr-1"
+  //             src={rents3?.tenant?.profilePhoto}
+  //             // src={avatar2}
+  //             alt="Header Avatar"
+  //           />
+  //           <span> {rents3.rentApplicationForm.name} </span>
+  //         </Link>
+  //       </>
+  //     ),
+  //     unitNumber: '001',
+  //     property: `${rents3?.property?.description}`,
+  //     address: `${rents3?.property?.address?.houseNoAddress}`,
+  //     date: `${rents3?.createdAt}`,
+  //     total: '$172',
+  //     status: (
+  //       <div className="badge badge-soft-success font-size-12">
+  //         {rents3?.status}
+  //       </div>
+  //     ),
+  //     action: (
+  //       <>
+  //         <Link to="#" className="mr-3 text-primary" id="edit1">
+  //           <i className="mdi mdi-pencil font-size-18"></i>
+  //         </Link>
+  //         <UncontrolledTooltip placement="top" target="edit1">
+  //           Edit
+  //         </UncontrolledTooltip>
+  //         <Link to="#" className="text-danger" id="delete1">
+  //           <i className="mdi mdi-trash-can font-size-18"></i>
+  //         </Link>
+  //         <UncontrolledTooltip placement="top" target="delete1">
+  //           Delete
+  //         </UncontrolledTooltip>
+  //       </>
+  //     ),
+  //   }));
       
 
     const data = {
@@ -259,7 +262,8 @@ class RentalApplication extends Component {
           width: 135,
         },
       ],
-      rows: this.state.filter === 'Current' ? currentRental : (this.state.filter === 'Processing' ? processingRental : exitedRental)
+      rows: processingRental
+      //this.state.filter === 'Current' ? currentRental : (this.state.filter === 'Processing' ? processingRental : exitedRental)
         // ?.concat(currentRental, exitedRental)
         // .flatMap((el) => {
         //   return el?.length <= 0 ? [] : el;
@@ -278,10 +282,10 @@ class RentalApplication extends Component {
       <React.Fragment>
         <div className="page-content">
           <div className="float-right mr-3">
-            <select className="custom-select custom-select-sm bg-light" onChange={(e)=> {this.fair(e)}}>
-              <option value="Current">Current</option>
-              <option value="Processing">Processing</option>
-              <option value="Exited">Exited</option>
+            <select className="custom-select custom-select-sm bg-light" onChange={(e)=> this.fair(e)}>
+              <option value="CURRENT">Current</option>
+              <option value="PROCESSING">Processing</option>
+              <option value="EXITED">Exited</option>
             </select>
           </div>
           <Container fluid>
@@ -340,14 +344,16 @@ class RentalApplication extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { rental, rental2, rental3, loading } = state.Rental;
-  return { rental, rental2, rental3, loading };
+  const { rental, loading } = state.Rental;
+  return { rental, loading };
 };
 
 export default withRouter(
-  connect(mapStateToProps, { fetchRental, fetchRental2, fetchRental3 })(
+  connect(mapStateToProps, { fetchRental})(
     RentalApplication
   )
 );
+
+//fetchRental2, fetchRental3 
 
 // export default RentalApplication
