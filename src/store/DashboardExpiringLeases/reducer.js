@@ -60,6 +60,7 @@ const fetchReducerExpiring = (state = initialState, action) => {
                      loading: false,
                      errorsixty: null
                  }
+                 break;
         case FETCH_EXPIRING_ERROR_SIXTY : 
                   state = {
                       ...state,
