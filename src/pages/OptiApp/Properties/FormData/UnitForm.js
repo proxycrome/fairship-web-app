@@ -8,7 +8,8 @@ import {
   AvCheckboxGroup,
   AvCheckbox,
 } from 'availity-reactstrap-validation';
-
+import { getPropertySubcategory } from "../../../../store/actions";
+import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import DropZone from '../../../../components/Common/imageUpload';
@@ -20,6 +21,9 @@ class CreateProperty extends Component {
       activeTab: 1,
       selectedFiles: [],
       imageError: '',
+      type: 'Agricultural',
+      id: 1,
+      formType: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,14 +47,27 @@ class CreateProperty extends Component {
     formData.price = Number(values.price);
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
-      this.props.agents.entities.find((agent) => {
-        if (agent.firstName === values.agentIds) {
+      this.props.agents?.agents.find((agent) => {
+        if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
           return agent.id;
         }
       }).id,
     ];
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
+  }
+
+  componentDidMount() {
+    this.props.getPropertySubcategory(this.state.id)
+  }
+
+  componentDidUpdate(PrevProps, PrevState) {
+    const types = this.props.propertyTypes?.find((type) => 
+      type.name === this.state.formType
+    )
+    if(PrevState.formType !== this.state.formType){
+      this.props.getPropertySubcategory(types.id)
+    }
   }
 
   toggleTab(tab) {
@@ -63,7 +80,16 @@ class CreateProperty extends Component {
     }
   }
 
+  // numberWithCommas(x) {
+  //   x = x.toString();
+  //   var pattern = /(-?\d+)(\d{3})/;
+  //   while (pattern.test(x))
+  //       x = x.replace(pattern, "$1,$2");
+  //   return x;
+  // }
+
   render() {
+    // console.log(this.numberWithCommas(10000000));
     return (
       <React.Fragment>
         <div>
@@ -99,13 +125,26 @@ class CreateProperty extends Component {
                     type="select"
                     name="type"
                     helpMessage="Property Type"
+                    value={this.state.type}
+                    onChange={(e) => this.setState({formType: e.target.value})}
+                    required
                   >
                     {this.props.propertyTypes?.map(type => (
                       <option key={type.id}>{type.name}</option>
                     ))}
-                    {/* <option value="flat">Flat</option>
-                    <option value="Duplex">Duplex</option>
-                    <option value="mansion">mansion</option> */}
+                  </AvField>
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    type="select"
+                    name="subcategory"
+                    helpMessage="Property Subcategory"
+                  >
+                    {this.props.propertySubcategories?.map((subcategory) => (
+                      <option key={subcategory.id}>{subcategory.name}</option>
+                    ))}
                   </AvField>
                 </FormGroup>
               </Col>
@@ -176,7 +215,7 @@ class CreateProperty extends Component {
                   <AvField
                     name="price"
                     type="text"
-                    min={10000}
+                    // min={10000}
                     className="form-ctrl"
                     id="price"
                     helpMessage="Price of Apartment"
@@ -187,7 +226,7 @@ class CreateProperty extends Component {
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    type="text"
+                    type="number"
                     name="periodInMonths"
                     helpMessage="Months of Rent"
                     placeholder="Enter No. of Months"
@@ -233,13 +272,13 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
-                          value={this.props.agents?.entities[0].firstName}
+                          value={this.props.agents?.agents[0].firstName}
                           required
                           // helpMessage="Location"
                         >
                           {this.props.agents !== null ? (
-                            this.props.agents?.entities?.map((agent) => (
-                              <option key={agent.id}>{agent?.firstName}</option>
+                            this.props.agents?.agents?.map((agent) => (
+                              <option key={agent.id}>{agent?.firstName} {agent?.lastName}</option>   
                             ))
                           ) : (
                             <option>Loading ...</option>
@@ -319,8 +358,8 @@ class CreateProperty extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loading } = state.Properties;
-  return { loading };
+  const { loading, propertySubcategories } = state.Properties;
+  return { loading, propertySubcategories };
 };
 
-export default connect(mapStatetoProps, null)(CreateProperty);
+export default withRouter(connect(mapStatetoProps, {getPropertySubcategory})(CreateProperty));

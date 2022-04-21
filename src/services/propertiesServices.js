@@ -34,5 +34,11 @@ export const createPropertiesService = ({ data, unitId }) => {
 export const getPropertyTypesService = () => {
   const http = new HttpService();
   let url = 'property-types/main-categories';
-  return http.getData(url)
+  return http.getData(url);
+}
+
+export const getPropertySubcategoryService = (id) => {
+  const http = new HttpService();
+  let url = `property-types/sub-categories/${id}`;
+  return http.getData(url);
 }
