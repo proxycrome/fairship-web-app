@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
-import { Row, Col, Button, FormGroup, Input, Label, Alert } from 'reactstrap';
+import React, { Component } from "react";
+import { Row, Col, Button, FormGroup, Input, Label, Alert } from "reactstrap";
 
 // availity-reactstrap-validation
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { AvForm, AvField } from "availity-reactstrap-validation";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { getPropertySubcategory } from "../../../../store/actions";
 
-import DropZone from '../../../../components/Common/imageUpload';
+import DropZone from "../../../../components/Common/imageUpload";
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -12,19 +15,21 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
-      description: 'no description',
-      city: 'Lagos',
-      country: 'Nigeria',
-      state: 'Lagos',
-      type: 'Flats/apartments',
-      imageError: '',
+      description: "no description",
+      city: "Lagos",
+      country: "Nigeria",
+      state: "Lagos",
+      type: "Agricultural",
+      formType: "",
+      imageError: "",
+      id: 1,
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(events, values) {
-    this.setState({ ...this.state, imageError: '' });
+    this.setState({ ...this.state, imageError: "" });
     if (this.state.selectedFiles.length === 0) {
       this.setState({ ...this.state, imageError: "image can't be empty" });
       return;
@@ -32,14 +37,27 @@ class CreateProperty extends Component {
     const formData = { ...values };
     formData.description = this.state.description;
     formData.agentIds = [
-      this.props.agents.entities.find((agent) => {
-        if (agent.firstName === values.agentIds) {
+      this.props.agents?.agents.find((agent) => {
+        if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
           return agent.id;
         }
       }).id,
     ];
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
+  }
+
+  componentDidMount() {
+    this.props.getPropertySubcategory(this.state.id);
+  }
+
+  componentDidUpdate(PrevProps, PrevState) {
+    const types = this.props.propertyTypes?.find(
+      (type) => type.name === this.state.formType
+    );
+    if (PrevState.formType !== this.state.formType) {
+      this.props.getPropertySubcategory(types.id);
+    }
   }
 
   toggleTab(tab) {
@@ -81,13 +99,32 @@ class CreateProperty extends Component {
                         value={this.state.type}
                         helpMessage="Property Type"
                         required
+                        onChange={(e) =>
+                          this.setState({ formType: e.target.value })
+                        }
                       >
-                        {this.props.propertyTypes?.map(type => (
-                          <option key={type.id}>{type.name}</option>
+                        {this.props.propertyTypes?.map((type) => (
+                          <option key={type.id} value={type.name}>
+                            {type.name}
+                          </option>
                         ))}
-                        {/* <option>Flat</option>
-                        <option>Duplex</option>
-                        <option>mansion</option> */}
+                      </AvField>
+                    </FormGroup>
+                  </Col>
+                  <Col sm={6}>
+                    <FormGroup className="form-group-custom mb-4">
+                      <AvField
+                        type="select"
+                        name="subcategory"
+                        helpMessage="Property Subcategory"
+                      >
+                        {this.props.propertySubcategories?.map(
+                          (subcategory) => (
+                            <option key={subcategory.id}>
+                              {subcategory.name}
+                            </option>
+                          )
+                        )}
                       </AvField>
                     </FormGroup>
                   </Col>
@@ -196,11 +233,14 @@ class CreateProperty extends Component {
                         type="select"
                         name="agentIds"
                         helpMessage="Add Agent"
+                        value={this.props.agents?.agents[0].firstName}
                         required
                       >
                         {this.props.agents !== null ? (
-                          this.props.agents?.entities?.map((agent) => (
-                            <option key={agent.id}>{agent?.firstName}</option>
+                          this.props.agents?.agents.map((agent) => (
+                            <option key={agent.id}>
+                              {agent?.firstName} {agent?.lastName}
+                            </option>
                           ))
                         ) : (
                           <option>Loading ...</option>
@@ -253,4 +293,11 @@ class CreateProperty extends Component {
   }
 }
 
-export default CreateProperty;
+const mapStatetoProps = (state) => {
+  const { propertySubcategories } = state.Properties;
+  return { propertySubcategories };
+};
+
+export default withRouter(
+  connect(mapStatetoProps, { getPropertySubcategory })(CreateProperty)
+);

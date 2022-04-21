@@ -11,6 +11,9 @@ import {
   GET_PROPERTY_TYPES,
   GET_PROPERTY_TYPES_SUCCESS,
   GET_PROPERTY_TYPES_ERROR,
+  GET_PROPERTY_SUBCATEGORY,
+  GET_PROPERTY_SUBCATEGORY_SUCCESS,
+  GET_PROPERTY_SUBCATEGORY_ERROR,
 } from './actionTypes';
 
 const initialState = {
@@ -22,7 +25,9 @@ const initialState = {
   createUnit: false,
   loading: false,
   propertyTypes: null,
-  PropertyTypeError: null
+  PropertyTypeError: null,
+  propertySubcategories: null,
+  subcategoryError: null,
 };
 
 const Properties = (state = initialState, action) => {
@@ -111,6 +116,33 @@ const Properties = (state = initialState, action) => {
         propertyTypes: null,
         PropertyTypeError: action.payload
       };
+    break;
+
+    case GET_PROPERTY_SUBCATEGORY:
+      state = {
+        ...state,
+        loading: true,
+        propertySubcategories: null,
+        subcategoryError: null
+      }
+    break;
+
+    case GET_PROPERTY_SUBCATEGORY_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        propertySubcategories: action.payload,
+        subcategoryError: null
+      }
+    break;
+
+    case GET_PROPERTY_SUBCATEGORY_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        propertySubcategories: null,
+        subcategoryError: action.payload
+      }
     break;
 
     default:

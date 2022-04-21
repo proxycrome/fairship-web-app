@@ -8,6 +8,7 @@ import {
   Container,
   Card,
   CardBody,
+  Input,
 } from 'reactstrap';
 
 // availity-reactstrap-validation
@@ -19,7 +20,7 @@ import {
 } from 'availity-reactstrap-validation';
 import { Link } from 'react-router-dom';
 
-import { createProperties, getAgents, getPropertyTypes } from '../../../../../store/actions';
+import { createProperties, getAgents, getPropertyTypes, getPropertySubcategory } from '../../../../../store/actions';
 
 import { connect } from 'react-redux';
 
@@ -33,6 +34,10 @@ class CreateProperty extends Component {
       selectedFiles: [],
       imageError: '',
       feature: 'RENT',
+      type: "Agricultural",
+      // price: "", 
+      id: 1,
+      formType: ""
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,7 +59,7 @@ class CreateProperty extends Component {
     formData.parkingLot = values.parkingLot === 'Yes' ? true : false;
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price);
+    formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
       this.props.agents.entities.find((agent) => {
@@ -83,7 +88,54 @@ class CreateProperty extends Component {
   componentDidMount() {
     this.props.getAgents();
     this.props.getPropertyTypes();
+    this.props.getPropertySubcategory(this.state.id)
   }
+
+  componentDidUpdate(PrevProps, PrevState) {
+    const types = this.props.propertyTypes?.find(
+      (type) => type.name === this.state.formType
+    );
+    if (PrevState.formType !== this.state.formType) {
+      this.props.getPropertySubcategory(types.id);
+    }
+  }
+
+  // numberWithCommas(x) {
+  //   x = x.toString();
+  //   var pattern = /\B(?=(\d{3})+(?!\d))/g;
+  //   while (pattern.test(x))
+  //       x = x.replace(pattern, ",");
+  //   return x;
+  // }
+
+  // includeCommas(bar) {
+  //   let num = bar.toString();
+  //   // SPLIT WHOLE AND DECIMAL NUMBERS
+  //   let cWhole = "";
+  //   let cDec = "";
+
+  //   let cDot = num.indexOf(".");
+
+  //   if(cDot !== -1){
+  //     cWhole = num.substring(0, cDot);
+  //     cDec = num.substring(cDot);
+  //   }
+
+  //   // MANUALLY ADD COMMA PER THOUSAND
+  //   if(cWhole.length > 3) {
+  //     let temp = "";
+  //     let j = 0;
+  //     for(let i = cWhole.length - 1; i >= 0; i--){
+  //       temp = cWhole[i] + temp;
+  //       j++;
+
+  //       if(j%3 === 0 && i !== 0){
+  //         temp = "," + temp
+  //       }
+  //     }
+  //     return temp;
+  //   }
+  // }
 
   render() {
     return (
@@ -169,14 +221,26 @@ class CreateProperty extends Component {
                           type="select"
                           name="type"
                           helpMessage="Property Type"
-                          defaultValue="Flat/apartments"
+                          value={this.state.type}
+                          onChange={(e) => this.setState({formType: e.target.value})}
+                          required
                         >
                           {this.props.propertyTypes?.map(type => (
                             <option key={type.id}>{type.name}</option>
                           ))}
-                          {/* <option>Flat</option>
-                          <option>Duplex</option>
-                          <option>mansion</option> */}
+                        </AvField>
+                      </FormGroup>
+                    </Col>
+                    <Col xs={4}>
+                      <FormGroup className="form-group-custom mb-4">
+                        <AvField
+                          type="select"
+                          name="subcategory"
+                          helpMessage="Property Subcategory"
+                        >
+                          {this.props.propertySubcategories?.map((subcategory) => (
+                            <option key={subcategory.id}>{subcategory.name}</option>
+                          ))}
                         </AvField>
                       </FormGroup>
                     </Col>
@@ -314,11 +378,13 @@ class CreateProperty extends Component {
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="price"
-                          type="number"
-                          min={10000}
+                          type="text"
+                          // min={10000}
                           className="form-ctrl"
                           id="price"
                           helpMessage="Price of Apartment"
+                          // value={this.state.price}
+                          // onChange={(e) => this.setState({price: this.numberWithCommas(e.target.value)})}
                         />
                       </FormGroup>
                     </Col>
@@ -326,15 +392,11 @@ class CreateProperty extends Component {
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
-                          type="text"
+                          type="Number"
                           name="periodInMonths"
                           helpMessage="Months of Rent"
                           placeholder="Enter No. of Months"
                         />
-                          {/* <option values={1}>12 </option>
-                          <option values={2}>18 </option>
-                          <option values={3}>24 </option> */}
-                        {/* </AvField> */}
                       </FormGroup>
                     </Col>
                     <Col xs={6}>
@@ -463,11 +525,11 @@ class CreateProperty extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loading, message, property, propertiesError, propertyTypes } = state.Properties;
+  const { loading, message, property, propertiesError, propertyTypes, propertySubcategories } = state.Properties;
   const { agents } = state.Agents;
-  return { loading, agents, message, property, propertiesError, propertyTypes };
+  return { loading, agents, message, property, propertiesError, propertyTypes, propertySubcategories };
 };
 
-export default connect(mapStatetoProps, { createProperties, getAgents, getPropertyTypes })(
+export default connect(mapStatetoProps, { createProperties, getAgents, getPropertyTypes, getPropertySubcategory })(
   CreateProperty
 );
