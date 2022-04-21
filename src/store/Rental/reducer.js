@@ -44,46 +44,6 @@ const Rental = (state = initialState, action) => {
         rentalError: action.payload,
       };
      break;
-    // case FETCH_RENTAL2:
-    //   state = {
-    //     ...state,
-    //     rental2: null,
-    //     rentalError2: null,
-    //     loading: true,
-    //   };
-    // case FETCH_RENTAL_SUCCESSFUL2:
-    //   state = {
-    //     ...state,
-    //     rental2: action.payload,
-    //     loading: false,
-    //   };
-    // case FETCH_RENTAL_ERROR2:
-    //   state = {
-    //     ...state,
-    //     loading: false,
-    //     rentalError2: action.payload,
-    //   };
-    //   break;
-    // case FETCH_RENTAL3:
-    //   state = {
-    //     ...state,
-    //     rental3: null,
-    //     rentalError3: null,
-    //     loading: true,
-    //   };
-    // case FETCH_RENTAL_SUCCESSFUL3:
-    //   state = {
-    //     ...state,
-    //     rental3: action.payload,
-    //     loading: false,
-    //   };
-    // case FETCH_RENTAL_ERROR3:
-    //   state = {
-    //     ...state,
-    //     loading: false,
-    //     rentalError3: action.payload,
-    //   };
-    //   break;
     default:
       state = { ...state };
       break;
