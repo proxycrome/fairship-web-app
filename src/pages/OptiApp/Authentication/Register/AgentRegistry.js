@@ -22,6 +22,7 @@ import logodark from '../../../../assets/images/FairshipLogo.svg';
 const Register = ({
   registerUser,
   registrationError,
+  agentType,
   message,
   history,
   loading,
@@ -29,11 +30,12 @@ const Register = ({
   const handleSubmit = (event, values) => {
     const formData = { ...values };
     const agentDetails = {
-      type: 'INDIVIDUAL',
+      type: agentType,
       companyName: values.serviceProviderDetails?.companyName,
     };
     formData.agentDetails = agentDetails;
     formData.role = 'AGENT';
+    console.log(formData)
     registerUser(formData, history);
   };
 

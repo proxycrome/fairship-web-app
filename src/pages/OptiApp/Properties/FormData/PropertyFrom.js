@@ -16,7 +16,7 @@ class CreateProperty extends Component {
       city: 'Lagos',
       country: 'Nigeria',
       state: 'Lagos',
-      type: 'Flat',
+      type: 'Flats/apartments',
       imageError: '',
     };
     this.toggleTab = this.toggleTab.bind(this);
@@ -68,6 +68,7 @@ class CreateProperty extends Component {
                         className="form-ctrl"
                         id="text"
                         placeholder="Title"
+                        helpMessage="Property title"
                         required
                       />
                     </FormGroup>
@@ -78,11 +79,15 @@ class CreateProperty extends Component {
                         type="select"
                         name="type"
                         value={this.state.type}
+                        helpMessage="Property Type"
                         required
                       >
-                        <option>Flat</option>
+                        {this.props.propertyTypes?.map(type => (
+                          <option key={type.id}>{type.name}</option>
+                        ))}
+                        {/* <option>Flat</option>
                         <option>Duplex</option>
-                        <option>mansion</option>
+                        <option>mansion</option> */}
                       </AvField>
                     </FormGroup>
                   </Col>
@@ -94,6 +99,7 @@ class CreateProperty extends Component {
                         className="form-ctrl"
                         id="text"
                         placeholder="Enter Property Size"
+                        helpMessage="Property size (sqm)"
                         required
                       />
                     </FormGroup>
@@ -105,7 +111,7 @@ class CreateProperty extends Component {
                         type="text"
                         className="form-ctrl"
                         id="text"
-                        placeholder="address"
+                        placeholder="Address"
                         required
                       />
                     </FormGroup>
@@ -155,7 +161,7 @@ class CreateProperty extends Component {
                   <Col sm={6}>
                     <FormGroup className="form-group-custom mb-4">
                       <AvField
-                        name="address.zipcode"
+                        name="address.zipCode"
                         type="text"
                         className="form-ctrl"
                         id="text"
@@ -189,7 +195,6 @@ class CreateProperty extends Component {
                       <AvField
                         type="select"
                         name="agentIds"
-                        // label="Add Agent"
                         helpMessage="Add Agent"
                         required
                       >
