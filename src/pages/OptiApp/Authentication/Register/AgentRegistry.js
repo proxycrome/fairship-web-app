@@ -243,7 +243,7 @@ const Register = ({
                       <div className="terms">
                         <p>
                           By signing up, I agree to the{' '}
-                          <Link to="#">Primary policy</Link> and{' '}
+                          <Link to="#">Privacy</Link> and{' '}
                           <Link to="#">Terms of Service</Link>
                         </p>
                       </div>
