@@ -193,7 +193,7 @@ class CreateProperty extends Component {
                 </Col>
               </Row>
             ) : (
-              <CreateMoreUnit agents={this.props.agents} />
+              <CreateMoreUnit agents={this.props.agents} propertyTypes={this.props.propertyTypes} />
             )}
           </Container>
         </div>
