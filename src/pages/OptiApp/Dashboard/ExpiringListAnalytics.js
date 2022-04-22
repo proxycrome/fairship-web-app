@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 //Import Charts
 import ReactApexChart from 'react-apexcharts';
 import './dashboard.scss';
+import emptyCan from '../../../assets/images/EmptyCan.png';
 import {fetchExpiring, fetchExpiringSixty, fetchExpiringOnetwenty} from '../../../store/actions'
 
 class SalesAnalytics extends Component {
@@ -59,7 +60,25 @@ class SalesAnalytics extends Component {
    
     return (
       <React.Fragment>
-        <Card>
+        {(this.props.rent?.entities?.length === 0 && this.props.sixty?.entities?.length === 0  && this.props.twenty?.entities?.length === 0)
+        ?
+        (
+          <Card>
+            <CardBody> 
+            <h4 className="card-title mb-4">Expiring Leases</h4>
+            <div className="text-center">
+            <img
+              src={emptyCan}
+              alt="empty"
+              className="rounded mb-2"
+            />
+            <h5> No Expiring Leases! </h5>
+          </div>
+          </CardBody>
+           </Card>
+        ) :
+        (
+          <Card>
           <CardBody>
             <div className="float-right">
               <Link to='/tenants' className='text-success'>
@@ -108,6 +127,8 @@ class SalesAnalytics extends Component {
             </Row>
           </CardBody>
         </Card>
+        )
+      }
       </React.Fragment>
     );
   }

@@ -1,10 +1,10 @@
 import { takeEvery, call, put, all, fork } from "redux-saga/effects";
-import { FETCH_EXPIRING, FETCH_EXPIRING_SIXTY, FETCH_EXPIRING_ONETWENTY} from './actionTypes'
+import { FETCH_EXPIRING, FETCH_EXPIRING_SIXTY, FETCH_EXPIRING_ONETWENTY, FETCH_EXPIRING_ZERO} from './actionTypes'
 import {
-  fetchExpiringSuccessful, fetchExpiringError, fetchExpiringSuccessfulSixty,fetchExpiringErrorSixty, fetchExpiringSuccessfulOnetwenty,fetchExpiringErrorOnetwenty
+  fetchExpiringSuccessful, fetchExpiringError, fetchExpiringSuccessfulSixty,fetchExpiringErrorSixty, fetchExpiringSuccessfulOnetwenty,fetchExpiringErrorOnetwenty, fetchExpiringSuccessfulZero, fetchExpiringErrorZero
 } from './actions'
 
-import { fetchleaseServices, fetchleaseServicesSixty, fetchleaseServicesTwenty } from "../../services/expiringLeasesServices";
+import { fetchleaseServices, fetchleaseServicesSixty, fetchleaseServicesTwenty, fetchleaseServicesZeroTwenty } from "../../services/expiringLeasesServices";
 
 
 function* fetchlease (){
@@ -52,10 +52,25 @@ export function*  watchFetchleaseOnetwenty(){
   yield takeEvery(FETCH_EXPIRING_ONETWENTY, fetchleaseTwenty)
 }
 
+function* fetchleaseZero (){
+  try{
+    const response = yield call(fetchleaseServicesZeroTwenty)
+    yield put(fetchExpiringSuccessfulZero(response.data))
+    console.log(response.data)
+  }catch(error){
+      yield put(fetchExpiringErrorZero(error?.response?.data))
+  }
+}
+
+
+export function*  watchFetchleaseZero(){
+  yield takeEvery(FETCH_EXPIRING_ZERO, fetchleaseZero)
+}
+
 
 
 function* fetchleaseSaga() {
-    yield all([fork(watchFetchlease), fork(watchFetchleaseSixty), fork(watchFetchleaseOnetwenty)]);
+    yield all([fork(watchFetchlease), fork(watchFetchleaseSixty), fork(watchFetchleaseOnetwenty), fork(watchFetchleaseZero)]);
 }
 
 

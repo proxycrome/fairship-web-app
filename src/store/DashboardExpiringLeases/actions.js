@@ -7,7 +7,10 @@ import {
     FETCH_EXPIRING_ERROR_SIXTY,
     FETCH_EXPIRING_SUCCESSFUL_ONETWENTY,
     FETCH_EXPIRING_ONETWENTY,
-    FETCH_EXPIRING_ERROR_ONETWENTY
+    FETCH_EXPIRING_ERROR_ONETWENTY,
+    FETCH_EXPIRING_ZERO,
+    FETCH_EXPIRING_SUCCESSFUL_ZERO,
+    FETCH_EXPIRING_ERROR_ZERO
 } from './actionTypes'
 
 
@@ -50,6 +53,27 @@ export const fetchExpiringSuccessfulSixty = (data) => {
 export const fetchExpiringErrorSixty  = (error) => {
     return {
         type: FETCH_EXPIRING_ERROR_SIXTY,
+        payload: error
+    }
+}
+
+export const fetchExpiringZero= ()=> {
+    return {
+        type: FETCH_EXPIRING_ZERO
+    }
+}
+
+export const fetchExpiringSuccessfulZero = (data) => {
+    return {
+        type: FETCH_EXPIRING_SUCCESSFUL_ZERO,
+        payload: data
+    }
+}
+
+
+export const fetchExpiringErrorZero = (error) => {
+    return {
+        type: FETCH_EXPIRING_ERROR_ZERO,
         payload: error
     }
 }

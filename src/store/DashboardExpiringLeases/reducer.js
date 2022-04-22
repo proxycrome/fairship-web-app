@@ -7,7 +7,10 @@ import {
  FETCH_EXPIRING_ERROR_SIXTY,
  FETCH_EXPIRING_ONETWENTY,
  FETCH_EXPIRING_SUCCESSFUL_ONETWENTY,
- FETCH_EXPIRING_ERROR_ONETWENTY
+ FETCH_EXPIRING_ERROR_ONETWENTY,
+ FETCH_EXPIRING_ZERO,
+ FETCH_EXPIRING_SUCCESSFUL_ZERO,
+ FETCH_EXPIRING_ERROR_ZERO
 } from './actionTypes'
 
 const initialState = {
@@ -17,6 +20,8 @@ const initialState = {
     errorsixty: null,
     twenty: null,
     errortwenty: null,
+    zero: null,
+    errorzero: null,
     loading: false
 }
 
@@ -91,7 +96,30 @@ const fetchReducerExpiring = (state = initialState, action) => {
                   errortwenty: action.payload,
                   loading: false
               } 
-              break; 
+              break;
+        case FETCH_EXPIRING_ZERO:
+                state = {
+                    ...state,
+                   zero: null,
+                   errorzero: null,
+                   loading: true
+                }
+                break;
+        case FETCH_EXPIRING_SUCCESSFUL_ZERO : 
+                 state = {
+                     ...state,
+                     zero: action.payload,
+                     loading: false,
+                     errorzero: null
+                 }
+                 break;
+        case FETCH_EXPIRING_ERROR_ZERO : 
+                  state = {
+                      ...state,
+                      errorzero: action.payload,
+                      loading: false
+                  } 
+                  break;        
         default:  
       state = {
           ...state

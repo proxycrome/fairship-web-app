@@ -39,9 +39,23 @@ export const fetchleaseServices = () => {
       console.log(m.toLocaleDateString('es-CL'))
       
       const currentDates = new Date();
-      currentDates.setDate(currentDates.getDate() + 365)
+      currentDates.setDate(currentDates.getDate() + 120)
       console.log(currentDates.toLocaleDateString('es-CL'))
         const http = new HttpService();
         const url = `/auth/expiring-lease/date-range?endDate=${m.toLocaleDateString('es-CL')}&startDate=${currentDates.toLocaleDateString('es-CL')}`;
         return http.getData(url);
       };  
+
+      export const fetchleaseServicesZeroTwenty = () => {
+        const m = new Date() 
+        
+        m.setDate(m.getDate())
+        console.log(m.toLocaleDateString('es-CL'))
+        
+        const currentDates = new Date();
+        currentDates.setDate(currentDates.getDate() + 365)
+        console.log(currentDates.toLocaleDateString('es-CL'))
+          const http = new HttpService();
+          const url = `/auth/expiring-lease/date-range?endDate=${m.toLocaleDateString('es-CL')}&startDate=${currentDates.toLocaleDateString('es-CL')}`;
+          return http.getData(url);
+        };     
