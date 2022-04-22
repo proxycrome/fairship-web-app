@@ -10,7 +10,11 @@ import { withRouter, Link } from 'react-router-dom';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
 // actions
-import { apiError, registerUser, registerUserFailed } from '../../../../store/actions';
+import {
+  apiError,
+  registerUser,
+  registerUserFailed,
+} from '../../../../store/actions';
 
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
@@ -21,7 +25,7 @@ const Register = ({
   message,
   history,
   landlordType,
-  loading
+  loading,
 }) => {
   const handleSubmit = (event, values) => {
     const formData = { ...values };
@@ -59,8 +63,12 @@ const Register = ({
               <div className="authentication-bg text-center">
                 <div className="bg-overlay"></div>
                 <div className="overlay-text">
-                  <h1 style={{ left: '179px' }}>Welcome!</h1>
-                  <p>Create an account with us</p>
+                  <div className="d-flex justify-content-between align-items-center h-100">
+                    <div className="col-12">
+                      <h1 className="text-center">Welcome!</h1>
+                      <p className="text-center">Create an account with us</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -229,7 +237,7 @@ const Register = ({
                                 className="w-100 waves-effect waves-light"
                                 type="submit"
                               >
-                               {loading ? 'Loading...' : 'Sign Up'}
+                                {loading ? 'Loading...' : 'Sign Up'}
                               </Button>
                             </div>
                           </AvForm>
@@ -260,5 +268,7 @@ const mapStatetoProps = (state) => {
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { registerUser, registerUserFailed, apiError })(Register)
+  connect(mapStatetoProps, { registerUser, registerUserFailed, apiError })(
+    Register
+  )
 );
