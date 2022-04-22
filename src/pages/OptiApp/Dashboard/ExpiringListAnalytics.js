@@ -5,7 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 //Import Charts
 import ReactApexChart from 'react-apexcharts';
 import './dashboard.scss';
-import {fetchExpiring} from '../../../store/actions'
+import {fetchExpiring, fetchExpiringSixty, fetchExpiringOnetwenty} from '../../../store/actions'
 
 class SalesAnalytics extends Component {
 
@@ -38,24 +38,25 @@ class SalesAnalytics extends Component {
   
 
   componentDidMount() {
-    this.props.fetchExpiring(); 
+    this.props.fetchExpiring()
+    this.props.fetchExpiringSixty()
+    this.props.fetchExpiringOnetwenty() 
   
  }
 
    componentDidUpdate(Pp, Ps, Ss){
-
-    if(Pp.rent !== this.props.rent){
-      
+    
+    if(Pp.rent !== this.props.rent || Pp.sixty !== this.props.sixty || Pp.twenty !== this.props.twenty ){
+      console.log(this.props)
       this.setState({
             ...this.state,
-            series: [this.props.rent?.entities?.length,this.props.sixty?.entities?.length, this.props.twenty?.entities?.length]
-          
+            series: [this.props.rent?.entities?.length , this.props.sixty?.entities?.length , this.props.twenty?.entities?.length ]
           })
     }
    }
  
   render() {
-    console.log(this.props.rent)
+   
     return (
       <React.Fragment>
         <Card>
@@ -119,4 +120,4 @@ const mapStatetoProps = (state) => {
 
 
 
-export default withRouter(connect(mapStatetoProps, {fetchExpiring})(SalesAnalytics));
+export default withRouter(connect(mapStatetoProps, {fetchExpiring, fetchExpiringSixty, fetchExpiringOnetwenty})(SalesAnalytics));
