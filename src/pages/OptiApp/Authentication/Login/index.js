@@ -85,7 +85,7 @@ class Login extends Component {
                           <div className="text-center">
                             <h3 className=" mt-4 font-weight-bold">Log in</h3>
                             <p className="text-muted">
-                              Lorem ipsum dolor sit amet consectetur
+                            Enter Your Login Detail Below!
                             </p>
                           </div>
 

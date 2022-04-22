@@ -20,6 +20,7 @@ import {
 import logodark from '../../../../assets/images/FairshipLogo.svg';
 
 const Register = ({
+  back,
   registerUser,
   registrationError,
   agentType,
@@ -74,9 +75,12 @@ const Register = ({
                     </Link>
                     <div>
                       <Link to="/login">
-                        <Button color="success" className="mr-4">
+                        <Button color="success" className="mr-2">
                           Log in
                         </Button>
+                      </Link>
+                      <Link to="#" onClick={back}>
+                      <Button color="light" className="mr-4">Back</Button>
                       </Link>
                     </div>
                   </div>
@@ -88,7 +92,7 @@ const Register = ({
                             Create Account
                           </h3>
                           <p className="text-muted">
-                            Lorem ipsum dolor sit amet consectetur
+                            Fill the your details below to create an account with us
                           </p>
                         </div>
 

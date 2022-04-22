@@ -138,6 +138,7 @@ class WelcomeAgent extends Component {
             <AgentRegistry
               handleSubmit={this.props.handleSubmit}
               agentType={this.state.landlordType}
+              back={() => this.setState({ landlordType: null })}
             />
           )}
         </div>

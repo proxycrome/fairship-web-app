@@ -140,6 +140,7 @@ class WelcomeLandlord extends Component {
             <LandLordRegistry
               handleSubmit={this.props.handleSubmit}
               landlordType={this.state.landlordType}
+              back={()=>this.setState({landlordType: null})}
             />
           )}
         </div>
