@@ -1,7 +1,7 @@
 import HttpService from './HttpService';
 
 export const fetchPropertiesService = (payload) => {
-  console.log(payload);
+  // console.log(payload);
   const http = new HttpService();
   let url = 'auth/properties?limit=100&entityLevel=COLLECTIVE_ENTITY';
   if (payload?.type === 'general') {

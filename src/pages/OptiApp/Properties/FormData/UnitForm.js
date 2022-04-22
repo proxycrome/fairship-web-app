@@ -23,7 +23,8 @@ class CreateProperty extends Component {
       imageError: '',
       type: 'Agricultural',
       id: 1,
-      formType: '',
+      formType: "",
+      price: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -44,7 +45,7 @@ class CreateProperty extends Component {
     formData.otherAmenities = values.otherAmenities.toString();
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price);
+    formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
       this.props.agents?.agents.find((agent) => {
@@ -80,16 +81,13 @@ class CreateProperty extends Component {
     }
   }
 
-  // numberWithCommas(x) {
-  //   x = x.toString();
-  //   var pattern = /(-?\d+)(\d{3})/;
-  //   while (pattern.test(x))
-  //       x = x.replace(pattern, "$1,$2");
-  //   return x;
-  // }
+  includeCommas(str) {
+    const num = Number(str.split(",").join(""));
+    const comma = num.toLocaleString();
+    return String(comma);  
+  }
 
   render() {
-    // console.log(this.numberWithCommas(10000000));
     return (
       <React.Fragment>
         <div>
@@ -217,10 +215,11 @@ class CreateProperty extends Component {
                   <AvField
                     name="price"
                     type="text"
-                    // min={10000}
                     className="form-ctrl"
                     id="price"
                     helpMessage="Price of Apartment"
+                    value={this.state.price}
+                    onChange={(e) => this.setState({price: this.includeCommas(e.target.value)})}
                   />
                 </FormGroup>
               </Col>
@@ -233,10 +232,6 @@ class CreateProperty extends Component {
                     helpMessage="Months of Rent"
                     placeholder="Enter No. of Months"
                   />
-                  {/* <option values={1}>12 </option>
-                    <option values={2}>18 </option>
-                    <option values={3}>24 </option>
-                  </AvField> */}
                 </FormGroup>
               </Col>
               <Col xs={6}>
