@@ -269,7 +269,11 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
+<<<<<<< HEAD
                           // value={this.props.agents && this.props.agents?.entities[0]?.firstName}
+=======
+                          value={`${this.props.agents?.agents[0].firstName} ${this.props.agents?.agents[0].lastName}`}
+>>>>>>> origin/maintenance
                           required
                           // helpMessage="Location"
                         >

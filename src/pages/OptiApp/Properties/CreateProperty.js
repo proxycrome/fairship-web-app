@@ -11,6 +11,7 @@ import {
   TabContent,
   Col,
   Button,
+  Alert,
 } from 'reactstrap';
 // Redux
 import { connect } from 'react-redux';
@@ -101,6 +102,11 @@ class CreateProperty extends Component {
                         id="addproduct-nav-pills-wizard"
                         className="twitter-bs-wizard"
                       >
+                        {this.props.propertiesError && (
+                          <Alert color="danger" className="text-center">
+                            {this.props.propertiesError}
+                          </Alert>
+                        )}
                         <Nav pills justified className="twitter-bs-wizard-nav">
                           <NavItem>
                             <NavLink
@@ -193,7 +199,7 @@ class CreateProperty extends Component {
                 </Col>
               </Row>
             ) : (
-              <CreateMoreUnit agents={this.props.agents} />
+              <CreateMoreUnit agents={this.props.agents} propertyTypes={this.props.propertyTypes} />
             )}
           </Container>
         </div>
@@ -203,9 +209,9 @@ class CreateProperty extends Component {
 }
 const mapStatetoProps = (state) => {
   const { loading, user } = state.Account;
-  const { message, property, createUnit, propertyTypes } = state.Properties;
+  const { message, property, createUnit, propertyTypes, propertiesError } = state.Properties;
   const { agents, landlordAgents } = state.Agents;
-  return { loading, agents, message, property, createUnit, user, propertyTypes, landlordAgents };
+  return { loading, agents, message, property, createUnit, user, propertyTypes, landlordAgents, propertiesError };
 };
 
 export default withRouter(

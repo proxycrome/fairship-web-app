@@ -5,7 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { createProperties } from '../../../store/actions';
 import UnitForm from './FormData/UnitForm';
 
-const CreateMoreUnit = ({ agents, message, property, createProperties, propertiesError }) => {
+const CreateMoreUnit = ({ agents, message, property, createProperties, propertiesError, propertyTypes }) => {
   const [showForm, setShowForm] = useState(false);
 
   const createUnitHandler = (formData) => {
@@ -67,7 +67,7 @@ const CreateMoreUnit = ({ agents, message, property, createProperties, propertie
               </Link>
             ) : (
               <div className="border-top pt-5">
-                <UnitForm agents={agents} updateProperty={createUnitHandler} />
+                <UnitForm agents={agents} updateProperty={createUnitHandler} propertyTypes={propertyTypes} />
               </div>
             )}
 
