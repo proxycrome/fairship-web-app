@@ -233,7 +233,7 @@ class CreateProperty extends Component {
                         type="select"
                         name="agentIds"
                         helpMessage="Add Agent"
-                        value={this.props.agents?.agents[0].firstName}
+                        value={`${this.props.agents?.agents[0].firstName} ${this.props.agents?.agents[0].lastName}`}
                         required
                       >
                         {this.props.agents !== null ? (

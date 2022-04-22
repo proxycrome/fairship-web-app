@@ -104,17 +104,16 @@ class CreateProperty extends Component {
       this.props.getPropertySubcategory(types?.id);
     }
 
-    if(PrevProps.user !== this.props.user) {
+    if (PrevProps.user !== this.props.user) {
       this.props.getLandlordAgents(this.props.user?.id);
       // this.props.getPropertyTypes();
     }
-
   }
 
   includeCommas(str) {
     const num = Number(str.split(",").join(""));
     const comma = num.toLocaleString();
-    return String(comma);  
+    return String(comma);
   }
 
   render() {
@@ -370,7 +369,11 @@ class CreateProperty extends Component {
                           id="price"
                           helpMessage="Price of Apartment"
                           value={this.state.price}
-                          onChange={(e) => this.setState({price: this.includeCommas(e.target.value)})}
+                          onChange={(e) =>
+                            this.setState({
+                              price: this.includeCommas(e.target.value),
+                            })
+                          }
                         />
                       </FormGroup>
                     </Col>
@@ -420,16 +423,18 @@ class CreateProperty extends Component {
                                 type="select"
                                 name="agentIds"
                                 label="Add Agent"
-                                value={this.props.landlordAgents?.data?.agents[0].firstName}
+                                value={`${this.props.landlordAgents?.data?.agents[0].firstName} ${this.props.landlordAgents?.data?.agents[0].lastName}`}
                                 required
                                 // helpMessage="Location"
                               >
                                 {this.props.landlordAgents !== null ? (
-                                  this.props.landlordAgents?.data?.agents?.map((agent) => (
-                                    <option key={agent.id}>
-                                      {agent?.firstName} {agent?.lastName}
-                                    </option>
-                                  ))
+                                  this.props.landlordAgents?.data?.agents?.map(
+                                    (agent) => (
+                                      <option key={agent.id}>
+                                        {agent?.firstName} {agent?.lastName}
+                                      </option>
+                                    )
+                                  )
                                 ) : (
                                   <option>Loading ...</option>
                                 )}
