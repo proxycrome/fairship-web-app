@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 // actions
-import { fetchDashboard, fetchAppointment, getAllServiceReq } from '../../../store/actions';
+import { fetchDashboard, fetchAppointment, getAllServiceReq, fetchRental } from '../../../store/actions';
+
 
 import ExpiringListAnalytics from './ExpiringListAnalytics';
 import OutstandingBalance from './OutstandingBalance';
@@ -16,7 +17,8 @@ import UpcomingPayment from './UpcomingPayment';
 import ServiceAnalytics from './listTable';
 import MaintenanceAnalytics from './maintenaceListTable';
 import Loader from '../../../components/Common/Loading/index';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllRental } from '../../../store/actions';
 
 const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReq }) => {
   const date = new Date();
@@ -24,13 +26,20 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const day = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
+  const dispatch = useDispatch()
+
   
 
   useEffect(() => {
     fetchDashboard();
     fetchAppointment();
     getAllServiceReq();
+    dispatch(fetchAllRental());
   }, []);
+
+ const allrentals = useSelector((state) => state.fetchReducerExpiring.allrent)
+
+ console.log(allrentals)
 
   const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
 
@@ -334,14 +343,14 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                     <Row>
                       <Col>Total Rent</Col>
                       <Col>
-                        <h6> 5,000,000.00</h6>
+                        <h6> {allrentals?.entities?.length}</h6>
                       </Col>
                     </Row>
                   </CardBody>
                 </Card>
               </Col>
               <Col md={6}>
-                <RevenueAnalytics />
+                <RevenueAnalytics allrentals={allrentals} />
               </Col>
               <Col md={6}>
                 <Reports data={dashboard}/>
@@ -372,9 +381,10 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
 const mapStatetoProps = (state) => {
   const { dashboard, loading, user } = state.Account;
   const { appointment } = state.Appointment;
-  return { dashboard, loading, user, appointment };
+  const {allrent, errorrent } = state.fetchReducerExpiring;
+  return { dashboard, loading, user, appointment, allrent, errorrent};
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { fetchDashboard, fetchAppointment, getAllServiceReq })(Dashboard)
+  connect(mapStatetoProps, { fetchDashboard, fetchAppointment, getAllServiceReq, fetchAllRental})(Dashboard)
 );

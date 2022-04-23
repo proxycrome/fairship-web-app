@@ -17,7 +17,7 @@ export const fetchleaseServices = () => {
   };
 
 
-  export const fetchleaseServicesSixty = () => {
+export const fetchleaseServicesSixty = () => {
     const m = new Date() 
     
     m.setDate(m.getDate() + 60)
@@ -32,7 +32,7 @@ export const fetchleaseServices = () => {
     };
 
 
-    export const fetchleaseServicesTwenty = () => {
+export const fetchleaseServicesTwenty = () => {
       const m = new Date() 
       
       m.setDate(m.getDate() + 61)
@@ -46,7 +46,7 @@ export const fetchleaseServices = () => {
         return http.getData(url);
       };  
 
-      export const fetchleaseServicesZeroTwenty = () => {
+ export const fetchleaseServicesZeroTwenty = () => {
         const m = new Date() 
         
         m.setDate(m.getDate())
@@ -58,4 +58,10 @@ export const fetchleaseServices = () => {
           const http = new HttpService();
           const url = `/auth/expiring-lease/date-range?endDate=${m.toLocaleDateString('es-CL')}&startDate=${currentDates.toLocaleDateString('es-CL')}`;
           return http.getData(url);
-        };     
+        };   
+
+export const fetchallrentServices = () => {
+  const http = new HttpService();
+  const api = `/auth/rent/rent-status?limit=${100}`;
+  return http.getData(api)
+} ;       

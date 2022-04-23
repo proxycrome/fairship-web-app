@@ -6,6 +6,7 @@ import ReactApexChart from 'react-apexcharts';
 import './dashboard.scss';
 
 class RevenueAnalytics extends Component {
+
   state = {
     series: [
       {
@@ -60,6 +61,14 @@ class RevenueAnalytics extends Component {
     },
   };
   render() {
+    console.log(this.props)
+
+    const rentcurrent = this.props?.allrentals?.entities.filter((rentals)=> rentals.status=='ACTIVE' || rentals.status=='WAITING_TO_BE_MOVED_IN' ||  rentals.status=='EXPIRED' ||  rentals.status=='WAITING_TO_BE_MOVED_OUT' || rentals.status=='EXITED').length
+
+
+    const rentactive = this.props?.allrentals?.entities.filter((rentals)=> rentals.status=='ACTIVE').length
+    
+    
     return (
       <React.Fragment>
         <Card>
@@ -100,7 +109,7 @@ class RevenueAnalytics extends Component {
                    Rent Completed
                   </p>
                   <div className="d-inline-flex">
-                    <h5 className="mb-0 mr-2">3,334,254</h5>
+                    <h5 className="mb-0 mr-2">{rentcurrent}</h5>
                   </div>
                 </div>
               </Col>
@@ -111,7 +120,7 @@ class RevenueAnalytics extends Component {
                     Active Rent
                   </p>
                   <div className="d-inline-flex">
-                    <h5 className="mb-0"> 2,132,695</h5>
+                    <h5 className="mb-0"> {rentactive}</h5>
                   </div>
                 </div>
               </Col>
