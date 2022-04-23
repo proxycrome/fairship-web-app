@@ -30,15 +30,17 @@ import DropZone from '../../../components/Common/imageUpload';
 
 const MoveIn = ({
   inspection,
+  rental,
   loading,
   message,
   inspectionsError,
   fetchRental,
+  history
 }) => {
   const [selectedFiles, SetSelectedFiles] = useState([]);
-  const [type, setType] = useState(null);
-  const [rentId, setRentId] = useState(null);
-  
+  const [type, setType] = useState('MOVE_IN');
+  const [rentId, setRentId] = useState('');
+
   const [inspectionData, setInspectionData] = useState({});
   const [startInspection, setStartInspection] = useState(false);
   const dispatch = useDispatch();
@@ -53,7 +55,6 @@ const MoveIn = ({
     inspectionAreas.inventoryItems = [];
 
     for (const [key, value] of Object.entries(data[field].inspectionItems)) {
-      console.log(...imageUrl);
       const newData = { ...value };
       newData.itemName = key;
       newData.images = imageUrl;
@@ -70,6 +71,8 @@ const MoveIn = ({
 
   const handleSubmit = (event, values) => {
     let formData = { ...inspectionData };
+    formData.type = type
+    formData.rentId = rentId
     formData.generalComment = values.generalComment;
     formData.inspectionAreas = [];
     formData.inspectionAreas.push(formatData(values, 'kitchen', selectedFiles));
@@ -99,17 +102,27 @@ const MoveIn = ({
   const handleSubmitEntering = (event, values) => {
     setStartInspection(true);
     setInspectionData({ ...values });
-    console.log(values);
   };
 
   useEffect(() => {
-   
     let filter = 'PROCESSING';
-    if(type === "MOVE_OUT"){
-      filter = "CURRENT"
+    if (type === 'MOVE_OUT') {
+      filter = 'CURRENT';
     }
     fetchRental(filter);
   }, [type]);
+
+  useEffect(() => {
+    if (rental) {
+      setRentId(rental?.entities[0].id);
+    }
+
+    if(message){
+      setTimeout(()=>{
+        history.push('/')
+      })
+    }
+  }, [rental, message]);
 
   return (
     <div className="page-content">
@@ -124,7 +137,7 @@ const MoveIn = ({
                       type="select"
                       name="type"
                       className="form-control"
-                      // value={type}
+                      value={type}
                       onChange={(e) => setType(e.target.value)}
                       required
                     >
@@ -141,11 +154,14 @@ const MoveIn = ({
                       onChange={(e) => setRentId(e.target.value)}
                       required
                     >
-                      <option value="MOVE_IN">Move In</option>
-                      <option value="MOVE_OUT">Move Out</option>
+                      {rental !== null ?
+                        rental?.entities.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item?.property?.propertyRef}
+                          </option>
+                        )) : 'Loading...'}
                     </select>
                   </Col>
-                  
                 </Row>
                 <div className="text-center mt-3">
                   <Button type="submit" color="primary">
@@ -159,7 +175,7 @@ const MoveIn = ({
           <AvForm onValidSubmit={handleSubmit}>
             {message && <Alert color="success">{message}</Alert>}
             {inspectionsError && (
-              <Alert color="danger">{inspectionsError}</Alert>
+              <Alert color="danger">{inspectionsError.message}</Alert>
             )}
 
             <div className="d-flex justify-content-between mb-2">
@@ -168,7 +184,7 @@ const MoveIn = ({
                 <button className="btn btn-light btn-sm px-3"> Back </button>
               </Link>
             </div>
-            <Row no-gutter>
+            <Row>
               <Col xl={12} className="mx-auto">
                 <Card>
                   <CardBody>
@@ -1170,8 +1186,8 @@ const MoveIn = ({
 
 const mapStateToProps = (state) => {
   const { inspection, loading, message, inspectionsError } = state.Inspections;
-  const {  } = state.Rental;
-  return { inspection, loading, message, inspectionsError };
+  const { rental } = state.Rental;
+  return { inspection, loading, message, inspectionsError, rental };
 };
 
 export default connect(mapStateToProps, { postInspection, fetchRental })(

@@ -11,6 +11,12 @@ import {
   CREATE_PROPERTIES,
   CREATE_PROPERTIES_SUCCESSFUL,
   CREATE_PROPERTIES_ERROR,
+  GET_PROPERTY_TYPES,
+  GET_PROPERTY_TYPES_SUCCESS,
+  GET_PROPERTY_TYPES_ERROR,
+  GET_PROPERTY_SUBCATEGORY,
+  GET_PROPERTY_SUBCATEGORY_SUCCESS,
+  GET_PROPERTY_SUBCATEGORY_ERROR,
 } from './actionTypes.js';
 
 // Fetch appointment
@@ -78,3 +84,44 @@ export const createPropertiesError = (error) => {
     payload: error,
   };
 };
+
+export const getPropertyTypes = () => {
+  return {
+    type: GET_PROPERTY_TYPES
+  }
+}
+
+export const getPropertyTypesSuccess = (data) => {
+  return {
+    type: GET_PROPERTY_TYPES_SUCCESS,
+    payload: data
+  }
+}
+
+export const getPropertyTypesError = (error) => {
+  return {
+    type: GET_PROPERTY_TYPES_ERROR,
+    payload: error
+  }
+}
+
+export const getPropertySubcategory = (id) => {
+  return {
+    type: GET_PROPERTY_SUBCATEGORY,
+    payload: {id}
+  }
+}
+
+export const getPropertySubcategorySuccess = (data) => {
+  return {
+    type: GET_PROPERTY_SUBCATEGORY_SUCCESS,
+    payload: data
+  }
+}
+
+export const getPropertySubcategoryError = (error) => {
+  return {
+    type: GET_PROPERTY_SUBCATEGORY_ERROR,
+    payload: error
+  }
+}

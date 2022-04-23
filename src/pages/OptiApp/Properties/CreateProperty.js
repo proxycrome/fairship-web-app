@@ -22,7 +22,7 @@ import UnitForm from './FormData/UnitForm';
 import classnames from 'classnames';
 import CreateMoreUnit from './CreateMoreUnit';
 // actions
-import { createProperties, getAgents } from '../../../store/actions';
+import { createProperties, getLandlordAgents, getPropertyTypes, loadUser } from '../../../store/actions';
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -49,7 +49,10 @@ class CreateProperty extends Component {
       propertyUnit: { ...values },
       ...this.state.propertyData,
     };
-    this.props.createProperties(formData);
+    const payload = {
+      type: null,
+    };
+    this.props.createProperties(formData, payload);
 
     this.setState({ unitData: values });
     // this.toggleTab(id);
@@ -66,7 +69,15 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
-    this.props.getAgents(this.props.user?.id);
+    this.props.getLandlordAgents(this.props.user?.id);
+    this.props.getPropertyTypes();
+  }
+
+  componentDidUpdate(prevProps, PrevState, snapshot) {
+    if(prevProps.user !== this.props.user){
+      this.props.getLandlordAgents(this.props.user?.id);
+      this.props.getPropertyTypes();
+    }
   }
 
   render() {
@@ -162,7 +173,8 @@ class CreateProperty extends Component {
                               updateProperty={(values) =>
                                 this.updateProperty(values, 2)
                               }
-                              agents={this.props.agents}
+                              agents={this.props.landlordAgents?.data}
+                              propertyTypes={this.props.propertyTypes}
                             />
                           </TabPane>
                           <TabPane tabId={2}>
@@ -170,7 +182,8 @@ class CreateProperty extends Component {
                               updateProperty={(values) =>
                                 this.createProperty(values, 2)
                               }
-                              agents={this.props.agents}
+                              agents={this.props.landlordAgents?.data}
+                              propertyTypes={this.props.propertyTypes}
                             />
                           </TabPane>
                         </TabContent>
@@ -190,11 +203,11 @@ class CreateProperty extends Component {
 }
 const mapStatetoProps = (state) => {
   const { loading, user } = state.Account;
-  const { message, property, createUnit } = state.Properties;
-  const { agents } = state.Agents;
-  return { loading, agents, message, property, createUnit, user };
+  const { message, property, createUnit, propertyTypes } = state.Properties;
+  const { agents, landlordAgents } = state.Agents;
+  return { loading, agents, message, property, createUnit, user, propertyTypes, landlordAgents };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { createProperties, getAgents })(CreateProperty)
+  connect(mapStatetoProps, { createProperties, getLandlordAgents, getPropertyTypes, loadUser })(CreateProperty)
 );

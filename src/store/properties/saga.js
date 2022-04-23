@@ -5,6 +5,8 @@ import {
   FETCH_PROPERTIES,
   FETCH_EACH_PROPERTIES,
   CREATE_PROPERTIES,
+  GET_PROPERTY_TYPES,
+  GET_PROPERTY_SUBCATEGORY,
 } from './actionTypes';
 
 import {
@@ -14,12 +16,18 @@ import {
   fetchEachPropertiesError,
   createPropertiesSuccessful,
   createPropertiesError,
+  getPropertyTypesSuccess,
+  getPropertyTypesError,
+  getPropertySubcategorySuccess,
+  getPropertySubcategoryError,
 } from './actions';
 
 import {
   fetchPropertiesService,
   fetchEachPropertiesService,
   createPropertiesService,
+  getPropertyTypesService,
+  getPropertySubcategoryService,
 } from '../../services/propertiesServices';
 
 function* fetchProperties({payload}) {
@@ -57,6 +65,28 @@ function* createProperties({ payload }) {
   }
 }
 
+function* getPropertyTypes() {
+  try {
+    const response = yield call(getPropertyTypesService);
+    yield put(getPropertyTypesSuccess(response.data));
+    // console.log(response.data);
+  } catch (error) {
+    console.log(error?.response);
+    yield put(getPropertyTypesError(error?.response?.data))
+  }
+}
+
+function* getPropertySubcategory({payload: {id}}) {
+  try {
+    const response = yield call(getPropertySubcategoryService, id)
+    yield put(getPropertySubcategorySuccess(response.data))
+    // console.log(response.data);
+  } catch (error) {
+    console.log(error?.response);
+    yield put(getPropertySubcategoryError(error?.response?.data))
+  }
+}
+
 export function* watchFetchProperties() {
   yield takeEvery(FETCH_PROPERTIES, fetchProperties);
 }
@@ -66,11 +96,22 @@ export function* watchFetchEachProperties() {
 export function* watchCreateProperties() {
   yield takeEvery(CREATE_PROPERTIES, createProperties);
 }
+
+export function* watchGetPropertyTypes() {
+  yield takeEvery(GET_PROPERTY_TYPES, getPropertyTypes);
+}
+
+export function* watchGetPropertySubcategory() {
+  yield takeEvery(GET_PROPERTY_SUBCATEGORY, getPropertySubcategory)
+}
+
 function* PropertiesSaga() {
   yield all([
     fork(watchFetchProperties),
     fork(watchFetchEachProperties),
     fork(watchCreateProperties),
+    fork(watchGetPropertyTypes),
+    fork(watchGetPropertySubcategory),
   ]);
 }
 

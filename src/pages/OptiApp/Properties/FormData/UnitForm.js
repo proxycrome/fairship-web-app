@@ -8,7 +8,8 @@ import {
   AvCheckboxGroup,
   AvCheckbox,
 } from 'availity-reactstrap-validation';
-
+import { getPropertySubcategory } from '../../../../store/actions';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import DropZone from '../../../../components/Common/imageUpload';
@@ -20,6 +21,10 @@ class CreateProperty extends Component {
       activeTab: 1,
       selectedFiles: [],
       imageError: '',
+      type: 'Agricultural',
+      id: 1,
+      formType: "",
+      price: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,17 +45,30 @@ class CreateProperty extends Component {
     formData.otherAmenities = values.otherAmenities.toString();
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price);
+    formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
-      this.props.agents.entities.find((agent) => {
-        if (agent.firstName === values.agentIds) {
+      this.props.agents?.agents.find((agent) => {
+        if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
           return agent.id;
         }
       }).id,
     ];
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
+  }
+
+  componentDidMount() {
+    this.props.getPropertySubcategory(this.state.id);
+  }
+
+  componentDidUpdate(PrevProps, PrevState) {
+    const types = this.props.propertyTypes?.find(
+      (type) => type.name === this.state.formType
+    );
+    if (PrevState.formType !== this.state.formType) {
+      this.props.getPropertySubcategory(types.id);
+    }
   }
 
   toggleTab(tab) {
@@ -61,6 +79,12 @@ class CreateProperty extends Component {
         });
       }
     }
+  }
+
+  includeCommas(str) {
+    const num = Number(str.split(",").join(""));
+    const comma = num.toLocaleString();
+    return String(comma);  
   }
 
   render() {
@@ -81,7 +105,7 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={4}>
+              {/* <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="unitNo"
@@ -92,17 +116,35 @@ class CreateProperty extends Component {
                     helpMessage="Unit Number"
                   />
                 </FormGroup>
-              </Col>
+              </Col> */}
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
                     name="type"
-                    helpMessage="Type of Room"
+                    helpMessage="Property Type"
+                    value={this.state.type}
+                    onChange={(e) =>
+                      this.setState({ formType: e.target.value })
+                    }
+                    required
                   >
-                    <option value="flat">Flat</option>
-                    <option value="Duplex">Duplex</option>
-                    <option value="mansion">mansion</option>
+                    {this.props.propertyTypes?.map((type) => (
+                      <option key={type.id}>{type.name}</option>
+                    ))}
+                  </AvField>
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    type="select"
+                    name="subcategory"
+                    helpMessage="Property Subcategory"
+                  >
+                    {this.props.propertySubcategories?.map((subcategory) => (
+                      <option key={subcategory.id}>{subcategory.name}</option>
+                    ))}
                   </AvField>
                 </FormGroup>
               </Col>
@@ -113,7 +155,7 @@ class CreateProperty extends Component {
                     type="text"
                     className="form-ctrl"
                     id="size"
-                    helpMessage="size of apartment"
+                    helpMessage="size of apartment (sqm)"
                     placeholder="size of apartment"
                   />
                 </FormGroup>
@@ -123,7 +165,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="bedrooms"
-                    helpMessage="Bedroom No"
+                    helpMessage="No of Bedrooms"
                   >
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -136,7 +178,7 @@ class CreateProperty extends Component {
                   <AvField
                     type="select"
                     name="bathrooms"
-                    helpMessage="Bedrooms No"
+                    helpMessage="No of Bathrooms"
                   >
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -151,8 +193,8 @@ class CreateProperty extends Component {
                     name="parkingLot"
                     helpMessage="Packing space"
                   >
-                    <option value='Yes'>Yes</option>
-                    <option value='No'>No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -163,8 +205,8 @@ class CreateProperty extends Component {
                     name="isServiced"
                     helpMessage="Serviced Apartment"
                   >
-                    <option value='Yes'>Yes</option>
-                    <option value='No'>No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
                   </AvField>
                 </FormGroup>
               </Col>
@@ -172,11 +214,12 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     name="price"
-                    type="number"
-                    min={10000}
+                    type="text"
                     className="form-ctrl"
                     id="price"
                     helpMessage="Price of Apartment"
+                    value={this.state.price}
+                    onChange={(e) => this.setState({price: this.includeCommas(e.target.value)})}
                   />
                 </FormGroup>
               </Col>
@@ -184,15 +227,11 @@ class CreateProperty extends Component {
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    type="select"
+                    type="number"
                     name="periodInMonths"
-                    helpMessage="Years of Rent"
-                    value="12"
-                  >
-                    <option values={1}>12 </option>
-                    <option values={2}>18 </option>
-                    <option values={3}>24 </option>
-                  </AvField>
+                    helpMessage="Months of Rent"
+                    placeholder="Enter No. of Months"
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6}>
@@ -230,13 +269,15 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
-                          value={this.props.agents?.entities[0].firstName}
+                          // value={this.props.agents && this.props.agents?.entities[0]?.firstName}
                           required
                           // helpMessage="Location"
                         >
                           {this.props.agents !== null ? (
-                            this.props.agents?.entities?.map((agent) => (
-                              <option key={agent.id}>{agent?.firstName}</option>
+                            this.props.agents?.agents?.map((agent) => (
+                              <option key={agent.id}>
+                                {agent?.firstName} {agent?.lastName}
+                              </option>
                             ))
                           ) : (
                             <option>Loading ...</option>
@@ -304,7 +345,7 @@ class CreateProperty extends Component {
               </Col>
             </Row>
             <div className="text-center">
-              <Button color="success" className="px-2">
+              <Button type="submit" color="success" className="px-2">
                 {this.props.loading ? 'Sending ...' : ' Create Property'}
               </Button>
             </div>
@@ -316,8 +357,10 @@ class CreateProperty extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loading } = state.Properties;
-  return { loading };
+  const { loading, propertySubcategories } = state.Properties;
+  return { loading, propertySubcategories };
 };
 
-export default connect(mapStatetoProps, null)(CreateProperty);
+export default withRouter(
+  connect(mapStatetoProps, { getPropertySubcategory })(CreateProperty)
+);

@@ -27,8 +27,8 @@ class WelcomeLandlord extends Component {
   }
 
   handleSubmit(event, values) {
-    console.log(this.props.landlordType)
-    console.log(values)
+    console.log(this.props.landlordType);
+    console.log(values);
     // this.props.checkLogin(values, this.props.history);
   }
 
@@ -51,8 +51,14 @@ class WelcomeLandlord extends Component {
                   <div className="authentication-bg">
                     <div className="bg-overlay"></div>
                     <div className="overlay-text">
-                      <h1 style={{ left: '179px' }}>Welcome!</h1>
-                      <p>Create an account with us</p>
+                      <div className="d-flex justify-content-between align-items-center h-100">
+                        <div className="col-12">
+                          <h1 className="text-center">Welcome!</h1>
+                          <p className="text-center">
+                            Create an account with us
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Col>
@@ -131,7 +137,11 @@ class WelcomeLandlord extends Component {
               </Row>
             </Container>
           ) : (
-            <LandLordRegistry handleSubmit={this.props.handleSubmit} landlordType={this.state.landlordType} />
+            <LandLordRegistry
+              handleSubmit={this.props.handleSubmit}
+              landlordType={this.state.landlordType}
+              back={()=>this.setState({landlordType: null})}
+            />
           )}
         </div>
       </React.Fragment>

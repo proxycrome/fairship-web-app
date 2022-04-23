@@ -1,7 +1,7 @@
 import HttpService from './HttpService';
 
 export const fetchPropertiesService = (payload) => {
-  console.log(payload);
+  // console.log(payload);
   const http = new HttpService();
   let url = 'auth/properties?limit=100&entityLevel=COLLECTIVE_ENTITY';
   if (payload?.type === 'general') {
@@ -30,3 +30,15 @@ export const createPropertiesService = ({ data, unitId }) => {
   }
   return http.postDataWithToken(data, url);
 };
+
+export const getPropertyTypesService = () => {
+  const http = new HttpService();
+  let url = 'property-types/main-categories';
+  return http.getData(url);
+}
+
+export const getPropertySubcategoryService = (id) => {
+  const http = new HttpService();
+  let url = `property-types/sub-categories/${id}`;
+  return http.getData(url);
+}
