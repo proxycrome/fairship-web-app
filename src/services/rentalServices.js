@@ -3,7 +3,7 @@ import HttpService from './HttpService';
 export const fetchRentalService = (payload) => {
   console.log(payload)
   const http = new HttpService();
-  let url = 'auth/rent-applications?filter=PROCESSING';
+  let url = 'auth/rent-applications';
   if(payload){
     url = `auth/rent-applications?filter=${payload}`
   }
@@ -11,17 +11,17 @@ export const fetchRentalService = (payload) => {
   return http.getData(url);
 };
 
-export const fetchRentalService2 = () => {
-  const http = new HttpService();
-  const url = 'auth/rent-applications';
-  return http.getData(url);
-};
+// export const fetchRentalService2 = () => {
+//   const http = new HttpService();
+//   const url = 'auth/rent-applications';
+//   return http.getData(url);
+// };
 
-export const fetchRentalService3 = () => {
-  const http = new HttpService();
-  const url = 'auth/rent-applications?filter=EXITED';
-  return http.getData(url);
-};
+// export const fetchRentalService3 = () => {
+//   const http = new HttpService();
+//   const url = 'auth/rent-applications?filter=EXITED';
+//   return http.getData(url);
+// };
 
 
 export const fetchRentalRecommendation = (rentalId) =>{

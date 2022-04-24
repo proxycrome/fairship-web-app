@@ -17,6 +17,7 @@ import TenantSaga from './Tenants/saga'
 
 import AgentsSaga from './Agent/saga';
 import MaintenanceSaga from './Maintenance/saga';
+import fetchleaseSaga from './DashboardExpiringLeases/saga';
 
 
 export default function* rootSaga() {
@@ -30,6 +31,7 @@ export default function* rootSaga() {
         // agent(),
         TenantSaga(),
         ProfileSaga(),
+        fetchleaseSaga(),
 
 
         RentalSaga(),

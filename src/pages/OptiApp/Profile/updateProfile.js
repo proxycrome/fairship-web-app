@@ -41,7 +41,6 @@ const Profile = () => {
   const {result, err} = useSelector(state => state.updateProfileReducer)
 
   const handleSubmit = (event, values) => {
-    console.log(values);
     dispatch(updateProfile(values));
   }
 
@@ -285,22 +284,6 @@ const Profile = () => {
                             name = 'dob'
                           />
                         </Col>
-                        {/* <Col md={4}>
-                          <Input
-                            className="form-control"
-                            type="month"
-                            defaultValue="kale"
-                            id="dateOfBirth"
-                          />
-                        </Col>
-                        <Col md={4}>
-                          <Input
-                            className="form-control"
-                            type="month"
-                            defaultValue="kale"
-                            id="dateOfBirth"
-                          />
-                        </Col> */}
                       </AvGroup>
                     </Col>
 
