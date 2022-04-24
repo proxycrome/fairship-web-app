@@ -49,7 +49,7 @@ import Service from '../pages/OptiApp/Services';
 import KeysMeters from '../pages/OptiApp/Inspection/Keys&Meters';
 
 // fairShip Route
-import Opti_Register from '../pages/OptiApp/Authentication/Register/WelcomeLandlord';
+import Opti_Register from '../pages/OptiApp/Authentication/Register/index';
 import Opti_agentRegister from '../pages/OptiApp/Authentication/Register/AgentWelcomePage';
 import Opti_AccountActivation from '../pages/OptiApp/Authentication/ValidationPage';
 

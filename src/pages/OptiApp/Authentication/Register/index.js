@@ -86,7 +86,7 @@ const Register = ({
                           Log in
                         </Button>
                       </Link>
-                      <Link to="#" onClick={back}>
+                      <Link to="/register" onClick={back}>
                       <Button color="light" className="mr-4">Back</Button>
                       </Link>
                     </div>
