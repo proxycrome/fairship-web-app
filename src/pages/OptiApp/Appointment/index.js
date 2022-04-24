@@ -18,6 +18,7 @@ class Appointment extends Component {
     super(props);
     this.state = {
       activeTab: "1",
+      dueOpen: false,
     };
     this.toggleTab = this.toggleTab.bind(this);
   }
@@ -38,7 +39,7 @@ class Appointment extends Component {
   }
 
   render() {
-    
+    console.log(this.props.appointment);
     const data = {
       columns: [
         {
@@ -126,9 +127,10 @@ class Appointment extends Component {
           <Button
             className={
               appoint?.status === "PENDING"
-                ? "btn btn-danger btn-sm text-capitalize"
-                : "btn btn-success btn-sm text-capitalize"
-            }
+                ? "btn btn-secondary btn-sm text-capitalize"
+                : appoint.status === "APPROVED" ? "btn btn-success btn-sm text-capitalize"
+                : "btn btn-danger btn-sm text-capitalize"
+              }
           >
             {" "}
             {appoint?.status}{" "}
@@ -136,20 +138,20 @@ class Appointment extends Component {
         ),
         actions: (
           <>
-            <Link to="#" className="mr-1 text-primary" id="edit1">
+            <Link to={`/accept_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
               <span className="border border-1 p-1 rounded">
                 <i className="text-success fab fa-rocketchat font-size-12"></i>
               </span>
             </Link>
-            <Link to="#" className="mr-1 text-primary" id="edit1">
+            {/* <Link to="#" className="mr-1 text-primary" id="edit1">
               <span className="border border-1 p-1 py-0 rounded">
                 <i
                   className="text-secondary fas fa-user-alt
                   font-size-12"
                 ></i>
               </span>
-            </Link>
-            <Link to="#" className="mr-1 text-primary" id="edit1">
+            </Link> */}
+            <Link to={`/reject_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
               <span className="border border-1 p-1 py-0 rounded">
                 <i
                   className="text-danger fas fa-trash-alt
@@ -203,7 +205,7 @@ class Appointment extends Component {
                     </CardBody>
                   </Card>
                 </Col>
-              </Row>
+              </Row>  
             )}
           </Container>
         </div>

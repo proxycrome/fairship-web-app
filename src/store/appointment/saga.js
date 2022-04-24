@@ -1,10 +1,25 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
 // Login Redux States
-import { FETCH_APPOINTMENT } from './actionTypes';
-import { fetchAppointmentSuccessful, fetchAppointmentError } from './actions';
+import {
+  FETCH_APPOINTMENT,
+  PUT_ACCEPT_APPOINTMENT,
+  PUT_REJECT_APPOINTMENT,
+} from "./actionTypes";
+import {
+  fetchAppointmentSuccessful,
+  fetchAppointmentError,
+  putAcceptAppointmentSuccess,
+  putAcceptAppointmentError,
+  putRejectAppointmentSuccess,
+  putRejectAppointmentError,
+} from "./actions";
 
-import { fetchAppointmentService } from '../../services/appointmentServices';
+import {
+  fetchAppointmentService,
+  putAcceptAppointmentService,
+  putRejectAppointmentService,
+} from "../../services/appointmentServices";
 
 function* fetchAppointment() {
   try {
@@ -16,12 +31,46 @@ function* fetchAppointment() {
   }
 }
 
+function* putAcceptAppointment({ payload }) {
+  try {
+    const response = yield call(putAcceptAppointmentService, payload);
+    yield put(putAcceptAppointmentSuccess(response.data));
+    console.log(response.data);
+  } catch (error) {
+    console.log(error?.response);
+    yield put(putAcceptAppointmentError(error?.response?.data));
+  }
+}
+
+function* putRejectAppointment({ payload }) {
+  try {
+    const response = yield call(putRejectAppointmentService, payload);
+    yield put(putRejectAppointmentSuccess(response.data));
+    console.log(response.data);
+  } catch (error) {
+    console.log(error?.response);
+    yield put(putRejectAppointmentError(error?.response?.data))
+  }
+}
+
 export function* watchFetchAppointment() {
   yield takeEvery(FETCH_APPOINTMENT, fetchAppointment);
 }
 
+export function* watchPutAcceptAppointmant() {
+  yield takeEvery(PUT_ACCEPT_APPOINTMENT, putAcceptAppointment);
+}
+
+export function* watchPutRejectAppointment() {
+  yield takeEvery(PUT_REJECT_APPOINTMENT, putRejectAppointment);
+}
+
 function* AppointmentSaga() {
-  yield all([fork(watchFetchAppointment)]);
+  yield all([
+    fork(watchFetchAppointment),
+    fork(watchPutAcceptAppointmant),
+    fork(watchPutRejectAppointment),
+  ]);
 }
 
 export default AppointmentSaga;

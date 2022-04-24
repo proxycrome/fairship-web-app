@@ -267,16 +267,18 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
-                          value={`${this.props.agents?.agents[0].firstName} ${this.props.agents?.agents[0].lastName}`}
+                          value={this.props.landlordAgents && (`${this.props.landlordAgents?.data?.agents?.unshift().firstName} ${this.props.landlordAgents?.data?.agents?.unshift().lastName}`)}
                           required
                           // helpMessage="Location"
                         >
-                          {this.props.agents !== null ? (
+                          {this.props.landlordAgents?.data?.agents?.length !== 0 ? (
                             this.props.agents?.agents?.map((agent) => (
                               <option key={agent.id}>{agent?.firstName} {agent?.lastName}</option>   
                             ))
-                          ) : (
+                          ) : this.props.loadlordAgents === null ? (
                             <option>Loading ...</option>
+                          ) : (
+                            <option>No Agents yet...</option>
                           )}
                         </AvField>
                       </FormGroup>
