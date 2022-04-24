@@ -10,18 +10,23 @@ import { withRouter, Link } from 'react-router-dom';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 
 // actions
-import { apiError, registerUser, registerUserFailed } from '../../../../store/actions';
+import {
+  apiError,
+  registerUser,
+  registerUserFailed,
+} from '../../../../store/actions';
 
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
 
 const Register = ({
+  back,
   registerUser,
   registrationError,
   message,
   history,
   landlordType,
-  loading
+  loading,
 }) => {
   const handleSubmit = (event, values) => {
     const formData = { ...values };
@@ -59,8 +64,12 @@ const Register = ({
               <div className="authentication-bg text-center">
                 <div className="bg-overlay"></div>
                 <div className="overlay-text">
-                  <h1 style={{ left: '179px' }}>Welcome!</h1>
-                  <p>Create an account with us</p>
+                  <div className="d-flex justify-content-between align-items-center h-100">
+                    <div className="col-12">
+                      <h1 className="text-center">Welcome!</h1>
+                      <p className="text-center">Create an account with us</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -73,9 +82,12 @@ const Register = ({
                     </Link>
                     <div>
                       <Link to="/login">
-                        <Button color="success" className="mr-4">
+                        <Button color="success" className="mr-2">
                           Log in
                         </Button>
+                      </Link>
+                      <Link to="#" onClick={back}>
+                      <Button color="light" className="mr-4">Back</Button>
                       </Link>
                     </div>
                   </div>
@@ -87,7 +99,7 @@ const Register = ({
                             Create Account
                           </h3>
                           <p className="text-muted">
-                            Lorem ipsum dolor sit amet consectetur
+                          Fill the your details below to create an account with us
                           </p>
                         </div>
 
@@ -229,7 +241,7 @@ const Register = ({
                                 className="w-100 waves-effect waves-light"
                                 type="submit"
                               >
-                               {loading ? 'Loading...' : 'Sign Up'}
+                                {loading ? 'Loading...' : 'Sign Up'}
                               </Button>
                             </div>
                           </AvForm>
@@ -238,7 +250,7 @@ const Register = ({
                       <div className="terms">
                         <p>
                           By signing up, I agree to the{' '}
-                          <Link to="#">Primary policy</Link> and{' '}
+                          <Link to="#">Privacy</Link> and{' '}
                           <Link to="#">Terms of Service</Link>
                         </p>
                       </div>
@@ -260,5 +272,7 @@ const mapStatetoProps = (state) => {
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { registerUser, registerUserFailed, apiError })(Register)
+  connect(mapStatetoProps, { registerUser, registerUserFailed, apiError })(
+    Register
+  )
 );

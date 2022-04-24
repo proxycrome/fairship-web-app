@@ -3,6 +3,10 @@ import {
   Card,
   CardBody,
 } from 'reactstrap';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import {fetchExpiringZero} from '../../../store/actions';
+import emptyCan from '../../../assets/images/EmptyCan.png';
 
 //Simple bar
 import SimpleBar from 'simplebar-react';
@@ -14,149 +18,82 @@ class RecentlyActivity extends Component {
       menu: false,
     };
   }
+componentDidMount(){
+  this.props.fetchExpiringZero()
+}
+
 
   render() {
+
+    console.log(this.props.zero)
+    console.log(this.props.zero?.entities.slice(0,3))
+    
     return (
       <React.Fragment>
-        <Card>
-          <CardBody>
-            <h4 className="card-title mb-4">Upcoming Rental payment</h4>
-
-            <SimpleBar style={{ maxHeight: '300px' }}>
-              <ul className="list-unstyled activity-wid">
-                <li className="activity-list">
-                  <div className="activity-icon avatar-xs">
-                    <span className="avatar-title bg-soft-primary text-primary rounded-circle">
-                      <i className=" ri-map-pin-2-line"></i>
-                    </span>
-                  </div>
-                  <div>
-                    <div>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Payment Date</small>
-                        28 Apr, 2020
-                      </h5>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Overdue</small>
-                        1,000,000
-                      </h5>
+            { this.props.zero?.entities?.length !== 0 ? (
+              <Card>
+              <CardBody>
+              <h4 className="card-title mb-4">Upcoming Rental payment</h4>  
+               <SimpleBar style={{ maxHeight: '300px' }}>
+               {this.props.zero?.entities.slice(0,3).map((twent) =>  (
+                <ul className="list-unstyled activity-wid">
+                    <li className="activity-list">
+                    <div className="activity-icon avatar-xs">
+                      <span className="avatar-title bg-soft-primary text-primary rounded-circle">
+                        <i className=" ri-map-pin-2-line"></i>
+                      </span>
                     </div>
-
                     <div>
-                      <p className="text-muted mb-0">
-                        808 Mandilas Mall, Lagos Island
-                      </p>
+                      <div>
+                        <h5 className="font-size-13">
+                          <small className="text-muted mr-2">Payment Date</small>
+                          {twent?.dueDate}
+                        </h5>
+                        <h5 className="font-size-13">
+                          <small className="text-muted mr-2">Overdue</small>
+                          {twent?.property?.price}
+                        </h5>
+                      </div>
+   
+                      <div>
+                        <p className="text-muted mb-0">
+                          {twent?.tenant?.address?.houseNoAddress}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </li>
-                <li className="activity-list">
-                  <div className="activity-icon avatar-xs">
-                    <span className="avatar-title bg-soft-primary text-primary rounded-circle">
-                      <i className=" ri-map-pin-2-line"></i>
-                    </span>
-                  </div>
-                  <div>
-                    <div>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Payment Date</small>
-                        28 Apr, 2020
-                      </h5>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Overdue</small>
-                        1,000,000
-                      </h5>
-                    </div>
-
-                    <div>
-                      <p className="text-muted mb-0">
-                        808 Mandilas Mall, Lagos Island
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className="activity-list">
-                  <div className="activity-icon avatar-xs">
-                    <span className="avatar-title bg-soft-primary text-primary rounded-circle">
-                      <i className=" ri-map-pin-2-line"></i>
-                    </span>
-                  </div>
-                  <div>
-                    <div>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Payment Date</small>
-                        28 Apr, 2020
-                      </h5>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Overdue</small>
-                        1,000,000
-                      </h5>
-                    </div>
-
-                    <div>
-                      <p className="text-muted mb-0">
-                        808 Mandilas Mall, Lagos Island
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className="activity-list">
-                  <div className="activity-icon avatar-xs">
-                    <span className="avatar-title bg-soft-primary text-primary rounded-circle">
-                      <i className=" ri-map-pin-2-line"></i>
-                    </span>
-                  </div>
-                  <div>
-                    <div>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Payment Date</small>
-                        28 Apr, 2020
-                      </h5>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Overdue</small>
-                        1,000,000
-                      </h5>
-                    </div>
-
-                    <div>
-                      <p className="text-muted mb-0">
-                        808 Mandilas Mall, Lagos Island
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className="activity-list">
-                  <div className="activity-icon avatar-xs">
-                    <span className="avatar-title bg-soft-primary text-primary rounded-circle">
-                      <i className=" ri-map-pin-2-line"></i>
-                    </span>
-                  </div>
-                  <div>
-                    <div>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Payment Date</small>
-                        28 Apr, 2020
-                      </h5>
-                      <h5 className="font-size-13">
-                        <small className="text-muted mr-2">Overdue</small>
-                        1,000,000
-                      </h5>
-                    </div>
-
-                    <div>
-                      <p className="text-muted mb-0">
-                        808 Mandilas Mall, Lagos Island
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </SimpleBar>
-            <span className="text-success"> More Details </span>
+                  </li>
+               </ul> 
+               ))}
+               </SimpleBar>
+               <Link to='/rental_application' className="text-success"> More Details </Link>
+               </CardBody>
+               </Card>)
+                : 
+           (
+             <Card>
+              <CardBody>
+              <h4 className="card-title mb-4">Upcoming Rental payment</h4>  
+            <div className="text-center">
+            <img
+              src={emptyCan}
+              alt="empty"
+              className="rounded mb-2"
+            />
+            <h5> No Rent Request! </h5>
+          </div>
           </CardBody>
-        </Card>
+           </Card>)
+          }
       </React.Fragment>
     );
   }
 }
 
-export default RecentlyActivity;
+
+const mapStatetoProps = (state) => {
+  const { zero, errorzero} = state.fetchReducerExpiring;
+  return { zero, errorzero};
+};
+
+
+export default withRouter(connect(mapStatetoProps, {fetchExpiringZero}) (RecentlyActivity));
