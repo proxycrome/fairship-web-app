@@ -13,7 +13,6 @@ const ListUnitPreview = ({ match, fetchEachProperties, property, loading }) => {
     fetchEachProperties(match.params.id)
   }, [])
 
-  console.log(property);
 
   return (
     <div className="page-content">
@@ -107,7 +106,7 @@ const ListUnitPreview = ({ match, fetchEachProperties, property, loading }) => {
                       {/* <h6>Rental Status</h6>
                       <span>Occupied</span> */}
                       <h6>Parking Space</h6>
-                      <span>{property?.isParking === true ? "true" : "false"}</span>
+                      <span>{property?.parkingLot === true ? "true" : "false"}</span>
                     </div>
                     <div className="mb-3">
                       <h6>Next Payment Amount</h6>
