@@ -182,6 +182,7 @@ class CreateProperty extends Component {
                               }
                               agents={this.props.landlordAgents?.data}
                               propertyTypes={this.props.propertyTypes}
+                              landlordAgents={this.props.landlordAgents}
                             />
                           </TabPane>
                           <TabPane tabId={2}>
@@ -191,6 +192,7 @@ class CreateProperty extends Component {
                               }
                               agents={this.props.landlordAgents?.data}
                               propertyTypes={this.props.propertyTypes}
+                              landlordAgents={this.props.landlordAgents}
                             />
                           </TabPane>
                         </TabContent>

@@ -35,9 +35,11 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
               Page is under Construction
             </Alert> */}
             <Row>
-              <div className='d-flex justify-content-center'>
-                <img src={property?.images[0].imageUrl} style={{width: "75vw", height: "50vh", objectFit: "fill"}} alt="property"/>
-              </div>
+              <Col xl={12}>
+                <div className='d-flex justify-content-center'>
+                  <img src={property?.indexImage} style={{width: "100%", height: "50vh", objectFit: "fill"}} alt="property"/>
+                </div>
+              </Col>  
             </Row>
             <Row className='d-flex justify-content-between mt-4'>
               <div className='ml-3'>

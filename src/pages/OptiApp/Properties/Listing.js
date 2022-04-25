@@ -26,7 +26,10 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
     setFilteredProperties(
       properties?.entities?.filter(
         (property) => 
-          property.title.toLowerCase().includes(searchName.toLowerCase())
+          property.title.toLowerCase().includes(searchName.toLowerCase()) ||
+          property.price.toString().includes(searchName) ||
+          property.address.state.toLowerCase().includes(searchName.toLowerCase()) ||
+          property.feature.toLowerCase() === (searchName.toLowerCase())
       )
     );
   }, [searchName]);
