@@ -36,7 +36,9 @@ function* postAgent({ payload: { formData } }) {
   try {
     const response = yield call(postAgentService, formData);
     yield put(postAgentSuccessful(response.data));
+    console.log(response.data);
   } catch (error) {
+    console.log(error?.response);
     yield put(postAgentFailure(error?.response?.data));
   }
 }

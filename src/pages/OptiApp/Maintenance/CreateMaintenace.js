@@ -20,6 +20,7 @@ const Maintenance = ({
   getServiceTypes,
   serviceTypes,
   postMaintenanceReq,
+  error,
 }) => {
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -70,6 +71,11 @@ const Maintenance = ({
               {maintenance?.message}
             </Alert>
           )}
+          {error && error?.message && (
+            <Alert color="danger" className="text-center">
+              {error?.message}
+            </Alert>
+          )}
           <AvForm className="form-horizontal" onValidSubmit={handleSubmit}>
             <Row>
               <Col xl={6}>
@@ -94,9 +100,9 @@ const Maintenance = ({
                     type="select"
                     name="serviceTypeId"
                     className="form-ctrl"
-                    label="Problem Type"
+                    label="Service Type"
                   >
-                    <option value="">Select Problem type</option>
+                    <option value="">Select Service type</option>
                     {serviceTypes?.map((service) => (
                       <option key={service.id} value={service.id}>
                         {service.name}
@@ -183,8 +189,8 @@ const Maintenance = ({
 
 const mapStatetoProps = (state) => {
   const { properties, loading } = state.Properties;
-  const { serviceTypes, maintenance } = state.Maintenance;
-  return { properties, loading, serviceTypes, maintenance };
+  const { serviceTypes, maintenance, error } = state.Maintenance;
+  return { properties, loading, serviceTypes, maintenance, error };
 };
 
 export default withRouter(
