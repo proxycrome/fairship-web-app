@@ -78,6 +78,11 @@ class CreateProperty extends Component {
     };
     formData.images = this.state.selectedFiles;
     this.props.createProperties(formData, payload);
+    
+    setTimeout(() => {
+      this.props.history.push("/unit_properties")
+    }, 5000)
+    
   }
 
   toggleTab(tab) {
@@ -207,7 +212,7 @@ class CreateProperty extends Component {
                           required
                         >
                           {this.props.propertyTypes?.map((type) => (
-                            <option key={type.id}>{type.name}</option>
+                            <option key={type.id} value={type.name}>{type.name}</option>
                           ))}
                         </AvField>
                       </FormGroup>
@@ -419,11 +424,11 @@ class CreateProperty extends Component {
                                 type="select"
                                 name="agentIds"
                                 label="Add Agent"
-                                value={`${this.props.landlordAgents?.data?.agents[0].firstName} ${this.props.landlordAgents?.data?.agents[0].lastName}`}
+                                value={this.props.landlordAgents && (`${this.props.landlordAgents?.data?.agents?.unshift().firstName} ${this.props.landlordAgents?.data?.agents?.unshift().lastName}`)}
                                 required
                                 // helpMessage="Location"
                               >
-                                {this.props.landlordAgents !== null ? (
+                                {this.props.landlordAgents?.data?.agents?.length !== 0 ? (
                                   this.props.landlordAgents?.data?.agents?.map(
                                     (agent) => (
                                       <option key={agent.id}>
@@ -431,8 +436,10 @@ class CreateProperty extends Component {
                                       </option>
                                     )
                                   )
-                                ) : (
+                                ) : this.props.loadlordAgents === null ? (
                                   <option>Loading ...</option>
+                                ) : (
+                                  <option>No Agents yet...</option>
                                 )}
                               </AvField>
                             </FormGroup>

@@ -36,6 +36,7 @@ const PropertiesTable = ({ tableData }) => {
         type: data.type,
         address: data.address.houseNoAddress,
         state: data.address.state,
+        price: data?.price?.toLocaleString(),
         feature: data.feature,
         entityLevel: data.entityLevel,
         date: Moment(data.createdAt).format('l'),
@@ -97,6 +98,12 @@ const PropertiesTable = ({ tableData }) => {
         {
           label: 'State',
           field: 'state',
+          sort: 'asc',
+          width: 60,
+        },
+        {
+          label: 'Price (Naira)',
+          field: 'price',
           sort: 'asc',
           width: 60,
         },

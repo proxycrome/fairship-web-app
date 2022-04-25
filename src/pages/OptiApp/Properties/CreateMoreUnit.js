@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Card, CardBody, Row, Col, Button, Alert } from 'reactstrap';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { createProperties } from '../../../store/actions';
-import UnitForm from './FormData/UnitForm';
+import React, { useState, useEffect } from "react";
+import { Container, Card, CardBody, Row, Col, Button, Alert } from "reactstrap";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { createProperties } from "../../../store/actions";
+import UnitForm from "./FormData/UnitForm";
 
-const CreateMoreUnit = ({ agents, message, property, createProperties, propertiesError, propertyTypes }) => {
+const CreateMoreUnit = ({
+  landlordAgents,
+  message,
+  property,
+  createProperties,
+  propertiesError,
+  propertyTypes,
+}) => {
   const [showForm, setShowForm] = useState(false);
 
   const createUnitHandler = (formData) => {
     const payload = {
-      type : "collective",
-      id:  property?.parentProperty.id
-    }
-    createProperties(formData,payload);
+      type: "collective",
+      id: property?.parentProperty.id,
+    };
+    createProperties(formData, payload);
   };
 
   useEffect(() => {
@@ -67,7 +74,12 @@ const CreateMoreUnit = ({ agents, message, property, createProperties, propertie
               </Link>
             ) : (
               <div className="border-top pt-5">
-                <UnitForm agents={agents} updateProperty={createUnitHandler} propertyTypes={propertyTypes} />
+                <UnitForm
+                  agents={landlordAgents?.data}
+                  updateProperty={createUnitHandler}
+                  propertyTypes={propertyTypes}
+                  landlordAgents={landlordAgents}
+                />
               </div>
             )}
 
@@ -87,8 +99,8 @@ const CreateMoreUnit = ({ agents, message, property, createProperties, propertie
 
 const mapStatetoProps = (state) => {
   const { message, property, propertiesError } = state.Properties;
-  const { agents } = state.Agents;
-  return { agents, message, property, propertiesError };
+  const { agents, landlordAgents } = state.Agents;
+  return { agents, message, property, propertiesError, landlordAgents };
 };
 
 export default withRouter(

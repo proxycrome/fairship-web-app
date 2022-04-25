@@ -52,7 +52,9 @@ function* postMaintenanceReq({payload: {formData}}) {
   try {
     const response = yield call(postMaintenanceReqService, formData);
     yield put(postMaintenanceReqSuccess(response?.data));
+    console.log(response.data);
   } catch (error) {
+    console.log(error?.response);
     yield put(postMaintenanceReqFailure(error?.response?.data));
   }
 }

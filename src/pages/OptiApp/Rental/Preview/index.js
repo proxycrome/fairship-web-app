@@ -268,7 +268,7 @@ const Preview = (props) => {
                                 onClick={review}
                                 className="btn btn-success mb-2 w-100"
                               >
-                                Aprove
+                                Approve
                               </button>
                             </div>
                             <div>

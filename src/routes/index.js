@@ -47,6 +47,8 @@ import Settings from '../pages/OptiApp/Settings';
 import Items from '../pages/OptiApp/Inspection/Items';
 import Service from '../pages/OptiApp/Services';
 import KeysMeters from '../pages/OptiApp/Inspection/Keys&Meters';
+import AcceptAppointment from '../pages/OptiApp/Appointment/AcceptAppointment';
+import RejectAppointment from '../pages/OptiApp/Appointment/RejectAppointment';
 
 // fairShip Route
 import Opti_Register from '../pages/OptiApp/Authentication/Register/index';
@@ -88,6 +90,8 @@ const authProtectedRoutes = [
   { path: '/service', component: Service },
   { path: '/chats', component: Chats },
   { path: '/appointments', component: Appointment },
+  { path: '/accept_appointment/:appointId', component: AcceptAppointment },
+  { path: '/reject_appointment/:appointId', component: RejectAppointment },
   { path: '/rental_application', component: OptiRentalApplication },
   { path: '/inspection', component: Inspection },
   { path: '/create_inspection', component: create_inspection },
