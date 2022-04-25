@@ -63,7 +63,7 @@ const Preview = (props) => {
 
   
 
-  const {rentalId, data } = useSelector( (state) => state.PreviewReducer)
+  const {rentalId, data, errordata } = useSelector( (state) => state.PreviewReducer)
   
   
   console.log('sodiq>>>>>>>>>',rentalId)
@@ -444,6 +444,11 @@ const Preview = (props) => {
                 {data && data?.message && (
                   <Alert color='success' className='text-center'>
                     {data?.message}
+                  </Alert>
+                )}
+                {errordata && errordata?.message && (
+                  <Alert color='danger' className='text-center'>
+                    {errordata?.message}
                   </Alert>
                 )}
                 <h4> Tenant Recommendation </h4>

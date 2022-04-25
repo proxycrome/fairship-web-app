@@ -16,8 +16,11 @@
   const initialState = {
     rentalId: {},
     data: {},
+    errordata:null,
     put: {},
+    errorput: null,
     dilligence:{},
+    errordilligence: null,
     rentalIdError: null,
     loading: false,
   };
@@ -36,6 +39,7 @@
         state = {
           ...state,
           rentalId: action.payload,
+          rentalIdError: null,
           loading: false,
         };
         console.log(state.rentalId)
@@ -52,7 +56,7 @@
           state = {
             ...state,
             data: {},
-            rentalIdError: null,
+            errordata: null,
             loading: true,
           };
           break;
@@ -61,7 +65,8 @@
           state = {
             ...state,
             data: action.data,
-            loadingId: false,
+            errordata: null,
+            loading: false,
           };
 
           break;
@@ -69,14 +74,15 @@
           state = {
             ...state,
             loading: false,
-            rentaldError: action.error,
+            errordata: action.error,
           };
           break;
          
           case PUT_DATA_RECOMMENDATION:
             state = {
               ...state,
-              rentalIdError: null,
+              put: {},
+              errorput: null,
               loading: true,
             };
             break;
@@ -84,7 +90,8 @@
             state = {
               ...state,
               put: action.data,
-              loadingId: false,
+              errorput: null,
+              loading: false,
             };
   
             break;
@@ -92,14 +99,14 @@
             state = {
               ...state,
               loading: false,
-              rentaldError: action.error,
+              errorput: action.error,
             };
             break;  
             case DILIGENCE_RECOMMENDATION:
               state = {
                 ...state,
                 diligence: {},
-                rentalIdError: null,
+                errordilligence: null,
                 loading: true,
               };
               break;
@@ -107,7 +114,7 @@
               state = {
                 ...state,
                 diligence: action.data,
-                loadingId: false,
+                loading: false,
               };
     
               break;
@@ -115,7 +122,7 @@
               state = {
                 ...state,
                 loading: false,
-                rentaldError: action.error,
+                errordilligence: action.error,
               };
               break;    
        default:
