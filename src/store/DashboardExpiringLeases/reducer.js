@@ -7,7 +7,13 @@ import {
  FETCH_EXPIRING_ERROR_SIXTY,
  FETCH_EXPIRING_ONETWENTY,
  FETCH_EXPIRING_SUCCESSFUL_ONETWENTY,
- FETCH_EXPIRING_ERROR_ONETWENTY
+ FETCH_EXPIRING_ERROR_ONETWENTY,
+ FETCH_EXPIRING_ZERO,
+ FETCH_EXPIRING_SUCCESSFUL_ZERO,
+ FETCH_EXPIRING_ERROR_ZERO,
+ FETCH_ALL_RENTAL,
+ FETCH_ALL_RENTAL_SUCCESSFUL,
+ FETCH_ALL_RENTAL_ERROR
 } from './actionTypes'
 
 const initialState = {
@@ -17,6 +23,10 @@ const initialState = {
     errorsixty: null,
     twenty: null,
     errortwenty: null,
+    zero: null,
+    errorzero: null,
+    allrent: null,
+    errorrent: null,
     loading: false
 }
 
@@ -91,7 +101,53 @@ const fetchReducerExpiring = (state = initialState, action) => {
                   errortwenty: action.payload,
                   loading: false
               } 
-              break; 
+              break;
+        case FETCH_EXPIRING_ZERO:
+                state = {
+                    ...state,
+                   zero: null,
+                   errorzero: null,
+                   loading: true
+                }
+                break;
+        case FETCH_EXPIRING_SUCCESSFUL_ZERO : 
+                 state = {
+                     ...state,
+                     zero: action.payload,
+                     loading: false,
+                     errorzero: null
+                 }
+                 break;
+        case FETCH_EXPIRING_ERROR_ZERO : 
+                  state = {
+                      ...state,
+                      errorzero: action.payload,
+                      loading: false
+                  } 
+                  break; 
+         case FETCH_ALL_RENTAL:
+                    state = {
+                        ...state,
+                       allrent: null,
+                       errorrent: null,
+                       loading: true
+                    }
+                    break;
+        case FETCH_ALL_RENTAL_SUCCESSFUL : 
+                     state = {
+                         ...state,
+                         allrent: action.payload,
+                         loading: false,
+                         errorrent: null
+                     }
+                     break;
+        case FETCH_ALL_RENTAL_ERROR : 
+                      state = {
+                          ...state,
+                          errorrent: action.payload,
+                          loading: false
+                      } 
+        break;                  
         default:  
       state = {
           ...state

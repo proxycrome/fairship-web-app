@@ -98,10 +98,10 @@ class SidebarContent extends Component {
               </Link>
               <ul className="sub-menu" aria-expanded="false">
                 <li>
-                  <Link to="/properties">My Properties</Link>
+                  <Link to="/properties">Multi units Property</Link>
                 </li>
                 <li>
-                  <Link to="/unit_properties"> Unit</Link>
+                  <Link to="/unit_properties">Unit Property</Link>
                 </li>
                 <li>
                   <Link to="/listing_properties">Listings</Link>

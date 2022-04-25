@@ -105,18 +105,6 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-              {/* <Col xs={4}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    name="unitNo"
-                    type="text"
-                    className="form-ctrl"
-                    id="unitNo"
-                    placeholder="Unit Number"
-                    helpMessage="Unit Number"
-                  />
-                </FormGroup>
-              </Col> */}
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
@@ -163,27 +151,25 @@ class CreateProperty extends Component {
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    type="select"
-                    name="bedrooms"
-                    helpMessage="No of Bedrooms"
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </AvField>
+                    name="Bedroom"
+                    type="text"
+                    className="form-ctrl"
+                    id="Bedroom"
+                    placeholder="Bedroom"
+                    helpMessage="Bedroom"
+                  />
                 </FormGroup>
               </Col>
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    type="select"
-                    name="bathrooms"
-                    helpMessage="No of Bathrooms"
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </AvField>
+                <AvField
+                    name="Bathroom"
+                    type="text"
+                    className="form-ctrl"
+                    id="Bathroom"
+                    placeholder="Bathroom"
+                    helpMessage="Bathroom"
+                  />
                 </FormGroup>
               </Col>
               <Col xs={6}>
@@ -247,19 +233,6 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    type="select"
-                    name="isShared"
-                    helpMessage="isShared"
-                    value="Yes"
-                  >
-                    <option>Yes</option>
-                    <option>No</option>
-                  </AvField>
-                </FormGroup>
-              </Col>
               <Col xm={12}>
                 <Row>
                   <Col xs={6}>
@@ -269,7 +242,11 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
+
                           value={`${this.props.agents?.agents[0].firstName} ${this.props.agents?.agents[0].lastName}`}
+
+                          // value={this.props.agents && this.props.agents?.entities[0]?.firstName}
+
                           required
                           // helpMessage="Location"
                         >

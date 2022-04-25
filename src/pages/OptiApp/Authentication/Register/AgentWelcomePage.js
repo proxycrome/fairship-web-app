@@ -73,9 +73,14 @@ class WelcomeAgent extends Component {
                               Log in
                             </Button>
                           </Link>
-                          <Link to="register">
+                          <Link to="/register">
+                          <Button color="light" className="mx-2">
+                            Back
+                          </Button>
+                        </Link>
+                          {/* <Link to="register">
                             <Button color="light">Sign up</Button>
-                          </Link>
+                          </Link> */}
                         </div>
                       </div>
                       <Row className="justify-content-center mt-5">

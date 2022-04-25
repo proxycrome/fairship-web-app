@@ -308,30 +308,26 @@ class CreateProperty extends Component {
                     </Col>
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
-                        <AvField
-                          type="select"
-                          name="bedrooms"
-                          helpMessage="No. of Bedrooms"
-                          value="1"
-                        >
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                        </AvField>
+                      <AvField
+                         name="Bedroom"
+                         type="text"
+                         className="form-ctrl"
+                         id="Bedroom"
+                         placeholder="Bedroom"
+                         helpMessage="Bedroom"
+                          />
                       </FormGroup>
                     </Col>
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
-                        <AvField
-                          type="select"
-                          name="bathrooms"
-                          helpMessage="No. of Bathrooms"
-                          value="1"
-                        >
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                        </AvField>
+                      <AvField
+                        name="Bathroom"
+                        type="text"
+                        className="form-ctrl"
+                        id="Bathroom"
+                        placeholder="Bathroom"
+                        helpMessage="Bathroom"
+                        />
                       </FormGroup>
                     </Col>
                     <Col xs={3}>

@@ -7,7 +7,13 @@ import {
     FETCH_EXPIRING_ERROR_SIXTY,
     FETCH_EXPIRING_SUCCESSFUL_ONETWENTY,
     FETCH_EXPIRING_ONETWENTY,
-    FETCH_EXPIRING_ERROR_ONETWENTY
+    FETCH_EXPIRING_ERROR_ONETWENTY,
+    FETCH_EXPIRING_ZERO,
+    FETCH_EXPIRING_SUCCESSFUL_ZERO,
+    FETCH_EXPIRING_ERROR_ZERO,
+    FETCH_ALL_RENTAL,
+    FETCH_ALL_RENTAL_SUCCESSFUL,
+    FETCH_ALL_RENTAL_ERROR
 } from './actionTypes'
 
 
@@ -54,6 +60,27 @@ export const fetchExpiringErrorSixty  = (error) => {
     }
 }
 
+export const fetchExpiringZero= ()=> {
+    return {
+        type: FETCH_EXPIRING_ZERO
+    }
+}
+
+export const fetchExpiringSuccessfulZero = (data) => {
+    return {
+        type: FETCH_EXPIRING_SUCCESSFUL_ZERO,
+        payload: data
+    }
+}
+
+
+export const fetchExpiringErrorZero = (error) => {
+    return {
+        type: FETCH_EXPIRING_ERROR_ZERO,
+        payload: error
+    }
+}
+
 export const fetchExpiringOnetwenty = ()=> {
     return {
         type: FETCH_EXPIRING_ONETWENTY
@@ -71,6 +98,27 @@ export const fetchExpiringSuccessfulOnetwenty = (data) => {
 export const fetchExpiringErrorOnetwenty = (error) => {
     return {
         type: FETCH_EXPIRING_ERROR_ONETWENTY,
+        payload: error
+    }
+}
+
+export const fetchAllRental = ()=> {
+    return {
+        type: FETCH_ALL_RENTAL
+    }
+}
+
+export const fetchAllRentalSuccessful = (data) => {
+    return {
+        type: FETCH_ALL_RENTAL_SUCCESSFUL,
+        payload: data
+    }
+}
+
+
+export const fetchAllRentalError = (error) => {
+    return {
+        type: FETCH_ALL_RENTAL_ERROR,
         payload: error
     }
 }
