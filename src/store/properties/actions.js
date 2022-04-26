@@ -21,10 +21,10 @@ import {
 } from './actionTypes.js';
 
 // Fetch appointment
-export const fetchProperties = (payload) => {
+export const fetchProperties = (payload, collectiveId) => {
   return {
     type: FETCH_PROPERTIES,
-    payload
+    payload: {payload, collectiveId}
   };
 };
 

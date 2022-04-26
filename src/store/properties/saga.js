@@ -32,9 +32,9 @@ import {
   duplicateUnitService
 } from '../../services/propertiesServices';
 
-function* fetchProperties({payload}) {
+function* fetchProperties({payload: {payload, collectiveId}}) {
   try {
-    const response = yield call(fetchPropertiesService, payload);
+    const response = yield call(fetchPropertiesService, payload, collectiveId);
     yield put(fetchPropertiesSuccessful(response.data));
     console.log(response.data);
   } catch (error) {
