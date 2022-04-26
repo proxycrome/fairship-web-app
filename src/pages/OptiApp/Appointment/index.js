@@ -100,8 +100,7 @@ class Appointment extends Component {
       rows: this.props.appointment?.map((appoint) => ({
         time: (
           <span className="font-weight-bold">
-            {appoint?.startDateTime.split(" ")[1]}
-            {appoint?.startDateTime.split(" ")[2]}
+            {appoint?.startDateTime.split(" ")[1]} {appoint?.startDateTime.split(" ")[2]}
           </span>
         ),
         date: `${appoint?.startDateTime.split(" ")[0]}`,
@@ -118,8 +117,7 @@ class Appointment extends Component {
         address: `${appoint?.tenant?.address?.houseNoAddress}`,
         endTime: (
           <span className="font-weight-bold">
-            {appoint?.endDateTime.split(" ")[1]}
-            {appoint?.endDateTime.split(" ")[2]}
+            {appoint?.endDateTime.split(" ")[1]} {appoint?.endDateTime.split(" ")[2]}
           </span>
         ),
         endDate: `${appoint?.endDateTime.split(" ")[0]}`,
@@ -138,27 +136,29 @@ class Appointment extends Component {
         ),
         actions: (
           <>
-            <Link to={`/accept_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
-              <span className="border border-1 p-1 rounded">
-                <i className="text-success fab fa-rocketchat font-size-12"></i>
-              </span>
-            </Link>
-            {/* <Link to="#" className="mr-1 text-primary" id="edit1">
-              <span className="border border-1 p-1 py-0 rounded">
-                <i
-                  className="text-secondary fas fa-user-alt
-                  font-size-12"
-                ></i>
-              </span>
-            </Link> */}
-            <Link to={`/reject_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
-              <span className="border border-1 p-1 py-0 rounded">
-                <i
-                  className="text-danger fas fa-trash-alt
-                  font-size-12"
-                ></i>
-              </span>
-            </Link>
+            <div className="d-flex flex-no-wrap justify-content-between">
+              <Link to={`/accept_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
+                <span className="border border-1 p-1 rounded">
+                  <i className="text-success fab fa-rocketchat font-size-12"></i>
+                </span>
+              </Link>
+              <Link to="#" className="mr-1 text-primary" id="edit1">
+                <span className="border border-1 p-1 py-0 rounded">
+                  <i
+                    className="text-secondary fas fa-user-alt
+                    font-size-12"
+                  ></i>
+                </span>
+              </Link>
+              <Link to={`/reject_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
+                <span className="border border-1 p-1 py-0 rounded">
+                  <i
+                    className="text-danger fas fa-trash-alt
+                    font-size-12"
+                  ></i>
+                </span>
+              </Link>
+            </div>
           </>
         ),
       })),

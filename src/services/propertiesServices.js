@@ -1,6 +1,6 @@
 import HttpService from './HttpService';
 
-export const fetchPropertiesService = (payload) => {
+export const fetchPropertiesService = (payload, collectiveId) => {
   // console.log(payload);
   const http = new HttpService();
   let url = 'auth/properties?limit=100&entityLevel=COLLECTIVE_ENTITY';
@@ -10,6 +10,8 @@ export const fetchPropertiesService = (payload) => {
     url = 'auth/properties?limit=100&entityLevel=SINGLE_ENTITY';
   } else if (payload?.type === 'all_user_properties') {
     url = 'auth/properties-all-levels?limit=1000';
+  } else if (payload?.type === 'collective_units') {
+    url = `auth/collective-entity-properties/property-units/${collectiveId}`;
   }
   return http.getData(url);
 };

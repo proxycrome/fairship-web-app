@@ -74,7 +74,7 @@ export const putRejectAppointmentError = (error) => {
   }
 }
 
-export const clearAcceptAppointmentMessage = () => {
+export const clearAppointmentMessage = () => {
   return {
     type: CLEAR_MESSAGES,
   }

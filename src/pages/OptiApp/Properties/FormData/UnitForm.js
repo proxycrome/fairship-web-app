@@ -67,7 +67,7 @@ class CreateProperty extends Component {
       (type) => type.name === this.state.formType
     );
     if (PrevState.formType !== this.state.formType) {
-      this.props.getPropertySubcategory(types.id);
+      this.props.getPropertySubcategory(types?.id);
     }
   }
 
@@ -130,7 +130,7 @@ class CreateProperty extends Component {
                     required
                   >
                     {this.props.propertyTypes?.map((type) => (
-                      <option key={type.id}>{type.name}</option>
+                      <option key={type.id} value={type.name}>{type.name}</option>
                     ))}
                   </AvField>
                 </FormGroup>
