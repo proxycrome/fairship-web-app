@@ -5,7 +5,8 @@ export const fetchPropertiesService = (payload, collectiveId) => {
   const http = new HttpService();
   let url = 'auth/properties?limit=100&entityLevel=COLLECTIVE_ENTITY';
   if (payload?.type === 'general') {
-    url = `properties?limit=1000000`;
+    // url = 'properties?limit=100000';
+    url = 'auth/properties?limit=100&entityLevel=UNIT_ENTITY'
   } else if (payload?.type === 'unit_entity') {
     url = 'auth/properties?limit=100&entityLevel=SINGLE_ENTITY';
   } else if (payload?.type === 'all_user_properties') {

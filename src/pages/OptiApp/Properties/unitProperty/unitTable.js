@@ -60,27 +60,29 @@ const PropertiesTable = ({ tableData }) => {
         date: Moment(data.createdAt).format('l'),
         action: (
           <>
-            <Link
-              to={`/unit_property/${data.id}`}
-              className="mr-3 text-primary"
-              id="preview"
-            >
-              <i className="dripicons-preview font-size-18"></i>
-            </Link>
-            <UncontrolledTooltip placement="top" target="preview">
-              Previous
-            </UncontrolledTooltip>
+            <div className="d-flex">
+              <Link
+                to={`/unit_property/${data.id}`}
+                className="mr-3 text-primary"
+                id="preview"
+              >
+                <i className="dripicons-preview font-size-18"></i>
+              </Link>
+              <UncontrolledTooltip placement="top" target="preview">
+                Preview
+              </UncontrolledTooltip>
 
-            <Link
-              to={`/update_unit/${data.id}`}
-              className="mr-3 text-primary"
-              id="edit"
-            >
-              <i className="dripicons-preview font-size-18"></i>
-            </Link>
-            <UncontrolledTooltip placement="top" target="edit">
-              Edit
-            </UncontrolledTooltip>
+              <Link
+                to={`/update_unit/${data.id}`}
+                className="mr-3 text-primary"
+                id="edit"
+              >
+                <i className="fas fa-pen font-size-12"></i>
+              </Link>
+              <UncontrolledTooltip placement="top" target="edit">
+                Edit
+              </UncontrolledTooltip>
+            </div>
           </>
         ),
       };

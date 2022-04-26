@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Row,
   Col,
@@ -8,7 +8,7 @@ import {
   Container,
   Card,
   CardBody,
-} from 'reactstrap';
+} from "reactstrap";
 
 // availity-reactstrap-validation
 import {
@@ -16,15 +16,17 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
-} from 'availity-reactstrap-validation';
+} from "availity-reactstrap-validation";
 import {
   getPropertySubcategory,
   fetchEachProperties,
-} from '../../../store/actions';
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+  getPropertyTypes,
+  getLandlordAgents,
+} from "../../../store/actions";
+import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import DropZone from '../../../components/Common/imageUpload';
+import DropZone from "../../../components/Common/imageUpload";
 
 class EditUnitProperty extends Component {
   constructor(props) {
@@ -32,32 +34,32 @@ class EditUnitProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
-      imageError: '',
-      type: 'Agricultural',
+      imageError: "",
+      type: "Agricultural",
       id: 1,
-      formType: '',
-      price: '',
+      formType: "",
+      price: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(events, values) {
-    this.setState({ ...this.state, imageError: '' });
+    this.setState({ ...this.state, imageError: "" });
     if (this.state.selectedFiles.length === 0) {
       this.setState({ ...this.state, imageError: "image can't be empty" });
       return;
     }
     const formData = { ...values };
-    formData.description = 'new spacious unit';
-    formData.isServiced = values.isServiced === 'Yes' ? true : false;
-    formData.isFurnished = values.isFurnished === 'Yes' ? true : false;
-    formData.isShared = values.isShared === 'Yes' ? true : false;
-    formData.parkingLot = values.parkingLot === 'Yes' ? true : false;
+    formData.description = "new spacious unit";
+    formData.isServiced = values.isServiced === "Yes" ? true : false;
+    formData.isFurnished = values.isFurnished === "Yes" ? true : false;
+    formData.isShared = values.isShared === "Yes" ? true : false;
+    formData.parkingLot = values.parkingLot === "Yes" ? true : false;
     formData.otherAmenities = values.otherAmenities.toString();
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price.split(',').join(''));
+    formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
       this.props.agents?.agents.find((agent) => {
@@ -73,6 +75,8 @@ class EditUnitProperty extends Component {
   componentDidMount() {
     this.props.getPropertySubcategory(this.state.id);
     this.props.fetchEachProperties(this.props.match.params.id);
+    this.props.getPropertyTypes();
+    this.props.getLandlordAgents(this.props.user?.id)
   }
 
   componentDidUpdate(PrevProps, PrevState) {
@@ -81,6 +85,11 @@ class EditUnitProperty extends Component {
     );
     if (PrevState.formType !== this.state.formType) {
       this.props.getPropertySubcategory(types?.id);
+    }
+
+    if(PrevProps.user !== this.props.user){
+      this.props.getLandlordAgents(this.props.user?.id);
+      this.props.getPropertyTypes();
     }
   }
 
@@ -95,7 +104,7 @@ class EditUnitProperty extends Component {
   }
 
   includeCommas(str) {
-    const num = Number(str.split(',').join(''));
+    const num = Number(str.split(",").join(""));
     const comma = num.toLocaleString();
     return String(comma);
   }
@@ -141,7 +150,7 @@ class EditUnitProperty extends Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      {/* <Col xs={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="unitNo"
@@ -152,7 +161,7 @@ class EditUnitProperty extends Component {
                             helpMessage="Unit No"
                           />
                         </FormGroup>
-                      </Col>
+                      </Col> */}
                       <Col xs={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
@@ -160,6 +169,7 @@ class EditUnitProperty extends Component {
                             name="type"
                             helpMessage="Property Type"
                             value={this.state.type}
+                            id="type"
                             onChange={(e) =>
                               this.setState({ formType: e.target.value })
                             }
@@ -176,7 +186,10 @@ class EditUnitProperty extends Component {
                           <AvField
                             type="select"
                             name="subcategory"
-                            value={this.props.propertySubcategories && this.props.propertySubcategories[0].name }
+                            value={
+                              this.props.propertySubcategories &&
+                              this.props.propertySubcategories[0].name
+                            }
                             helpMessage="Property Subcategory"
                           >
                             {this.props.propertySubcategories?.map(
@@ -204,24 +217,22 @@ class EditUnitProperty extends Component {
                       <Col xs={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
-                            name="Bedroom"
-                            type="text"
+                            name="bedrooms"
+                            type="number"
                             className="form-ctrl"
-                            id="Bedroom"
-                            placeholder="Bedroom"
-                            helpMessage="Bedroom"
+                            id="bedrooms"
+                            helpMessage="No of Bedrooms"
                           />
                         </FormGroup>
                       </Col>
                       <Col xs={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
-                            name="Bathroom"
+                            name="bathrooms"
                             type="text"
                             className="form-ctrl"
-                            id="Bathroom"
-                            placeholder="Bathroom"
-                            helpMessage="Bathroom"
+                            id="bathrooms"
+                            helpMessage="No of Bathrooms"
                           />
                         </FormGroup>
                       </Col>
@@ -271,6 +282,7 @@ class EditUnitProperty extends Component {
                           <AvField
                             type="number"
                             name="periodInMonths"
+                            id="periodInMonths"
                             helpMessage="Months of Rent"
                             placeholder="Enter No. of Months"
                           />
@@ -299,7 +311,7 @@ class EditUnitProperty extends Component {
                           >
                             {this.props.landlordAgents?.data?.agents?.length !==
                             0 ? (
-                              this.props.agents?.agents?.map((agent) => (
+                              this.props.landlordAgents?.data?.agents?.map((agent) => (
                                 <option key={agent.id}>
                                   {agent?.firstName} {agent?.lastName}
                                 </option>
@@ -356,8 +368,8 @@ class EditUnitProperty extends Component {
                     <div className="text-center">
                       <Button type="submit" color="success" className="px-2">
                         {this.props.loading
-                          ? 'Sending ...'
-                          : ' Update Property'}
+                          ? "Sending ..."
+                          : " Update Property"}
                       </Button>
                     </div>
                   </AvForm>
@@ -377,12 +389,28 @@ const mapStatetoProps = (state) => {
     propertySubcategories,
     property,
     propertiesError,
+    propertyTypes,
   } = state.Properties;
-  return { loading, propertySubcategories, property, propertiesError };
+
+  const { user } = state.Account;
+  const {landlordAgents} = state.Agents;
+
+  return {
+    loading,
+    propertySubcategories,
+    property,
+    propertiesError,
+    propertyTypes,
+    landlordAgents,
+    user
+  };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { getPropertySubcategory, fetchEachProperties })(
-    EditUnitProperty
-  )
+  connect(mapStatetoProps, {
+    getPropertySubcategory,
+    fetchEachProperties,
+    getPropertyTypes,
+    getLandlordAgents,
+  })(EditUnitProperty)
 );
