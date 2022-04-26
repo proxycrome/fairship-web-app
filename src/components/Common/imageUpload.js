@@ -1,22 +1,27 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Card, Row, Col } from 'reactstrap';
+import { Card, Row, Col, Alert } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 //Dropzone
 import { useDropzone } from 'react-dropzone';
 
-const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
-  const [isFileError, setFileError] = useState(false);
+const ImageUpload = ({
+  setFile,
+  selectedFiles,
+  typeName = 'encodedString',
+}) => {
+  const [isFileError, setFileError] = useState(null);
+  const [imageError, setImageError] = useState(null);
   const [base64File, setBase64File] = useState([]);
   const [selectedUploadFiles, setUploadFile] = useState([]);
   const onDrop = useCallback((acceptedFiles, rejectFiles) => {
     setBase64File([]);
     if (acceptedFiles) {
       handleAcceptedFiles(acceptedFiles);
-      setFileError(false);
+      setFileError(null);
     }
     if (rejectFiles.length > 0) {
-      setFileError(true);
+      setFileError('please select proper file and size');
     }
   }, []);
 
@@ -27,6 +32,7 @@ const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
   });
 
   const handleAcceptedFiles = (files) => {
+    setImageError(null);
     files.map((file) =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
@@ -34,7 +40,11 @@ const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
       })
     );
 
-    setUploadFile(files);
+    if (files.length < 2) {
+      setImageError('Atleast 3 images are required');
+    } else {
+      setUploadFile(files);
+    }
 
     files.forEach((file) => {
       const reader = new FileReader();
@@ -72,10 +82,15 @@ const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
         <i className=" fas fa-star-of-life mr-1 pb-2 text-danger font-size-10" />
         Attach Image(s)
       </h4>
-      <p className="card-title-desc mb-0 pb-0">Add at least 1 image here</p>
+      <p className="card-title-desc mb-0 pb-0">Add at least 3 image here</p>
       <span className="text-danger">
         Note: you can select multiple images once
       </span>
+      {
+          imageError && (
+            <Alert color="danger" className="py-1 mb-2"> {imageError} </Alert>
+          )
+        }
       <div {...getRootProps()}>
         <div className="dropzone">
           <div className="dz-message needsclick mt-2">
@@ -85,8 +100,7 @@ const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
             </div>
             {isFileError && (
               <span className="text-danger font-size-12 font-weight-bold">
-                {' '}
-                please select proper file and size{' '}
+                {isFileError}
               </span>
             )}
             <h4>Upload atleast one image here.</h4>
@@ -94,7 +108,8 @@ const ImageUpload = ({ setFile, selectedFiles, typeName="encodedString" }) => {
         </div>
       </div>
 
-      <p className="card-title-desc">Ensure Image are not more than 5mb</p>
+        <p className="card-title-desc">Ensure Image are not more than 5mb</p>
+
       <div className="dropzone-previews mt-3" id="file-previews">
         <Row className="mb-3">
           {selectedUploadFiles.map((f, i) => {

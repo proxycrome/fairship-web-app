@@ -41,6 +41,7 @@ import PreviewUnitProperties from '../pages/OptiApp/Properties/unitProperty/Prev
 import CreateUnitProperties from '../pages/OptiApp/Properties/unitProperty/CreateUnitProperty';
 
 import Properties from '../pages/OptiApp/Properties/index';
+import UpdateProperty from '../pages/OptiApp/Properties/editUnitProperty';
 import PreviewProperties from '../pages/OptiApp/Properties/PropertyCard';
 import CreateProperty from '../pages/OptiApp/Properties/CreateProperty';
 import Settings from '../pages/OptiApp/Settings';
@@ -51,7 +52,7 @@ import AcceptAppointment from '../pages/OptiApp/Appointment/AcceptAppointment';
 import RejectAppointment from '../pages/OptiApp/Appointment/RejectAppointment';
 
 // fairShip Route
-import Opti_Register from '../pages/OptiApp/Authentication/Register/WelcomeLandlord';
+import Opti_Register from '../pages/OptiApp/Authentication/Register/index';
 import Opti_agentRegister from '../pages/OptiApp/Authentication/Register/AgentWelcomePage';
 import Opti_AccountActivation from '../pages/OptiApp/Authentication/ValidationPage';
 
@@ -71,6 +72,8 @@ const authProtectedRoutes = [
   //FairShip Board
   { path: '/dashboard', component: Dashboard1 },
   { path: '/properties', component: Properties },
+  { path: '/update_unit/:id', component: UpdateProperty },
+  
   { path: '/property/:id', component: PreviewProperties },
   { path: '/create_property', component: CreateProperty },
 

@@ -17,6 +17,7 @@ import {
   GET_PROPERTY_SUBCATEGORY,
   GET_PROPERTY_SUBCATEGORY_SUCCESS,
   GET_PROPERTY_SUBCATEGORY_ERROR,
+  DUPLICATE_UNIT_PROPERTY,
 } from './actionTypes.js';
 
 // Fetch appointment
@@ -62,7 +63,6 @@ export const fetchEachPropertiesError = (error) => {
   };
 };
 
-
 // create properties
 export const createProperties = (data, unitId) => {
   return {
@@ -70,6 +70,13 @@ export const createProperties = (data, unitId) => {
     payload: {data, unitId}
   };
 };
+
+export const duplicateUnitProperty = (id)=>{
+  return {
+    type: DUPLICATE_UNIT_PROPERTY,
+    payload: id
+  };
+}
 
 export const createPropertiesSuccessful = (message) => {
   return {
