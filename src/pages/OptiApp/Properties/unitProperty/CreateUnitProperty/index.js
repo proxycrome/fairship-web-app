@@ -8,6 +8,9 @@ import {
   Container,
   Card,
   CardBody,
+  Modal,
+  ModalBody,
+  ModalHeader,
   Input,
 } from "reactstrap";
 
@@ -17,6 +20,8 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
+  AvRadio,
+  AvRadioGroup
 } from "availity-reactstrap-validation";
 import { Link } from "react-router-dom";
 
@@ -28,6 +33,7 @@ import {
 } from "../../../../../store/actions";
 
 import { connect } from "react-redux";
+import plus from '../../images/plus.svg'
 
 import DropZone from "../../../../../components/Common/imageUpload";
 
@@ -37,6 +43,10 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      name: '',
+      percentageAmount: '',
+      pays: [],
+      show: false,
       imageError: "",
       feature: "RENT",
       type: "Agricultural",
@@ -44,9 +54,36 @@ class CreateProperty extends Component {
       id: 1,
       formType: "",
     };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.toggleTab = this.toggleTab.bind(this);
+    this.payment = this.payment.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+  
+ 
+
+  payment (event, values){
+    const payee = {...values}
+
+    payee.percentageAmount = Number(values.percentageAmount)
+    this.state.pays.push(payee)
+    console.log(payee)
+    this.setState({
+        pays: this.state.pays
+  
+      })
+    
+  }
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
 
   handleSubmit(events, values) {
     this.setState({ ...this.state, imageError: "" });
@@ -55,6 +92,7 @@ class CreateProperty extends Component {
       return;
     }
     const formData = { ...values };
+    formData.paymentItems = this.state.pays;
     formData.feature = this.state.feature;
     formData.description = "new spacious unit";
     formData.isServiced = values.isServiced === "Yes" ? true : false;
@@ -122,6 +160,8 @@ class CreateProperty extends Component {
   }
 
   render() {
+    console.log(this.state.name)
+    console.log(this.state.pays)
     return (
       <React.Fragment>
         <div className="page-content">
@@ -314,8 +354,8 @@ class CreateProperty extends Component {
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
                       <AvField
-                         name="Bedroom"
-                         type="text"
+                         name="bedroom"
+                         type="number"
                          className="form-ctrl"
                          id="Bedroom"
                          placeholder="Bedroom"
@@ -326,8 +366,8 @@ class CreateProperty extends Component {
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
                       <AvField
-                        name="Bathroom"
-                        type="text"
+                        name="bathroom"
+                        type="number"
                         className="form-ctrl"
                         id="Bathroom"
                         placeholder="Bathroom"
@@ -402,20 +442,29 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={6}>
+                    <Col xs={6} >
                       <FormGroup className="form-group-custom mb-4">
-                        <AvField
-                          type="select"
-                          name="isShared"
-                          helpMessage="isShared"
-                          value="Yes"
-                        >
-                          <option>Yes</option>
-                          <option>No</option>
-                        </AvField>
+                        <img  src={plus} alt='plus' onClick={this.showModal} /><span> Payment Item</span>
                       </FormGroup>
                     </Col>
-                    <Col xm={12}>
+                    <Modal
+                      size="lg"
+                      isOpen={this.state.show} toggle={this.hideModal}
+                     >
+                     <ModalHeader toggle={this.hideModal}>
+                       Payment Item
+                      </ModalHeader>
+                      <ModalBody>
+                        <AvForm onValidSubmit={this.payment}>
+                       <p>Name</p>
+                       <AvField placeholder="Write name" name ='name' value={this.state.name} onChange={(e)=>this.setState({name: e.target.value})} />
+                       <p className="mt-3">Percentage Amount %</p>
+                       <AvField placeholder="Write payment percentage"  name='percentageAmount' value={this.state.percentageAmount} onChange={(e)=>this.setState({percentageAmount: e.target.value})}/>
+                       <Button className=" mt-3 btn btn-success btn-lg" type='submit'>Add</Button>
+                       </AvForm>
+                      </ModalBody>
+                     </Modal>
+                    <Col md={12}>
                       <Row>
                         <Col xs={6}>
                           <Col xs={12}>
