@@ -41,6 +41,7 @@ import PreviewUnitProperties from '../pages/OptiApp/Properties/unitProperty/Prev
 import CreateUnitProperties from '../pages/OptiApp/Properties/unitProperty/CreateUnitProperty';
 
 import Properties from '../pages/OptiApp/Properties/index';
+import UpdateProperty from '../pages/OptiApp/Properties/editUnitProperty';
 import PreviewProperties from '../pages/OptiApp/Properties/PropertyCard';
 import CreateProperty from '../pages/OptiApp/Properties/CreateProperty';
 import Settings from '../pages/OptiApp/Settings';
@@ -71,6 +72,8 @@ const authProtectedRoutes = [
   //FairShip Board
   { path: '/dashboard', component: Dashboard1 },
   { path: '/properties', component: Properties },
+  { path: '/update_unit/:id', component: UpdateProperty },
+  
   { path: '/property/:id', component: PreviewProperties },
   { path: '/create_property', component: CreateProperty },
 

@@ -70,6 +70,17 @@ const PropertiesTable = ({ tableData }) => {
             <UncontrolledTooltip placement="top" target="preview">
               Previous
             </UncontrolledTooltip>
+
+            <Link
+              to={`/update_unit/${data.id}`}
+              className="mr-3 text-primary"
+              id="edit"
+            >
+              <i className="dripicons-preview font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="edit">
+              Edit
+            </UncontrolledTooltip>
           </>
         ),
       };

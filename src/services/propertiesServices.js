@@ -23,9 +23,9 @@ export const fetchEachPropertiesService = (id) => {
 export const createPropertiesService = ({ data, unitId }) => {
   const http = new HttpService();
   let url = 'auth/collective-entity-properties';
-  if (unitId.type === "collective") {
+  if (unitId.type === 'collective') {
     url = `auth/collective-entity-properties/property-units/${unitId.id}`;
-  } else if(unitId.type === "unitEntity"){
+  } else if (unitId.type === 'unitEntity') {
     url = `auth/single-entity-properties`;
   }
   return http.postDataWithToken(data, url);
@@ -35,10 +35,16 @@ export const getPropertyTypesService = () => {
   const http = new HttpService();
   let url = 'property-types/main-categories';
   return http.getData(url);
-}
+};
 
 export const getPropertySubcategoryService = (id) => {
   const http = new HttpService();
   let url = `property-types/sub-categories/${id}`;
   return http.getData(url);
-}
+};
+
+export const duplicateUnitService = (id) => {
+  const http = new HttpService();
+  let url = `auth/property-units/duplicate/${id}`;
+  return http.putData({}, url);
+};

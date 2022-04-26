@@ -23,8 +23,8 @@ class CreateProperty extends Component {
       imageError: '',
       type: 'Agricultural',
       id: 1,
-      formType: "",
-      price: "",
+      formType: '',
+      price: '',
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,7 +45,7 @@ class CreateProperty extends Component {
     formData.otherAmenities = values.otherAmenities.toString();
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price.split(",").join(""));
+    formData.price = Number(values.price.split(',').join(''));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
       this.props.agents?.agents.find((agent) => {
@@ -67,7 +67,7 @@ class CreateProperty extends Component {
       (type) => type.name === this.state.formType
     );
     if (PrevState.formType !== this.state.formType) {
-      this.props.getPropertySubcategory(types.id);
+      this.props.getPropertySubcategory(types?.id);
     }
   }
 
@@ -82,9 +82,9 @@ class CreateProperty extends Component {
   }
 
   includeCommas(str) {
-    const num = Number(str.split(",").join(""));
+    const num = Number(str.split(',').join(''));
     const comma = num.toLocaleString();
-    return String(comma);  
+    return String(comma);
   }
 
   render() {
@@ -100,8 +100,20 @@ class CreateProperty extends Component {
                     type="text"
                     className="form-ctrl"
                     id="title"
-                    placeholder="Unit Title"
-                    helpMessage="Unit Title"
+                    placeholder="Title"
+                    helpMessage="Title"
+                  />
+                </FormGroup>
+              </Col>
+              <Col xs={4}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    name="unitNo"
+                    type="text"
+                    className="form-ctrl"
+                    id="title"
+                    placeholder="Unit No"
+                    helpMessage="Unit No"
                   />
                 </FormGroup>
               </Col>
@@ -162,7 +174,7 @@ class CreateProperty extends Component {
               </Col>
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
-                <AvField
+                  <AvField
                     name="Bathroom"
                     type="text"
                     className="form-ctrl"
@@ -172,7 +184,7 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
@@ -184,7 +196,7 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
@@ -205,7 +217,11 @@ class CreateProperty extends Component {
                     id="price"
                     helpMessage="Price of Apartment"
                     value={this.state.price}
-                    onChange={(e) => this.setState({price: this.includeCommas(e.target.value)})}
+                    onChange={(e) =>
+                      this.setState({
+                        price: this.includeCommas(e.target.value),
+                      })
+                    }
                   />
                 </FormGroup>
               </Col>
@@ -233,90 +249,88 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xm={12}>
-                <Row>
-                  <Col xs={6}>
-                    <Col xs={12}>
-                      <FormGroup className="form-group-custom mb-4">
-                        <AvField
-                          type="select"
-                          name="agentIds"
-                          label="Add Agent"
-                          value={this.props.landlordAgents && (`${this.props.landlordAgents?.data?.agents?.unshift().firstName} ${this.props.landlordAgents?.data?.agents?.unshift().lastName}`)}
-                          required
-                          // helpMessage="Location"
-                        >
-                          {this.props.landlordAgents?.data?.agents?.length !== 0 ? (
-                            this.props.agents?.agents?.map((agent) => (
-                              <option key={agent.id}>
-                                {agent?.firstName} {agent?.lastName}
-                              </option>
-                            ))
-                          ) : this.props.loadlordAgents === null ? (
-                            <option>Loading ...</option>
-                          ) : (
-                            <option>No Agents yet...</option>
-                          )}
-                        </AvField>
-                      </FormGroup>
-                    </Col>
-                    <Col xs={12}>
-                      <FormGroup className="form-group-custom mb-4">
-                        <AvCheckboxGroup
-                          name="otherAmenities"
-                          label="Amenities!"
-                          required
-                        >
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Air Condition"
-                            value="AC"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="water Heaters"
-                            value="heater"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Microwave"
-                            value="microwave"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Gas Cooker"
-                            value="Cooker"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Clean Water"
-                            value="water"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Gym"
-                            value="Gym"
-                          />
-                        </AvCheckboxGroup>
-                      </FormGroup>
-                    </Col>
-                  </Col>
-                  <Col xs={6}>
-                    <>
-                      <DropZone
-                        selectedFiles={this.state.selectedFiles}
-                        setFile={(files) =>
-                          this.setState({ selectedFiles: files })
-                        }
-                      />
-                      {this.state.imageError && (
-                        <Alert color="danger" className="text-danger">
-                          {this.state.imageError}
-                        </Alert>
-                      )}
-                    </>
-                  </Col>
-                </Row>
+              <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvField
+                    type="select"
+                    name="agentIds"
+                    label="Add Agent"
+                    placeholder="Select an Agent"
+                    // value={
+                    //   this.props.landlordAgents &&
+                    //   `${
+                    //     this.props.landlordAgents?.data?.agents?.unshift()
+                    //       .firstName
+                    //   } ${
+                    //     this.props.landlordAgents?.data?.agents?.unshift()
+                    //       .lastName
+                    //   }`
+                    // }
+                    required
+                    // helpMessage="Location"
+                  >
+                    {this.props.landlordAgents?.data?.agents?.length !== 0 ? (
+                      this.props.agents?.agents?.map((agent) => (
+                        <option key={agent.id}>
+                          {agent?.firstName} {agent?.lastName}
+                        </option>
+                      ))
+                    ) : this.props.loadlordAgents === null ? (
+                      <option>Loading ...</option>
+                    ) : (
+                      <option>No Agents yet...</option>
+                    )}
+                  </AvField>
+                </FormGroup>
+              </Col>
+            
+              <Col xs={6}>
+                <>
+                  <DropZone
+                    selectedFiles={this.state.selectedFiles}
+                    setFile={(files) => this.setState({ selectedFiles: files })}
+                  />
+                  {this.state.imageError && (
+                    <Alert color="danger" className="text-danger">
+                      {this.state.imageError}
+                    </Alert>
+                  )}
+                </>
+              </Col>  <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                  <AvCheckboxGroup
+                    name="otherAmenities"
+                    label="Amenities!"
+                    required
+                  >
+                    <AvCheckbox
+                      className="mb-2"
+                      label="Air Condition"
+                      value="AC"
+                    />
+                    <AvCheckbox
+                      className="mb-2"
+                      label="water Heaters"
+                      value="heater"
+                    />
+                    <AvCheckbox
+                      className="mb-2"
+                      label="Microwave"
+                      value="microwave"
+                    />
+                    <AvCheckbox
+                      className="mb-2"
+                      label="Gas Cooker"
+                      value="Cooker"
+                    />
+                    <AvCheckbox
+                      className="mb-2"
+                      label="Clean Water"
+                      value="water"
+                    />
+                    <AvCheckbox className="mb-2" label="Gym" value="Gym" />
+                  </AvCheckboxGroup>
+                </FormGroup>
               </Col>
             </Row>
             <div className="text-center">
