@@ -36,7 +36,7 @@ const handleSubmit = (e, values) => {
     dispatch(DiligenceRecommendation(tenantId, formData)) 
 }
 
-const {diligence} = useSelector((state) => state.PreviewReducer)
+const {diligence, errordilligence} = useSelector((state) => state.PreviewReducer)
 
   return (
     <div className="page-content">
@@ -76,6 +76,11 @@ const {diligence} = useSelector((state) => state.PreviewReducer)
             {diligence && diligence?.message && (
                 <Alert color='success' className='text-center'>
                   {diligence?.message}
+                </Alert>
+              )}
+              {errordilligence && errordilligence?.message && (
+                <Alert color='danger' className='text-center'>
+                  {errordilligence?.message}
                 </Alert>
               )}
             <Row className="my-4">

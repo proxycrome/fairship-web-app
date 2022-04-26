@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, FormGroup, Alert } from 'reactstrap';
+import { Row, Col, Button, FormGroup, Alert, Modal, ModalBody, ModalHeader } from 'reactstrap';
 
 // availity-reactstrap-validation
 import {
@@ -11,6 +11,7 @@ import {
 import { getPropertySubcategory } from '../../../../store/actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import plus from '../images/plus.svg'
 
 import DropZone from '../../../../components/Common/imageUpload';
 
@@ -21,14 +22,43 @@ class CreateProperty extends Component {
       activeTab: 1,
       selectedFiles: [],
       imageError: '',
+      name: '',
+      percentageAmount: '',
+      pays: [],
       type: 'Agricultural',
       id: 1,
       formType: '',
       price: '',
     };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.payment = this.payment.bind(this);
   }
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+  
+ 
+
+   payment(event, values){
+    const payee = {...values}
+
+    payee.percentageAmount = Number(values.percentageAmount)
+    this.state.pays.push(payee)
+    console.log(payee)
+    this.setState({
+        pays: this.state.pays
+      })
+    
+  }
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
+
 
   handleSubmit(events, values) {
     this.setState({ ...this.state, imageError: '' });
@@ -37,6 +67,7 @@ class CreateProperty extends Component {
       return;
     }
     const formData = { ...values };
+    formData.paymentItems = this.state.pays;
     formData.description = 'new spacious unit';
     formData.isServiced = values.isServiced === 'Yes' ? true : false;
     formData.isFurnished = values.isFurnished === 'Yes' ? true : false;
@@ -163,8 +194,8 @@ class CreateProperty extends Component {
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    name="Bedroom"
-                    type="text"
+                    name="bedroom"
+                    type="number"
                     className="form-ctrl"
                     id="Bedroom"
                     placeholder="Bedroom"
@@ -225,7 +256,11 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-
+              {/* <Col xs={6}>
+                <FormGroup className="form-group-custom mb-4">
+                <AvRadio label="Payment Type" value="PaymentType" />
+                </FormGroup>
+              </Col> */}
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
