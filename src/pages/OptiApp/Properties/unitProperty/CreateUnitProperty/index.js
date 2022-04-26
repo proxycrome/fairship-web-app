@@ -501,34 +501,139 @@ class CreateProperty extends Component {
                                 required
                               >
                                 <AvCheckbox
-                                  className="mb-2"
-                                  label="Air Condition"
-                                  value="AC"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="water Heaters"
-                                  value="heater"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Microwave"
-                                  value="microwave"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Gas Cooker"
-                                  value="Cooker"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Clean Water"
-                                  value="water"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Gym"
-                                  value="Gym"
+                            className="mb-2"
+                            label="Air Condition"
+                            value="AC"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="water Heaters"
+                            value="heater"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Microwave"
+                            value="microwave"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Gas Cooker"
+                            value="Cooker"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Clean Water"
+                            value="water"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Gym"
+                            value="Gym"
+                          />
+                           <AvCheckbox
+                            className="mb-2"
+                            label="Boys Quater"
+                            value=" Boys Quater"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="CCTV cameras"
+                            value="CCTV cameras"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="All rooms ensuite"
+                            value="All rooms ensuite"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Wireless Internet access"
+                            value="Wireless Internet access"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="24 hours electricity"
+                            value="24 hours electricity"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Alarm system"
+                            value="Alarm system"
+                          /> 
+                          <AvCheckbox
+                          className="mb-2"
+                          label="Energy efficiency"
+                          value="Energy efficiency"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Kitchen hood"
+                          value="Kitchen hood"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Spacious rooms/Balcony"
+                          value="Spacious rooms/Balcony"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Parking space"
+                          value="Parking space"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label=" Swimming pool"
+                          value=" Swimming pool"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Uninterrupted Water supply"
+                          value="Uninterrupted Water supply"
+                        /> 
+                        <AvCheckbox
+                        className="mb-2"
+                        label="Reception/Concierge service"
+                        value="Reception/Concierge service"
+                      />
+                      <AvCheckbox
+                        className="mb-2"
+                        label=" Clubhouse/Lounges"
+                        value=" Clubhouse/Lounge"
+                      />
+                      <AvCheckbox
+                          className="mb-2"
+                           label="Restaurants"
+                          value="Restaurants"
+                         />
+                         <AvCheckbox
+                         className="mb-2"
+                           label="Pets allowed"
+                           value="Pets allowed"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                             label="Dishwasherr"
+                             value="Dishwasher"
+                           />
+                            <AvCheckbox
+                             className="mb-2"
+                              label="Laundry facility"
+                              value="Laundry facility"
+                            />
+                            <AvCheckbox
+                               className="mb-2"
+                               label="Access to public transportatio"
+                               value="Access to public transportatio"
+                              />
+                             <AvCheckbox
+                               className="mb-2"
+                                label="Furnished Kitchens"
+                                value="Furnished Kitchens"
+                               />
+                               <AvCheckbox
+                                className="mb-2"
+                                label=" Communication system"
+                                value=" Communication system"
                                 />
                               </AvCheckboxGroup>
                             </FormGroup>
