@@ -142,14 +142,14 @@ class Appointment extends Component {
                   <i className="text-success fab fa-rocketchat font-size-12"></i>
                 </span>
               </Link>
-              <Link to="#" className="mr-1 text-primary" id="edit1">
+              {/* <Link to="#" className="mr-1 text-primary" id="edit1">
                 <span className="border border-1 p-1 py-0 rounded">
                   <i
                     className="text-secondary fas fa-user-alt
                     font-size-12"
                   ></i>
                 </span>
-              </Link>
+              </Link> */}
               <Link to={`/reject_appointment/${appoint.id}`} className="mr-1 text-primary" id="edit1">
                 <span className="border border-1 p-1 py-0 rounded">
                   <i

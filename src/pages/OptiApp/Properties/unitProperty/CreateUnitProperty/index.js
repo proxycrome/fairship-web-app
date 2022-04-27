@@ -81,8 +81,8 @@ class CreateProperty extends Component {
     this.state.pays.push(payee)
     console.log(payee)
     this.setState({
-        pays: this.state.pays
-  
+        pays: this.state.pays,
+        show: false
       })
     
   }
@@ -123,9 +123,9 @@ class CreateProperty extends Component {
     formData.images = this.state.selectedFiles;
     this.props.createProperties(formData, payload);
 
-    setTimeout(() => {
-      this.props.history.push("/unit_properties");
-    }, 5000);
+    // setTimeout(() => {
+    //   this.props.history.push("/unit_properties");
+    // }, 5000);
   }
 
   toggleTab(tab) {
@@ -181,8 +181,8 @@ class CreateProperty extends Component {
   }
 
   render() {
-    console.log(this.state.name)
-    console.log(this.state.pays)
+    // console.log(this.state.name)
+    // console.log(this.state.pays)
     return (
       <React.Fragment>
         <div className="page-content">
