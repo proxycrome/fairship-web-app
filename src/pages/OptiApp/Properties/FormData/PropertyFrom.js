@@ -55,7 +55,7 @@ class CreateProperty extends Component {
   componentDidMount() {
     this.props.getPropertySubcategory(this.state.id);
     this.props.fetchCountry();
-    this.props.fetchState(1);
+    // this.props.fetchState(1);
   }
 
   componentDidUpdate(PrevProps, PrevState) {
@@ -180,11 +180,13 @@ class CreateProperty extends Component {
                         type="select"
                         name="address.country"
                         helpMessage="Country"
-                        value={this.props.countries?.unshift.name}
+                        // value={this.props.countries?.unshift.name}
                         onChange={(e) =>
                           this.setState({ country: e.target.value })
                         }
+                        required
                       >
+                        <option value="">Select...</option>
                         {this.props.countries?.map((country) => (
                           <option key={country.id} value={country.name}>
                             {country.name}
@@ -198,13 +200,15 @@ class CreateProperty extends Component {
                       <AvField
                         type="select"
                         name="address.state"
-                        value={this.props.states?.unshift.name}
+                        // value={this.props.states?.unshift.name}
                         // label="Option"
                         helpMessage="State"
                         onChange={(e) =>
                           this.setState({ state: e.target.value })
                         }
+                        required
                       >
+                        <option value="">Select...</option>
                         {this.props.states?.map((state) => (
                           <option key={state.id} value={state.name}>
                             {state.name}
@@ -218,10 +222,12 @@ class CreateProperty extends Component {
                       <AvField
                         type="select"
                         name="address.lga"
-                        value={this.props.lgas?.unshift.name}
+                        // value={this.props.lgas?.unshift.name}
                         helpMessage="LGA"
                         onChange={(e) => this.setState({ LGA: e.target.value })}
+                        required
                       >
+                        <option value="">Select...</option>
                         {this.props.lgas?.map((lga) => (
                           <option key={lga.id} value={lga.name}>
                             {lga.name}
@@ -268,16 +274,16 @@ class CreateProperty extends Component {
                         type="select"
                         name="agentIds"
                         helpMessage="Add Agent"
-                        value={
-                          this.props.landlordAgents &&
-                          `${
-                            this.props.landlordAgents?.data?.agents?.unshift()
-                              .firstName
-                          } ${
-                            this.props.landlordAgents?.data?.agents?.unshift()
-                              .lastName
-                          }`
-                        }
+                        // value={
+                        //   this.props.landlordAgents &&
+                        //   `${
+                        //     this.props.landlordAgents?.data?.agents?.unshift()
+                        //       .firstName
+                        //   } ${
+                        //     this.props.landlordAgents?.data?.agents?.unshift()
+                        //       .lastName
+                        //   }`
+                        // }
                         required
                       >
                         {this.props.landlordAgents?.data?.agents?.length !==

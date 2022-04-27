@@ -87,7 +87,7 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
                       />
                       <CardBody className="mb-1">
                         <span className="text-muted">{data.bedrooms} Beds, {data.bathrooms} Baths.</span>
-                        <h6 className="mt-2 card-title">{data.title}</h6>
+                        <h6 className="mt-2 card-title">{data.parentProperty.title} {data.title}</h6>
                         <p>
                           From <span className="text-primary">{data.price}</span> /y
                         </p>
@@ -108,7 +108,7 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
                       />
                       <CardBody className="mb-1">
                         <span className="text-muted">{data.bedrooms} Beds, {data.bathrooms} Baths.</span>
-                        <h6 className="mt-2 card-title">{data.title}</h6>
+                        <h6 className="mt-2 card-title">{data.parentProperty.title} {data.title}</h6>
                         <p>
                           From <span className="text-primary">{data.price}</span> /y
                         </p>

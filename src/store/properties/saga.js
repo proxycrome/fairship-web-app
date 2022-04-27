@@ -3,6 +3,7 @@ import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 // Login Redux States
 import {
   FETCH_PROPERTIES,
+  UPDATE_UNIT,
   FETCH_EACH_PROPERTIES,
   CREATE_PROPERTIES,
   GET_PROPERTY_TYPES,
@@ -21,12 +22,15 @@ import {
   getPropertyTypesError,
   getPropertySubcategorySuccess,
   getPropertySubcategoryError,
+  updateUnitPropertySuccessful,
+  updateUnitPropertyError
 } from './actions';
 
 import {
   fetchPropertiesService,
   fetchEachPropertiesService,
   createPropertiesService,
+  updateUnitService,
   getPropertyTypesService,
   getPropertySubcategoryService,
   duplicateUnitService
@@ -102,6 +106,18 @@ function* getPropertySubcategory({payload: {id}}) {
     }
   }
 
+  function* updateUntProperty({ payload }) {
+    try {
+      const response = yield call(updateUnitService, payload);
+      yield put(updateUnitPropertySuccessful(response.data));
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+      console.log(error?.response);
+      yield put(updateUnitPropertyError(error?.response?.data));
+    }
+  }
+
 export function* watchFetchProperties() {
   yield takeEvery(FETCH_PROPERTIES, fetchProperties);
 }
@@ -124,6 +140,10 @@ export function* watchGetDuplicateProperty() {
   yield takeEvery(DUPLICATE_UNIT_PROPERTY, getDuplicateUnit)
 }
 
+export function* watchUpdateUnitProperty() {
+  yield takeEvery(UPDATE_UNIT, updateUntProperty)
+}
+
 function* PropertiesSaga() {
   yield all([
     fork(watchFetchProperties),
@@ -132,6 +152,7 @@ function* PropertiesSaga() {
     fork(watchGetPropertyTypes),
     fork(watchGetPropertySubcategory),
     fork(watchGetDuplicateProperty),
+    fork(watchUpdateUnitProperty),
   ]);
 }
 
