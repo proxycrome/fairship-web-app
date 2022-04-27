@@ -8,6 +8,9 @@ import {
   Container,
   Card,
   CardBody,
+  Modal,
+  ModalBody,
+  ModalHeader,
   Input,
 } from "reactstrap";
 
@@ -17,6 +20,8 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
+  AvRadio,
+  AvRadioGroup
 } from "availity-reactstrap-validation";
 import { Link } from "react-router-dom";
 
@@ -31,6 +36,7 @@ import {
 } from "../../../../../store/actions";
 
 import { connect } from "react-redux";
+import plus from '../../images/plus.svg'
 
 import DropZone from "../../../../../components/Common/imageUpload";
 
@@ -40,6 +46,10 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      name: '',
+      percentageAmount: '',
+      pays: [],
+      show: false,
       imageError: "",
       feature: "RENT",
       type: "Agricultural",
@@ -50,9 +60,36 @@ class CreateProperty extends Component {
       LGA: "",
       country: ""
     };
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.toggleTab = this.toggleTab.bind(this);
+    this.payment = this.payment.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
+
+  showModal = () => {
+    this.setState({ show: true });
+  };
+  
+ 
+
+  payment (event, values){
+    const payee = {...values}
+
+    payee.percentageAmount = Number(values.percentageAmount)
+    this.state.pays.push(payee)
+    console.log(payee)
+    this.setState({
+        pays: this.state.pays
+  
+      })
+    
+  }
+
+  hideModal = () => {
+    this.setState({ show: false });
+  };
 
   handleSubmit(events, values) {
     this.setState({ ...this.state, imageError: "" });
@@ -61,6 +98,7 @@ class CreateProperty extends Component {
       return;
     }
     const formData = { ...values };
+    formData.paymentItems = this.state.pays;
     formData.feature = this.state.feature;
     formData.description = "new spacious unit";
     formData.isServiced = values.isServiced === "Yes" ? true : false;
@@ -143,6 +181,8 @@ class CreateProperty extends Component {
   }
 
   render() {
+    console.log(this.state.name)
+    console.log(this.state.pays)
     return (
       <React.Fragment>
         <div className="page-content">
@@ -443,20 +483,29 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={6}>
+                    <Col xs={6} >
                       <FormGroup className="form-group-custom mb-4">
-                        <AvField
-                          type="select"
-                          name="isShared"
-                          helpMessage="isShared"
-                          value="Yes"
-                        >
-                          <option>Yes</option>
-                          <option>No</option>
-                        </AvField>
+                        <img  src={plus} alt='plus' onClick={this.showModal} /><span> Payment Item</span>
                       </FormGroup>
                     </Col>
-                    <Col xm={12}>
+                    <Modal
+                      size="lg"
+                      isOpen={this.state.show} toggle={this.hideModal}
+                     >
+                     <ModalHeader toggle={this.hideModal}>
+                       Payment Item
+                      </ModalHeader>
+                      <ModalBody>
+                        <AvForm onValidSubmit={this.payment}>
+                       <p>Name</p>
+                       <AvField placeholder="Write name" name ='name' value={this.state.name} onChange={(e)=>this.setState({name: e.target.value})} />
+                       <p className="mt-3">Percentage Amount %</p>
+                       <AvField placeholder="Write payment percentage"  name='percentageAmount' value={this.state.percentageAmount} onChange={(e)=>this.setState({percentageAmount: e.target.value})}/>
+                       <Button className=" mt-3 btn btn-success btn-lg" type='submit'>Add</Button>
+                       </AvForm>
+                      </ModalBody>
+                     </Modal>
+                    <Col md={12}>
                       <Row>
                         <Col xs={6}>
                           <Col xs={12}>
@@ -493,34 +542,139 @@ class CreateProperty extends Component {
                                 required
                               >
                                 <AvCheckbox
-                                  className="mb-2"
-                                  label="Air Condition"
-                                  value="AC"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="water Heaters"
-                                  value="heater"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Microwave"
-                                  value="microwave"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Gas Cooker"
-                                  value="Cooker"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Clean Water"
-                                  value="water"
-                                />
-                                <AvCheckbox
-                                  className="mb-2"
-                                  label="Gym"
-                                  value="Gym"
+                            className="mb-2"
+                            label="Air Condition"
+                            value="AC"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="water Heaters"
+                            value="heater"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Microwave"
+                            value="microwave"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Gas Cooker"
+                            value="Cooker"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Clean Water"
+                            value="water"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Gym"
+                            value="Gym"
+                          />
+                           <AvCheckbox
+                            className="mb-2"
+                            label="Boys Quater"
+                            value=" Boys Quater"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="CCTV cameras"
+                            value="CCTV cameras"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="All rooms ensuite"
+                            value="All rooms ensuite"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Wireless Internet access"
+                            value="Wireless Internet access"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="24 hours electricity"
+                            value="24 hours electricity"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                            label="Alarm system"
+                            value="Alarm system"
+                          /> 
+                          <AvCheckbox
+                          className="mb-2"
+                          label="Energy efficiency"
+                          value="Energy efficiency"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Kitchen hood"
+                          value="Kitchen hood"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Spacious rooms/Balcony"
+                          value="Spacious rooms/Balcony"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Parking space"
+                          value="Parking space"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label=" Swimming pool"
+                          value=" Swimming pool"
+                        />
+                        <AvCheckbox
+                          className="mb-2"
+                          label="Uninterrupted Water supply"
+                          value="Uninterrupted Water supply"
+                        /> 
+                        <AvCheckbox
+                        className="mb-2"
+                        label="Reception/Concierge service"
+                        value="Reception/Concierge service"
+                      />
+                      <AvCheckbox
+                        className="mb-2"
+                        label=" Clubhouse/Lounges"
+                        value=" Clubhouse/Lounge"
+                      />
+                      <AvCheckbox
+                          className="mb-2"
+                           label="Restaurants"
+                          value="Restaurants"
+                         />
+                         <AvCheckbox
+                         className="mb-2"
+                           label="Pets allowed"
+                           value="Pets allowed"
+                          />
+                          <AvCheckbox
+                            className="mb-2"
+                             label="Dishwasherr"
+                             value="Dishwasher"
+                           />
+                            <AvCheckbox
+                             className="mb-2"
+                              label="Laundry facility"
+                              value="Laundry facility"
+                            />
+                            <AvCheckbox
+                               className="mb-2"
+                               label="Access to public transportatio"
+                               value="Access to public transportatio"
+                              />
+                             <AvCheckbox
+                               className="mb-2"
+                                label="Furnished Kitchens"
+                                value="Furnished Kitchens"
+                               />
+                               <AvCheckbox
+                                className="mb-2"
+                                label=" Communication system"
+                                value=" Communication system"
                                 />
                               </AvCheckboxGroup>
                             </FormGroup>
