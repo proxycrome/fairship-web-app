@@ -50,7 +50,7 @@ const ListUnitPreview = ({ match, fetchEachProperties, property, loading }) => {
                       <span>{property?.title}</span>
                     </div>
                     <div className='mb-3'>
-                      <span>{property?.address?.houseNoAddress}</span>
+                      <span>{property?.address?.houseNoAddress}, {property?.address?.state}, {property?.address?.country}</span>
                     </div>
                     <div className='mb-3'>
                       <img src={PropertyIcon} alt="property icon"/>

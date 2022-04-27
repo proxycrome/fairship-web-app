@@ -57,7 +57,7 @@ class Appointment extends Component {
         {
           label: "Client",
           field: "client",
-          sort: "asc",
+          // sort: "asc",
           width: 100,
         },
         {
@@ -69,7 +69,7 @@ class Appointment extends Component {
         {
           label: "Address",
           field: "address",
-          // sort: 'asc',
+          sort: 'asc',
           width: 110,
         },
         {
@@ -87,13 +87,13 @@ class Appointment extends Component {
         {
           label: "Actions",
           field: "actions",
-          // sort: 'asc',
+          sort: 'asc',
           width: 150,
         },
         {
           label: "Status",
           field: "status",
-          // sort: 'asc',
+          sort: 'asc',
           width: 150,
         },
       ],
