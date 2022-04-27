@@ -101,7 +101,9 @@ class SidebarContent extends Component {
                   <Link to="/properties">Multi units Property</Link>
                 </li>
                 <li>
+
                   <Link to="/unit_properties">Unit Property</Link>
+
                 </li>
                 <li>
                   <Link to="/listing_properties">Listings</Link>

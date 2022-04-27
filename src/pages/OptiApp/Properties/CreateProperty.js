@@ -82,6 +82,7 @@ class CreateProperty extends Component {
   }
 
   render() {
+    console.log(this.props.landlordAgents)
     return (
       <React.Fragment>
         <div className="page-content">

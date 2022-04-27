@@ -180,14 +180,14 @@ class Appointment extends Component {
                   <Card>
                     <CardBody className="pt-3">
                       <div>
-                        <div className="float-right">
+                        {/* <div className="float-right">
                           <select className="custom-select custom-select-sm bg-light">
                             <option defaultValue>All Appointment</option>
                             <option value="1">Accepted</option>
                             <option value="2">Accept</option>
                             <option value="3">Rejected</option>
                           </select>
-                        </div>
+                        </div> */}
                         <h2 className=" mb-4">Appointments</h2>
                       </div>
                       {this.props.appointment?.length !== 0 ? (
