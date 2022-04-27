@@ -21,6 +21,7 @@ const initialState = {
   property: null,
   agents: null,
   message: null,
+  createdProperty: [],
   propertiesError: null,
   createUnit: false,
   loading: false,
@@ -74,6 +75,7 @@ const Properties = (state = initialState, action) => {
     case CREATE_PROPERTIES_SUCCESSFUL:
       state = {
         ...state,
+        createdProperty: [...state.createdProperty, action.payload],
         property: action.payload,
         message: 'Property Created Successfully',
         loading: false,

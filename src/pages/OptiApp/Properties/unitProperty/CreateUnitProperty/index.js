@@ -30,6 +30,9 @@ import {
   getLandlordAgents,
   getPropertyTypes,
   getPropertySubcategory,
+  fetchCountry,
+  fetchState,
+  fetchLga,
 } from "../../../../../store/actions";
 
 import { connect } from "react-redux";
@@ -53,6 +56,9 @@ class CreateProperty extends Component {
       price: "",
       id: 1,
       formType: "",
+      state: "",
+      LGA: "",
+      country: ""
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -116,11 +122,10 @@ class CreateProperty extends Component {
     };
     formData.images = this.state.selectedFiles;
     this.props.createProperties(formData, payload);
-    
+
     setTimeout(() => {
-      this.props.history.push("/unit_properties")
-    }, 5000)
-    
+      this.props.history.push("/unit_properties");
+    }, 5000);
   }
 
   toggleTab(tab) {
@@ -137,6 +142,8 @@ class CreateProperty extends Component {
     this.props.getLandlordAgents(this.props.user?.id);
     this.props.getPropertyTypes();
     this.props.getPropertySubcategory(this.state.id);
+    this.props.fetchCountry();
+    // this.props.fetchState(1);
   }
 
   componentDidUpdate(PrevProps, PrevState) {
@@ -150,6 +157,20 @@ class CreateProperty extends Component {
     if (PrevProps.user !== this.props.user) {
       this.props.getLandlordAgents(this.props.user?.id);
       // this.props.getPropertyTypes();
+    }
+
+    const country = this.props.countries?.find(
+      (country) => country.name === this.state.country
+    );
+    if (PrevState.country !== this.state.country) {
+      this.props.fetchState(country?.id);
+    }
+
+    const state = this.props.states?.find(
+      (state) => state.name === this.state.state
+    );
+    if(PrevState.state !== this.state.state) {
+      this.props.fetchLga(state?.id)
     }
   }
 
@@ -252,7 +273,9 @@ class CreateProperty extends Component {
                           required
                         >
                           {this.props.propertyTypes?.map((type) => (
-                            <option key={type.id} value={type.name}>{type.name}</option>
+                            <option key={type.id} value={type.name}>
+                              {type.name}
+                            </option>
                           ))}
                         </AvField>
                       </FormGroup>
@@ -290,13 +313,20 @@ class CreateProperty extends Component {
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
-                          name="address.city"
-                          value={this.state.state}
-                          helpMessage="City"
+                          name="address.country"
+                          helpMessage="Country"
+                          // value={this.props.countries?.unshift.name}
+                          onChange={(e) =>
+                            this.setState({ country: e.target.value })
+                          }
+                          required
                         >
-                          <option>Lagos</option>
-                          <option>Abuja</option>
-                          <option>Lekki</option>
+                          <option value="">Select...</option>
+                          {this.props.countries?.map((country) => (
+                            <option key={country.id} value={country.name}>
+                              {country.name}
+                            </option>
+                          ))}
                         </AvField>
                       </FormGroup>
                     </Col>
@@ -305,13 +335,20 @@ class CreateProperty extends Component {
                         <AvField
                           type="select"
                           name="address.state"
-                          value={this.state.state}
+                          // value={this.props.states?.unshift.name}
                           // label="Option"
                           helpMessage="State"
+                          onChange={(e) =>
+                            this.setState({ state: e.target.value })
+                          }
+                          required
                         >
-                          <option>Lagos</option>
-                          <option>Abuja</option>
-                          <option>Lekki</option>
+                          <option value="">Select...</option>
+                          {this.props.states?.map((state) => (
+                            <option key={state.id} value={state.name}>
+                              {state.name}
+                            </option>
+                          ))}
                         </AvField>
                       </FormGroup>
                     </Col>
@@ -319,12 +356,18 @@ class CreateProperty extends Component {
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
-                          name="address.country"
-                          helpMessage="Country"
-                          value={this.state.country}
+                          name="address.lga"
+                          // value={this.props.lgas?.unshift.name}
+                          helpMessage="LGA"
+                          onChange={(e) => this.setState({ LGA: e.target.value })}
+                          required
                         >
-                          <option>Nigeria</option>
-                          <option>Ghana</option>
+                          <option value="">Select...</option>
+                          {this.props.lgas?.map((lga) => (
+                            <option key={lga.id} value={lga.name}>
+                              {lga.name}
+                            </option>
+                          ))}
                         </AvField>
                       </FormGroup>
                     </Col>
@@ -353,25 +396,23 @@ class CreateProperty extends Component {
                     </Col>
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
-                      <AvField
-                         name="bedroom"
-                         type="number"
-                         className="form-ctrl"
-                         id="Bedroom"
-                         placeholder="Bedroom"
-                         helpMessage="Bedroom"
-                          />
+                        <AvField
+                          name="bedrooms"
+                          type="number"
+                          className="form-ctrl"
+                          id="bedrooms"
+                          helpMessage="Number of Bedrooms"
+                        />
                       </FormGroup>
                     </Col>
                     <Col xs={3}>
                       <FormGroup className="form-group-custom mb-4">
-                      <AvField
-                        name="bathroom"
-                        type="number"
-                        className="form-ctrl"
-                        id="Bathroom"
-                        placeholder="Bathroom"
-                        helpMessage="Bathroom"
+                        <AvField
+                          name="bathrooms"
+                          type="number"
+                          className="form-ctrl"
+                          id="bathrooms"
+                          helpMessage="No of Bathrooms"
                         />
                       </FormGroup>
                     </Col>
@@ -473,11 +514,11 @@ class CreateProperty extends Component {
                                 type="select"
                                 name="agentIds"
                                 label="Add Agent"
-                                value={this.props.landlordAgents && (`${this.props.landlordAgents?.data?.agents?.unshift().firstName} ${this.props.landlordAgents?.data?.agents?.unshift().lastName}`)}
                                 required
                                 // helpMessage="Location"
                               >
-                                {this.props.landlordAgents?.data?.agents?.length !== 0 ? (
+                                {this.props.landlordAgents?.data?.agents
+                                  ?.length !== 0 ? (
                                   this.props.landlordAgents?.data?.agents?.map(
                                     (agent) => (
                                       <option key={agent.id}>
@@ -682,7 +723,10 @@ const mapStatetoProps = (state) => {
     propertyTypes,
     propertySubcategories,
   } = state.Properties;
+
   const { agents, landlordAgents } = state.Agents;
+  const { countries, states, lgas } = state.Location;
+
   return {
     loading,
     agents,
@@ -693,6 +737,9 @@ const mapStatetoProps = (state) => {
     propertySubcategories,
     user,
     landlordAgents,
+    countries,
+    states,
+    lgas,
   };
 };
 
@@ -701,4 +748,7 @@ export default connect(mapStatetoProps, {
   getLandlordAgents,
   getPropertyTypes,
   getPropertySubcategory,
+  fetchCountry,
+  fetchState,
+  fetchLga,
 })(CreateProperty);

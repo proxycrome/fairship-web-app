@@ -35,7 +35,7 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
               Page is under Construction
             </Alert> */}
             <Row>
-              <Col xl={12}>
+              <Col md={12}>
                 <div className='d-flex justify-content-center'>
                   <img src={property?.indexImage} style={{width: "100%", height: "50vh", objectFit: "fill"}} alt="property"/>
                 </div>
@@ -43,7 +43,7 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
             </Row>
             <Row className='d-flex justify-content-between mt-4'>
               <div className='ml-3'>
-                <h5>{property?.title}</h5>
+                <h5>{property?.parentProperty?.title} <br/>{property?.title}</h5>
               </div>
               <div className='mr-3'>
                 <p>From N<span style={{fontWeight: "600", color: "blue"}}>{property?.price}</span>/ yr</p>
@@ -56,7 +56,7 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
               </div>
             </Row>
             <Row>
-              <Col xl={6}>
+              <Col md={6}>
                 <div className="my-3">
                   <img src={BusStop} alt="busstop icon" className="ml-1"/>
                   <span className="ml-2">Bus-stop: 4 min walk to the bus line</span>
@@ -70,7 +70,7 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
                   View WalkThrough Video
                 </Button>
               </Col>
-              <Col xl={6}>
+              <Col md={6}>
                 <div className="my-3">
                   <img src={Transit} alt="Transit icon" className="ml-1"/>
                   <span className="ml-2">Transit: 20 min walk to ikeja bus terminal</span>

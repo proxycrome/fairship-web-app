@@ -11,6 +11,7 @@ import ProfileSaga from './profile/saga';
 // import forgetSaga from './auth/forgetpwd/saga';
 import LayoutSaga from './layout/saga';
 import InspectionsSaga from './inspection/saga';
+import LocationSaga from './location/saga';
 
 
 import TenantSaga from './Tenants/saga'
@@ -32,7 +33,7 @@ export default function* rootSaga() {
         TenantSaga(),
         ProfileSaga(),
         fetchleaseSaga(),
-
+        LocationSaga(),
 
         RentalSaga(),
         RentalPreviewRecommendationSaga(),
