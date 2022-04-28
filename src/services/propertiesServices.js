@@ -51,3 +51,9 @@ export const duplicateUnitService = (id) => {
   let url = `auth/property-units/duplicate/${id}`;
   return http.putData({}, url);
 };
+
+export const updateUnitService = ({ data, unitId }) => {
+  const http = new HttpService();
+  let url = `/auth/property-units/${unitId}`;
+  return http.putData(data, url);
+};

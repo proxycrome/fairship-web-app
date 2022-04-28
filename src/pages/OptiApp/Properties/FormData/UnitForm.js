@@ -16,11 +16,11 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
-} from "availity-reactstrap-validation";
-import { getPropertySubcategory } from "../../../../store/actions";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import plus from "../images/plus.svg";
+} from 'availity-reactstrap-validation';
+import { getPropertySubcategory } from '../../../../store/actions';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import plus from '../images/plus.svg'
 
 import DropZone from "../../../../components/Common/imageUpload";
 
@@ -51,6 +51,7 @@ class CreateProperty extends Component {
     this.setState({ show: true });
   };
 
+
   payment(event, values) {
     const payee = { ...values };
 
@@ -75,6 +76,7 @@ class CreateProperty extends Component {
     }
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
+
     formData.description = "new spacious unit";
     formData.isServiced = values.isServiced === "Yes" ? true : false;
     formData.isFurnished = values.isFurnished === "Yes" ? true : false;

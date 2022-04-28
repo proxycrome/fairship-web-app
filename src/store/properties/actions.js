@@ -11,6 +11,11 @@ import {
   CREATE_PROPERTIES,
   CREATE_PROPERTIES_SUCCESSFUL,
   CREATE_PROPERTIES_ERROR,
+
+  UPDATE_UNIT,
+  UPDATE_UNIT_SUCCESSFUL,
+  UPDATE_UNIT_ERROR,
+
   GET_PROPERTY_TYPES,
   GET_PROPERTY_TYPES_SUCCESS,
   GET_PROPERTY_TYPES_ERROR,
@@ -71,13 +76,6 @@ export const createProperties = (data, unitId) => {
   };
 };
 
-export const duplicateUnitProperty = (id)=>{
-  return {
-    type: DUPLICATE_UNIT_PROPERTY,
-    payload: id
-  };
-}
-
 export const createPropertiesSuccessful = (message) => {
   return {
     type: CREATE_PROPERTIES_SUCCESSFUL,
@@ -91,6 +89,34 @@ export const createPropertiesError = (error) => {
     payload: error,
   };
 };
+
+export const updateUnitProperty = (data, unitId) => {
+  return {
+    type: UPDATE_UNIT,
+    payload: {data, unitId}
+  };
+};
+
+export const updateUnitPropertySuccessful = (message) => {
+  return {
+    type: UPDATE_UNIT_SUCCESSFUL,
+    payload: message,
+  };
+};
+
+export const updateUnitPropertyError = (error) => {
+  return {
+    type: UPDATE_UNIT_ERROR,
+    payload: error,
+  };
+};
+
+export const duplicateUnitProperty = (id)=>{
+  return {
+    type: DUPLICATE_UNIT_PROPERTY,
+    payload: id
+  };
+}
 
 export const getPropertyTypes = () => {
   return {

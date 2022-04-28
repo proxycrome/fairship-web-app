@@ -14,6 +14,9 @@ import {
   GET_PROPERTY_SUBCATEGORY,
   GET_PROPERTY_SUBCATEGORY_SUCCESS,
   GET_PROPERTY_SUBCATEGORY_ERROR,
+  UPDATE_UNIT,
+  UPDATE_UNIT_SUCCESSFUL,
+  UPDATE_UNIT_ERROR,
 } from './actionTypes';
 
 const initialState = {
@@ -21,6 +24,7 @@ const initialState = {
   property: null,
   agents: null,
   message: null,
+  editMessage: null,
   createdProperty: [],
   propertiesError: null,
   createUnit: false,
@@ -65,11 +69,13 @@ const Properties = (state = initialState, action) => {
       };
       break;
     case CREATE_PROPERTIES:
+    case UPDATE_UNIT:
       state = {
         ...state,
         propertiesError: null,
         loading: true,
         message: null,
+        editMessage: null,
       };
       break;
     case CREATE_PROPERTIES_SUCCESSFUL:
@@ -83,69 +89,80 @@ const Properties = (state = initialState, action) => {
       };
       break;
     case CREATE_PROPERTIES_ERROR:
+    case UPDATE_UNIT_ERROR:
     case FETCH_PROPERTIES_ERROR:
     case FETCH_EACH_PROPERTIES_ERROR:
       state = {
         ...state,
         loading: false,
         property: null,
+        unitMessage: null,
         propertiesError: action.payload.message,
       };
       break;
+
+      case UPDATE_UNIT_SUCCESSFUL:
+        state = {
+          ...state,
+          loading: false,
+          unitMessage: action.payload,
+          PropertyTypeError: null,
+        };
+        break;
 
     case GET_PROPERTY_TYPES:
       state = {
         ...state,
         loading: true,
         propertyTypes: null,
-        PropertyTypeError: null
+        PropertyTypeError: null,
       };
-    break;
+      break;
 
     case GET_PROPERTY_TYPES_SUCCESS:
       state = {
         ...state,
         loading: false,
         propertyTypes: action.payload,
-        PropertyTypeError: null
+        PropertyTypeError: null,
       };
-    break;
+      break;
 
     case GET_PROPERTY_TYPES_ERROR:
       state = {
         ...state,
         loading: false,
         propertyTypes: null,
-        PropertyTypeError: action.payload
+        PropertyTypeError: action.payload,
       };
-    break;
+      break;
 
     case GET_PROPERTY_SUBCATEGORY:
       state = {
         ...state,
         loading: true,
         propertySubcategories: null,
-        subcategoryError: null
-      }
-    break;
+        subcategoryError: null,
+      };
+      break;
 
     case GET_PROPERTY_SUBCATEGORY_SUCCESS:
       state = {
         ...state,
         loading: false,
         propertySubcategories: action.payload,
-        subcategoryError: null
-      }
-    break;
+        subcategoryError: null,
+      };
+      break;
 
     case GET_PROPERTY_SUBCATEGORY_ERROR:
       state = {
         ...state,
         loading: false,
         propertySubcategories: null,
-        subcategoryError: action.payload
-      }
-    break;
+        subcategoryError: action.payload,
+      };
+      break;
 
     default:
       state = { ...state };
