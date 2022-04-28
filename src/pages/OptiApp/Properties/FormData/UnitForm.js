@@ -137,7 +137,7 @@ class CreateProperty extends Component {
                 </FormGroup>
               </Col>
 
-//               <Col xs={4}>
+{/* //               <Col xs={4}>
 //                 <FormGroup className="form-group-custom mb-4">
 //                   <AvField
 //                     name="unitNo"
@@ -148,7 +148,7 @@ class CreateProperty extends Component {
 //                     helpMessage="Unit No"
 //                   />
 //                 </FormGroup>
-//               </Col>
+//               </Col> */}
 
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
