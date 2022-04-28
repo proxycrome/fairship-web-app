@@ -43,7 +43,7 @@ const PropertiesTable = ({ tableData }) => {
         status: (
           <span
             className={`badge badge-${
-              data.status === 'ACTIVE' ? 'success' : 'danger'
+              data.status === 'ACTIVE' ? 'primary' : 'success'
             }`}
           >
             {data.status}

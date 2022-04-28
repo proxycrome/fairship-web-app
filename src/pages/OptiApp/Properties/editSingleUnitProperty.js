@@ -32,7 +32,7 @@ import {
   fetchCountry,
   fetchState,
   fetchLga,
-  clearSingleUnitMessage,
+  clearUnitMessage,
 } from "../../../store/actions";
 
 import { connect } from "react-redux";
@@ -142,7 +142,7 @@ class CreateProperty extends Component {
     this.props.getPropertyTypes();
     this.props.getPropertySubcategory(this.state.id);
     this.props.fetchCountry();
-    this.props.clearSingleUnitMessage();
+    this.props.clearUnitMessage();
     // this.props.fetchState(1);
   }
 
@@ -505,7 +505,7 @@ class CreateProperty extends Component {
                                 key={pay.name}
                               >
                                 <span>{pay.name}: </span>
-                                {pay.percentageAmount}%<span></span>
+                                <span>{pay.percentageAmount}%</span>
                               </span>
                             ))}
                           </FormGroup>
@@ -801,6 +801,6 @@ export default withRouter(
     fetchState,
     fetchLga,
     fetchEachProperties,
-    clearSingleUnitMessage
+    clearUnitMessage
   })(CreateProperty)
 );

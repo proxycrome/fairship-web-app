@@ -3,12 +3,14 @@ import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 // Login Redux States
 import {
   FETCH_PROPERTIES,
+  UPDATE_UNIT,
   FETCH_EACH_PROPERTIES,
   CREATE_PROPERTIES,
   GET_PROPERTY_TYPES,
   GET_PROPERTY_SUBCATEGORY,
   DUPLICATE_UNIT_PROPERTY,
   PUT_UNIT_PROPERTY,
+  DELETE_PROPERTY,
 } from './actionTypes';
 
 import {
@@ -22,16 +24,24 @@ import {
   getPropertyTypesError,
   getPropertySubcategorySuccess,
   getPropertySubcategoryError,
+  updateUnitPropertySuccessful,
+  updateUnitPropertyError,
+  duplicateUnitPropertySuccess,
+  duplicateUnitPropertyError,
+  deletePropertySuccess,
+  deletePropertyError
 } from './actions';
 
 import {
   fetchPropertiesService,
   fetchEachPropertiesService,
   createPropertiesService,
+  updateUnitService,
   getPropertyTypesService,
   getPropertySubcategoryService,
   duplicateUnitService,
-  putUnitPropertyService
+  putUnitPropertyService,
+  deletePropertyService
 } from '../../services/propertiesServices';
 
 function* fetchProperties({payload: {payload, collectiveId}}) {
@@ -95,14 +105,15 @@ function* getPropertySubcategory({payload: {id}}) {
   function* getDuplicateUnit({ payload }) {
     try {
       const response = yield call(duplicateUnitService, payload);
-      yield put(createPropertiesSuccessful(response.data));
+      yield put(duplicateUnitPropertySuccess(response.data));
       console.log(response.data)
     } catch (error) {
       console.log(error);
       console.log(error?.response);
-      yield put(createPropertiesError(error?.response?.data));
+      yield put(duplicateUnitPropertyError(error?.response?.data));
     }
   }
+
 
   function* putUnitProperty({payload}) {
     try {
@@ -115,6 +126,34 @@ function* getPropertySubcategory({payload: {id}}) {
       yield put(createPropertiesError(error?.response?.data));
     }
   }
+
+  function* updateUnitProperty({ payload }) {
+    try {
+      const response = yield call(updateUnitService, payload);
+      yield put(updateUnitPropertySuccessful(response.data));
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+      console.log(error?.response);
+      yield put(updateUnitPropertyError(error?.response?.data));
+    }
+  }
+
+  function* deleteProperty({ payload: {propertyId} }) {
+    try {
+      const response = yield call(deletePropertyService, propertyId);
+      yield put(deletePropertySuccess(response.data));
+      console.log(response.data)
+    } catch (error) {
+      console.log(error);
+      console.log(error?.response);
+      yield put(deletePropertyError(error?.response?.data));
+    }
+  }
+
+export function* watchDeleteProperty() {
+  yield takeEvery(DELETE_PROPERTY, deleteProperty)
+}
 
 export function* watchFetchProperties() {
   yield takeEvery(FETCH_PROPERTIES, fetchProperties);
@@ -138,9 +177,15 @@ export function* watchGetDuplicateProperty() {
   yield takeEvery(DUPLICATE_UNIT_PROPERTY, getDuplicateUnit)
 }
 
+
 export function* watchPutUnitProperty(){
   yield takeEvery(PUT_UNIT_PROPERTY, putUnitProperty)
 } 
+
+export function* watchUpdateUnitProperty() {
+  yield takeEvery(UPDATE_UNIT, updateUnitProperty)
+}
+
 
 function* PropertiesSaga() {
   yield all([
@@ -151,6 +196,8 @@ function* PropertiesSaga() {
     fork(watchGetPropertySubcategory),
     fork(watchGetDuplicateProperty),
     fork(watchPutUnitProperty),
+    fork(watchUpdateUnitProperty),
+    fork(watchDeleteProperty),
   ]);
 }
 

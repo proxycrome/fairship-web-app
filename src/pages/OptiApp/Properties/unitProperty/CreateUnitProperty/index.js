@@ -83,8 +83,7 @@ class CreateProperty extends Component {
     this.setState({
         pays: this.state.pays,
         show: false
-      })
-    
+    })  
   }
 
   hideModal = () => {
@@ -181,8 +180,6 @@ class CreateProperty extends Component {
   }
 
   render() {
-    // console.log(this.state.name)
-    // console.log(this.state.pays)
     return (
       <React.Fragment>
         <div className="page-content">

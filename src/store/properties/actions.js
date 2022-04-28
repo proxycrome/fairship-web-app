@@ -11,6 +11,11 @@ import {
   CREATE_PROPERTIES,
   CREATE_PROPERTIES_SUCCESSFUL,
   CREATE_PROPERTIES_ERROR,
+
+  UPDATE_UNIT,
+  UPDATE_UNIT_SUCCESSFUL,
+  UPDATE_UNIT_ERROR,
+
   GET_PROPERTY_TYPES,
   GET_PROPERTY_TYPES_SUCCESS,
   GET_PROPERTY_TYPES_ERROR,
@@ -20,6 +25,11 @@ import {
   DUPLICATE_UNIT_PROPERTY,
   PUT_UNIT_PROPERTY,
   CLEAR_MESSAGES,
+  DELETE_PROPERTY,
+  DELETE_PROPERTY_SUCCESS,
+  DELETE_PROPERTY_ERROR,
+  DUPLICATE_UNIT_PROPERTY_SUCCESS,
+  DUPLICATE_UNIT_PROPERTY_ERROR,
 } from './actionTypes.js';
 
 // Fetch appointment
@@ -73,13 +83,6 @@ export const createProperties = (data, unitId) => {
   };
 };
 
-export const duplicateUnitProperty = (id)=>{
-  return {
-    type: DUPLICATE_UNIT_PROPERTY,
-    payload: id
-  };
-}
-
 export const createPropertiesSuccessful = (message) => {
   return {
     type: CREATE_PROPERTIES_SUCCESSFUL,
@@ -93,6 +96,48 @@ export const createPropertiesError = (error) => {
     payload: error,
   };
 };
+
+export const updateUnitProperty = (data, unitId) => {
+  return {
+    type: UPDATE_UNIT,
+    payload: {data, unitId}
+  };
+};
+
+export const updateUnitPropertySuccessful = (message) => {
+  return {
+    type: UPDATE_UNIT_SUCCESSFUL,
+    payload: message,
+  };
+};
+
+export const updateUnitPropertyError = (error) => {
+  return {
+    type: UPDATE_UNIT_ERROR,
+    payload: error,
+  };
+};
+
+export const duplicateUnitProperty = (id)=>{
+  return {
+    type: DUPLICATE_UNIT_PROPERTY,
+    payload: id
+  };
+}
+
+export const duplicateUnitPropertySuccess = (data)=>{
+  return {
+    type: DUPLICATE_UNIT_PROPERTY_SUCCESS,
+    payload: data
+  };
+}
+
+export const duplicateUnitPropertyError = (error)=>{
+  return {
+    type: DUPLICATE_UNIT_PROPERTY_ERROR,
+    payload: error
+  };
+}
 
 export const getPropertyTypes = () => {
   return {
@@ -142,8 +187,29 @@ export const putUnitProperty = (formData, propertyId) => {
   }
 }
 
-export const clearSingleUnitMessage = () => {
+export const clearUnitMessage = () => {
   return {
     type: CLEAR_MESSAGES,
+  }
+}
+
+export const deleteProperty = (propertyId) => {
+  return {
+    type: DELETE_PROPERTY,
+    payload: {propertyId}
+  }
+}
+
+export const deletePropertySuccess = (data) => {
+  return {
+    type: DELETE_PROPERTY_SUCCESS,
+    payload: data,
+  }
+}
+
+export const deletePropertyError = (error) => {
+  return {
+    type: DELETE_PROPERTY_ERROR,
+    payload: error,
   }
 }

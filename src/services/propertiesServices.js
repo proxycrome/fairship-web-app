@@ -57,3 +57,15 @@ export const putUnitPropertyService = ({ formData, propertyId }) => {
   let url = `auth/single-entity-properties/${propertyId}`;
   return http.putData(formData, url);
 }
+
+export const updateUnitService = ({ data, unitId }) => {
+  const http = new HttpService();
+  let url = `/auth/property-units/${unitId}`;
+  return http.putData(data, url);
+};
+
+export const deletePropertyService = (propertyId) => {
+  const http = new HttpService();
+  let url = `auth/properties/${propertyId}`;
+  return http.deleteData(url);
+}
