@@ -126,9 +126,9 @@ class CreateProperty extends Component {
                           </NavItem>
                           <NavItem>
                             <NavLink
-                              onClick={() => {
-                                this.toggleTab(2);
-                              }}
+                              // onClick={() => {
+                              //   this.toggleTab(2);
+                              // }}
                               className={classnames({
                                 active: this.state.activeTab === 2,
                               })}

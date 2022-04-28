@@ -38,6 +38,9 @@ const Preview = (props) => {
 
   console.log(tenantId)
 
+  const {user} = useSelector((state) => state.Account);
+  console.log(user)
+
   const ModalToggleHandler = () => {
     alert('hello');
   };
@@ -451,21 +454,33 @@ const Preview = (props) => {
                     {errordata?.message}
                   </Alert>
                 )}
-                <h4> Tenant Recommendation </h4>
+                {
+                  user?.role.name === 'PROPERTY_OWNER'
+                  ? 'RECOMMENDATION FROM AGENT COMING SOON'
+                  : (
+                    user?.role.name === 'AGENT' ?
+                 ( 
+                 <>
+                  <h4> Tenant Recommendation </h4>
                 <Card>
                   <CardBody>
                     <Form>
                     <Row>
                       <Col sm={12}>
-                        <h5 className="font-size-12 text-capitalize mt-2">
+                        {/* <h5 className="font-size-12 text-capitalize mt-2">
                           Recommendation
-                        </h5>
+                        </h5> */}
                         <textarea className="text-muted mb-0 border-0" style={{outline:'none',width:'100%'}} rows='4' value={tenant} onChange={(e)=>setTenant(e.target.value)}/>
                       </Col>
                     </Row>
                     </Form>
                   </CardBody>
                 </Card>
+                </>
+                ) :
+                ''
+                  ) 
+                }
               </div>
             </Col>
           </Row>
@@ -487,22 +502,53 @@ const Preview = (props) => {
             toggle={() => DueToggle(!dueOpen)}
           >
             <ModalHeader toggle={() => DueToggle(!dueOpen)}>
-              Due Diligence
+              MOVIN DATE FORM
             </ModalHeader>
             <ModalBody>
-              <DueDiligence tenantId={rentalId.id} />
+              <DueDiligence rentId={rentalId.id}/>
             </ModalBody>
           </Modal>
           <div className="mb-4">
-            <button
+            {
+              rentalId?.status === 'PENDING_MOVE_IN_INSPECTION_APPROVAL' ?
+              <Link
+              className="btn btn-success mr-2"
+              to='/create_inspection'
+              style={{textDecoration:'none'}}    
+            >
+              CONDUCT INSPECTION{' '}
+            </Link> :
+             (
+               rentalId?.status === 'WAITING_TO_BE_MOVED_IN'
+               ? 
+               <button
+               className="btn btn-success mr-2"
+               onClick={() => DueToggle(!dueOpen)}
+               >
+               MOVEIN TENANT{' '}
+             </button> 
+                : '' )
+            }
+            {/* <button
               className="btn btn-success mr-2"
               onClick={() => DueToggle(!dueOpen)}
             >
               Create Due Diligence{' '}
-            </button>
-            <button type='submit' className="btn btn-success" onClick={TenantRecom}>
+            </button> */}
+            {
+              user?.role.name === 'PROPERTY_OWNER' 
+              ? ""
+              :
+              ( user?.role.name === 'AGENT' ?
+               (
+               <button type='submit' className="btn btn-success" onClick={TenantRecom}>
               Create Tenant Recommendation
-            </button>
+               </button>
+              )
+             :
+            'THIS USER CANT USE THE TENANT RECOMMENDATION') 
+              
+            }
           </div>
         </Container>
       </div>
