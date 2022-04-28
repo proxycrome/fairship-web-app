@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { Container, Card, CardBody, Row, Col, Button, Alert } from "reactstrap";
-import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
-import { createProperties } from "../../../store/actions";
-import UnitForm from "./FormData/UnitForm";
+import React, { useState, useEffect } from 'react';
+import { Container, Card, CardBody, Row, Col, Button, Alert } from 'reactstrap';
+import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
+import { createProperties, duplicateUnitProperty } from '../../../store/actions';
+import UnitForm from './FormData/UnitForm';
 
 const CreateMoreUnit = ({
   landlordAgents,
   message,
-  property,
+  createdProperty,
   createProperties,
+  duplicateUnitProperty,
   propertiesError,
   propertyTypes,
 }) => {
@@ -17,8 +18,8 @@ const CreateMoreUnit = ({
 
   const createUnitHandler = (formData) => {
     const payload = {
-      type: "collective",
-      id: property?.parentProperty.id,
+      type: 'collective',
+      id: createdProperty[0]?.parentProperty.id,
     };
     createProperties(formData, payload);
   };
@@ -45,33 +46,47 @@ const CreateMoreUnit = ({
                 {propertiesError}
               </Alert>
             )}
-
-            <Row className="align-items-center mb-3">
-              <Col md={8} className="d-flex align-items-center">
-                <img
-                  src={property?.indexImage}
-                  alt="property"
-                  className="avatar-lg mr-2 rounded"
-                />
-                <div>
-                  <h5 className="card-title"> {property?.unitNo} </h5>
-                  <p className="text-muted">
-                    {property?.address.houseNoAddress}
-                  </p>
-                </div>
-              </Col>
-              <Col md={4} className="text-right">
-                <Link to="#">
-                  <span className="text-primary">Edit Property</span>
-                </Link>
-              </Col>
-            </Row>
+            <h4 className="card-title text-capitalize"> {createdProperty[0].parentProperty.title} </h4>
+            {createdProperty &&
+              createdProperty.map((property) => (
+                <Row
+                  className="align-items-center mb-3 border-bottom pb-2"
+                  key={property.id}
+                >
+                  <Col md={8} className="d-flex align-items-center">
+                    <img
+                      src={property?.indexImage}
+                      alt="property"
+                      className="avatar-lg mr-2 rounded"
+                    />
+                    <div>
+                      <h5 className="card-title text-capitalize"> Unit No: {property?.unitNo} </h5>
+                      <p>Title: {property.title} </p>
+                      <p className="text-muted text-capitalize">
+                        {property?.address.houseNoAddress}
+                      </p>
+                    </div>
+                  </Col>
+                  <Col md={4} className="text-right">
+                    <Link to={`/update_unit/${property.id}`}>
+                      <Button color="primary">
+                        Edit Property
+                      </Button>
+                    </Link>
+                  </Col>
+                </Row>
+              ))}
             {!showForm ? (
-              <Link to="#" onClick={() => setShowForm(true)} className="my-2">
-                <Button color="light" className="text-success" size="sm">
+              <div to="#" className="my-2">
+                <Button  onClick={() => setShowForm(true)}
+                color="light" className="text-success mr-2" size="sm">
                   Add More
                 </Button>
-              </Link>
+                <Button  onClick={() => duplicateUnitProperty(createdProperty[0].id)}
+                color="light" className="text-success " size="sm">
+                  Duplicate First Unit
+                </Button>
+              </div>
             ) : (
               <div className="border-top pt-5">
                 <UnitForm
@@ -98,11 +113,11 @@ const CreateMoreUnit = ({
 };
 
 const mapStatetoProps = (state) => {
-  const { message, property, propertiesError } = state.Properties;
+  const { message, createdProperty, propertiesError } = state.Properties;
   const { agents, landlordAgents } = state.Agents;
-  return { agents, message, property, propertiesError, landlordAgents };
+  return { agents, message, createdProperty, propertiesError, landlordAgents };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { createProperties })(CreateMoreUnit)
+  connect(mapStatetoProps, { createProperties, duplicateUnitProperty })(CreateMoreUnit)
 );

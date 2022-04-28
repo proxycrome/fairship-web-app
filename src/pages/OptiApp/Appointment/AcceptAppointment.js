@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { Col, Button, Card, CardBody, Row, Alert, Container } from "reactstrap";
 import { Link, withRouter } from 'react-router-dom';
-import { putAcceptAppointment, clearAcceptAppointmentMessage } from "../../../store/actions";
+import { putAcceptAppointment, clearAppointmentMessage } from "../../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const AcceptAppointment = ({match}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    clearAcceptAppointmentMessage()
+    dispatch(clearAppointmentMessage());
   }, [])
 
   const handleAccept = () => {
@@ -53,7 +53,7 @@ const AcceptAppointment = ({match}) => {
               <h3>Accept appointment</h3>
               <Row className="mt-5">
                 <Col xl={12}>
-                  <p className="text-center" style={{fontSize: "20px", fontWeight: "700"}}>Are you sure we want to accept this appointment?</p>
+                  <p className="text-center" style={{fontSize: "20px", fontWeight: "700"}}>Are you sure you want to accept this appointment?</p>
                 </Col>
               </Row>
               <Row className="mt-5">

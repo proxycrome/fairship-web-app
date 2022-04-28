@@ -18,21 +18,36 @@ import chat from './images/chat.svg';
 
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchEachProperties } from '../../../store/actions';
+import { fetchEachProperties, fetchProperties } from '../../../store/actions';
 import avatar from "../../../assets/images/avi.jpg";
 
 const PropertyCard = ({
   fetchEachProperties,
+  fetchProperties,
   match,
   property,
+  properties,
   loading,
   propertiesError,
 }) => {
   useEffect(() => {
     if (match.params.id) {
       fetchEachProperties(match.params.id);
+      // fetchProperties(isAuth, match.params.id);
     }
   }, []);
+
+  useEffect(() => {
+    const isAuth = {
+      type: "collective_units"
+    };
+    if (match.params.id) {
+      fetchProperties(isAuth, match.params.id);
+    }  
+  }, []);
+
+
+  console.log(properties);
   return (
     <>
       <div className="page-content">
@@ -139,32 +154,34 @@ const PropertyCard = ({
                   </Card>
                 </div>
 
-                {/* <div>
+                <div>
                   <Card>
                     <CardBody>
-                      <h4 className="card-title">Unit(Total)</h4>
+                      <h4 className="card-title">Unit({properties?.total})</h4>
 
                       <div className="table-responsive">
-                        <Table borderless className="mb-0">
+                        <Table striped className="mb-0">
                           <thead>
                             <tr>
-                              <th>Unit No</th>
+                              <th>Unit Title</th>
                               <th>Description</th>
                               <th>Tenant</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>{property?.unitNo}</td>
-                              <td>{property?.description}</td>
-                              <td>{property?.rentedBy}</td>
-                            </tr>
+                            {properties?.entities?.map(unit => (
+                              <tr key={unit.id}>
+                                <td>{property?.title}<br/><b>Unit:</b> {unit.title}</td>
+                                <td>{property?.description}</td>
+                                <td>{unit.rentedBy !== null ? unit.rentedBy : "No tenant for this unit"}</td>
+                              </tr>
+                            ))}
                           </tbody>
                         </Table>
                       </div>
                     </CardBody>
                   </Card>
-                </div> */}
+                </div>
               </>
             )
           )}
@@ -175,10 +192,10 @@ const PropertyCard = ({
 };
 
 const mapStatetoProps = (state) => {
-  const { property, loading, propertiesError } = state.Properties;
-  return { property, loading, propertiesError };
+  const { property, loading, propertiesError, properties } = state.Properties;
+  return { property, loading, propertiesError, properties };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { fetchEachProperties })(PropertyCard)
+  connect(mapStatetoProps, { fetchEachProperties, fetchProperties })(PropertyCard)
 );

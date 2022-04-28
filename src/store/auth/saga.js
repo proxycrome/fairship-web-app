@@ -58,18 +58,20 @@ function* loadUserHandler() {
 function* loginUser({ payload: { user, history } }) {
   try {
     const response = yield call(LoginService, user);
+    if (response.data.role.name === 'TENANT') {
+      throw 'error found';
+    } 
     yield put(loginUserSuccessful(response.data));
     yield call(loadUserHandler);
-    console.log(response);
-    history.push('/dashboard');
+      history.push('/dashboard');
   } catch (error) {
     console.log(error);
     console.log(error.response);
-    yield put(apiError(error?.response?.data.message));
+    yield put(apiError('User not authorized or wrong details'));
   }
 }
 
-function* logoutUser({ payload: {history} }) {
+function* logoutUser({ payload: { history } }) {
   try {
     localStorage.removeItem('fairshipToken');
     yield put(logoutUserSuccess());

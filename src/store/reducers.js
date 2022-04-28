@@ -19,6 +19,7 @@ import Inspections from './inspection/reducer';
 import Agents from './Agent/reducer';
 import Maintenance from './Maintenance/reducer';
 import fetchReducerExpiring from './DashboardExpiringLeases/reducer';
+import Location from './location/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     Inspections,
     Rental,
     PreviewReducer,
+    Location,
 
     Tenant,
     fetchReducerExpiring,

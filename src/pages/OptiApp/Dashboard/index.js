@@ -48,7 +48,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
 
   const services = useSelector((state) => state.Maintenance?.services );
 
-  const appDate = new Date(recentAppointment && (recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[0] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[2] + " " + recentAppointment[0]?.startDateTime?.split(" ")[1] + ":00"));
+  const appDate = new Date(recentAppointment && (recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[0] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[2] + " " + recentAppointment[0]?.startDateTime?.split(" ")[1] + " " + recentAppointment[0]?.startDateTime?.split(" ")[2]));
   const dd = appDate.getDay();
   
   function getDifferenceInHours(date1, date2) {
@@ -188,7 +188,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           {recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[1]}
                         </p>
                         <div style={{ display: 'flex' }}>
-                          {/* <p
+                          <p
                             className="text-white"
                             style={{
                               width: '23px',
@@ -201,7 +201,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                             }}
                           >
                             {recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[2]}
-                          </p> */}
+                          </p>
                           <p
                             className="text-white"
                             style={{

@@ -27,8 +27,8 @@ class CreateProperty extends Component {
       pays: [],
       type: 'Agricultural',
       id: 1,
-      formType: "",
-      price: "",
+      formType: '',
+      price: '',
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -76,7 +76,7 @@ class CreateProperty extends Component {
     formData.otherAmenities = values.otherAmenities.toString();
     formData.bathrooms = Number(values.bathrooms);
     formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price.split(",").join(""));
+    formData.price = Number(values.price.split(',').join(''));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
       this.props.agents?.agents.find((agent) => {
@@ -98,7 +98,7 @@ class CreateProperty extends Component {
       (type) => type.name === this.state.formType
     );
     if (PrevState.formType !== this.state.formType) {
-      this.props.getPropertySubcategory(types.id);
+      this.props.getPropertySubcategory(types?.id);
     }
   }
 
@@ -113,9 +113,9 @@ class CreateProperty extends Component {
   }
 
   includeCommas(str) {
-    const num = Number(str.split(",").join(""));
+    const num = Number(str.split(',').join(''));
     const comma = num.toLocaleString();
-    return String(comma);  
+    return String(comma);
   }
 
   render() {
@@ -131,11 +131,25 @@ class CreateProperty extends Component {
                     type="text"
                     className="form-ctrl"
                     id="title"
-                    placeholder="Unit Title"
-                    helpMessage="Unit Title"
+                    placeholder="Title"
+                    helpMessage="Title"
                   />
                 </FormGroup>
               </Col>
+
+//               <Col xs={4}>
+//                 <FormGroup className="form-group-custom mb-4">
+//                   <AvField
+//                     name="unitNo"
+//                     type="text"
+//                     className="form-ctrl"
+//                     id="title"
+//                     placeholder="Unit No"
+//                     helpMessage="Unit No"
+//                   />
+//                 </FormGroup>
+//               </Col>
+
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
@@ -149,7 +163,7 @@ class CreateProperty extends Component {
                     required
                   >
                     {this.props.propertyTypes?.map((type) => (
-                      <option key={type.id}>{type.name}</option>
+                      <option key={type.id} value={type.name}>{type.name}</option>
                     ))}
                   </AvField>
                 </FormGroup>
@@ -182,28 +196,27 @@ class CreateProperty extends Component {
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
-                    name="bedroom"
+                    name="bedrooms"
                     type="number"
                     className="form-ctrl"
-                    id="Bedroom"
-                    placeholder="Bedroom"
-                    helpMessage="Bedroom"
+                    id="bedrooms"
+                    helpMessage="No of Bedrooms"
                   />
                 </FormGroup>
               </Col>
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
-                <AvField
-                    name="bathroom"
+
+                  <AvField
+                    name="bathrooms"
                     type="number"
                     className="form-ctrl"
-                    id="Bathroom"
-                    placeholder="Bathroom"
-                    helpMessage="Bathroom"
+                    id="bathrooms"
+                    helpMessage="No of Bathrooms"
                   />
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
@@ -215,7 +228,7 @@ class CreateProperty extends Component {
                   </AvField>
                 </FormGroup>
               </Col>
-              <Col xs={6}>
+              <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
                     type="select"
@@ -236,7 +249,11 @@ class CreateProperty extends Component {
                     id="price"
                     helpMessage="Price of Apartment"
                     value={this.state.price}
-                    onChange={(e) => this.setState({price: this.includeCommas(e.target.value)})}
+                    onChange={(e) =>
+                      this.setState({
+                        price: this.includeCommas(e.target.value),
+                      })
+                    }
                   />
                 </FormGroup>
               </Col>
@@ -296,7 +313,17 @@ class CreateProperty extends Component {
                           type="select"
                           name="agentIds"
                           label="Add Agent"
-                          value={this.props.landlordAgents && (`${this.props.landlordAgents?.data?.agents?.unshift().firstName} ${this.props.landlordAgents?.data?.agents?.unshift().lastName}`)}
+                          placeholder="Select an Agent"
+                          // value={
+                          //   this.props.landlordAgents &&
+                          //   `${
+                          //     this.props.landlordAgents?.data?.agents?.unshift()
+                          //       .firstName
+                          //   } ${
+                          //     this.props.landlordAgents?.data?.agents?.unshift()
+                          //       .lastName
+                          //   }`
+                          // }
                           required
                           // helpMessage="Location"
                         >
