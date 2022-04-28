@@ -14,6 +14,8 @@ import {
   GET_PROPERTY_SUBCATEGORY,
   GET_PROPERTY_SUBCATEGORY_SUCCESS,
   GET_PROPERTY_SUBCATEGORY_ERROR,
+  PUT_UNIT_PROPERTY,
+  CLEAR_MESSAGES,
 } from './actionTypes';
 
 const initialState = {
@@ -146,6 +148,22 @@ const Properties = (state = initialState, action) => {
         subcategoryError: action.payload
       }
     break;
+
+    case PUT_UNIT_PROPERTY:
+      state = {
+        ...state,
+        loading: true,
+        message: null,
+        propertiesError: null,
+      }
+      break;
+
+    case CLEAR_MESSAGES:
+      state = {
+        ...state,
+        message: null,
+        propertiesError: null,
+      }
 
     default:
       state = { ...state };

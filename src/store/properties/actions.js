@@ -18,6 +18,8 @@ import {
   GET_PROPERTY_SUBCATEGORY_SUCCESS,
   GET_PROPERTY_SUBCATEGORY_ERROR,
   DUPLICATE_UNIT_PROPERTY,
+  PUT_UNIT_PROPERTY,
+  CLEAR_MESSAGES,
 } from './actionTypes.js';
 
 // Fetch appointment
@@ -130,5 +132,18 @@ export const getPropertySubcategoryError = (error) => {
   return {
     type: GET_PROPERTY_SUBCATEGORY_ERROR,
     payload: error
+  }
+}
+
+export const putUnitProperty = (formData, propertyId) => {
+  return {
+    type: PUT_UNIT_PROPERTY,
+    payload: {formData, propertyId}
+  }
+}
+
+export const clearSingleUnitMessage = () => {
+  return {
+    type: CLEAR_MESSAGES,
   }
 }

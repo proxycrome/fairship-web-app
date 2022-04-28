@@ -73,7 +73,7 @@ const PropertiesTable = ({ tableData }) => {
               </UncontrolledTooltip>
 
               <Link
-                to={`/update_unit/${data.id}`}
+                to={`/update_single_unit/${data.id}`}
                 className="mr-3 text-primary"
                 id="edit"
               >

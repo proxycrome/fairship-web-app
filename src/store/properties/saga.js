@@ -8,6 +8,7 @@ import {
   GET_PROPERTY_TYPES,
   GET_PROPERTY_SUBCATEGORY,
   DUPLICATE_UNIT_PROPERTY,
+  PUT_UNIT_PROPERTY,
 } from './actionTypes';
 
 import {
@@ -29,7 +30,8 @@ import {
   createPropertiesService,
   getPropertyTypesService,
   getPropertySubcategoryService,
-  duplicateUnitService
+  duplicateUnitService,
+  putUnitPropertyService
 } from '../../services/propertiesServices';
 
 function* fetchProperties({payload: {payload, collectiveId}}) {
@@ -102,6 +104,18 @@ function* getPropertySubcategory({payload: {id}}) {
     }
   }
 
+  function* putUnitProperty({payload}) {
+    try {
+      const response = yield call(putUnitPropertyService, payload);
+      yield put(createPropertiesSuccessful(response.date));
+      console.log(response.data);
+    } catch (error) {
+      console.log(error)
+      console.log(error?.response);
+      yield put(createPropertiesError(error?.response?.data));
+    }
+  }
+
 export function* watchFetchProperties() {
   yield takeEvery(FETCH_PROPERTIES, fetchProperties);
 }
@@ -124,6 +138,10 @@ export function* watchGetDuplicateProperty() {
   yield takeEvery(DUPLICATE_UNIT_PROPERTY, getDuplicateUnit)
 }
 
+export function* watchPutUnitProperty(){
+  yield takeEvery(PUT_UNIT_PROPERTY, putUnitProperty)
+} 
+
 function* PropertiesSaga() {
   yield all([
     fork(watchFetchProperties),
@@ -132,6 +150,7 @@ function* PropertiesSaga() {
     fork(watchGetPropertyTypes),
     fork(watchGetPropertySubcategory),
     fork(watchGetDuplicateProperty),
+    fork(watchPutUnitProperty),
   ]);
 }
 

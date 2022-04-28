@@ -297,10 +297,15 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <img src={plus} alt="plus" onClick={this.showModal} />
                   <span> Payment Item</span>
-                  {this.state.pays?.map(pay => (
-                    <span style={{margin: "0 10px"}} key={pay.name}><span>{pay.name}: </span>{pay.percentageAmount}<span></span></span>
+                  {this.state.pays?.map((pay) => (
+                    <span
+                      style={{ margin: "0 10px", display: "block" }}
+                      key={pay.name}
+                    >
+                      <span>{pay.name}: </span>
+                      {pay.percentageAmount}%<span></span>
+                    </span>
                   ))}
-                  
                 </FormGroup>
               </Col>
               <Modal size="lg" isOpen={this.state.show} toggle={this.hideModal}>
