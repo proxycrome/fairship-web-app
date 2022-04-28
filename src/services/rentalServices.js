@@ -48,8 +48,10 @@ export const PutDataTenantRecommendationService = (data) => {
 }
 
 
-export const DiligenceRecommendationService = (tenantId, data) => {
+export const DiligenceRecommendationService = (data) => {
+  // console.log(data)
   const http = new HttpService();
-  const initialurl = `auth/rent-applications/due-diligence-form/${tenantId}`;
-  return http.putData(data, initialurl);
+  // const initialurl = `auth/rent-applications/due-diligence-form/${tenantId}`;
+  const initialurl = 'auth/rent-applications/move-tenant-in';
+  return http.postDataWithToken(data, initialurl);
 }

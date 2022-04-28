@@ -115,11 +115,11 @@ import {
   };
 
   //Diligence
-  export const DiligenceRecommendation = (tenantId, data) => {
-    console.log(data)
+  export const DiligenceRecommendation = (data) => {
+    
     return {
       type: DILIGENCE_RECOMMENDATION,
-      payload : {tenantId, data}
+      payload : {data}
     };
   };
   

@@ -145,7 +145,6 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col>
-
               {/* <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
@@ -158,7 +157,6 @@ class CreateProperty extends Component {
                   />
                 </FormGroup>
               </Col> */}
-
               <Col xs={4}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
