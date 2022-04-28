@@ -43,7 +43,7 @@ const PropertiesTable = ({ tableData }) => {
         status: (
           <span
             className={`badge badge-${
-              data.status === 'ACTIVE' ? 'success' : 'danger'
+              data.status === 'ACTIVE' ? 'primary' : 'success'
             }`}
           >
             {data.status}
@@ -73,7 +73,7 @@ const PropertiesTable = ({ tableData }) => {
               </UncontrolledTooltip>
 
               <Link
-                to={`/update_unit/${data.id}`}
+                to={`/update_single_unit/${data.id}`}
                 className="mr-3 text-primary"
                 id="edit"
               >

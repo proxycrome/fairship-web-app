@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Input,
   Button,
@@ -9,14 +9,14 @@ import {
   Container,
   CardBody,
   Alert,
-} from 'reactstrap';
-import Loading from '../../../components/Common/Loading';
+} from "reactstrap";
+import Loading from "../../../components/Common/Loading";
 
 // actions
-import { fetchProperties } from '../../../store/actions';
+import { fetchProperties } from "../../../store/actions";
 
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
   const [searchName, setSearchName] = useState("");
@@ -25,18 +25,20 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
   useEffect(() => {
     setFilteredProperties(
       properties?.entities?.filter(
-        (property) => 
+        (property) =>
           property.title.toLowerCase().includes(searchName.toLowerCase()) ||
           property.price.toString().includes(searchName) ||
-          property.address.state.toLowerCase().includes(searchName.toLowerCase()) ||
-          property.feature.toLowerCase() === (searchName.toLowerCase())
+          property.address.state
+            .toLowerCase()
+            .includes(searchName.toLowerCase()) ||
+          property.feature.toLowerCase() === searchName.toLowerCase()
       )
     );
   }, [searchName]);
 
   useEffect(() => {
     const isAuth = {
-      type: "general"
+      type: "general",
     };
     fetchProperties(isAuth);
   }, []);
@@ -72,51 +74,74 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
 
         {properties !== null ? (
           <Row>
-            {properties?.entities.length > 0 &&
-              searchName ?
-              filteredProperties?.map((data) => (
-                <Col mg={6} xl={3} key={data.id}>
-                  <Link to={`list/${data.id}`}>
-                    <Card>
-                      <CardImg
-                        top
-                        height="200"
-                        className="w-100"
-                        src={data.indexImage}
-                        alt="Skote"
-                      />
-                      <CardBody className="mb-1">
-                        <span className="text-muted">{data.bedrooms} Beds, {data.bathrooms} Baths.</span>
-                        <h6 className="mt-2 card-title">{data.parentProperty.title} {data.title}</h6>
-                        <p>
-                          From <span className="text-primary">{data.price}</span> /y
-                        </p>
-                      </CardBody>
-                    </Card>
-                  </Link>
-                </Col>
-              )) : properties?.entities?.map((data) => (
-                <Col mg={6} xl={3} key={data.id}>
-                  <Link to={`list/${data.id}`}>
-                    <Card>
-                      <CardImg
-                        top
-                        height="200"
-                        className="w-100"
-                        src={data.indexImage}
-                        alt="Skote"
-                      />
-                      <CardBody className="mb-1">
-                        <span className="text-muted">{data.bedrooms} Beds, {data.bathrooms} Baths.</span>
-                        <h6 className="mt-2 card-title">{data.parentProperty.title} {data.title}</h6>
-                        <p>
-                          From <span className="text-primary">{data.price}</span> /y
-                        </p>
-                      </CardBody>
-                    </Card>
-                  </Link>
-                </Col>
-              ))}
+            {properties?.entities.length > 0 && searchName
+              ? filteredProperties?.map((data) => (
+                  <Col mg={6} xl={3} key={data.id}>
+                    <Link to={`list/${data.id}`}>
+                      <Card>
+                        <CardImg
+                          top
+                          height="200"
+                          className="w-100"
+                          src={data.indexImage}
+                          alt="Skote"
+                        />
+                        <CardBody className="mb-1">
+                          <span className="text-muted">
+                            {data.bedrooms} Beds, {data.bathrooms} Baths.
+                          </span>
+                          <h6 className="mt-2 card-title">
+                            {data.parentProperty.title} {data.title}
+                          </h6>
+                          <p>
+                            From{" "}
+                            <span className="text-primary">{data.price.toString().toLocaleString()}</span>{" "}
+                            /y
+                          </p>
+                        </CardBody>
+                      </Card>
+                    </Link>
+                  </Col>
+                ))
+              : properties?.entities?.map((data) => (
+                  <Col mg={6} xl={3} key={data.id}>
+                    <Link to={`list/${data.id}`}>
+                      <Card>
+                        <CardImg
+                          top
+                          height="200"
+                          className="w-100"
+                          src={data.indexImage}
+                          alt="Skote"
+                        />
+                        <CardBody className="mb-1">
+                          <span className="text-muted">
+                            {data.bedrooms} Beds, {data.bathrooms} Baths.
+                          </span>
+                          <p className="mt-2 card-title">
+                            <span
+                              style={{
+                                display: "block",
+                                fontWeight: "800",
+                                color: "black",
+                              }}
+                            >
+                              {data?.parentProperty?.title}
+                            </span>
+                            <span style={{ display: "block", color: "black" }}>
+                              {data?.title}
+                            </span>
+                          </p>
+                          <p>
+                            From{" "}
+                            <span className="text-primary">{data?.price?.toLocaleString()}</span>{" "}
+                            /y
+                          </p>
+                        </CardBody>
+                      </Card>
+                    </Link>
+                  </Col>
+                ))}
           </Row>
         ) : (
           <Loading />
