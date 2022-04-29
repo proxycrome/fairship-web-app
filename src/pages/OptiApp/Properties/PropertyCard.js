@@ -9,6 +9,7 @@ import {
   Table,
   Alert,
   UncontrolledTooltip,
+  Button,
 } from "reactstrap";
 import Loading from "../../../components/Common/Loading";
 import chat from "./images/chat.svg";
@@ -37,7 +38,6 @@ const PropertyCard = ({
   deleteMessage,
   message,
 }) => {
-
   useEffect(() => {
     if (match.params.id) {
       fetchEachProperties(match.params.id);
@@ -49,16 +49,15 @@ const PropertyCard = ({
     duplicateUnitProperty(id);
     setTimeout(() => {
       window.location.reload(true);
-    }, 3000)
-  }
+    }, 3000);
+  };
 
   const deleteUnitProperty = (id) => {
     deleteProperty(id);
     setTimeout(() => {
       window.location.reload(true);
-    }, 3000)
-    
-  }
+    }, 3000);
+  };
 
   useEffect(() => {
     const isAuth = {
@@ -69,7 +68,6 @@ const PropertyCard = ({
     }
   }, []);
 
-  
   console.log(properties);
   return (
     <>
@@ -215,16 +213,16 @@ const PropertyCard = ({
                 <div>
                   <Card>
                     <CardBody>
-                    {deleteMessage && (
-                      <Alert color="success" className="text-center">
-                        {deleteMessage}
-                      </Alert>
-                    )}
-                    {message && (
-                      <Alert color="success" className="text-center">
-                        {message}
-                      </Alert>
-                    )}
+                      {deleteMessage && (
+                        <Alert color="success" className="text-center">
+                          {deleteMessage}
+                        </Alert>
+                      )}
+                      {message && (
+                        <Alert color="success" className="text-center">
+                          {message}
+                        </Alert>
+                      )}
                       <h4 className="card-title">Unit({properties?.total})</h4>
 
                       <div className="table-responsive">
@@ -309,7 +307,9 @@ const PropertyCard = ({
                                         to="#"
                                         className="mx-2 text-danger"
                                         id="delete"
-                                        onClick={() => deleteUnitProperty(unit.id)}
+                                        onClick={() =>
+                                          deleteUnitProperty(unit.id)
+                                        }
                                       >
                                         <i className="fas fa-trash font-size-12"></i>
                                       </Link>
@@ -326,6 +326,11 @@ const PropertyCard = ({
                             ))}
                           </tbody>
                         </Table>
+                        <div className="d-flex justify-content-center mt-3">
+                          <Link to={`/create_more_unit/${property?.id}`}>
+                            <Button color="success">Add Unit</Button>
+                          </Link>
+                        </div>
                       </div>
                     </CardBody>
                   </Card>
@@ -340,8 +345,22 @@ const PropertyCard = ({
 };
 
 const mapStatetoProps = (state) => {
-  const { property, loading, propertiesError, properties, deleteMessage, message } = state.Properties;
-  return { property, loading, propertiesError, properties, deleteMessage, message };
+  const {
+    property,
+    loading,
+    propertiesError,
+    properties,
+    deleteMessage,
+    message,
+  } = state.Properties;
+  return {
+    property,
+    loading,
+    propertiesError,
+    properties,
+    deleteMessage,
+    message,
+  };
 };
 
 export default withRouter(

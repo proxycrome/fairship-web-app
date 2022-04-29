@@ -25,6 +25,7 @@ import {
   FETCH_PROFILE,
   FETCH_PROFILE_SUCCESSFUL,
   FETCH_PROFILE_API_FAILED,
+  CLEAR_MESSAGES,
 } from './actionTypes';
 
 const initialState = {
@@ -40,6 +41,7 @@ const initialState = {
   profileError: null,
   forgetError: null,
   loading: false,
+  activationMessage: null,
 };
 
 const Account = (state = initialState, action) => {
@@ -148,7 +150,8 @@ const Account = (state = initialState, action) => {
       state = {
         ...state,
         loading: true,
-        message: 'Account is now active please login!',
+        activationMessage: 'Account is now active please login!',
+        activationError: null,
       };
       break;
 
@@ -157,6 +160,7 @@ const Account = (state = initialState, action) => {
         ...state,
         loading: true,
         activationError: action.payload,
+        activationMessage: null,
       };
       break;
 
@@ -240,6 +244,17 @@ const Account = (state = initialState, action) => {
         loading: false,
         loginError: action.payload,
       };
+      break;
+
+    case CLEAR_MESSAGES:
+      state = {
+        ...state,
+        activationMessage: null,
+        activationError: null,
+        message: null,
+        loginError: null,
+        registrationError: null,
+      }
       break;
 
     default:

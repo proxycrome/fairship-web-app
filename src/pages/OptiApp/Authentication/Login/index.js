@@ -12,7 +12,7 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import Switch from 'react-switch';
 
 // actions
-import { checkLogin, apiError } from '../../../../../src/store/actions';
+import { checkLogin, apiError, clearRegistryMessage } from '../../../../../src/store/actions';
 
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
@@ -33,6 +33,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    this.props.clearRegistryMessage();
     this.props.apiError('');
     document.body.classList.add('auth-body-bg');
   }
@@ -180,5 +181,5 @@ const mapStatetoProps = (state) => {
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { checkLogin, apiError })(Login)
+  connect(mapStatetoProps, { checkLogin, apiError, clearRegistryMessage })(Login)
 );

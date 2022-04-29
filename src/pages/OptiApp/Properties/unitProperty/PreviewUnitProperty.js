@@ -32,12 +32,6 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
           <>
             <Card>
               <CardBody>
-                {/* Preview Unit Property Item here
-                <Alert className="text-center mt-4" color="danger">
-                  The Unit with ID:{' '}
-                  <span className="font-weight-bolder"> {match.params.id}</span>{' '}
-                  Page is under Construction
-                </Alert> */}
                 <Row>
                   <Col ls={2}>
                     <img
@@ -76,7 +70,7 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                   </Col>
                   <Col ls={5}>
                     <div className="d-flex justify-content-end">
-                      <Button color="success"> Tasks</Button>
+                      <Button color="success">Tasks</Button>
                     </div>
                     <div className="d-flex justify-content-end mt-3">
                       <p>

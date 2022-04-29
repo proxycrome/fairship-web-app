@@ -16,6 +16,8 @@ import {
   registerUserFailed,
 } from '../../../../store/actions';
 
+import { fetchCountry, fetchState } from '../../../../store/actions';
+
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
 
@@ -27,7 +29,12 @@ const Register = ({
   history,
   landlordType,
   loading,
+  fetchCountry,
+  fetchState,
+  countries,
+  states,
 }) => {
+
   const handleSubmit = (event, values) => {
     const formData = { ...values };
     const agentDetails = {
@@ -39,6 +46,11 @@ const Register = ({
     console.log(formData);
     registerUser(formData, history);
   };
+
+  useEffect(() => {
+    fetchCountry();
+    fetchState(1);
+  }, [])
 
   useEffect(() => {
     if (message) {
@@ -184,29 +196,31 @@ const Register = ({
                               <Col sm={6}>
                                 <FormGroup className="form-group-custom mb-3">
                                   <AvField
-                                    name="address.state"
-                                    type="text"
-                                    className="form-ctrl bg-light border border-0"
-                                    id="state"
-                                    placeholder="State"
-                                    required
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col sm={6}>
-                                <FormGroup className="form-group-custom mb-3">
-                                  <AvField
                                     type="select"
                                     name="address.country"
                                     required
                                     className="form-ctrl bg-light border border-0"
                                   >
-                                    <option>Country</option>
-                                    <option>Nigeria</option>
-                                    <option>Ghana</option>
-                                    <option>Cameroun</option>
-                                    <option>Tanzania</option>
-                                    <option>South Africa</option>
+                                    <option>Select country...</option>
+                                    {countries?.map(country => (
+                                      <option key={country.id}>{country.name}</option>
+                                    ))}
+                                  </AvField>
+                                </FormGroup>
+                              </Col>
+                              <Col sm={6}>
+                                <FormGroup className="form-group-custom mb-3">
+                                  <AvField
+                                    name="address.state"
+                                    type="select"
+                                    className="form-ctrl bg-light border border-0"
+                                    id="state"
+                                    required
+                                  >
+                                    <option>Select state...</option>
+                                    {states?.map(state => (
+                                      <option key={state.id}>{state.name}</option>
+                                    ))}
                                   </AvField>
                                 </FormGroup>
                               </Col>
@@ -268,11 +282,12 @@ const Register = ({
 
 const mapStatetoProps = (state) => {
   const { registrationError, message, loading } = state.Account;
-  return { registrationError, message, loading };
+  const { countries, states} = state.Location;
+  return { registrationError, message, loading, countries, states };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { registerUser, registerUserFailed, apiError })(
+  connect(mapStatetoProps, { registerUser, registerUserFailed, apiError, fetchCountry, fetchState })(
     Register
   )
 );

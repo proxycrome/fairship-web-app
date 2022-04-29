@@ -39,6 +39,7 @@ import UnitProperties from '../pages/OptiApp/Properties/unitProperty';
 import PreviewUnitProperties from '../pages/OptiApp/Properties/unitProperty/PreviewUnitProperty';
 
 import CreateUnitProperties from '../pages/OptiApp/Properties/unitProperty/CreateUnitProperty';
+import AddMoreUnit from '../pages/OptiApp/Properties/addMoreUnit';
 
 import Properties from '../pages/OptiApp/Properties/index';
 import UpdateProperty from '../pages/OptiApp/Properties/editUnitProperty';
@@ -82,6 +83,7 @@ const authProtectedRoutes = [
   { path: '/unit_property/:id', component: PreviewUnitProperties },
   { path: '/create_unit_property', component: CreateUnitProperties },
   { path: '/update_single_unit/:id', component: UpdateSingleUnitProperty},
+  { path: '/create_more_unit/:id', component: AddMoreUnit},
 
   { path: '/agents', component: Agent },
   { path: '/agentpreview/:email', component: AgentPreview },
