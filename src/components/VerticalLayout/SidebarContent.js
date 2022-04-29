@@ -168,6 +168,15 @@ class SidebarContent extends Component {
               </Link>
             </li>
 
+            {/* Buy Applications */}
+            <li>
+              <Link to="/buy_application" className="waves-effect">
+                <i className=" ri-pencil-line"></i>
+                <span className="ml-1">Buy Applications</span>
+              </Link>
+            </li>
+
+
             {/* inspections */}
             <li>
               <Link to="/#" className="has-arrow waves-effect">
