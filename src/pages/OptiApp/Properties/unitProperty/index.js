@@ -26,7 +26,7 @@ const UnitProperty = ({ fetchProperties, properties, loading }) => {
     <div className="page-content">
       <Container fluid>
         <div className="d-flex justify-content-between mb-2">
-          <h5 className="ml-2">Unit Properties </h5>
+          <h5 className="ml-2">Single Unit Properties </h5>
 
           <div>
             <Link to="/create_unit_property">
