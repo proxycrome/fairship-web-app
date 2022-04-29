@@ -63,7 +63,9 @@ import Opti_ForgetPassword from '../pages/OptiApp/Authentication/ForgetPassword'
 import Tenants from '../pages/OptiApp/Tenants';
 // OptiTenants
 import Opti_Welcome from '../pages/OptiApp/Authentication/WelcomePage';
+import Opti_Privacy from '../pages/OptiApp/Authentication/privacy';
 import OptiRentalApplication from '../pages/OptiApp/Rental';
+import OptiBuyApplication from '../pages/OptiApp/Buy';
 import AgentPreview from '../pages/OptiApp/Agent/Preview';
 // import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
@@ -98,6 +100,7 @@ const authProtectedRoutes = [
   { path: '/accept_appointment/:appointId', component: AcceptAppointment },
   { path: '/reject_appointment/:appointId', component: RejectAppointment },
   { path: '/rental_application', component: OptiRentalApplication },
+  { path: '/buy_application', component: OptiBuyApplication },
   { path: '/inspection', component: Inspection },
   { path: '/create_inspection', component: create_inspection },
   
@@ -116,6 +119,7 @@ const authProtectedRoutes = [
 const publicRoutes = [
   // { path: '/logout', component: Logout },
   { path: '/welcome_page', component: WelcomePage },
+  { path: '/privacy', component: Opti_Privacy },
   { path: '/activation', component: Opti_AccountActivation },
   { path: '/login', component: Opti_Login },
   { path: '/forget_password', component: Opti_ForgetPassword },
