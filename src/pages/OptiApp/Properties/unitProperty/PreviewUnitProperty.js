@@ -1,20 +1,47 @@
-import React, { useEffect } from "react";
-import { Container, Card, CardBody, Alert, Row, Col, Button } from "reactstrap";
-import { withRouter, Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { fetchEachProperties } from "../../../../store/actions";
-import PropertyIcon from "../../../../assets/images/Property.png";
-import avatar from "../../../../assets/images/avi.jpg";
-import Loader from "../../../../components/Common/Loading/index";
+import React, { useEffect, useState } from 'react';
+import {
+  Container,
+  Card,
+  CardBody,
+  Alert,
+  Row,
+  Col,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import DocumentsUpload from '../leaseUpload';
+import { fetchEachProperties } from '../../../../store/actions';
+import PropertyIcon from '../../../../assets/images/Property.png';
+import avatar from '../../../../assets/images/avi.jpg';
+import Loader from '../../../../components/Common/Loading/index';
 
-const ListUnitPreview = ({ match, history, fetchEachProperties, property, loading }) => {
+const ListUnitPreview = ({
+  match,
+  history,
+  fetchEachProperties,
+  property,
+  loading,
+}) => {
+  const [uploadModal, setUploadModal] = useState(false);
+  const [reload, reloadProperty] = useState(false)
   useEffect(() => {
     fetchEachProperties(match.params.id);
   }, []);
 
+  useEffect(() => {
+    if(reload){
+      fetchEachProperties(match.params.id);
+    }
+  }, [reload]);
+
   const backwards = () => {
     history.goBack();
-  }
+  };
 
   return (
     <div className="page-content">
@@ -43,7 +70,7 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                     <img
                       src={property?.indexImage}
                       alt="property"
-                      style={{ borderRadius: "20px", width: "100%" }}
+                      style={{ borderRadius: '20px', width: '100%' }}
                     />
                   </Col>
                   <Col ls={5}>
@@ -53,19 +80,21 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                     </div> */}
                     <div className="mb-3">
                       <h6>Property</h6>
-                      <span style={{display: "block"}}>{property?.title}</span>
+                      <span style={{ display: 'block' }}>
+                        {property?.title}
+                      </span>
                       <span>(ID: {property?.propertyRef})</span>
                     </div>
                     <div className="mb-3">
                       <span>
-                        {property?.address?.houseNoAddress},{" "}
+                        {property?.address?.houseNoAddress},{' '}
                         {property?.address?.state}, {property?.address?.country}
                       </span>
                     </div>
                     <div className="mb-3">
                       <img src={PropertyIcon} alt="property icon" />
                       <span className="ml-2">
-                        {property?.bedrooms} bedrooms {property?.bathrooms}{" "}
+                        {property?.bedrooms} bedrooms {property?.bathrooms}{' '}
                         bathrooms
                       </span>
                     </div>
@@ -76,12 +105,18 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                   </Col>
                   <Col ls={5}>
                     <div className="d-flex justify-content-end">
-                      <Button color="success"> Tasks</Button>
+                      <Button
+                        onClick={() => setUploadModal(true)}
+                        color="success"
+                      >
+                        {' '}
+                        Tasks
+                      </Button>
                     </div>
                     <div className="d-flex justify-content-end mt-3">
                       <p>
                         From N
-                        <span style={{ fontWeight: "800", color: "blue" }}>
+                        <span style={{ fontWeight: '800', color: 'blue' }}>
                           {property?.price?.toLocaleString()}
                         </span>
                         / yr
@@ -109,7 +144,7 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                       <span>3rd Jul 2021</span> */}
                       <h6>Serviced</h6>
                       <span>
-                        {property?.isServiced === true ? "true" : "false"}
+                        {property?.isServiced === true ? 'true' : 'false'}
                       </span>
                     </div>
                     <div>
@@ -117,7 +152,7 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                       <span>3rd Jul 2021</span> */}
                       <h6>Furnished</h6>
                       <span>
-                        {property?.isFurnished === true ? "true" : "false"}
+                        {property?.isFurnished === true ? 'true' : 'false'}
                       </span>
                     </div>
                   </Col>
@@ -127,7 +162,7 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                       <span>Occupied</span> */}
                       <h6>Parking Space</h6>
                       <span>
-                        {property?.parkingLot === true ? "true" : "false"}
+                        {property?.parkingLot === true ? 'true' : 'false'}
                       </span>
                     </div>
                     <div className="mb-3">
@@ -144,8 +179,8 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                       <h6>Payment plan</h6>
                       <span>
                         {property?.periodInMonths
-                          ? property?.periodInMonths + " months"
-                          : "None"}
+                          ? property?.periodInMonths + ' months'
+                          : 'None'}
                       </span>
                     </div>
                     <div className="mb-3">
@@ -185,23 +220,23 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                       )}
 
                       <h5 className="card-title">
-                        {property?.rentedBy?.firstName}{" "}
+                        {property?.rentedBy?.firstName}{' '}
                         {property?.rentedBy?.lastName}
                       </h5>
                     </div>
                   ) : (
                     <span>You have no tenant for this unit</span>
                   )}
-                  
+
                   <div className="d-flex">
                     <div>
                       <div
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: "lightGreen", height: "50%" }}
+                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
                       >
                         <i
                           className="fa fa-phone"
-                          style={{ color: "white" }}
+                          style={{ color: 'white' }}
                         ></i>
                       </div>
                       <p> Call </p>
@@ -210,11 +245,11 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                       <a
                         href={`mailto:${property?.rentedBy?.email}`}
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: "lightGreen", height: "50%" }}
+                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
                       >
                         <i
                           className=" fas fa-envelope"
-                          style={{ color: "white" }}
+                          style={{ color: 'white' }}
                         ></i>
                       </a>
                       <p> Email </p>
@@ -223,16 +258,51 @@ const ListUnitPreview = ({ match, history, fetchEachProperties, property, loadin
                 </div>
               </CardBody>
             </Card>
-            {/* <Row>
-              <Col>
-                <div className='mb-5'>
+            <Card>
+              <CardBody>
+                <div>
                   <h6>Documents</h6>
-                  <div style={{backgroundColor: "white", width: "120px", height: "50px"}}>
+                  <div>
                     <span>Lease Agreement</span>
+                    <div className="d-flex mt-2">
+                      {property?.documents.length > 0
+                        ? property?.documents.map((item) => (
+                            <Card key={item.id} className="shadow-lg">
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <CardBody>
+                                  <h1 className="card-title">{item.name}</h1>
+                                </CardBody>
+                              </a>
+                            </Card>
+                          ))
+                        : 'No document found'}
+                    </div>
                   </div>
                 </div>
-              </Col>  
-            </Row> */}
+              </CardBody>
+            </Card>
+            <div>
+              <Modal
+                // size="sm"
+                isOpen={uploadModal}
+                toggle={() => setUploadModal(!uploadModal)}
+              >
+                <ModalHeader toggle={() => setUploadModal(false)}>
+                  Lease Agreement
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    closeModal={setUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+            </div>
           </>
         )}
       </Container>
