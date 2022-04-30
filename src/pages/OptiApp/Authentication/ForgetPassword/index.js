@@ -62,7 +62,7 @@ class ChangePassword extends Component {
                               Forgot Password?
                             </h3>
                             <p className="text-muted">
-                              Don't worry we can help you out! if you still remember your mail address you caan quickly reset your password. just input that information inn the fields below and click on the button. This will send you to a new email that will link you to the password change website.
+                              Don't worry we can help you out! if you still remember your email address you can quickly reset your password. just input that information in the fields below and click on the button. This will send you to a new email that will link you to the password change website.
                             </p>
                           </div>
 

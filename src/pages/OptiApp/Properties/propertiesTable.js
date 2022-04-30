@@ -72,7 +72,7 @@ const PropertiesTable = ({ tableData }) => {
               <i className="dripicons-preview font-size-18"></i>
             </Link>
             <UncontrolledTooltip placement="top" target="preview">
-              Previous
+              Preview
             </UncontrolledTooltip>
           </>
         ),

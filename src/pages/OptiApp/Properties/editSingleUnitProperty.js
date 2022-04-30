@@ -37,6 +37,7 @@ import {
 
 import { connect } from "react-redux";
 import plus from "./images/plus.svg";
+import Loading from "../../../components/Common/Loading";
 
 import DropZone from "../../../components/Common/imageUpload";
 
@@ -210,7 +211,7 @@ class CreateProperty extends Component {
                   </Alert>
                 )}
 
-                {this.props.property && (
+                {!this.props.Loading && this.props.property ? (
                   <>
                     <div className="mb-4">
                       <Button
@@ -299,7 +300,7 @@ class CreateProperty extends Component {
                             >
                               {this.props.propertySubcategories?.map(
                                 (subcategory) => (
-                                  <option key={subcategory.id}>
+                                  <option key={subcategory.id} value={subcategory.name}>
                                     {subcategory.name}
                                   </option>
                                 )
@@ -431,6 +432,7 @@ class CreateProperty extends Component {
                               type="select"
                               name="parkingLot"
                               helpMessage="Packing space"
+                              value="Yes"
                             >
                               <option>Yes</option>
                               <option>No</option>
@@ -751,6 +753,8 @@ class CreateProperty extends Component {
                       </div>
                     </AvForm>
                   </>
+                ) : (
+                    <Loading />
                 )}
               </CardBody>
             </Card>

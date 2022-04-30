@@ -13,23 +13,28 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import {
   apiError,
   activateAccount,
+  clearRegistryMessage
 } from '../../../../store/actions';
 
 // import images
 import logodark from '../../../../assets/images/FairshipLogo.svg';
 
-const Validation = ({ message, activationError, activateAccount, history }) => {
+const Validation = ({ activationMessage, activationError, activateAccount, history, clearRegistryMessage }) => {
   const handleSubmit = (event, values) => {
     activateAccount(values);
   };
 
   useEffect(() => {
-    if (message) {
+    clearRegistryMessage();
+  }, [])
+
+  useEffect(() => {
+    if (activationMessage) {
       setTimeout(() => {
         history.push('/login');
       }, [2000]);
     }
-  }, [message]);
+  }, [activationMessage]);
   return (
     <React.Fragment>
       <div>
@@ -71,7 +76,7 @@ const Validation = ({ message, activationError, activateAccount, history }) => {
                           </p>
                         </div>
 
-                        {message && <Alert color="success">{message}</Alert>}
+                        {activationMessage && <Alert color="success">{activationMessage}</Alert>}
 
                         {activationError && activationError ? (
                           <Alert color="danger">
@@ -130,10 +135,10 @@ const Validation = ({ message, activationError, activateAccount, history }) => {
 };
 
 const mapStatetoProps = (state) => {
-  const { loginError, message, activationError } = state.Account;
-  return { loginError, message, activationError };
+  const { loginError, activationMessage, activationError } = state.Account;
+  return { loginError, activationMessage, activationError };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { activateAccount, apiError })(Validation)
+  connect(mapStatetoProps, { activateAccount, apiError, clearRegistryMessage })(Validation)
 );

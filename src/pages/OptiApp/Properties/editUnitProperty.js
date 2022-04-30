@@ -34,7 +34,7 @@ import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import plus from "./images/plus.svg";
 import DropZone from "../../../components/Common/imageUpload";
-
+import Loading from "../../../components/Common/Loading";
 
 class EditUnitProperty extends Component {
   constructor(props) {
@@ -78,6 +78,7 @@ class EditUnitProperty extends Component {
     });
   }
 
+
   handleSubmit(events, values) {
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
@@ -114,6 +115,7 @@ class EditUnitProperty extends Component {
     const types = this.props.propertyTypes?.find(
       (type) => type.name === this.state.formType
     );
+
     if (PrevState.formType !== this.state.formType) {
       this.props.getPropertySubcategory(types?.id);
     }
@@ -140,7 +142,7 @@ class EditUnitProperty extends Component {
     return String(comma);
   }
 
-  render() {
+  render() { 
     return (
       <React.Fragment>
         <div className="page-content">
@@ -149,8 +151,8 @@ class EditUnitProperty extends Component {
               <h5 className="ml-2"> Edit Unit </h5>
 
               <div>
-                <Link to="/properties">
-                  <Button color="success">Back Home</Button>
+                <Link to="#" onClick={() => this.props.history.goBack()}>
+                  <Button color="success">Back</Button>
                 </Link>
               </div>
             </div>
@@ -166,8 +168,8 @@ class EditUnitProperty extends Component {
                     {this.props.editMessage}
                   </Alert>
                 )}
-
-                {this.props.property && (
+                
+                {!this.props.loading && this.props.property ? (
                   <AvForm
                     className="form-horizontal"
                     onValidSubmit={this.handleSubmit}
@@ -212,7 +214,7 @@ class EditUnitProperty extends Component {
                             required
                           >
                             {this.props.propertyTypes?.map((type) => (
-                              <option key={type.id}>{type.name}</option>
+                              <option key={type.id} value={type.name}>{type.name}</option>
                             ))}
                           </AvField>
                         </FormGroup>
@@ -226,7 +228,7 @@ class EditUnitProperty extends Component {
                           >
                             {this.props.propertySubcategories?.map(
                               (subcategory) => (
-                                <option key={subcategory.id}>
+                                <option key={subcategory.id} value={subcategory.name}>
                                   {subcategory.name}
                                 </option>
                               )
@@ -432,7 +434,7 @@ class EditUnitProperty extends Component {
                                 <AvCheckboxGroup
                                   name="otherAmenities"
                                   label="Amenities!"
-                                  // required
+                                  required
                                 >
                                   <AvCheckbox
                                     className="mb-2"
@@ -599,6 +601,8 @@ class EditUnitProperty extends Component {
                       </Button>
                     </div>
                   </AvForm>
+                ) : (
+                  <Loading />
                 )}
               </CardBody>
             </Card>
