@@ -434,7 +434,7 @@ class EditUnitProperty extends Component {
                                 <AvCheckboxGroup
                                   name="otherAmenities"
                                   label="Amenities!"
-                                  // required
+                                  required
                                 >
                                   <AvCheckbox
                                     className="mb-2"
