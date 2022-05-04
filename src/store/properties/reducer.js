@@ -37,6 +37,7 @@ const initialState = {
   propertiesError: null,
   createUnit: false,
   loading: false,
+  typeLoading: false,
   propertyTypes: null,
   PropertyTypeError: null,
   propertySubcategories: null,
@@ -133,7 +134,7 @@ const Properties = (state = initialState, action) => {
     case GET_PROPERTY_TYPES:
       state = {
         ...state,
-        loading: true,
+        typeLoading: true,
         propertyTypes: null,
         PropertyTypeError: null,
       };
@@ -142,7 +143,7 @@ const Properties = (state = initialState, action) => {
     case GET_PROPERTY_TYPES_SUCCESS:
       state = {
         ...state,
-        loading: false,
+        typeLoading: false,
         propertyTypes: action.payload,
         PropertyTypeError: null,
       };
@@ -151,7 +152,7 @@ const Properties = (state = initialState, action) => {
     case GET_PROPERTY_TYPES_ERROR:
       state = {
         ...state,
-        loading: false,
+        typeLoading: false,
         propertyTypes: null,
         PropertyTypeError: action.payload,
       };
@@ -160,7 +161,7 @@ const Properties = (state = initialState, action) => {
     case GET_PROPERTY_SUBCATEGORY:
       state = {
         ...state,
-        loading: true,
+        typeLoading: true,
         propertySubcategories: null,
         subcategoryError: null,
       };
@@ -169,7 +170,7 @@ const Properties = (state = initialState, action) => {
     case GET_PROPERTY_SUBCATEGORY_SUCCESS:
       state = {
         ...state,
-        loading: false,
+        typeLoading: false,
         propertySubcategories: action.payload,
         subcategoryError: null,
       };
@@ -178,7 +179,7 @@ const Properties = (state = initialState, action) => {
     case GET_PROPERTY_SUBCATEGORY_ERROR:
       state = {
         ...state,
-        loading: false,
+        typeLoading: false,
         propertySubcategories: null,
         subcategoryError: action.payload,
       };

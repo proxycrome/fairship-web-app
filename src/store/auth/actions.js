@@ -26,6 +26,7 @@ import {
   FETCH_PROFILE,
   FETCH_PROFILE_SUCCESSFUL,
   FETCH_PROFILE_API_FAILED,
+  CLEAR_MESSAGES,
 } from './actionTypes';
 
 export const checkLogin = (user, history) => {
@@ -219,3 +220,9 @@ export const fetchProfileError = (error) => {
     payload: error,
   };
 };
+
+export const clearRegistryMessage = () => {
+  return {
+    type: CLEAR_MESSAGES,
+  }
+}
