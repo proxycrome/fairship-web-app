@@ -36,7 +36,7 @@ componentDidMount(){
               <h4 className="card-title mb-4">Upcoming Rental payment</h4>  
                <SimpleBar style={{ maxHeight: '300px' }}>
                {this.props.zero?.entities.slice(0,3).map((twent) =>  (
-                <ul className="list-unstyled activity-wid">
+                <ul className="list-unstyled activity-wid" key={twent?.id}>
                     <li className="activity-list">
                     <div className="activity-icon avatar-xs">
                       <span className="avatar-title bg-soft-primary text-primary rounded-circle">

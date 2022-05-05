@@ -152,7 +152,7 @@ class Login extends Component {
                                   color="success"
                                   className="w-100 waves-effect waves-light"
                                   type="submit"
-                                  disable={this.props.loading}
+                                  disabled={this.props.loading}
                                 >
                                   {this.props.loading ? 'Loading...' : 'Log in'}
                                 </Button>

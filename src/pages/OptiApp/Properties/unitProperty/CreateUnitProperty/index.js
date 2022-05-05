@@ -419,6 +419,7 @@ class CreateProperty extends Component {
                           type="select"
                           name="parkingLot"
                           helpMessage="Packing space"
+                          value="Yes"
                         >
                           <option>Yes</option>
                           <option>No</option>

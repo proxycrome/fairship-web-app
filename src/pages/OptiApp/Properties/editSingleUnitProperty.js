@@ -144,7 +144,7 @@ class CreateProperty extends Component {
     this.props.getPropertySubcategory(this.state.id);
     this.props.fetchCountry();
     this.props.clearUnitMessage();
-    // this.props.fetchState(1);
+    this.props.fetchState(1);
   }
 
   componentDidUpdate(PrevProps, PrevState) {
@@ -211,7 +211,7 @@ class CreateProperty extends Component {
                   </Alert>
                 )}
 
-                {!this.props.Loading && this.props.property ? (
+                {this.props.property && (
                   <>
                     <div className="mb-4">
                       <Button
@@ -753,8 +753,6 @@ class CreateProperty extends Component {
                       </div>
                     </AvForm>
                   </>
-                ) : (
-                    <Loading />
                 )}
               </CardBody>
             </Card>
