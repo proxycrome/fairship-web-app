@@ -27,7 +27,7 @@ const ImageUpload = ({
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxSize: 150000,
-    accept: 'image/png',
+    accept: '.pdf',
   });
 
   const handleAcceptedFiles = (files) => {

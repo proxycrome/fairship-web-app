@@ -53,7 +53,7 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty }) => {
 
       {uploadField !== null && uploadField === 'default' && (
         <>
-          <Alert color="danger"> The page is under review </Alert>
+          <Alert color="danger text-center"> The page is under review by the admin, please check back </Alert>
           <span>Use PMA Generated Lease Agreement under review, please select other option</span>
         </>
       )}
