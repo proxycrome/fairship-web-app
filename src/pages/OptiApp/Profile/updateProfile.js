@@ -81,9 +81,9 @@ const Profile = () => {
               {err?.message}
              </Alert>
           )}
-            <AvForm onValidSubmit={handleSubmit}>
+            <AvForm onValidSubmit={handleSubmit} model={user}>
               <Row> 
-                <Col md="6">
+                <Col md="12">
                   <div className="mb-2 text-center">
                     {user?.profilePhoto ? (
                       <img
@@ -140,7 +140,7 @@ const Profile = () => {
                         </Col>
                       </AvGroup>
                     </Col>
-                    <Col sm="12">
+                    {/* <Col sm="12">
                       <FormGroup row>
                         <Label
                           htmlFor="password"
@@ -156,8 +156,8 @@ const Profile = () => {
                           />
                         </Col>
                       </FormGroup>
-                    </Col>
-                    <Col sm="6">
+                    </Col> */}
+                    {/* <Col sm="6">
                       <FormGroup row>
                         <Label
                           htmlFor="email"
@@ -173,11 +173,11 @@ const Profile = () => {
                           />
                         </Col>
                       </FormGroup>
-                    </Col>
+                    </Col> */}
                     <Col sm="6">
                       <AvGroup row>
                         <Label
-                          htmlFor="phone_no"
+                          htmlFor="phone"
                           className="col-md-12 col-form-label"
                         >
                           Phone Number
@@ -185,13 +185,13 @@ const Profile = () => {
                         <Col md={12}>
                           <AvInput
                             className="form-control"
-                            id="phone_no"
+                            id="phone"
                             name ='phone'
                           />
                         </Col>
                       </AvGroup>
                     </Col>
-                    <Col sm="6">
+                    {/* <Col sm="6">
                       <FormGroup row>
                         <Label
                           htmlFor="address"
@@ -207,8 +207,8 @@ const Profile = () => {
                           />
                         </Col>
                       </FormGroup>
-                    </Col>
-                    <Col sm="6">
+                    </Col> */}
+                    {/* <Col sm="6">
                       <FormGroup row>
                         <Label
                           htmlFor="nationality"
@@ -224,11 +224,7 @@ const Profile = () => {
                           />
                         </Col>
                       </FormGroup>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col md="6">
-                  <Row className="mb-2">
+                    </Col> */}
                     <Col sm="6">
                       <AvGroup row>
                         <Label
@@ -251,23 +247,6 @@ const Profile = () => {
                         </Col>
                       </AvGroup>
                     </Col>{' '}
-                    <Col sm="6">
-                      <FormGroup row>
-                        <Label
-                          htmlFor="language"
-                          className="col-md-12 col-form-label"
-                        >
-                          Language
-                        </Label>
-                        <Col md={12}>
-                          <Input
-                            className="form-control"
-                            type="text"
-                            id="language"
-                          />
-                        </Col>
-                      </FormGroup>
-                    </Col>
                     <Col sm="12">
                       <AvGroup row>
                         <Label
@@ -286,6 +265,51 @@ const Profile = () => {
                         </Col>
                       </AvGroup>
                     </Col>
+                    <Col sm="12">
+                      <AvGroup row>
+                        <Label
+                          htmlFor="title"
+                          className="col-md-12 col-form-label"
+                        >
+                          Role
+                        </Label>
+                        <AvField type="select" name="role" className="form-control" >
+                          <option value="" >CHOOSE ROLE</option>
+                          <option value="PROPERTY_OWNER" >PROPERTY OWNER</option>
+                          <option value="AGENT" >AGENT</option>
+                        </AvField>
+                      </AvGroup>
+                    </Col>
+                    <Col sm="12" className="text-center">
+                      <Button type="submit" className="btn btn-success w-50 mt-4">
+                        {' '}
+                        Save{' '}
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+                {/* <Col md="6">
+                  <Row className="mb-2">
+                    <Col sm={12}>{' '}</Col>
+                    <Col sm={12}>{' '}</Col>
+                    <Col sm="6">
+                      <FormGroup row>
+                        <Label
+                          htmlFor="language"
+                          className="col-md-12 col-form-label"
+                        >
+                          Language
+                        </Label>
+                        <Col md={12}>
+                          <Input
+                            className="form-control"
+                            type="text"
+                            id="language"
+                          />
+                        </Col>
+                      </FormGroup>
+                    </Col>
+                    
 
                     <Col sm="12">
                       <FormGroup row>
@@ -321,29 +345,10 @@ const Profile = () => {
                         </Col>
                       </FormGroup>
                     </Col>
-                    <Col sm="12">
-                      <AvGroup row>
-                        <Label
-                          htmlFor="title"
-                          className="col-md-12 col-form-label"
-                        >
-                          Role
-                        </Label>
-                        <AvField type="select" name="role" className="form-control" >
-                          <option value="" >CHOOSE ROLE</option>
-                          <option value="PROPERTY_OWNER" >PROPERTY OWNER</option>
-                          <option value="AGENT" >AGENT</option>
-                        </AvField>
-                      </AvGroup>
-                    </Col>
-                    <Col sm="12" className="text-center">
-                      <Button type="submit" className="btn btn-success w-50 mt-4">
-                        {' '}
-                        Save{' '}
-                      </Button>
-                    </Col>
+                    
+                    
                   </Row>
-                </Col>  
+                </Col>   */}
               </Row>
             </AvForm>
           </CardBody>
