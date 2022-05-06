@@ -103,7 +103,7 @@ function LeaseAgreement() {
             <div className="w-25">
               <Card className="p-2 ">
                 <div className="d-flex mr-2 align-items-center">
-                  <i className=" mr-2 ri-sim-card-2-fill"></i>
+                  <i className=" font-size-18 mr-2 ri-sim-card"></i>
                   <small>Sell Agreement.pdf 100kb</small>
                 </div>
               </Card>
