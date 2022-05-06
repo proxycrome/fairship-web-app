@@ -78,6 +78,12 @@ class EditUnitProperty extends Component {
     });
   }
 
+  deleteItem(index) {
+    let paymentItem = [...this.state.pays];
+    paymentItem.splice(index, 1);
+    this.setState({ pays: paymentItem });
+  }
+
 
   handleSubmit(events, values) {
     const formData = { ...values };
@@ -347,6 +353,12 @@ class EditUnitProperty extends Component {
                             >
                               <span>{pay.name}: </span>
                               <span>{pay.percentageAmount}%</span>
+                              <span
+                                className="ml-4 text-danger"
+                                onClick={() => this.deleteItem(index)}
+                              >
+                                <i className="fas fa-trash font-size-12 "></i>
+                              </span>
                             </span>
                           ))}
                         </FormGroup>

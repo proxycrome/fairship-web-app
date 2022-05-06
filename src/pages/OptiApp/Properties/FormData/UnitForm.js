@@ -68,6 +68,12 @@ class CreateProperty extends Component {
     this.setState({ show: false });
   };
 
+  deleteItem(index){
+    let paymentItem = [...this.state.pays];
+    paymentItem.splice(index, 1);
+    this.setState({pays: paymentItem})
+  }
+
   handleSubmit(events, values) {
     this.setState({ ...this.state, imageError: "" });
     if (this.state.selectedFiles.length === 0) {
@@ -297,13 +303,16 @@ class CreateProperty extends Component {
                 <FormGroup className="form-group-custom mb-4">
                   <img src={plus} alt="plus" onClick={this.showModal} />
                   <span> Payment Item</span>
-                  {this.state.pays?.map((pay) => (
+                  {this.state.pays?.map((pay, index) => (
                     <span
                       style={{ margin: "0 10px", display: "block" }}
-                      key={pay.name}
+                      key={index}
                     >
                       <span>{pay.name}: </span>
-                      {pay.percentageAmount}%<span></span>
+                      <span>{pay.percentageAmount}%</span>
+                      <span className="ml-4 text-danger" onClick={() => this.deleteItem(index)}>
+                        <i className="fas fa-trash font-size-12 "></i>
+                      </span>
                     </span>
                   ))}
                 </FormGroup>

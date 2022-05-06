@@ -21,7 +21,7 @@ import {
   AvCheckboxGroup,
   AvCheckbox,
   AvRadio,
-  AvRadioGroup
+  AvRadioGroup,
 } from "availity-reactstrap-validation";
 import { Link } from "react-router-dom";
 
@@ -36,7 +36,7 @@ import {
 } from "../../../../../store/actions";
 
 import { connect } from "react-redux";
-import plus from '../../images/plus.svg'
+import plus from "../../images/plus.svg";
 
 import DropZone from "../../../../../components/Common/imageUpload";
 
@@ -46,8 +46,8 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
-      name: '',
-      percentageAmount: '',
+      name: "",
+      percentageAmount: "",
       pays: [],
       show: false,
       imageError: "",
@@ -58,37 +58,40 @@ class CreateProperty extends Component {
       formType: "",
       state: "",
       LGA: "",
-      country: ""
+      country: "",
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.toggleTab = this.toggleTab.bind(this);
     this.payment = this.payment.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
   }
 
   showModal = () => {
     this.setState({ show: true });
   };
-  
- 
 
-  payment (event, values){
-    const payee = {...values}
+  payment(event, values) {
+    const payee = { ...values };
 
-    payee.percentageAmount = Number(values.percentageAmount)
-    this.state.pays.push(payee)
-    console.log(payee)
+    payee.percentageAmount = Number(values.percentageAmount);
+    this.state.pays.push(payee);
+    console.log(payee);
     this.setState({
-        pays: this.state.pays,
-        show: false
-    })  
+      pays: this.state.pays,
+      show: false,
+    });
   }
 
   hideModal = () => {
     this.setState({ show: false });
   };
+
+  deleteItem(index) {
+    let paymentItem = [...this.state.pays];
+    paymentItem.splice(index, 1);
+    this.setState({ pays: paymentItem });
+  }
 
   handleSubmit(events, values) {
     this.setState({ ...this.state, imageError: "" });
@@ -168,8 +171,8 @@ class CreateProperty extends Component {
     const state = this.props.states?.find(
       (state) => state.name === this.state.state
     );
-    if(PrevState.state !== this.state.state) {
-      this.props.fetchLga(state?.id)
+    if (PrevState.state !== this.state.state) {
+      this.props.fetchLga(state?.id);
     }
   }
 
@@ -356,7 +359,9 @@ class CreateProperty extends Component {
                           name="address.lga"
                           // value={this.props.lgas?.unshift.name}
                           helpMessage="LGA"
-                          onChange={(e) => this.setState({ LGA: e.target.value })}
+                          onChange={(e) =>
+                            this.setState({ LGA: e.target.value })
+                          }
                           required
                         >
                           <option value="">Select...</option>
@@ -481,28 +486,66 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={6} >
+                    <Col xs={6}>
                       <FormGroup className="form-group-custom mb-4">
-                        <img  src={plus} alt='plus' onClick={this.showModal} /><span> Payment Item</span>
+                        <img src={plus} alt="plus" onClick={this.showModal} />
+                        <span> Payment Item</span>
+                        {this.state.pays?.map((pay, index) => (
+                          <span
+                            style={{ margin: "0 10px", display: "block" }}
+                            key={index}
+                          >
+                            <span>{pay.name}: </span>
+                            <span>{pay.percentageAmount}%</span>
+                            <span
+                              className="ml-4 text-danger"
+                              onClick={() => this.deleteItem(index)}
+                            >
+                              <i className="fas fa-trash font-size-12 "></i>
+                            </span>
+                          </span>
+                        ))}
                       </FormGroup>
                     </Col>
                     <Modal
                       size="lg"
-                      isOpen={this.state.show} toggle={this.hideModal}
-                     >
-                     <ModalHeader toggle={this.hideModal}>
-                       Payment Item
+                      isOpen={this.state.show}
+                      toggle={this.hideModal}
+                    >
+                      <ModalHeader toggle={this.hideModal}>
+                        Payment Item
                       </ModalHeader>
                       <ModalBody>
                         <AvForm onValidSubmit={this.payment}>
-                       <p>Name</p>
-                       <AvField placeholder="Write name" name ='name' value={this.state.name} onChange={(e)=>this.setState({name: e.target.value})} />
-                       <p className="mt-3">Percentage Amount %</p>
-                       <AvField placeholder="Write payment percentage"  name='percentageAmount' value={this.state.percentageAmount} onChange={(e)=>this.setState({percentageAmount: e.target.value})}/>
-                       <Button className=" mt-3 btn btn-success btn-lg" type='submit'>Add</Button>
-                       </AvForm>
+                          <p>Name</p>
+                          <AvField
+                            placeholder="Write name"
+                            name="name"
+                            value={this.state.name}
+                            onChange={(e) =>
+                              this.setState({ name: e.target.value })
+                            }
+                          />
+                          <p className="mt-3">Percentage Amount %</p>
+                          <AvField
+                            placeholder="Write payment percentage"
+                            name="percentageAmount"
+                            value={this.state.percentageAmount}
+                            onChange={(e) =>
+                              this.setState({
+                                percentageAmount: e.target.value,
+                              })
+                            }
+                          />
+                          <Button
+                            className=" mt-3 btn btn-success btn-lg"
+                            type="submit"
+                          >
+                            Add
+                          </Button>
+                        </AvForm>
                       </ModalBody>
-                     </Modal>
+                    </Modal>
                     <Col md={12}>
                       <Row>
                         <Col xs={6}>
@@ -540,139 +583,139 @@ class CreateProperty extends Component {
                                 required
                               >
                                 <AvCheckbox
-                            className="mb-2"
-                            label="Air Condition"
-                            value="AC"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="water Heaters"
-                            value="heater"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Microwave"
-                            value="microwave"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Gas Cooker"
-                            value="Cooker"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Clean Water"
-                            value="water"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Gym"
-                            value="Gym"
-                          />
-                           <AvCheckbox
-                            className="mb-2"
-                            label="Boys Quater"
-                            value=" Boys Quater"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="CCTV cameras"
-                            value="CCTV cameras"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="All rooms ensuite"
-                            value="All rooms ensuite"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Wireless Internet access"
-                            value="Wireless Internet access"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="24 hours electricity"
-                            value="24 hours electricity"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                            label="Alarm system"
-                            value="Alarm system"
-                          /> 
-                          <AvCheckbox
-                          className="mb-2"
-                          label="Energy efficiency"
-                          value="Energy efficiency"
-                        />
-                        <AvCheckbox
-                          className="mb-2"
-                          label="Kitchen hood"
-                          value="Kitchen hood"
-                        />
-                        <AvCheckbox
-                          className="mb-2"
-                          label="Spacious rooms/Balcony"
-                          value="Spacious rooms/Balcony"
-                        />
-                        <AvCheckbox
-                          className="mb-2"
-                          label="Parking space"
-                          value="Parking space"
-                        />
-                        <AvCheckbox
-                          className="mb-2"
-                          label=" Swimming pool"
-                          value=" Swimming pool"
-                        />
-                        <AvCheckbox
-                          className="mb-2"
-                          label="Uninterrupted Water supply"
-                          value="Uninterrupted Water supply"
-                        /> 
-                        <AvCheckbox
-                        className="mb-2"
-                        label="Reception/Concierge service"
-                        value="Reception/Concierge service"
-                      />
-                      <AvCheckbox
-                        className="mb-2"
-                        label=" Clubhouse/Lounges"
-                        value=" Clubhouse/Lounge"
-                      />
-                      <AvCheckbox
-                          className="mb-2"
-                           label="Restaurants"
-                          value="Restaurants"
-                         />
-                         <AvCheckbox
-                         className="mb-2"
-                           label="Pets allowed"
-                           value="Pets allowed"
-                          />
-                          <AvCheckbox
-                            className="mb-2"
-                             label="Dishwasherr"
-                             value="Dishwasher"
-                           />
-                            <AvCheckbox
-                             className="mb-2"
-                              label="Laundry facility"
-                              value="Laundry facility"
-                            />
-                            <AvCheckbox
-                               className="mb-2"
-                               label="Access to public transportatio"
-                               value="Access to public transportatio"
-                              />
-                             <AvCheckbox
-                               className="mb-2"
-                                label="Furnished Kitchens"
-                                value="Furnished Kitchens"
-                               />
-                               <AvCheckbox
-                                className="mb-2"
-                                label=" Communication system"
-                                value=" Communication system"
+                                  className="mb-2"
+                                  label="Air Condition"
+                                  value="AC"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="water Heaters"
+                                  value="heater"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Microwave"
+                                  value="microwave"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Gas Cooker"
+                                  value="Cooker"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Clean Water"
+                                  value="water"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Gym"
+                                  value="Gym"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Boys Quater"
+                                  value=" Boys Quater"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="CCTV cameras"
+                                  value="CCTV cameras"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="All rooms ensuite"
+                                  value="All rooms ensuite"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Wireless Internet access"
+                                  value="Wireless Internet access"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="24 hours electricity"
+                                  value="24 hours electricity"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Alarm system"
+                                  value="Alarm system"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Energy efficiency"
+                                  value="Energy efficiency"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Kitchen hood"
+                                  value="Kitchen hood"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Spacious rooms/Balcony"
+                                  value="Spacious rooms/Balcony"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Parking space"
+                                  value="Parking space"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label=" Swimming pool"
+                                  value=" Swimming pool"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Uninterrupted Water supply"
+                                  value="Uninterrupted Water supply"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Reception/Concierge service"
+                                  value="Reception/Concierge service"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label=" Clubhouse/Lounges"
+                                  value=" Clubhouse/Lounge"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Restaurants"
+                                  value="Restaurants"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Pets allowed"
+                                  value="Pets allowed"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Dishwasherr"
+                                  value="Dishwasher"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Laundry facility"
+                                  value="Laundry facility"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Access to public transportatio"
+                                  value="Access to public transportatio"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label="Furnished Kitchens"
+                                  value="Furnished Kitchens"
+                                />
+                                <AvCheckbox
+                                  className="mb-2"
+                                  label=" Communication system"
+                                  value=" Communication system"
                                 />
                               </AvCheckboxGroup>
                             </FormGroup>

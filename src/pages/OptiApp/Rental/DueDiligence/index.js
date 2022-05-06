@@ -36,7 +36,7 @@ const DueDiligenceForm = ({rentId}) => {
      
       const formData = {
         ...values,
-        'moveInDate': defaultDate.toLocaleDateString('es-CL'),
+        moveInDate: defaultDate.toLocaleDateString('es-CL'),
         rentId
           // "annualIncome": values.annualIncome,
           // "companyName": values.companyName,

@@ -15,7 +15,7 @@ const Index = ({ fetchProfile, user }) => {
   const [isClicked, setIsClicked] = useState(false);
 
   if(isClicked){
-    return <Profile />
+    return <Profile goBack={() => setIsClicked(false)}/>
   }
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import {
   Container,
@@ -19,20 +19,11 @@ import {
 import avatar from '../../../assets/images/avi.jpg';
 
 import { AvForm, AvField, AvGroup, AvInput } from 'availity-reactstrap-validation';
-
 import { updateProfile } from '../../../store/actions';
 // import avatar3 from '../../../assets/images/users/avatar-3.jpg';
 
 
-const Profile = () => {
-
-  // const [firstName, setFirstName] = useState('');
-  // const [lastName, setLastName] = useState('');
-  // const [phone, setPhone] = useState('');
-  // const [dob, setDob] = useState('');
-  // const [gender, setGender] = useState('');
-  // const [title, setTitle] = useState('')
-
+const Profile = ({goBack}) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.Account);
 
@@ -41,24 +32,12 @@ const Profile = () => {
   const {result, err} = useSelector(state => state.updateProfileReducer)
 
   const handleSubmit = (event, values) => {
-    dispatch(updateProfile(values));
+    const formData = {
+      ...values,
+    }
+    dispatch(updateProfile(formData));
   }
 
-  // const formSent = {
-  //   firstName,
-  //   lastName,
-  //   dob,
-  //   phone,
-  //   gender,
-  //   role: title
-  // }
-
-  // console.log(formSent)
-
-  // const update = (e) => {
-  //   e.preventDefault();
-  //   dispatch(updateProfile(formSent))
-  // }
 
   
   
@@ -69,6 +48,13 @@ const Profile = () => {
       <Container fluid>
         {/* <Breadcrumbs title="Dashboard" breadcrumbItems={breadcrumbData} /> */}
         <h4> Edit Profile </h4>
+        <div className="mb-2 text-right">
+          <Link to="#" onClick={goBack}>
+            <button className="btn btn-success btn-sm">
+              <i className="fas fa-arrow-left mr-2" /> Back
+            </button>
+          </Link>
+        </div>
         <Card>
           <CardBody>
           {result &&  (
@@ -247,7 +233,7 @@ const Profile = () => {
                         </Col>
                       </AvGroup>
                     </Col>{' '}
-                    <Col sm="12">
+                    <Col sm="6">
                       <AvGroup row>
                         <Label
                           htmlFor="dateOfBirth"
@@ -264,8 +250,8 @@ const Profile = () => {
                           />
                         </Col>
                       </AvGroup>
-                    </Col>
-                    <Col sm="12">
+                    </Col>{" "}
+                    <Col sm="6">
                       <AvGroup row>
                         <Label
                           htmlFor="title"
@@ -273,11 +259,13 @@ const Profile = () => {
                         >
                           Role
                         </Label>
-                        <AvField type="select" name="role" className="form-control" >
-                          <option value="" >CHOOSE ROLE</option>
-                          <option value="PROPERTY_OWNER" >PROPERTY OWNER</option>
-                          <option value="AGENT" >AGENT</option>
-                        </AvField>
+                        <Col md={12}>
+                          <AvField type="select" name="role" className="form-control" id="title" >
+                            <option value="" >CHOOSE ROLE</option>
+                            <option value="PROPERTY_OWNER" >PROPERTY OWNER</option>
+                            <option value="AGENT" >AGENT</option>
+                          </AvField>
+                        </Col>
                       </AvGroup>
                     </Col>
                     <Col sm="12" className="text-center">
