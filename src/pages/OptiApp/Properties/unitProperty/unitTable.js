@@ -115,7 +115,7 @@ const PropertiesTable = ({ tableData }) => {
           width: 60,
         },
         {
-          label: 'Price (Naira)',
+          label: 'Price (₦)',
           field: 'price',
           sort: 'asc',
           width: 60,

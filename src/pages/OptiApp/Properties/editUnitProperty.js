@@ -169,7 +169,7 @@ class EditUnitProperty extends Component {
                   </Alert>
                 )}
                 
-                {!this.props.loading && this.props.property ? (
+                {this.props.property && (
                   <AvForm
                     className="form-horizontal"
                     onValidSubmit={this.handleSubmit}
@@ -601,8 +601,6 @@ class EditUnitProperty extends Component {
                       </Button>
                     </div>
                   </AvForm>
-                ) : (
-                  <Loading />
                 )}
               </CardBody>
             </Card>

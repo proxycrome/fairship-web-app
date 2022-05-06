@@ -109,8 +109,8 @@ const ListUnitPreview = ({
                     </div>
                     <div className="d-flex justify-content-end mt-3">
                       <p>
-                        From N
-                        <span style={{ fontWeight: '800', color: 'blue' }}>
+                        From ₦
+                        <span style={{ fontWeight: "800", color: "blue" }}>
                           {property?.price?.toLocaleString()}
                         </span>
                         / yr
@@ -131,14 +131,14 @@ const ListUnitPreview = ({
                   <Col md={4} sm={12}>
                     <div className="mb-3">
                       <h6>Basic Rent</h6>
-                      <span>N {property?.price}</span>
+                      <span>₦{property?.price}</span>
                     </div>
                     <div className="mb-3">
                       {/* <h6>Last payment date</h6>
                       <span>3rd Jul 2021</span> */}
                       <h6>Serviced</h6>
                       <span>
-                        {property?.isServiced === true ? 'true' : 'false'}
+                        {property?.isServiced === true ? "True" : "False"}
                       </span>
                     </div>
                     <div>
@@ -146,7 +146,7 @@ const ListUnitPreview = ({
                       <span>3rd Jul 2021</span> */}
                       <h6>Furnished</h6>
                       <span>
-                        {property?.isFurnished === true ? 'true' : 'false'}
+                        {property?.isFurnished === true ? "True" : "False"}
                       </span>
                     </div>
                   </Col>
@@ -156,16 +156,16 @@ const ListUnitPreview = ({
                       <span>Occupied</span> */}
                       <h6>Parking Space</h6>
                       <span>
-                        {property?.parkingLot === true ? 'true' : 'false'}
+                        {property?.parkingLot === true ? "True" : "False"}
                       </span>
                     </div>
                     <div className="mb-3">
                       <h6>Next Payment Amount</h6>
-                      <span>N {property?.price}</span>
+                      <span>₦{property?.price}</span>
                     </div>
                     <div>
                       <h6>Advertised Amount</h6>
-                      <span>N {property?.price}</span>
+                      <span>₦{property?.price}</span>
                     </div>
                   </Col>
                   <Col md={4} sm={12}>

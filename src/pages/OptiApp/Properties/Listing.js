@@ -95,7 +95,7 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
                           </h6>
                           <p>
                             From{" "}
-                            <span className="text-primary">{data.price.toString().toLocaleString()}</span>{" "}
+                            <span className="text-primary">₦{data.price.toLocaleString()}</span>{" "}
                             /y
                           </p>
                         </CardBody>
@@ -134,7 +134,7 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
                           </p>
                           <p>
                             From{" "}
-                            <span className="text-primary">{data?.price?.toLocaleString()}</span>{" "}
+                            <span className="text-primary">₦{data?.price?.toLocaleString()}</span>{" "}
                             /y
                           </p>
                         </CardBody>

@@ -81,7 +81,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                     display: 'flex',
                   }}
                 >
-                  <CardBody style={{ display: 'flex' }}>
+                  <CardBody style={{ display: 'flex', position: 'relative' }}>
                     <div>
                       <div style={{ width: '90px', height: '50px' }}>
                         <p
@@ -108,6 +108,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           borderTop: 0,
                           borderBottom: '60px solid #c100A1',
                           marginTop: '80px',
+                          position: "absolute",
+                          top: '10%',
+                          left: '4%',
                         }}
                       ></div>
                     </div>
@@ -322,11 +325,14 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                     <div style={{ width: '140px' }}>
                       <div
                         style={{
-                          width: '30px',
-                          height: '30px',
+                          width: '50px',
+                          height: '50px',
                           backgroundColor: 'rgba(30, 155, 163, 1)',
                           border: ' 0.1875em solid #c100A1',
                           borderRadius: '50%',
+                          position: 'absolute',
+                          top: '60%',
+                          left: "6%"
                         }}
                       ></div>
                       <div
@@ -336,6 +342,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           backgroundColor: 'rgba(30, 155, 163, 1)',
                           border: ' 0.1875em solid #ffd700',
                           marginTop: '70px',
+                          position: 'absolute',
+                          top: '60%',
+                          left: '6%',
                         }}
                       ></div>
                     </div>

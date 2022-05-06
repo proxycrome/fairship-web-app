@@ -52,6 +52,7 @@ import Service from '../pages/OptiApp/Services';
 import KeysMeters from '../pages/OptiApp/Inspection/Keys&Meters';
 import AcceptAppointment from '../pages/OptiApp/Appointment/AcceptAppointment';
 import RejectAppointment from '../pages/OptiApp/Appointment/RejectAppointment';
+import WalkThroughPage from '../pages/OptiApp/Properties/walkThroughPayment';
 
 // fairShip Route
 import Opti_Register from '../pages/OptiApp/Authentication/Register/index';
@@ -86,6 +87,7 @@ const authProtectedRoutes = [
   { path: '/create_unit_property', component: CreateUnitProperties },
   { path: '/update_single_unit/:id', component: UpdateSingleUnitProperty},
   { path: '/create_more_unit/:id', component: AddMoreUnit},
+  { path: '/walkthrough', component: WalkThroughPage},
 
   { path: '/agents', component: Agent },
   { path: '/agentpreview/:email', component: AgentPreview },
