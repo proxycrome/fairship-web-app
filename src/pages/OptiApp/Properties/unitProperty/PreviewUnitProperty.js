@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Card,
@@ -11,14 +11,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from 'reactstrap';
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import DocumentsUpload from '../leaseUpload';
-import { fetchEachProperties } from '../../../../store/actions';
-import PropertyIcon from '../../../../assets/images/Property.png';
-import avatar from '../../../../assets/images/avi.jpg';
-import Loader from '../../../../components/Common/Loading/index';
+} from "reactstrap";
+import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import DocumentsUpload from "../leaseUpload";
+import { fetchEachProperties } from "../../../../store/actions";
+import PropertyIcon from "../../../../assets/images/Property.png";
+import avatar from "../../../../assets/images/avi.jpg";
+import Loader from "../../../../components/Common/Loading/index";
 
 const ListUnitPreview = ({
   match,
@@ -28,19 +28,35 @@ const ListUnitPreview = ({
   loading,
 }) => {
   const [uploadModal, setUploadModal] = useState(false);
-  const [reload, reloadProperty] = useState(false)
+  const [reload, reloadProperty] = useState(false);
+  const [taskContents, setTaskContents] = useState(false);
   useEffect(() => {
     fetchEachProperties(match.params.id);
   }, []);
 
   useEffect(() => {
-    if(reload){
+    if (reload) {
       fetchEachProperties(match.params.id);
     }
   }, [reload]);
 
   const backwards = () => {
     history.goBack();
+  };
+
+  const cardStyle = {
+    boxShadow: "0px 4px 30px rgba(98, 134, 154, 0.38)",
+    borderRadius: "10px",
+    width: "90%",
+    textAlign: "center",
+    padding: "10px",
+    height: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "20px",
+    flex: "1",
+    cursor: "pointer",
   };
 
   return (
@@ -64,7 +80,7 @@ const ListUnitPreview = ({
                     <img
                       src={property?.indexImage}
                       alt="property"
-                      style={{ borderRadius: '20px', width: '100%' }}
+                      style={{ borderRadius: "20px", width: "100%" }}
                     />
                   </Col>
                   <Col ls={5}>
@@ -74,21 +90,21 @@ const ListUnitPreview = ({
                     </div> */}
                     <div className="mb-3">
                       <h6>Property</h6>
-                      <span style={{ display: 'block' }}>
+                      <span style={{ display: "block" }}>
                         {property?.title}
                       </span>
                       <span>(ID: {property?.propertyRef})</span>
                     </div>
                     <div className="mb-3">
                       <span>
-                        {property?.address?.houseNoAddress},{' '}
+                        {property?.address?.houseNoAddress},{" "}
                         {property?.address?.state}, {property?.address?.country}
                       </span>
                     </div>
                     <div className="mb-3">
                       <img src={PropertyIcon} alt="property icon" />
                       <span className="ml-2">
-                        {property?.bedrooms} bedrooms {property?.bathrooms}{' '}
+                        {property?.bedrooms} bedrooms {property?.bathrooms}{" "}
                         bathrooms
                       </span>
                     </div>
@@ -100,10 +116,10 @@ const ListUnitPreview = ({
                   <Col ls={5}>
                     <div className="d-flex justify-content-end">
                       <Button
-                        onClick={() => setUploadModal(true)}
+                        onClick={() => setTaskContents(true)}
                         color="success"
                       >
-                        {' '}
+                        {" "}
                         Tasks
                       </Button>
                     </div>
@@ -173,8 +189,8 @@ const ListUnitPreview = ({
                       <h6>Payment plan</h6>
                       <span>
                         {property?.periodInMonths
-                          ? property?.periodInMonths + ' months'
-                          : 'None'}
+                          ? property?.periodInMonths + " months"
+                          : "None"}
                       </span>
                     </div>
                     <div className="mb-3">
@@ -214,7 +230,7 @@ const ListUnitPreview = ({
                       )}
 
                       <h5 className="card-title">
-                        {property?.rentedBy?.firstName}{' '}
+                        {property?.rentedBy?.firstName}{" "}
                         {property?.rentedBy?.lastName}
                       </h5>
                     </div>
@@ -226,11 +242,11 @@ const ListUnitPreview = ({
                     <div>
                       <div
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
+                        style={{ backgroundColor: "lightGreen", height: "50%" }}
                       >
                         <i
                           className="fa fa-phone"
-                          style={{ color: 'white' }}
+                          style={{ color: "white" }}
                         ></i>
                       </div>
                       <p> Call </p>
@@ -239,11 +255,11 @@ const ListUnitPreview = ({
                       <a
                         href={`mailto:${property?.rentedBy?.email}`}
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
+                        style={{ backgroundColor: "lightGreen", height: "50%" }}
                       >
                         <i
                           className=" fas fa-envelope"
-                          style={{ color: 'white' }}
+                          style={{ color: "white" }}
                         ></i>
                       </a>
                       <p> Email </p>
@@ -273,7 +289,7 @@ const ListUnitPreview = ({
                               </a>
                             </Card>
                           ))
-                        : 'No document found'}
+                        : "No document found"}
                     </div>
                   </div>
                 </div>
@@ -294,6 +310,39 @@ const ListUnitPreview = ({
                     propertyId={property?.id}
                     reloadProperty={reloadProperty}
                   />
+                </ModalBody>
+              </Modal>
+            </div>
+            <div>
+              <Modal
+                // size="sm"
+                isOpen={taskContents}
+                toggle={() => setTaskContents(!taskContents)}
+              >
+                <ModalHeader toggle={() => setTaskContents(false)}>
+                  Select Tasks
+                </ModalHeader>
+                <ModalBody>
+                  <div className="d-flex justify-content-around">
+                    <div
+                      style={cardStyle}
+                      onClick={() => {
+                        setUploadModal(true);
+                        return setTaskContents(false);
+                      }}
+                    >
+                      <span className="mb-4 text-success">
+                        Upload Lease Agreement
+                      </span>
+                    </div>
+                    <Link to="/walkthrough">
+                      <div style={cardStyle}>
+                        <span className="mb-4 text-success">
+                          Upload WalkThrough Video
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
                 </ModalBody>
               </Modal>
             </div>

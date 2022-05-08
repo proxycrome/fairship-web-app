@@ -43,14 +43,14 @@ const CreateAgent = ({ BackToHome }) => {
     dispatch(postAgents(formData));
   };
 
-  const { agents, postAgentData, landlordAgents, loading } = useSelector(
+  const { agents, postAgentData, landlordAgents, loading, postAgentError } = useSelector(
     (state) => state.Agents
   );
 
   const AgentsIdArray = landlordAgents?.data?.agents?.map((agent) => agent.id);
 
   const filteredAgents = agents?.entities.filter(
-    (agent) => !AgentsIdArray.find((id) => id === agent.id)
+    (agent) => !AgentsIdArray?.find((id) => id === agent?.id)
   );
 
   console.log(filteredAgents);
@@ -79,39 +79,53 @@ const CreateAgent = ({ BackToHome }) => {
             </span>
             Back
           </span>
-          <Card className="mt-2">
-            <CardBody>
-              {postAgentData && postAgentData?.message && (
-                <Alert color="success" className="text-center">
-                  {postAgentData?.message}
-                </Alert>
-              )}
-              <h5>
-                <b>Add Agent</b>
-              </h5>
-              <Form className="mx-4 mt-2">
-                <FormGroup row>
-                  <Col md={12}>
-                    <Label>Property</Label>
-                    <Select
-                      value={selectedOption}
-                      options={optionGroup}
-                      onChange={handleChange}
-                    />
-                  </Col>
-                </FormGroup>
+          {loading ? (
+            <Card>
+              <CardBody>
+                <Loader/>
+              </CardBody>
+            </Card> 
+          ) : (
+            <Card className="mt-2">
+              <CardBody>
+                {postAgentData && postAgentData?.message && (
+                  <Alert color="success" className="text-center">
+                    {postAgentData?.message}
+                  </Alert>
+                )}
+                {postAgentError && (
+                  <Alert color="danger" className="text-center">
+                    This Agent is Booked by another Landlord
+                  </Alert>
+                )}
+                <h5>
+                  <b>Add Agent</b>
+                </h5>
+                <Form className="mx-4 mt-2">
+                  <FormGroup row>
+                    <Col md={12}>
+                      <Label>Property</Label>
+                      <Select
+                        value={selectedOption}
+                        options={optionGroup}
+                        onChange={handleChange}
+                      />
+                    </Col>
+                  </FormGroup>
 
-                <div className="text-center">
-                  <button
-                    className="btn btn-success px-5"
-                    onClick={handleSubmit}
-                  >
-                    Add
-                  </button>
-                </div>
-              </Form>
-            </CardBody>
-          </Card>
+                  <div className="text-center">
+                    <button
+                      className="btn btn-success px-5"
+                      onClick={handleSubmit}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </Form>
+              </CardBody>
+            </Card>
+          )}
+          
         </Container>
       </div>
     </React.Fragment>

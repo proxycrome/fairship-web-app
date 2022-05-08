@@ -126,7 +126,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                               <td></td>
                               <td></td>
                               <td>
-                                <span>Active</span>
+                                <span>{agent.status}</span>
                               </td>
                               <td>
                                 <i className="ri-more-2-fill ml-2"></i>
@@ -165,7 +165,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                               {/* <td></td> */}
                               {/* <td></td> */}
                               <td>
-                                <span>Active</span>
+                                <span>{agent.status}</span>
                               </td>
                               <td>
                                 <i className="ri-more-2-fill ml-2"></i>

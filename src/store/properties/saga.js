@@ -40,8 +40,8 @@ import {
   getPropertyTypesService,
   getPropertySubcategoryService,
   duplicateUnitService,
-  putUnitPropertyService,
-  deletePropertyService
+  deletePropertyService,
+  putSingleUnitPropertyService
 } from '../../services/propertiesServices';
 
 function* fetchProperties({payload: {payload, collectiveId}}) {
@@ -117,7 +117,7 @@ function* getPropertySubcategory({payload: {id}}) {
 
   function* putUnitProperty({payload}) {
     try {
-      const response = yield call(putUnitPropertyService, payload);
+      const response = yield call(putSingleUnitPropertyService, payload);
       yield put(createPropertiesSuccessful(response.date));
       console.log(response.data);
     } catch (error) {

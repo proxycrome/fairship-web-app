@@ -72,7 +72,7 @@ const WalkThroughPayment = () => {
                 <Col md={4} className="mt-3">
                   <Link to="#">
                     <div style={cardStyle}>
-                      <h4 className="mb-4">₦45,000.00</h4>
+                      <h4 className="mb-4">FREE</h4>
                       <small className="mb-4">HD Photography Only</small>
                       <p style={{ fontWeight: "600", color: "#1E33C6" }}>
                         BASIC PLAN

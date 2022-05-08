@@ -58,11 +58,11 @@ class RentalApplication extends Component {
   }
 
   fair = (e) => {
-    console.log(e.target[e.target.selectedIndex].value)
+    // console.log(e.target[e.target.selectedIndex].value)
     this.setState({
       filter: e.target[e.target.selectedIndex].value
     })
-    console.log(this.state.filter)
+    // console.log(this.state.filter)
 }
 
   componentDidMount() {
@@ -289,6 +289,10 @@ componentDidUpdate(Pp,Ps, Ss){
             </select>
           </div>
           <Container fluid>
+            <Breadcrumbs
+              title="Rental Applications"
+              breadcrumbItems={this.state.breadcrumbItems}
+            />
             {this.props.loading ? (
               <Card>
                 <CardBody>
@@ -297,10 +301,6 @@ componentDidUpdate(Pp,Ps, Ss){
               </Card>
             ) : (
               <>
-                <Breadcrumbs
-                  title="Rental Applications"
-                  breadcrumbItems={this.state.breadcrumbItems}
-                />
                 {this.props.rental?.entities?.length !== 0 ? (
                   <Row>
                     <Col lg={12}>
