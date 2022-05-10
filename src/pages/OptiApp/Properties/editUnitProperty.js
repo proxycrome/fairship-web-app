@@ -8,6 +8,8 @@ import {
   Container,
   Card,
   CardBody,
+  Form,
+  Input,
   Modal,
   ModalHeader,
   ModalBody,
@@ -66,10 +68,12 @@ class EditUnitProperty extends Component {
     this.setState({ show: false });
   }
 
-  payment(event, values) {
-    const payee = { ...values };
+  payment(event) {
+    event.preventDefault();
+    const payee = {};
 
-    payee.percentageAmount = Number(values.percentageAmount);
+    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.name = this.state.name;
     this.state.pays.push(payee);
     console.log(payee);
     this.setState({
@@ -149,6 +153,7 @@ class EditUnitProperty extends Component {
   }
 
   render() { 
+    console.log(this.state.pays);
     return (
       <React.Fragment>
         <div className="page-content">
@@ -372,9 +377,9 @@ class EditUnitProperty extends Component {
                           Payment Item
                         </ModalHeader>
                         <ModalBody>
-                          <AvForm onValidSubmit={this.payment}>
+                          <Form>
                             <p>Name</p>
-                            <AvField
+                            <Input
                               placeholder="Write name"
                               name="name"
                               value={this.state.name}
@@ -384,7 +389,7 @@ class EditUnitProperty extends Component {
 
                             />
                             <p className="mt-3">Percentage Amount %</p>
-                            <AvField
+                            <Input
                               placeholder="Write payment percentage"
                               name="percentageAmount"
                               value={this.state.percentageAmount}
@@ -396,11 +401,11 @@ class EditUnitProperty extends Component {
                             />
                             <Button
                               className=" mt-3 btn btn-success btn-lg"
-                              type="submit"
+                              onClick={this.payment}
                             >
                               Add
                             </Button>
-                          </AvForm>
+                          </Form>
                         </ModalBody>
                       </Modal>
                       <Col md={12}>
@@ -446,7 +451,7 @@ class EditUnitProperty extends Component {
                                 <AvCheckboxGroup
                                   name="otherAmenities"
                                   label="Amenities!"
-                                  required
+                                  // required
                                 >
                                   <AvCheckbox
                                     className="mb-2"
@@ -480,8 +485,8 @@ class EditUnitProperty extends Component {
                                   />
                                   <AvCheckbox
                                     className="mb-2"
-                                    label="Boys Quater"
-                                    value=" Boys Quater"
+                                    label="Boys Quarter"
+                                    value="Boys Quarter"
                                   />
                                   <AvCheckbox
                                     className="mb-2"
@@ -530,8 +535,8 @@ class EditUnitProperty extends Component {
                                   />
                                   <AvCheckbox
                                     className="mb-2"
-                                    label=" Swimming pool"
-                                    value=" Swimming pool"
+                                    label="Swimming pool"
+                                    value="Swimming pool"
                                   />
                                   <AvCheckbox
                                     className="mb-2"
@@ -545,8 +550,8 @@ class EditUnitProperty extends Component {
                                   />
                                   <AvCheckbox
                                     className="mb-2"
-                                    label=" Clubhouse/Lounges"
-                                    value=" Clubhouse/Lounge"
+                                    label="Clubhouse/Lounges"
+                                    value="Clubhouse/Lounge"
                                   />
                                   <AvCheckbox
                                     className="mb-2"
@@ -560,7 +565,7 @@ class EditUnitProperty extends Component {
                                   />
                                   <AvCheckbox
                                     className="mb-2"
-                                    label="Dishwasherr"
+                                    label="Dishwasher"
                                     value="Dishwasher"
                                   />
                                   <AvCheckbox
@@ -580,8 +585,8 @@ class EditUnitProperty extends Component {
                                   />
                                   <AvCheckbox
                                     className="mb-2"
-                                    label=" Communication system"
-                                    value=" Communication system"
+                                    label="Communication system"
+                                    value="Communication system"
                                   />
                                 </AvCheckboxGroup>
                               </FormGroup>

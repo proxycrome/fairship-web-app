@@ -16,7 +16,7 @@ import {
 import RejectionForm from '../RejectionForm';
 
 // user
-import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
+// import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
 import { Link, withRouter } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRentalRecommendation, PutTenantRecommendation, PutDataRecommendation } from '../../../../store/actions';
@@ -32,18 +32,13 @@ const Preview = (props) => {
 
  
 
-  console.log(props)
 
-  const tenantId =props?. match?.params?.id;
+  const tenantId = props?.match?.params?.id;
 
   console.log(tenantId)
 
   const {user} = useSelector((state) => state.Account);
   console.log(user)
-
-  const ModalToggleHandler = () => {
-    alert('hello');
-  };
 
 
   const review = (e) => {
@@ -490,7 +485,7 @@ const Preview = (props) => {
             toggle={() => ModalToggle(!modalOpen)}
           >
             <ModalHeader toggle={() => ModalToggle(!modalOpen)}>
-              Reason For Rejectionn
+              Reason For Rejection
             </ModalHeader>
             <ModalBody>
               <RejectionForm id={rentalId?.id} />

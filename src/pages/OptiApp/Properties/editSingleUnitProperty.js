@@ -12,6 +12,7 @@ import {
   ModalBody,
   ModalHeader,
   Input,
+  Form
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -72,10 +73,12 @@ class CreateProperty extends Component {
     this.setState({ show: true });
   };
 
-  payment(event, values) {
-    const payee = { ...values };
+  payment(event) {
+    event.preventDefault();
+    const payee = {};
 
-    payee.percentageAmount = Number(values.percentageAmount);
+    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.name = this.state.name;
     this.state.pays.push(payee);
     console.log(payee);
     this.setState({
@@ -478,12 +481,12 @@ class CreateProperty extends Component {
                             />
                           </FormGroup>
                         </Col>
-
                         <Col xs={3}>
                           <FormGroup className="form-group-custom mb-4">
                             <AvField
                               type="Number"
                               name="periodInMonths"
+                              id="periodInMonths"
                               helpMessage="Months of Rent"
                               placeholder="Enter No. of Months"
                             />
@@ -536,34 +539,35 @@ class CreateProperty extends Component {
                             Payment Item
                           </ModalHeader>
                           <ModalBody>
-                            <AvForm onValidSubmit={this.payment}>
-                              <p>Name</p>
-                              <AvField
+                            <Form>
+                                <p>Name</p>
+                                <Input
                                 placeholder="Write name"
                                 name="name"
                                 value={this.state.name}
                                 onChange={(e) =>
-                                  this.setState({ name: e.target.value })
+                                    this.setState({ name: e.target.value })
                                 }
-                              />
-                              <p className="mt-3">Percentage Amount %</p>
-                              <AvField
+
+                                />
+                                <p className="mt-3">Percentage Amount %</p>
+                                <Input
                                 placeholder="Write payment percentage"
                                 name="percentageAmount"
                                 value={this.state.percentageAmount}
                                 onChange={(e) =>
-                                  this.setState({
+                                    this.setState({
                                     percentageAmount: e.target.value,
-                                  })
+                                    })
                                 }
-                              />
-                              <Button
-                                type="submit"
+                                />
+                                <Button
                                 className=" mt-3 btn btn-success btn-lg"
-                              >
+                                onClick={this.payment}
+                                >
                                 Add
-                              </Button>
-                            </AvForm>
+                                </Button>
+                            </Form>
                           </ModalBody>
                         </Modal>
                         <Col md={12}>
@@ -635,7 +639,7 @@ class CreateProperty extends Component {
                                     <AvCheckbox
                                       className="mb-2"
                                       label="Boys Quater"
-                                      value=" Boys Quater"
+                                      value="Boys Quater"
                                     />
                                     <AvCheckbox
                                       className="mb-2"
@@ -684,8 +688,8 @@ class CreateProperty extends Component {
                                     />
                                     <AvCheckbox
                                       className="mb-2"
-                                      label=" Swimming pool"
-                                      value=" Swimming pool"
+                                      label="Swimming pool"
+                                      value="Swimming pool"
                                     />
                                     <AvCheckbox
                                       className="mb-2"
@@ -699,8 +703,8 @@ class CreateProperty extends Component {
                                     />
                                     <AvCheckbox
                                       className="mb-2"
-                                      label=" Clubhouse/Lounges"
-                                      value=" Clubhouse/Lounge"
+                                      label="Clubhouse/Lounges"
+                                      value="Clubhouse/Lounge"
                                     />
                                     <AvCheckbox
                                       className="mb-2"
@@ -714,7 +718,7 @@ class CreateProperty extends Component {
                                     />
                                     <AvCheckbox
                                       className="mb-2"
-                                      label="Dishwasherr"
+                                      label="Dishwasher"
                                       value="Dishwasher"
                                     />
                                     <AvCheckbox
@@ -724,8 +728,8 @@ class CreateProperty extends Component {
                                     />
                                     <AvCheckbox
                                       className="mb-2"
-                                      label="Access to public transportatio"
-                                      value="Access to public transportatio"
+                                      label="Access to public transportation"
+                                      value="Access to public transportation"
                                     />
                                     <AvCheckbox
                                       className="mb-2"
@@ -734,8 +738,8 @@ class CreateProperty extends Component {
                                     />
                                     <AvCheckbox
                                       className="mb-2"
-                                      label=" Communication system"
-                                      value=" Communication system"
+                                      label="Communication system"
+                                      value="Communication system"
                                     />
                                   </AvCheckboxGroup>
                                 </FormGroup>
