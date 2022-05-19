@@ -1,17 +1,20 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
-import { FETCH_INSPECTIONS, POST_INSPECTION } from './actionTypes';
+import { FETCH_INSPECTIONS, POST_INSPECTION, FETCH_EACH_INSPECTION } from './actionTypes';
 
 import {
   fetchInspectionsSuccessful,
   fetchInspectionsError,
   postInspectionSuccessful,
   postInspectionFailure,
+  fetchEachInspectionError,
+  fetchEachInspectionSuccessful
 } from './actions';
 
 import {
   fetchInspectionsService,
   postInspectionService,
+  fetchEachInspectionService
 } from '../../services/inspectionsServices';
 
 function* fetchInspections({payload}) {
@@ -21,6 +24,16 @@ function* fetchInspections({payload}) {
   } catch (error) {
     console.log(error.response);
     yield put(fetchInspectionsError(error?.response?.data));
+  }
+}
+
+function* fetchEachInspection({payload}) {
+  try {
+    const response = yield call(fetchEachInspectionService, payload);
+    yield put(fetchEachInspectionSuccessful(response.data));
+  } catch (error) {
+    console.log(error.response);
+    yield put(fetchEachInspectionError(error?.response?.data));
   }
 }
 
@@ -45,8 +58,12 @@ export function* watchPostInspections() {
   yield takeEvery(POST_INSPECTION, postInspection);
 }
 
+export function* watchEachInspection() {
+  yield takeEvery(FETCH_EACH_INSPECTION, fetchEachInspection);
+}
+
 function* InspectionsSaga() {
-  yield all([fork(watchFetchInspections), fork(watchPostInspections)]);
+  yield all([fork(watchFetchInspections), fork(watchPostInspections), fork(watchEachInspection)]);
 }
 
 export default InspectionsSaga;

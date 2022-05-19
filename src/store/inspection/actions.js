@@ -2,6 +2,9 @@ import {
     FETCH_INSPECTIONS,
     FETCH_INSPECTIONS_SUCCESSFUL,
     FETCH_INSPECTIONS_ERROR,
+    FETCH_EACH_INSPECTION,
+    FETCH_EACH_INSPECTION_SUCCESSFUL,
+    FETCH_EACH_INSPECTION_ERROR,
     POST_INSPECTION,
     POST_INSPECTION_SUCCESSFUL,
     POST_INSPECTION_FAILURE
@@ -25,6 +28,27 @@ export const fetchInspectionsSuccessful = (message) => {
 export const fetchInspectionsError = (error) => {
   return {
     type: FETCH_INSPECTIONS_ERROR,
+    payload: error,
+  };
+};
+
+export const fetchEachInspection = (payload) => {
+  return {
+    type: FETCH_EACH_INSPECTION,
+    payload
+  };
+};
+
+export const fetchEachInspectionSuccessful = (message) => {
+  return {
+    type: FETCH_EACH_INSPECTION_SUCCESSFUL,
+    payload: message,
+  };
+};
+
+export const fetchEachInspectionError = (error) => {
+  return {
+    type: FETCH_EACH_INSPECTION_ERROR,
     payload: error,
   };
 };

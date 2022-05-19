@@ -21,11 +21,6 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
     <div className="page-content">
       <div className="d-flex justify-content-between mb-3">
         <h5 className="ml-2"> Inspections </h5>
-        <div className="text-right">
-          <Link to="/create_inspection">
-            <Button color="success">New Inspection</Button>
-          </Link>
-        </div>
       </div>
       {loading ? (
         <Card>
@@ -76,7 +71,9 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                           <th data-priority="3">Property</th>
                           <th data-priority="1">Type</th>
                           <th data-priority="3">Date</th>
-                          <th data-priority="3"></th>
+                          {payloadStatus !== 'PENDING' && (
+                            <th data-priority="3">Actions</th>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
@@ -100,9 +97,15 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                             </td>
                             <td>{inspect?.type}</td>
                             <td>{inspect?.createdAt}</td>
-                            <td>
-                              <i className="ri-more-2-fill"></i>
-                            </td>
+                            {payloadStatus === 'PENDING' && (
+                              <td>
+                                <Link to={`create_inspection/${inspect?.id}`}>
+                                  <button className="btn btn-success btn-sm">
+                                    Inspect
+                                  </button>
+                                </Link>
+                              </td>
+                            )}
                           </tr>
                         ))}
                       </tbody>
