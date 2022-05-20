@@ -25,6 +25,7 @@ import Appointment from '../pages/OptiApp/Appointment';
 import Chats from '../pages/OptiApp/Chats';
 import Documents from '../pages/OptiApp/Documents';
 import Inspection from '../pages/OptiApp/Inspection';
+import PreviewInspection from '../pages/OptiApp/Inspection/PreviewCopy';
 import create_inspection from '../pages/OptiApp/Inspection/MoveIn';
 import Maintenance from '../pages/OptiApp/Maintenance';
 import PowerMonitory from '../pages/OptiApp/PowerMonitory';
@@ -106,6 +107,8 @@ const authProtectedRoutes = [
   { path: '/rental_application', component: OptiRentalApplication },
   { path: '/buy_application', component: OptiBuyApplication },
   { path: '/inspection', component: Inspection },
+  { path: '/previewInspection/:id', component: PreviewInspection },
+  
   { path: '/create_inspection/:id', component: create_inspection },
   
   { path: '/items', component: Items },

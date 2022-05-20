@@ -29,8 +29,6 @@ import AddInspectionForm from './createFieldForm';
 import { fetchEachInspection } from '../../../store/inspection/actions';
 
 import DropZone from '../../../components/Common/inspectUpload';
-import ImageUpload from '../../../components/Common/imageUpload';
-import { database } from 'firebase';
 
 const MoveIn = ({
   inspection,
@@ -151,6 +149,11 @@ const MoveIn = ({
     SetInspectionField([...inspectionField, newInspection]);
   };
 
+  const removeInspectionArea = (id) => {
+    let result = inspectionField.filter((data) => data.id !== id);
+    SetInspectionField(result);
+  };
+
   const createInspectionHandler = () => {
     if (newInspection.length !== 0) {
       SetInspectionField([
@@ -178,8 +181,8 @@ const MoveIn = ({
 
     if (message) {
       setTimeout(() => {
-        history.push('/');
-      });
+        history.push('/inspection');
+      }, 3000);
     }
   }, [rental, message]);
 
@@ -195,7 +198,9 @@ const MoveIn = ({
           <Card>
             <CardBody>
               {inspectionsError ? (
-                <Alert color="danger">{inspectionsError.message}</Alert>
+                <Alert color="danger" className="text-center">
+                  {inspectionsError.message}
+                </Alert>
               ) : (
                 <>
                   <div className="d-flex">
@@ -297,16 +302,19 @@ const MoveIn = ({
                   <div id="accordion">
                     {inspectionField.length > 0 &&
                       inspectionField.map((data) => (
-                        <Card>
+                        <Card key={data.id}>
                           <CardBody>
-                            <Card className="mb-2" key={data.id}>
-                              <Link
-                                to="#"
-                                onClick={() => t_col1(data.title)}
-                                style={{ cursor: 'pointer' }}
-                                className="text-dark"
+                            <Card className="mb-2">
+                              <CardHeader
+                                id="headingOne"
+                                className="d-flex justify-content-between"
                               >
-                                <CardHeader id="headingOne">
+                                <Link
+                                  to="#"
+                                  onClick={() => t_col1(data.title)}
+                                  style={{ cursor: 'pointer' }}
+                                  className="text-dark"
+                                >
                                   <div className="m-0 font-14 d-flex justify-content-between">
                                     <div className="d-flex">
                                       <i
@@ -323,13 +331,21 @@ const MoveIn = ({
                                         {data.title}
                                       </h6>
                                     </div>
-                                    <div>
-                                      <i className="ri-indeterminate-circle-line float-right"></i>
-                                      <i className="fas fa-pen float-right mr-4"></i>
-                                    </div>
                                   </div>
-                                </CardHeader>
-                              </Link>
+                                </Link>
+                                <span>
+                                  <span>
+                                    <i className="fas fa-pen float-right  "></i>
+                                  </span>
+                                  <span
+                                    onClick={() =>
+                                      removeInspectionArea(data.id)
+                                    }
+                                  >
+                                    <i className="ri-indeterminate-circle-line  mr-4 text-danger" />
+                                  </span>
+                                </span>
+                              </CardHeader>
                               <Collapse isOpen={col1 === data.title}>
                                 <CardBody>
                                   <Row>
