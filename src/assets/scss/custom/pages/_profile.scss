@@ -1,309 +1,299 @@
-.createstate{
+.createstate {
+  margin-top: 20px;
+  margin-left: 50px;
+}
+.createstatement {
+  color: #aeaeae;
+  margin-left: 50px;
+}
+
+.page-content1 {
+  margin-top: 89px;
+  margin-left: 20px;
+  height: 940px;
+  width: 1089px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 1);
+
+  .createstatements {
+    color: #aeaeae;
+    margin-left: 50px;
     margin-top: 20px;
-    margin-left: 50px;
-}
-.createstatement{
-    color: #AEAEAE;
-    margin-left: 50px;
-}
+  }
 
-.page-content1{
-    margin-top: 89px;
-    margin-left: 20px;
-    height: 940px;
-    width: 1089px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 1);
+  .inputname2 {
+    margin-left: 50px;
+    margin-top: 40px;
+    .fat {
+      outline: none;
+      box-shadow: none;
+    }
 
-    .createstatements{
-        color: #AEAEAE;
-        margin-left: 50px;
-        margin-top: 20px;
+    input {
+      height: 40px;
+      width: 799px;
+      display: block;
+      color: #aeaeae;
+      border-radius: 5px;
+      border-width: 1px;
+      outline: none;
+      box-shadow: none;
+      border: 0px;
+      border-color: #aeaeae;
     }
-    
-    .inputname2{
-        margin-left: 50px;
-        margin-top: 40px;
-        .fat{
-            outline: none;
-            box-shadow: none;
-        }
-        
-        input{
-            height: 40px;
-            width: 799px;
-            display: block;
-            color: #AEAEAE;
-            border-radius: 5px;
-            border-width:1px;
-            outline: none;
-            box-shadow: none;
-            border: 0px;
-            border-color: #AEAEAE;
-        }
-    
+  }
+
+  .inputname {
+    margin-top: 40px;
+    display: flex;
+    .inputname1 {
+      margin-left: 50px;
+      .fat {
+        outline: none;
+        box-shadow: none;
+      }
+      input {
+        height: 40px;
+        width: 369px;
+        border-width: 1px;
+        border-radius: 5px;
+        outline: none;
+        box-shadow: none;
+        border-color: #aeaeae;
+        display: block;
+        color: #aeaeae;
+      }
     }
-    
-    .inputname {
-        margin-top: 40px;
-        display: flex;
-        .inputname1{
-            margin-left: 50px;
-            .fat{
-                outline: none;
-                box-shadow: none;
-                
-            }
-            input{
-                height: 40px;
-                width: 369px;
-                border-width:1px;
-                border-radius: 5px;
-                outline: none;
-                box-shadow: none;
-                border-color: #AEAEAE;
-                display: block;
-                color: #AEAEAE;
-            }
-        }
-    }
-    
-    .imaguploadremove{
-        margin-left: 50px;
-        margin-top: 40px;
-        display: flex;
-        .imgupload{
-            .pics{
-                border-radius: 50%;
-                margin-left: 5px;
-                height: 111px;
-                width: 111px;
-            }
-            .upload{
-                height: 52px;
-                width: 179px;
-                margin-left: 30px;
-                border-radius: 10px;
-                box-shadow: none;
-                border: 0px;
-                background: rgba(33, 115, 160, 1);
-    
-                
-            }
-            .remove{
-                height: 52px;
-                width: 127px;
-                border-radius: 10px;
-                box-shadow: none;
-                border: 0px;
-                margin-left: 30px;
-                background: rgba(255, 0, 0, 0.52);
-    
-    
-            }
-        }
-    }
-    
-    .submit{
+  }
+
+  .imaguploadremove {
+    margin-left: 50px;
+    margin-top: 40px;
+    display: flex;
+    .imgupload {
+      .pics {
+        border-radius: 50%;
+        margin-left: 5px;
+        height: 111px;
+        width: 111px;
+      }
+      .upload {
         height: 52px;
         width: 179px;
+        margin-left: 30px;
         border-radius: 10px;
-        margin-left: 50px;
         box-shadow: none;
+        border: 0px;
+        background: rgba(33, 115, 160, 1);
+      }
+      .remove {
+        height: 52px;
+        width: 127px;
+        border-radius: 10px;
+        box-shadow: none;
+        border: 0px;
+        margin-left: 30px;
+        background: rgba(255, 0, 0, 0.52);
+      }
+    }
+  }
+
+  .submit {
+    height: 52px;
+    width: 179px;
+    border-radius: 10px;
+    margin-left: 50px;
+    box-shadow: none;
+    border: 0px;
+    margin-top: 20px;
+    background: rgba(54, 159, 42, 1);
+  }
+}
+
+.dropzone-img {
+  min-height: 100px;
+  border: 2px dashed #ced4da;
+  background: #fff;
+  border-radius: 6px;
+}
+
+.page-content {
+  height: 910px;
+  margin-bottom: 0px;
+  .content {
+    display: flex;
+    margin-top: -10px;
+    .profilebutton {
+      background-color: #369f2a;
+      margin-left: 670px;
+      outline: none;
+    }
+    .profile-header {
+      height: 30px;
+      width: 98px;
+      font-family: 'Poppins';
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 30px;
+    }
+  }
+
+  .forms {
+    display: flex;
+    height: 720px;
+    width: 1080px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+    .profdiv1 {
+      margin-top: 10px;
+      .pics {
+        width: 83px;
+        height: 83px;
+        border-radius: 50%;
+        margin-left: 120px;
+      }
+      .name {
+        margin-left: 110px;
+        margin-top: 5px;
+        font-family: 'Poppins';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 21px;
+        letter-spacing: 0em;
+      }
+      .agent {
+        margin-left: 120px;
+        height: 21px;
+        width: 43px;
+        font-family: 'Poppins';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 21px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+      .inputname {
+        display: flex;
+        .inputname1 {
+          margin-left: 50px;
+          input,
+          label {
+            display: block;
+            color: #aeaeae;
+          }
+          .fat {
+            outline: none;
+            box-shadow: none;
+          }
+          input {
+            height: 35px;
+            width: 219px;
+            border-width: 1px;
+            border-radius: 5px;
+            outline: none;
+            border-color: #aeaeae;
+          }
+        }
+      }
+      .inputname2 {
+        margin-left: 50px;
+        margin-top: 10px;
+        input,
+        label {
+          display: block;
+          color: #aeaeae;
+        }
+        .fat {
+          outline: none;
+          box-shadow: none;
+        }
+        input {
+          height: 35px;
+          width: 500px;
+          border-radius: 5px;
+          outline: none;
+          border-width: 1px;
+          border-color: #aeaeae;
+        }
+      }
+    }
+    .profdiv2 {
+      margin-left: 10px;
+      margin-top: 40px;
+      .save {
+        margin-top: 200px;
+        background-color: #369f2a;
+        margin-left: 240px;
+        outline: none;
+        height: 46px;
+        width: 236px;
+        border-radius: 10px;
+      }
+      .inputname {
+        display: flex;
+        .inputname1 {
+          margin-left: 20px;
+          label,
+          select {
+            display: block;
+            color: #aeaeae;
+          }
+          .fat {
+            outline: none;
+            box-shadow: none;
             border: 0px;
-        margin-top: 20px;
-        background: rgba(54, 159, 42, 1);
-    
+          }
+          select {
+            height: 35px;
+            width: 219px;
+            border-width: 1px;
+            border-radius: 5px;
+            outline: none;
+            border-color: #aeaeae;
+          }
+        }
+      }
+      .date {
+        margin-top: 10px;
+        margin-right: 10px;
+        label {
+          display: block;
+          color: #aeaeae;
+        }
+        .good {
+          display: flex;
+          select {
+            height: 35px;
+            border-width: 1px;
+            width: 150px;
+            border-radius: 5px;
+            outline: none;
+            border-color: #aeaeae;
+            display: flex;
+            margin-left: 17px;
+          }
+        }
+      }
+
+      .inputname2 {
+        margin-top: 10px;
+        input,
+        label {
+          display: block;
+          color: #aeaeae;
+        }
+        input {
+          height: 35px;
+          width: 500px;
+          border-radius: 5px;
+          outline: none;
+          border-width: 1px;
+          border-color: #aeaeae;
+        }
+      }
     }
+  }
 }
-
-
-
-.page-content{
-     height: 910px;
-     margin-bottom: 0px;
-    .content {
-        display: flex;
-        margin-top: -10px;
-        .profilebutton{
-            background-color: #369f2a;
-            margin-left: 670px;
-            outline:none;
-        }
-        .profile-header{
-            height: 30px;
-            width: 98px;
-            font-family: 'Poppins';
-            font-size: 20px;
-            font-style: normal;
-            font-weight: 500;
-            line-height: 30px;
-    
-    
-        }
-    }
-    
-    .forms{
-        display: flex;
-        height:720px;
-        width: 1080px;
-        background: rgba(255, 255, 255, 1);
-        border-radius: 5px;
-        .profdiv1{
-            margin-top: 10px;
-            .pics{
-                width: 83px;
-                height: 83px;
-                border-radius: 50%;
-                margin-left: 120px;
-            }
-            .name{
-                margin-left: 110px;
-                margin-top: 5px;
-                font-family: 'Poppins';
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 21px;
-                letter-spacing: 0em;
-    
-    
-            }
-            .agent{
-                margin-left: 120px;
-                height: 21px;
-                width: 43px;
-                font-family:'Poppins';
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 500;
-                line-height: 21px;
-                letter-spacing: 0em;
-                text-align: left;
-    
-    
-            }
-            .inputname {
-                display: flex;
-                .inputname1{
-                    margin-left: 50px;
-                    input,label{
-                        display: block;
-                        color: #AEAEAE;
-                    }
-                    .fat{
-                        outline: none;
-                        box-shadow: none;
-                    }
-                    input{
-                        height: 35px;
-                        width: 219px;
-                        border-width:1px;
-                        border-radius: 5px;
-                        outline: none;
-                        border-color: #AEAEAE;
-                    }
-                }
-            }
-            .inputname2{
-                margin-left: 50px;
-                margin-top: 10px;
-                input,label{
-                    display: block;
-                    color: #AEAEAE;
-                }
-                .fat{
-                    outline: none;
-                box-shadow: none;
-                
-                }
-                input{
-                    height: 35px;
-                    width: 500px;
-                    border-radius: 5px;
-                    outline: none;
-                    border-width:1px;
-                    border-color: #AEAEAE;
-                }
-    
-            }
-        }
-        .profdiv2{
-            margin-left: 10px;
-            margin-top: 40px;
-            .save{
-            margin-top: 200px;    
-            background-color: #369f2a;
-            margin-left: 240px;
-            outline:none; 
-            height: 46px;
-            width: 236px;
-            border-radius: 10px;
-    
-            }
-            .inputname {
-                display: flex;
-                .inputname1{
-                    margin-left: 20px;
-                    label,select{
-                        display: block;
-                        color: #AEAEAE;
-                    }
-                    .fat{
-                        outline: none;
-                box-shadow: none;
-                border: 0px;
-                    }
-                    select{
-                        height: 35px;
-                        width: 219px;
-                        border-width:1px;
-                        border-radius: 5px;
-                        outline: none;
-                        border-color: #AEAEAE;
-                    }
-                }
-            }
-            .date{
-                margin-top: 10px;
-                margin-right: 10px ;
-                label{
-                    display: block;
-                    color: #AEAEAE;
-                }
-                .good{
-                    display: flex;
-                    select{
-                        height: 35px;
-                        border-width:1px;
-                        width: 150px;
-                        border-radius: 5px;
-                        outline: none;
-                        border-color: #AEAEAE;
-                        display: flex;
-                        margin-left: 17px;
-                    }
-                }
-                
-            }
-    
-            .inputname2{
-                margin-top: 10px;
-                input,label{
-                    display: block;
-                    color: #AEAEAE;
-                }
-                input{
-                    height: 35px;
-                    width: 500px;
-                    border-radius: 5px;
-                    outline: none;
-                    border-width:1px;
-                    border-color: #AEAEAE;
-                }
-    
-            }
-        }
-    }
-}
-

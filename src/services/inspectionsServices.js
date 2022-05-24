@@ -8,6 +8,13 @@ export const fetchInspectionsService = (payload) => {
   }
   return http.getData(url);
 };
+export const fetchEachInspectionService = (payload) => {
+  const http = new HttpService();
+  let url = `auth/inspection/${payload}`;
+  return http.getData(url);
+};
+
+
 
 export const postInspectionService = (formData) => {
   console.log(formData);

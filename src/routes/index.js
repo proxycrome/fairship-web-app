@@ -106,7 +106,7 @@ const authProtectedRoutes = [
   { path: '/rental_application', component: OptiRentalApplication },
   { path: '/buy_application', component: OptiBuyApplication },
   { path: '/inspection', component: Inspection },
-  { path: '/create_inspection', component: create_inspection },
+  { path: '/create_inspection/:id', component: create_inspection },
   
   { path: '/items', component: Items },
   { path: '/keys_meters', component: KeysMeters },

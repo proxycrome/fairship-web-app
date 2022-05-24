@@ -13,7 +13,7 @@ import { fetchProperties } from '../../../../store/actions';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
-const UnitProperty = ({ fetchProperties, properties, loading }) => {
+const UnitProperty = ({ fetchProperties, properties }) => {
 
   useEffect(() => {
     const isAuth = {
