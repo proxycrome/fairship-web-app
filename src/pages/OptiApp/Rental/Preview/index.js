@@ -508,7 +508,7 @@ const Preview = (props) => {
               rentalId?.status === 'PENDING_MOVE_IN_INSPECTION_APPROVAL' ?
               <Link
               className="btn btn-success mr-2"
-              to='/create_inspection'
+              to={`/create_inspection/${rentalId.id}`}
               style={{textDecoration:'none'}}    
             >
               CONDUCT INSPECTION{' '}

@@ -10,5 +10,6 @@ export * from './Rental/actions';
 export * from './Tenants/actions';
 export * from './profile/actions';
 export * from './DashboardExpiringLeases/actions';
-export * from './location/actions'
+export * from './location/actions';
+export * from './inspection/actions';
 // export * from './auth/forgetpwd/actions';

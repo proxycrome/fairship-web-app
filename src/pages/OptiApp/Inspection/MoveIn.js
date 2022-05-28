@@ -21,24 +21,22 @@ import {
   AvRadioGroup,
   AvGroup,
 } from 'availity-reactstrap-validation';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
-import { postInspection } from '../../../store/inspection/actions';
 import AddInspectionForm from './createFieldForm';
 
-import { fetchEachInspection } from '../../../store/inspection/actions';
+import { postInspection, fetchRentalRecommendation } from '../../../store/actions';
 
 import DropZone from '../../../components/Common/inspectUpload';
 import ImageUpload from '../../../components/Common/imageUpload';
 import { database } from 'firebase';
 
 const MoveIn = ({
-  inspection,
-  rental,
+  rentalId,
   loading,
   message,
   inspectionsError,
-  fetchEachInspection,
+  fetchRentalRecommendation,
   match,
   history,
 }) => {
@@ -159,7 +157,7 @@ const MoveIn = ({
     console.log(values);
     const formData = {};
     formData.type = type;
-    formData.rentId = inspection.rent.id;
+    formData.rentId = rentalId.id;
     formData.inspectionAreas = [];
     for (const [key, value] of Object.entries(values)) {
       if (key === 'generalComment') {
@@ -237,23 +235,19 @@ const MoveIn = ({
 
   useEffect(() => {
     if (match.params.id) {
-      fetchEachInspection(match.params.id);
+      fetchRentalRecommendation(match.params.id);
     }
   }, [match.params.id]);
 
   useEffect(() => {
-    if (rental) {
-      setRentId(rental?.entities[0].id);
-    }
-
     if (message) {
       setTimeout(() => {
         history.push('/');
       });
     }
-  }, [rental, message]);
+  }, [message]);
 
-  console.log(inspection);
+  console.log(rentalId);
 
   return (
     <div className="page-content">
@@ -271,7 +265,7 @@ const MoveIn = ({
                   <div className="d-flex">
                     <div>
                       <img
-                        src={inspection?.rent?.property?.indexImage}
+                        src={rentalId?.property?.indexImage}
                         alt="property"
                         width="100"
                         height="100"
@@ -283,20 +277,23 @@ const MoveIn = ({
                         <div className="mb-3">
                           <h6>Property</h6>
                           <span style={{ display: 'block' }}>
-                            {inspection?.rent?.property?.title}
+                            {rentalId?.property?.parentProperty?.title}
+                          </span>
+                          <span style={{ display: 'block' }}>
+                            {rentalId?.property?.title}
                           </span>
                           <span>
-                            (ID: {inspection?.rent?.property?.propertyRef})
+                            (ID: {rentalId?.property?.propertyRef})
                           </span>
                         </div>
                         <div className="mb-3">
                           <span>
                             {
-                              inspection?.rent?.property?.address
+                              rentalId?.property?.address
                                 ?.houseNoAddress
                             }
-                            , {inspection?.rent?.property?.address?.state},{' '}
-                            {inspection?.rent?.property?.address?.country}
+                            , {rentalId?.property?.address?.state},{' '}
+                            {rentalId?.property?.address?.country}
                           </span>
                         </div>
                       </Col>
@@ -364,10 +361,6 @@ const MoveIn = ({
               {inspectionsError && (
                 <Alert color="danger">{inspectionsError.message}</Alert>
               )}
-
-              <div className="d-flex justify-content-between mb-2">
-                <h5>{inspectionData?.type}</h5>
-              </div>
               <Row>
                 <Col xl={12} className="mx-auto">
                   <div id="accordion">
@@ -417,7 +410,8 @@ const MoveIn = ({
                                       Inspection Items
                                     </h6>
                                   </Row>
-                                  {data.items?.map((item, index) => (
+                                  {data?.items?.length > 0 &&
+                                    data?.items?.map((item, index) => (
                                       <div key={item.id}>
                                         <Row>
                                           <Col ls={4}>
@@ -560,7 +554,8 @@ const MoveIn = ({
                                       Inventory Items
                                     </h6>
                                   </Row>
-                                  {data?.inventories?.map((inventory, index) => (
+                                  {data?.inventories?.length > 0 &&
+                                    data?.inventories?.map((inventory, index) => (
                                       <div key={inventory.id}>
                                         <Row>
                                           <Col ls={4}>
@@ -691,11 +686,11 @@ const MoveIn = ({
 
 const mapStateToProps = (state) => {
   const { inspection, loading, message, inspectionsError } = state.Inspections;
-  const { rental } = state.Rental;
-  return { inspection, loading, message, inspectionsError, rental };
+  const { rentalId } = state.PreviewReducer;
+  return { inspection, loading, message, inspectionsError, rentalId };
 };
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   postInspection,
-  fetchEachInspection,
-})(MoveIn);
+  fetchRentalRecommendation
+})(MoveIn));
