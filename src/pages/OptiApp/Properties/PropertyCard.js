@@ -243,7 +243,7 @@ const PropertyCard = ({
                                   <br />
                                   <b>Unit:</b> {unit.title}
                                 </td>
-                                <td>{property?.description}</td>
+                                <td>{unit?.description}</td>
                                 <td>
                                   {unit.rentedBy !== null
                                     ? `${unit.rentedBy.firstName} ${unit.rentedBy.lastName}`

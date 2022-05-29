@@ -5,6 +5,7 @@ import {
   Card,
   CardBody,
   Collapse,
+  Input,
   CardHeader,
   Button,
   Label,
@@ -19,31 +20,38 @@ import {
   AvRadioGroup,
   AvGroup,
 } from 'availity-reactstrap-validation';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
-import { postInspection } from '../../../store/inspection/actions';
 import AddInspectionForm from './createFieldForm';
 
-import { fetchEachInspection } from '../../../store/inspection/actions';
+import {
+  postInspection,
+  fetchRentalRecommendation,
+} from '../../../store/actions';
 
 import DropZone from '../../../components/Common/inspectUpload';
 
 const MoveIn = ({
-  inspection,
-  rental,
+  rentalId,
   loading,
   message,
   inspectionsError,
-  fetchEachInspection,
+  fetchRentalRecommendation,
   match,
   history,
 }) => {
   const [selectedFiles, SetSelectedFiles] = useState([]);
   const [type, setType] = useState('MOVE_IN');
   const [newInspection, setNewInspection] = useState('');
+
   const [addColumn, SetAddColumn] = useState(false);
   const [inspectionField, SetInspectionField] = useState([]);
   const [rentId, setRentId] = useState('');
+  const [newInspect, setNewInspect] = useState('');
+  const [addInspectColumn, setAddInspectColumn] = useState(false);
+  const [addInventColumn, setAddInventColumn] = useState(false);
+  const [newInvent, setNewInvent] = useState('');
+  const [imageError, SetImageError] = useState(false);
 
   const [inspectionData, setInspectionData] = useState({});
   const [startInspection, setStartInspection] = useState(false);
@@ -51,12 +59,85 @@ const MoveIn = ({
 
   const headerNameRef = useRef(null);
 
-  const uploadFIle = (file, id, data, item) => {
-    SetSelectedFiles(file);
-    // const cloneValue = [...inspectionField];
-    // const index = cloneValue.findIndex((data) => data.id === id);
-    // cloneValue[index].selectedFiles = [...file];
-    // SetInspectionField(cloneValue);
+  const uploadFIle = (file, areaId, itemId) => {
+    const ans = inspectionField.map((data) => {
+      if (data.id === areaId) {
+        const item = data.items.find((data) => data.id === itemId);
+        item.images = file;
+      }
+      return data;
+    });
+    SetInspectionField(ans);
+  };
+
+  const addInspectionItem = (areaId) => {
+    const newItems = {
+      id: new Date().getTime().toString(),
+      itemName: newInspect,
+      // images: [],
+    };
+
+    const foundItem = inspectionField.find((item) => item.id === areaId);
+    const itemIndex = inspectionField.indexOf(foundItem);
+    inspectionField.splice(itemIndex, 1);
+    const foundItems = { ...foundItem };
+    foundItems.items = [foundItem.items || []];
+    foundItems.items = foundItems.items.flatMap((el) => {
+      return el.length <= 0 ? [] : el;
+    });
+    foundItems.items.push(newItems);
+    console.log(foundItems);
+    setAddInspectColumn(false);
+    SetInspectionField([...inspectionField, foundItems]);
+    setNewInspect('');
+  };
+
+  const addInventoryItem = (areaId) => {
+    const newItems = {
+      id: new Date().getTime().toString(),
+      itemName: newInvent,
+    };
+
+    const foundItem = inspectionField.find((item) => item.id === areaId);
+    const itemIndex = inspectionField.indexOf(foundItem);
+    inspectionField.splice(itemIndex, 1);
+    const foundItems = { ...foundItem };
+    foundItems.inventories = [foundItem.inventories || []];
+    foundItems.inventories = foundItems.inventories.flatMap((el) => {
+      return el.length <= 0 ? [] : el;
+    });
+    foundItems.inventories.push(newItems);
+    console.log(foundItems);
+    setAddInventColumn(false);
+    SetInspectionField([...inspectionField, foundItems]);
+    setNewInvent('');
+  };
+
+  const deleteInspectionArea = (areaId) => {
+    const newInspectionField = inspectionField.filter(
+      (item) => item.id !== areaId
+    );
+    SetInspectionField([...newInspectionField]);
+  };
+
+  const deleteInspectionItem = (areaId, itemId) => {
+    const foundItem = inspectionField.find((item) => item.id === areaId);
+    const itemIndex = inspectionField.indexOf(foundItem);
+    inspectionField.splice(itemIndex, 1);
+    const remItems = foundItem.items.filter((item) => item.id !== itemId);
+    foundItem.items = remItems;
+    SetInspectionField([...inspectionField, foundItem]);
+  };
+
+  const deleteInventoryItem = (areaId, inventoryId) => {
+    const foundItem = inspectionField.find((item) => item.id === areaId);
+    const itemIndex = inspectionField.indexOf(foundItem);
+    inspectionField.splice(itemIndex, 1);
+    const remInventories = foundItem.inventories.filter(
+      (item) => item.id !== inventoryId
+    );
+    foundItem.inventories = remInventories;
+    SetInspectionField([...inspectionField, foundItem]);
   };
 
   const formatData = (data, field, imageUrl) => {
@@ -82,10 +163,24 @@ const MoveIn = ({
   };
 
   const handleSubmit = (event, values) => {
+    console.log(inspectionField);
     console.log(values);
+    SetImageError(false);
+    // let itemError = false;
+    // // Set image error handler
+    // inspectionField.forEach((data) => {
+    //   data.items.forEach((item) => {
+    //     if (item.images.length === 0) {
+    //       SetImageError(true);
+    //       itemError = true;
+    //       return;
+    //     }
+    //   });
+    //   if (itemError) return;
+    // });
     const formData = {};
     formData.type = type;
-    formData.rentId = inspection.rent.id;
+    formData.rentId = rentalId.id;
     formData.inspectionAreas = [];
     for (const [key, value] of Object.entries(values)) {
       if (key === 'generalComment') {
@@ -100,25 +195,32 @@ const MoveIn = ({
             itemName: key1,
             ...value1,
           };
+
           inspectionArea.inspectionItems.push(inspectionItem);
         }
 
-        for (const [key1, value1] of Object.entries(value.inventoryItems)) {
-          let inventoryItem = {
-            itemName: key1,
-            ...value1,
-          };
-          inspectionArea.inventoryItems.push(inventoryItem);
+        if (value.inventoryItems) {
+          for (const [key1, value1] of Object.entries(value.inventoryItems)) {
+            let inventoryItem = {
+              itemName: key1,
+              ...value1,
+            };
+            inspectionArea.inventoryItems.push(inventoryItem);
+          }
         }
         formData.inspectionAreas.push(inspectionArea);
       }
     }
-
-    console.log(formData);
-    let res = formData.inspectionAreas.forEach((val) =>
-      val.inspectionItems.forEach((val2) => (val2.images = selectedFiles))
-    );
-    dispatch(postInspection(formData));
+    const cloneFormData = { ...formData };
+    console.log(inspectionField);
+    cloneFormData.inspectionAreas.forEach((ele, index) => {
+      ele.inspectionItems.forEach((e, i) => {
+        cloneFormData.inspectionAreas[index].inspectionItems[i].images =
+          inspectionField[index].items[i].images;
+        // e.images = inspectionField[index].items[i].images;
+      });
+    });
+    dispatch(postInspection(cloneFormData));
   };
 
   const [col1, setCol1] = useState('');
@@ -137,11 +239,11 @@ const MoveIn = ({
 
   const updateInspection = (values) => {
     const newInspection = {
-      id: inspectionField.length + 1,
+      id: new Date().getTime().toString(),
       title: values.title,
-      items: values.Inspection,
-      inventories: values.Inventory,
-      selectedFiles: [],
+      // items: values.Inspection,
+      // inventories: values.Inventory,
+      // selectedFiles: [],
     };
     SetAddColumn(false);
     SetInspectionField([...inspectionField, newInspection]);
@@ -168,23 +270,17 @@ const MoveIn = ({
 
   useEffect(() => {
     if (match.params.id) {
-      fetchEachInspection(match.params.id);
+      fetchRentalRecommendation(match.params.id);
     }
   }, [match.params.id]);
 
   useEffect(() => {
-    if (rental) {
-      setRentId(rental?.entities[0].id);
-    }
-
     if (message) {
       setTimeout(() => {
         history.push('/inspection');
       }, 3000);
     }
-  }, [rental, message]);
-
-  console.log(inspection);
+  }, [message]);
 
   return (
     <div className="page-content">
@@ -192,6 +288,11 @@ const MoveIn = ({
         <Link to="/inspection">
           <button className="btn btn-success btn-sm px-3 mb-2"> Back </button>
         </Link>
+        {imageError && (
+          <Alert color="danger" className="text-center">
+            Atleast an image is required in each item
+          </Alert>
+        )}
         {!startInspection ? (
           <Card>
             <CardBody>
@@ -204,7 +305,7 @@ const MoveIn = ({
                   <div className="d-flex">
                     <div>
                       <img
-                        src={inspection?.rent?.property?.indexImage}
+                        src={rentalId?.property?.indexImage}
                         alt="property"
                         width="100"
                         height="100"
@@ -216,20 +317,18 @@ const MoveIn = ({
                         <div className="mb-3">
                           <h6>Property</h6>
                           <span style={{ display: 'block' }}>
-                            {inspection?.rent?.property?.title}
+                            {rentalId?.property?.parentProperty?.title}
                           </span>
-                          <span>
-                            (ID: {inspection?.rent?.property?.propertyRef})
+                          <span style={{ display: 'block' }}>
+                            {rentalId?.property?.title}
                           </span>
+                          <span>(ID: {rentalId?.property?.propertyRef})</span>
                         </div>
                         <div className="mb-3">
                           <span>
-                            {
-                              inspection?.rent?.property?.address
-                                ?.houseNoAddress
-                            }
-                            , {inspection?.rent?.property?.address?.state},{' '}
-                            {inspection?.rent?.property?.address?.country}
+                            {rentalId?.property?.address?.houseNoAddress},{' '}
+                            {rentalId?.property?.address?.state},{' '}
+                            {rentalId?.property?.address?.country}
                           </span>
                         </div>
                       </Col>
@@ -272,9 +371,15 @@ const MoveIn = ({
                   onClick={() => SetAddColumn(!addColumn)}
                   style={{ cursor: 'pointer' }}
                 >
-                  <div className="card-header text-center text-success shadow-md font-size-14 font-weight-bold">
-                    Create Inspection
-                  </div>
+                  {inspectionField.length === 0 ? (
+                    <div className="card-header text-center text-success shadow-md font-size-14 font-weight-bold">
+                      Create Inspection
+                    </div>
+                  ) : (
+                    <div className="card-header text-center text-success shadow-md font-size-14 font-weight-bold">
+                      Add More Inspection Areas
+                    </div>
+                  )}
                 </Link>
               </CardBody>
             </Card>
@@ -291,10 +396,6 @@ const MoveIn = ({
               {inspectionsError && (
                 <Alert color="danger">{inspectionsError.message}</Alert>
               )}
-
-              <div className="d-flex justify-content-between mb-2">
-                <h5>{inspectionData?.type}</h5>
-              </div>
               <Row>
                 <Col xl={12} className="mx-auto">
                   <div id="accordion">
@@ -303,34 +404,48 @@ const MoveIn = ({
                         <Card key={data.id}>
                           <CardBody>
                             <Card className="mb-2">
-                              <CardHeader
-                                id="headingOne"
-                                className="d-flex justify-content-between"
-                              >
+                              <CardBody>
                                 <Link
                                   to="#"
                                   onClick={() => t_col1(data.title)}
                                   style={{ cursor: 'pointer' }}
                                   className="text-dark"
                                 >
-                                  <div className="m-0 font-14 d-flex justify-content-between">
-                                    <div className="d-flex">
-                                      <i
-                                        className={
-                                          col1
-                                            ? 'fas fa-caret-down mr-4'
-                                            : 'fas fa-caret-right mr-4'
-                                        }
-                                      ></i>
-                                      <h6
-                                        ref={headerNameRef}
-                                        className="text-capitalize"
-                                      >
-                                        {data.title}
-                                      </h6>
+                                  <Link
+                                    to="#"
+                                    onClick={() => t_col1(data.title)}
+                                    style={{ cursor: 'pointer' }}
+                                    className="text-dark"
+                                  >
+                                    <div className="m-0 font-14 d-flex justify-content-between">
+                                      <div className="d-flex">
+                                        <i
+                                          className={
+                                            col1
+                                              ? 'fas fa-caret-down mr-4'
+                                              : 'fas fa-caret-right mr-4'
+                                          }
+                                        ></i>
+                                        <h6
+                                          ref={headerNameRef}
+                                          className="text-capitalize"
+                                        >
+                                          {data.title}
+                                        </h6>
+                                      </div>
+                                      <div>
+                                        <span
+                                          className="ml-4 text-danger float-right"
+                                          onClick={() =>
+                                            deleteInspectionArea(data.id)
+                                          }
+                                        >
+                                          <i className="fas fa-trash font-size-12 "></i>
+                                        </span>
+                                      </div>
                                     </div>
-                                  </div>
-                                </Link>
+                                  </Link>
+                                  {/*                                 
                                 <span>
                                   <span>
                                     <i className="fas fa-pen float-right  "></i>
@@ -343,163 +458,292 @@ const MoveIn = ({
                                     <i className="ri-indeterminate-circle-line  mr-4 text-danger" />
                                   </span>
                                 </span>
-                              </CardHeader>
-                              <Collapse isOpen={col1 === data.title}>
-                                <CardBody>
-                                  <Row>
-                                    <Col ls={4}>
-                                      <h6>Inspection items</h6>
-                                    </Col>
-                                    <Col ls={4}>
-                                      <div className="d-flex justify-content-around">
-                                        <label htmlFor="Good" className="mr-1">
-                                          Good
-                                        </label>
-                                        <label
-                                          htmlFor="Average"
-                                          className="mr-1"
-                                        >
-                                          Average
-                                        </label>
-                                        <label htmlFor="Poor" className="mr-1">
-                                          Poor
-                                        </label>
-                                      </div>
-                                    </Col>
-                                    <Col ls={4}>
-                                      <h6>Comment</h6>
-                                    </Col>
-                                  </Row>
-                                  {data.items.length > 0 &&
-                                    data.items.map((item) => (
-                                      <>
-                                        <Row className="mb-1" key={item}>
-                                          <Col ls={4}>
-                                            <Label className="text-capitalize">
-                                              {item}
-                                            </Label>
-                                          </Col>
-                                          <Col ls={4}>
-                                            <AvRadioGroup
-                                              name={`${data.title}.inspectionItems.${item}.itemState`}
-                                              value="GOOD"
-                                            >
-                                              <Col
-                                                sm={12}
-                                                className="d-flex justify-content-between"
+                              */}
+                                </Link>
+                                <Collapse isOpen={col1 === data.title}>
+                                  <CardBody>
+                                    <Row>
+                                      <h6 className="ml-2 mb-4">
+                                        Inspection Items
+                                      </h6>
+                                    </Row>
+                                    {data?.items?.length > 0 &&
+                                      data?.items?.map((item, index) => (
+                                        <div key={item.id}>
+                                          <Row>
+                                            <Col ls={4}>
+                                              <h6>Items</h6>
+                                            </Col>
+                                            <Col ls={4}>
+                                              <div className="d-flex justify-content-around">
+                                                <label
+                                                  htmlFor="Good"
+                                                  className="mr-1"
+                                                >
+                                                  Good
+                                                </label>
+                                                <label
+                                                  htmlFor="Average"
+                                                  className="mr-1"
+                                                >
+                                                  Average
+                                                </label>
+                                                <label
+                                                  htmlFor="Poor"
+                                                  className="mr-1"
+                                                >
+                                                  Poor
+                                                </label>
+                                              </div>
+                                            </Col>
+                                            <Col ls={4}>
+                                              <h6>Comment</h6>
+                                            </Col>
+                                          </Row>
+                                          <Row className="mb-1">
+                                            <Col ls={4}>
+                                              <Label className="text-capitalize">
+                                                {item.itemName}
+                                              </Label>
+                                            </Col>
+                                            <Col ls={4}>
+                                              <AvRadioGroup
+                                                name={`${data.title}.inspectionItems.${item.itemName}.itemState`}
+                                                value="GOOD"
                                               >
                                                 <Col
-                                                  ls={4}
-                                                  className="d-flex justify-content-center"
+                                                  sm={12}
+                                                  className="d-flex justify-content-between"
                                                 >
-                                                  <AvRadio value="GOOD" />
+                                                  <Col
+                                                    ls={4}
+                                                    className="d-flex justify-content-center"
+                                                  >
+                                                    <AvRadio value="GOOD" />
+                                                  </Col>
+                                                  <Col
+                                                    ls={4}
+                                                    className="d-flex justify-content-center"
+                                                  >
+                                                    <AvRadio value="AVERAGE" />
+                                                  </Col>
+                                                  <Col
+                                                    ls={4}
+                                                    className="d-flex justify-content-center"
+                                                  >
+                                                    <AvRadio value="POOR" />
+                                                  </Col>
                                                 </Col>
-                                                <Col
-                                                  ls={4}
-                                                  className="d-flex justify-content-center"
-                                                >
-                                                  <AvRadio value="AVERAGE" />
-                                                </Col>
-                                                <Col
-                                                  ls={4}
-                                                  className="d-flex justify-content-center"
-                                                >
-                                                  <AvRadio value="POOR" />
-                                                </Col>
-                                              </Col>
-                                            </AvRadioGroup>
-                                          </Col>
-                                          <Col
-                                            ls={4}
-                                            className="d-flex align-items-start"
-                                          >
-                                            <AvField
-                                              type="text"
-                                              name={`${data.title}.inspectionItems.${item}.comment`}
-                                              style={{
-                                                background: '#F4F4F4',
-                                                border: 'none',
-                                              }}
-                                            />
-                                          </Col>
-                                        </Row>
+                                              </AvRadioGroup>
+                                            </Col>
+                                            <Col
+                                              ls={4}
+                                              className="d-flex align-items-start"
+                                            >
+                                              <AvField
+                                                type="text"
+                                                name={`${data.title}.inspectionItems.${item.itemName}.comment`}
+                                                style={{
+                                                  background: '#F4F4F4',
+                                                  border: 'none',
+                                                }}
+                                              />
+                                              <span
+                                                className="ml-4 text-danger float-right"
+                                                onClick={() =>
+                                                  deleteInspectionItem(
+                                                    data.id,
+                                                    item.id
+                                                  )
+                                                }
+                                                style={{ cursor: 'pointer' }}
+                                              >
+                                                <i className="fas fa-trash font-size-12 "></i>
+                                              </span>
+                                            </Col>
+                                          </Row>
 
-                                        <Row>
-                                          <Col xs={12} className="mx-auto mb-4">
-                                            <hr className="my-3" />
-                                            <DropZone
-                                              selectedFiles={data.selectedFiles}
-                                              typeName="encodedUpload"
-                                              setFile={(files) =>
-                                                uploadFIle(
-                                                  files,
-                                                  data.id,
-                                                  data,
-                                                  item
-                                                )
+                                          <Row>
+                                            <Col
+                                              xs={12}
+                                              className="mx-auto mb-4"
+                                            >
+                                              <hr className="my-3" />
+                                              <DropZone
+                                                selectedFiles={
+                                                  data.selectedFiles
+                                                }
+                                                typeName="encodedUpload"
+                                                setFile={(files) =>
+                                                  uploadFIle(
+                                                    files,
+                                                    data.id,
+                                                    item.id
+                                                  )
+                                                }
+                                              />
+                                            </Col>
+                                          </Row>
+                                        </div>
+                                      ))}
+                                    <Col xs={12}>
+                                      <Collapse isOpen={addInspectColumn}>
+                                        <div className="d-flex mb-4">
+                                          <Col xs={4}>
+                                            <Input
+                                              name="newInspect"
+                                              className="form-control"
+                                              value={newInspect}
+                                              onChange={(e) =>
+                                                setNewInspect(e.target.value)
                                               }
+                                              placeholder="Inspection item"
                                             />
                                           </Col>
-                                        </Row>
-                                      </>
-                                    ))}
-                                  <hr className="my-3" />
-                                  <Row>
-                                    <h6 className="ml-2 mb-4">
-                                      Inventory Items
-                                    </h6>
-                                  </Row>
-                                  {data.inventories.length > 0 &&
-                                    data.inventories.map((inventory) => (
-                                      <>
-                                        <Row>
-                                          <Col ls={4}>
-                                            <h6>Items</h6>
+                                          <Col xs={4}>
+                                            <Button
+                                              type="submit"
+                                              color="primary"
+                                              onClick={() =>
+                                                addInspectionItem(data.id)
+                                              }
+                                            >
+                                              Add Item
+                                            </Button>
                                           </Col>
-                                          <Col ls={4}>
-                                            <h6>Quantity</h6>
-                                          </Col>
-                                          <Col ls={4}>
-                                            <h6>Comment</h6>
-                                          </Col>
-                                        </Row>
-                                        <Row className="align-items-center mb-2">
-                                          <Col ls={4}>
-                                            <Label className="text-capitalize">
-                                              {' '}
-                                              {inventory}{' '}
-                                            </Label>
-                                          </Col>
-                                          <Col
-                                            ls={4}
-                                            className="d-flex justify-content-between"
-                                          >
-                                            <AvField
-                                              type="number"
-                                              name={`${data.title}.inventoryItems.${inventory}.quantity`}
-                                              value="0"
-                                              min={0}
-                                              style={{
-                                                background: '#F4F4F4',
-                                                border: 'none',
-                                              }}
+                                        </div>
+                                      </Collapse>
+                                    </Col>
+                                    <Col xs={12}>
+                                      <Button
+                                        type="button"
+                                        color="success"
+                                        outline
+                                        block
+                                        className="waves-effect d-flex align-items-center justify-content-center"
+                                        onClick={() =>
+                                          setAddInspectColumn(!addInspectColumn)
+                                        }
+                                      >
+                                        <i className="ri-add-circle-line font-size-20 mr-2"></i>
+                                        Add Inspection Items
+                                      </Button>
+                                    </Col>
+                                    <hr className="my-3" />
+                                    <Row>
+                                      <h6 className="ml-2 mb-4">
+                                        Inventory Items
+                                      </h6>
+                                    </Row>
+                                    {data?.inventories?.length > 0 &&
+                                      data?.inventories?.map(
+                                        (inventory, index) => (
+                                          <div key={inventory.id}>
+                                            <Row>
+                                              <Col ls={4}>
+                                                <h6>Items</h6>
+                                              </Col>
+                                              <Col ls={4}>
+                                                <h6>Quantity</h6>
+                                              </Col>
+                                              <Col ls={4}>
+                                                <h6>Comment</h6>
+                                              </Col>
+                                            </Row>
+                                            <Row className="align-items-center mb-2">
+                                              <Col ls={4}>
+                                                <Label className="text-capitalize">
+                                                  {' '}
+                                                  {inventory.itemName}{' '}
+                                                </Label>
+                                              </Col>
+                                              <Col
+                                                ls={4}
+                                                className="d-flex justify-content-between"
+                                              >
+                                                <AvField
+                                                  type="number"
+                                                  name={`${data.title}.inventoryItems.${inventory.itemName}.quantity`}
+                                                  value="0"
+                                                  min={0}
+                                                  style={{
+                                                    background: '#F4F4F4',
+                                                    border: 'none',
+                                                  }}
+                                                />
+                                              </Col>
+                                              <Col ls={4} className="d-flex">
+                                                <AvField
+                                                  type="text"
+                                                  name={`${data.title}.inventoryItems.${inventory.itemName}.comment`}
+                                                  style={{
+                                                    background: '#F4F4F4',
+                                                    border: 'none',
+                                                  }}
+                                                />
+                                                <span
+                                                  className="ml-4 text-danger float-right"
+                                                  onClick={() =>
+                                                    deleteInventoryItem(
+                                                      data.id,
+                                                      inventory.id
+                                                    )
+                                                  }
+                                                  style={{ cursor: 'pointer' }}
+                                                >
+                                                  <i className="fas fa-trash font-size-12 "></i>
+                                                </span>
+                                              </Col>
+                                            </Row>
+                                          </div>
+                                        )
+                                      )}
+                                    <Col xs={12}>
+                                      <Collapse isOpen={addInventColumn}>
+                                        <div className="d-flex mb-4">
+                                          <Col xs={4}>
+                                            <Input
+                                              name="newInvent"
+                                              className="form-control"
+                                              value={newInvent}
+                                              onChange={(e) =>
+                                                setNewInvent(e.target.value)
+                                              }
+                                              placeholder="Inventory item"
                                             />
                                           </Col>
-                                          <Col ls={4} className="d-flex">
-                                            <AvField
-                                              type="text"
-                                              name={`${data.title}.inventoryItems.${inventory}.comment`}
-                                              style={{
-                                                background: '#F4F4F4',
-                                                border: 'none',
-                                              }}
-                                            />
+                                          <Col xs={4}>
+                                            <Button
+                                              type="submit"
+                                              color="primary"
+                                              onClick={() =>
+                                                addInventoryItem(data.id)
+                                              }
+                                            >
+                                              Add Item
+                                            </Button>
                                           </Col>
-                                        </Row>
-                                      </>
-                                    ))}
-                                </CardBody>
-                              </Collapse>
+                                        </div>
+                                      </Collapse>
+                                    </Col>
+                                    <Col xs={12}>
+                                      <Button
+                                        type="button"
+                                        color="success"
+                                        outline
+                                        block
+                                        className="waves-effect d-flex align-items-center justify-content-center"
+                                        onClick={() =>
+                                          setAddInventColumn(!addInventColumn)
+                                        }
+                                      >
+                                        <i className="ri-add-circle-line font-size-20 mr-2"></i>
+                                        Add Inventory Items
+                                      </Button>
+                                    </Col>
+                                  </CardBody>
+                                </Collapse>
+                              </CardBody>
                             </Card>
                           </CardBody>
                         </Card>
@@ -541,11 +785,13 @@ const MoveIn = ({
 
 const mapStateToProps = (state) => {
   const { inspection, loading, message, inspectionsError } = state.Inspections;
-  const { rental } = state.Rental;
-  return { inspection, loading, message, inspectionsError, rental };
+  const { rentalId } = state.PreviewReducer;
+  return { inspection, loading, message, inspectionsError, rentalId };
 };
 
-export default connect(mapStateToProps, {
-  postInspection,
-  fetchEachInspection,
-})(MoveIn);
+export default withRouter(
+  connect(mapStateToProps, {
+    postInspection,
+    fetchRentalRecommendation,
+  })(MoveIn)
+);

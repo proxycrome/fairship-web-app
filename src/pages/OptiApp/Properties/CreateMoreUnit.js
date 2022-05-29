@@ -60,7 +60,7 @@ const CreateMoreUnit = ({
                       className="avatar-lg mr-2 rounded"
                     />
                     <div>
-                      <h5 className="card-title text-capitalize"> Unit No: {property?.unitNo} </h5>
+                      <h5 className="card-title text-capitalize">Unit No: {property?.unitNo}</h5>
                       <p>Title: {property.title} </p>
                       <p className="text-muted text-capitalize">
                         {property?.address.houseNoAddress}

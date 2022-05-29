@@ -101,7 +101,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                             <td>{inspect?.createdAt}</td>
                             {payloadStatus !== 'PENDING' && (
                               <td>
-                                <Link to={`create_inspection/${inspect?.id}`}>
+                                <Link to={`/create_inspection/${inspect?.rent?.id}`}>
                                   <button className="btn btn-success btn-sm">
                                     Inspect
                                   </button>

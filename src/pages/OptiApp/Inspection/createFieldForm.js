@@ -8,9 +8,17 @@ import { Link } from 'react-router-dom';
 const CreateInspection = ({updateInspection}) => {
   const [inventory, setInventory] = useState([]);
   const [inspection, setInspection] = useState([]);
+  const [title, setTitle] = useState('');
+
   const handleSubmit = (events, values) => {
-    updateInspection(values)
+    const formData = {
+      ...values,
+      title: title,
+    }
+    updateInspection(formData)
+    setTitle('');
   };
+  
   const addInventory = () => {
     let initial = 1;
     if (inventory.length === 0) {
@@ -52,12 +60,14 @@ const CreateInspection = ({updateInspection}) => {
                   label="Inspection Area"
                   type="text"
                   className="form-ctrl"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   id="title"
                   placeholder="Title"
                 />
               </FormGroup>
             </Col>
-            <Col xs={6}>
+            {/* <Col xs={6}>
               <FormGroup className="form-group-custom mb-4">
                 <AvField
                   name={`Inspection.${0}`}
@@ -138,11 +148,11 @@ const CreateInspection = ({updateInspection}) => {
                 {' '}
                 Add More{' '}
               </Link>
-            </Col>
+            </Col> */}
           </Row>
           <div className="text-center">
             <Button type="submit" color="success" className="px-2">
-              Create Inventory
+              Add Inspection Area
             </Button>
           </div>
         </AvForm>

@@ -8,6 +8,8 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  Form,
+  Input,
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -16,11 +18,11 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
-} from 'availity-reactstrap-validation';
-import { getPropertySubcategory } from '../../../../store/actions';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import plus from '../images/plus.svg'
+} from "availity-reactstrap-validation";
+import { getPropertySubcategory } from "../../../../store/actions";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import plus from "../images/plus.svg";
 
 import DropZone from "../../../../components/Common/imageUpload";
 
@@ -51,11 +53,12 @@ class CreateProperty extends Component {
     this.setState({ show: true });
   };
 
+  payment(event) {
+    event.preventDefault();
+    const payee = {};
 
-  payment(event, values) {
-    const payee = { ...values };
-
-    payee.percentageAmount = Number(values.percentageAmount);
+    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.name = this.state.name;
     this.state.pays.push(payee);
     console.log(payee);
     this.setState({
@@ -68,10 +71,10 @@ class CreateProperty extends Component {
     this.setState({ show: false });
   };
 
-  deleteItem(index){
+  deleteItem(index) {
     let paymentItem = [...this.state.pays];
     paymentItem.splice(index, 1);
-    this.setState({pays: paymentItem})
+    this.setState({ pays: paymentItem });
   }
 
   handleSubmit(events, values) {
@@ -236,6 +239,7 @@ class CreateProperty extends Component {
                     type="select"
                     name="parkingLot"
                     helpMessage="Packing space"
+                    value="Yes"
                   >
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -248,6 +252,7 @@ class CreateProperty extends Component {
                     type="select"
                     name="isServiced"
                     helpMessage="Serviced Apartment"
+                    value="Yes"
                   >
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -310,7 +315,10 @@ class CreateProperty extends Component {
                     >
                       <span>{pay.name}: </span>
                       <span>{pay.percentageAmount}%</span>
-                      <span className="ml-4 text-danger" onClick={() => this.deleteItem(index)}>
+                      <span
+                        className="ml-4 text-danger"
+                        onClick={() => this.deleteItem(index)}
+                      >
                         <i className="fas fa-trash font-size-12 "></i>
                       </span>
                     </span>
@@ -320,30 +328,32 @@ class CreateProperty extends Component {
               <Modal size="lg" isOpen={this.state.show} toggle={this.hideModal}>
                 <ModalHeader toggle={this.hideModal}>Payment Item</ModalHeader>
                 <ModalBody>
-                  <AvForm onValidSubmit={this.payment}>
+                  <Form>
                     <p>Name</p>
-                    <AvField
+                    <Input
                       placeholder="Write name"
                       name="name"
                       value={this.state.name}
                       onChange={(e) => this.setState({ name: e.target.value })}
                     />
                     <p className="mt-3">Percentage Amount %</p>
-                    <AvField
+                    <Input
                       placeholder="Write payment percentage"
                       name="percentageAmount"
                       value={this.state.percentageAmount}
                       onChange={(e) =>
-                        this.setState({ percentageAmount: e.target.value })
+                        this.setState({
+                          percentageAmount: e.target.value,
+                        })
                       }
                     />
                     <Button
                       className=" mt-3 btn btn-success btn-lg"
-                      type="submit"
+                      onClick={this.payment}
                     >
                       Add
                     </Button>
-                  </AvForm>
+                  </Form>
                 </ModalBody>
               </Modal>
               <Col md={12}>
@@ -366,8 +376,7 @@ class CreateProperty extends Component {
                           //       .lastName
                           //   }`
                           // }
-                          required
-                          // helpMessage="Location"
+                          required  
                         >
                           {this.props.landlordAgents?.data?.agents?.length !==
                           0 ? (
@@ -424,7 +433,7 @@ class CreateProperty extends Component {
                           <AvCheckbox
                             className="mb-2"
                             label="Boys Quater"
-                            value=" Boys Quater"
+                            value="Boys Quater"
                           />
                           <AvCheckbox
                             className="mb-2"
@@ -473,8 +482,8 @@ class CreateProperty extends Component {
                           />
                           <AvCheckbox
                             className="mb-2"
-                            label=" Swimming pool"
-                            value=" Swimming pool"
+                            label="Swimming pool"
+                            value="Swimming pool"
                           />
                           <AvCheckbox
                             className="mb-2"
@@ -488,8 +497,8 @@ class CreateProperty extends Component {
                           />
                           <AvCheckbox
                             className="mb-2"
-                            label=" Clubhouse/Lounges"
-                            value=" Clubhouse/Lounge"
+                            label="Clubhouse/Lounges"
+                            value="Clubhouse/Lounge"
                           />
                           <AvCheckbox
                             className="mb-2"
@@ -503,7 +512,7 @@ class CreateProperty extends Component {
                           />
                           <AvCheckbox
                             className="mb-2"
-                            label="Dishwasherr"
+                            label="Dishwasher"
                             value="Dishwasher"
                           />
                           <AvCheckbox
@@ -513,8 +522,8 @@ class CreateProperty extends Component {
                           />
                           <AvCheckbox
                             className="mb-2"
-                            label="Access to public transportatio"
-                            value="Access to public transportatio"
+                            label="Access to public transportation"
+                            value="Access to public transportation"
                           />
                           <AvCheckbox
                             className="mb-2"
@@ -523,8 +532,8 @@ class CreateProperty extends Component {
                           />
                           <AvCheckbox
                             className="mb-2"
-                            label=" Communication system"
-                            value=" Communication system"
+                            label="Communication system"
+                            value="Communication system"
                           />
                         </AvCheckboxGroup>
                       </FormGroup>

@@ -108,9 +108,15 @@ const ListUnitPreview = ({
                         bathrooms
                       </span>
                     </div>
-                    <div>
+                    <div className="mb-3">
                       <h6>Status</h6>
                       <span>{property?.status}</span>
+                    </div>
+                    <div>
+                      <h6>Amenities</h6>
+                      {property?.otherAmenities?.split(',').map((amentity, i) => (
+                        <span key={i} className="d-block">{amentity}</span>
+                      ))}
                     </div>
                   </Col>
                   <Col ls={5}>
