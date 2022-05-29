@@ -100,7 +100,7 @@ const PreviewCopy = ({
                       />
                       <span className="co-name mx-2">
                         {inspection?.rent?.tenant?.firstName}{' '}
-                        {inspection?.rent?.tenant?.firstName}
+                        {inspection?.rent?.tenant?.lastName}
                       </span>
                     </p>
                   </div>
@@ -326,7 +326,7 @@ const PreviewCopy = ({
                 <div className="sign mt-4"></div>
                 <p>
                   {inspection?.rent?.tenant?.firstName}{' '}
-                  {inspection?.rent?.tenant?.firstName}
+                  {inspection?.rent?.tenant?.lastName}
                 </p>
                 <p>{Moment(inspection?.createdAt).format('MMM Do YY')}</p>
                 <p>Tenant</p>
@@ -335,7 +335,7 @@ const PreviewCopy = ({
                 <div className="sign mt-5"></div>
                 <p>
                   {inspection?.conductedBy?.firstName}{' '}
-                  {inspection?.conductedBy?.firstName}
+                  {inspection?.conductedBy?.lastName}
                 </p>
                 <p>{Moment(inspection?.createdAt).format('MMM Do YY')}</p>
                 <p>Agent</p>
