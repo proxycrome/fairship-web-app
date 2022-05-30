@@ -26,12 +26,12 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
     setFilteredProperties(
       properties?.entities?.filter(
         (property) =>
-          property.title.toLowerCase().includes(searchName.toLowerCase()) ||
-          property.price.toString().includes(searchName) ||
-          property.address.state
-            .toLowerCase()
-            .includes(searchName.toLowerCase()) ||
-          property.feature.toLowerCase() === searchName.toLowerCase()
+          property?.title?.toLowerCase().includes(searchName.toLowerCase()) ||
+          property?.price?.toString().includes(searchName) ||
+          property?.address?.state
+            ?.toLowerCase()
+            ?.includes(searchName.toLowerCase()) ||
+          property?.feature?.toLowerCase() === searchName.toLowerCase()
       )
     );
   }, [searchName]);
@@ -90,12 +90,23 @@ const Listing = ({ fetchProperties, properties, propertiesError, loading }) => {
                           <span className="text-muted">
                             {data.bedrooms} Beds, {data.bathrooms} Baths.
                           </span>
-                          <h6 className="mt-2 card-title">
-                            {data.parentProperty.title} {data.title}
-                          </h6>
+                          <p className="mt-2 card-title">
+                            <span
+                              style={{
+                                display: "block",
+                                fontWeight: "800",
+                                color: "black",
+                              }}
+                            >
+                              {data?.parentProperty?.title}
+                            </span>
+                            <span style={{ display: "block", color: "black" }}>
+                              {data?.title}
+                            </span>
+                          </p>
                           <p>
                             From{" "}
-                            <span className="text-primary">₦{data.price.toLocaleString()}</span>{" "}
+                            <span className="text-primary">₦{data?.price?.toLocaleString()}</span>{" "}
                             /y
                           </p>
                         </CardBody>
