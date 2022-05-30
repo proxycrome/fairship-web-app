@@ -80,16 +80,18 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                         {inspections?.entities?.map((inspect) => (
                           <tr key={inspect?.id}>
                             <td className="d-flex align-items-center">
-                              <img
-                                src={inspect?.rent?.tenant?.profilePhoto}
-                                alt="profile"
-                                width="38"
-                                height="38"
-                              />
-                              <span className="co-name mx-2">
-                                {inspect?.rent?.tenant?.firstName}{' '}
-                                {inspect?.rent?.tenant?.lastName}
-                              </span>
+                              <Link to={`previewInspection/${inspect.id}`}>
+                                <img
+                                  src={inspect?.rent?.tenant?.profilePhoto}
+                                  alt="profile"
+                                  width="38"
+                                  height="38"
+                                />
+                                <span className="co-name mx-2">
+                                  {inspect?.rent?.tenant?.firstName}{' '}
+                                  {inspect?.rent?.tenant?.lastName}
+                                </span>
+                              </Link>
                             </td>
                             <td>001</td>
                             <td>
@@ -97,7 +99,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                             </td>
                             <td>{inspect?.type}</td>
                             <td>{inspect?.createdAt}</td>
-                            {payloadStatus === 'PENDING' && (
+                            {payloadStatus !== 'PENDING' && (
                               <td>
                                 <Link to={`/create_inspection/${inspect?.rent?.id}`}>
                                   <button className="btn btn-success btn-sm">
