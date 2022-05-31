@@ -40,6 +40,8 @@ const PreviewCopy = ({
     }
   }, [match.params.id]);
 
+  console.log(inspection);
+
   return (
     <div className="page-content">
       <Link to="/inspection">
@@ -229,7 +231,7 @@ const PreviewCopy = ({
                               </Row>
                               {data?.inventoryItems.length > 0 &&
                                 data?.inventoryItems.map((inventory) => (
-                                  <Row className="align-items-center mb-2">
+                                  <Row className="align-items-center mb-2" key={inventory.id}>
                                     <Col ls={4}>{inventory.itemName}</Col>
                                     <Col
                                       ls={4}
@@ -259,53 +261,25 @@ const PreviewCopy = ({
           </Row>
           <Row>
             <Col xl={11} className="mx-auto mb-5">
-              <span>Attach image(s)</span>
+              <span>Attached image(s)</span>
               <div className="d-flex">
-                <div>
-                  <div className="photo-box mr-2 mb-2 d-flex align-items-center justify-content-center">
-                    <img src={Boiler} alt="boiler" />
+                {inspection?.inspectionAreas?.map(area => area.inspectionItems.map(item => item.images.map(img => (
+                  <div key={img.id}>
+                    <div className="photo-box mr-2 mb-2 d-flex align-items-center justify-content-center">
+                      <img src={img.imageLink} alt="boiler" width="168" height="185" />
+                    </div>
+                    <span
+                      style={{
+                        display: 'block',
+                        width: '150px',
+                        margin: '0 auto',
+                        textAlign: 'center',
+                      }}
+                    >
+                      {area.name} {item.itemName}
+                    </span>
                   </div>
-                  <span
-                    style={{
-                      display: 'block',
-                      width: '150px',
-                      margin: '0 auto',
-                      textAlign: 'center',
-                    }}
-                  >
-                    Bedroom 1 Water heater
-                  </span>
-                </div>
-                <div>
-                  <div className="photo-box mr-2 mb-2 d-flex align-items-center justify-content-center">
-                    <img src={Boiler} alt="boiler" />
-                  </div>
-                  <span
-                    style={{
-                      display: 'block',
-                      width: '150px',
-                      margin: '0 auto',
-                      textAlign: 'center',
-                    }}
-                  >
-                    Bedroom 1 Water heater
-                  </span>
-                </div>
-                <div>
-                  <div className="photo-box mr-2 mb-2 d-flex align-items-center justify-content-center">
-                    <img src={Boiler} alt="boiler" />
-                  </div>
-                  <span
-                    style={{
-                      display: 'block',
-                      width: '150px',
-                      margin: '0 auto',
-                      textAlign: 'center',
-                    }}
-                  >
-                    Bedroom 1 Water heater
-                  </span>
-                </div>
+                ))))}
               </div>
             </Col>
           </Row>

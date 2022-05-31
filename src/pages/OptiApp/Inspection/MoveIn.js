@@ -163,28 +163,15 @@ const MoveIn = ({
   };
 
   const handleSubmit = (event, values) => {
-    console.log(inspectionField);
     console.log(values);
     SetImageError(false);
-    // let itemError = false;
-    // // Set image error handler
-    // inspectionField.forEach((data) => {
-    //   data.items.forEach((item) => {
-    //     if (item.images.length === 0) {
-    //       SetImageError(true);
-    //       itemError = true;
-    //       return;
-    //     }
-    //   });
-    //   if (itemError) return;
-    // });
     const formData = {};
     formData.type = type;
     formData.rentId = rentalId.id;
     formData.inspectionAreas = [];
     for (const [key, value] of Object.entries(values)) {
       if (key === 'generalComment') {
-        formData.generalComment = key;
+        formData.generalComment = values[key];
       } else {
         let inspectionArea = {};
         inspectionArea.name = key;
@@ -212,11 +199,10 @@ const MoveIn = ({
       }
     }
     const cloneFormData = { ...formData };
-    console.log(inspectionField);
     cloneFormData.inspectionAreas.forEach((ele, index) => {
       ele.inspectionItems.forEach((e, i) => {
         cloneFormData.inspectionAreas[index].inspectionItems[i].images =
-          inspectionField[index].items[i].images;
+          inspectionField[index].items[i]?.images;
         // e.images = inspectionField[index].items[i].images;
       });
     });
@@ -411,54 +397,33 @@ const MoveIn = ({
                                   style={{ cursor: 'pointer' }}
                                   className="text-dark"
                                 >
-                                  <Link
-                                    to="#"
-                                    onClick={() => t_col1(data.title)}
-                                    style={{ cursor: 'pointer' }}
-                                    className="text-dark"
-                                  >
-                                    <div className="m-0 font-14 d-flex justify-content-between">
-                                      <div className="d-flex">
-                                        <i
-                                          className={
-                                            col1
-                                              ? 'fas fa-caret-down mr-4'
-                                              : 'fas fa-caret-right mr-4'
-                                          }
-                                        ></i>
-                                        <h6
-                                          ref={headerNameRef}
-                                          className="text-capitalize"
-                                        >
-                                          {data.title}
-                                        </h6>
-                                      </div>
-                                      <div>
-                                        <span
-                                          className="ml-4 text-danger float-right"
-                                          onClick={() =>
-                                            deleteInspectionArea(data.id)
-                                          }
-                                        >
-                                          <i className="fas fa-trash font-size-12 "></i>
-                                        </span>
-                                      </div>
+                                  <div className="m-0 font-14 d-flex justify-content-between">
+                                    <div className="d-flex">
+                                      <i
+                                        className={
+                                          col1
+                                            ? 'fas fa-caret-down mr-4'
+                                            : 'fas fa-caret-right mr-4'
+                                        }
+                                      ></i>
+                                      <h6
+                                        ref={headerNameRef}
+                                        className="text-capitalize"
+                                      >
+                                        {data.title}
+                                      </h6>
                                     </div>
-                                  </Link>
-                                  {/*                                 
-                                <span>
-                                  <span>
-                                    <i className="fas fa-pen float-right  "></i>
-                                  </span>
-                                  <span
-                                    onClick={() =>
-                                      removeInspectionArea(data.id)
-                                    }
-                                  >
-                                    <i className="ri-indeterminate-circle-line  mr-4 text-danger" />
-                                  </span>
-                                </span>
-                              */}
+                                    <div>
+                                      <span
+                                        className="ml-4 text-danger float-right"
+                                        onClick={() =>
+                                          deleteInspectionArea(data.id)
+                                        }
+                                      >
+                                        <i className="fas fa-trash font-size-12 "></i>
+                                      </span>
+                                    </div>
+                                  </div>
                                 </Link>
                                 <Collapse isOpen={col1 === data.title}>
                                   <CardBody>
