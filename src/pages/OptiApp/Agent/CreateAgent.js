@@ -104,7 +104,7 @@ const CreateAgent = ({ BackToHome }) => {
                 <Form className="mx-4 mt-2">
                   <FormGroup row>
                     <Col md={12}>
-                      <Label>Property</Label>
+                      <Label>Agent</Label>
                       <Select
                         value={selectedOption}
                         options={optionGroup}

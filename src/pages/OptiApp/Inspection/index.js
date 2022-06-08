@@ -17,6 +17,8 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
     dispatch(fetchInspections(payloadStatus));
   }, [payloadStatus]);
 
+  console.log(inspections);
+
   return (
     <div className="page-content">
       <div className="d-flex justify-content-between mb-3">
@@ -101,7 +103,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                             <td>{inspect?.createdAt}</td>
                             {payloadStatus !== 'PENDING' && (
                               <td>
-                                <Link to={`/create_inspection/${inspect?.rent?.id}`}>
+                                <Link to={`/create_inspection/${inspect?.rent?.id}/${inspect?.id}`}>
                                   <button className="btn btn-success btn-sm">
                                     Inspect
                                   </button>

@@ -103,10 +103,18 @@ class SidebarContent extends Component {
                 <li>
                   <Link to="/unit_properties">Single unit</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/listing_properties">Listings</Link>
-                </li>
+                </li> */}
               </ul>
+            </li>
+
+            {/* Listings */}
+            <li>
+              <Link to="/listing_properties" className="waves-effect">
+                <i className="ri-home-3-line"></i>
+                <span className="ml-1">Listings</span>
+              </Link>
             </li>
 
             {/* Accounting */}

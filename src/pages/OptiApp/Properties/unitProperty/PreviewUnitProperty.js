@@ -279,11 +279,11 @@ const ListUnitPreview = ({
                 <div>
                   <h6>Documents</h6>
                   <div>
-                    <span>Lease Agreement</span>
+                    {/* <span>Lease Agreement</span> */}
                     <div className="d-flex mt-2">
-                      {property?.documents.length > 0
-                        ? property?.documents.map((item) => (
-                            <Card key={item.id} className="shadow-lg">
+                      {property?.documents?.length > 0
+                        ? property?.documents?.map((item) => (
+                            <Card key={item.id} className="shadow-lg mr-3">
                               <a
                                 href={item.link}
                                 target="_blank"

@@ -27,22 +27,27 @@ import AddInspectionForm from './createFieldForm';
 import {
   postInspection,
   fetchRentalRecommendation,
+  fetchEachInspection,
 } from '../../../store/actions';
 
 import DropZone from '../../../components/Common/inspectUpload';
 
 const MoveIn = ({
   rentalId,
+  inspection,
   loading,
   message,
   inspectionsError,
   fetchRentalRecommendation,
+  fetchEachInspection,
   match,
   history,
+  location,
 }) => {
   const [selectedFiles, SetSelectedFiles] = useState([]);
   const [type, setType] = useState('MOVE_IN');
   const [newInspection, setNewInspection] = useState('');
+  const [prevInspections, setPrevInspections] = useState({});
 
   const [addColumn, SetAddColumn] = useState(false);
   const [inspectionField, SetInspectionField] = useState([]);
@@ -59,6 +64,8 @@ const MoveIn = ({
 
   const headerNameRef = useRef(null);
 
+  const inspectId = +location.pathname.split("/")[3];
+
   const uploadFIle = (file, areaId, itemId) => {
     const ans = inspectionField.map((data) => {
       if (data.id === areaId) {
@@ -70,7 +77,9 @@ const MoveIn = ({
     SetInspectionField(ans);
   };
 
-  const addInspectionItem = (areaId) => {
+  const addInspectionItem = (event, areaId) => {
+    event.preventDefault();
+    event.stopPropagation();
     const newItems = {
       id: new Date().getTime().toString(),
       itemName: newInspect,
@@ -92,7 +101,9 @@ const MoveIn = ({
     setNewInspect('');
   };
 
-  const addInventoryItem = (areaId) => {
+  const addInventoryItem = (event, areaId) => {
+    event.preventDefault();
+    event.stopPropagation();
     const newItems = {
       id: new Date().getTime().toString(),
       itemName: newInvent,
@@ -177,22 +188,25 @@ const MoveIn = ({
         inspectionArea.name = key;
         inspectionArea.inspectionItems = [];
         inspectionArea.inventoryItems = [];
-        for (const [key1, value1] of Object.entries(value.inspectionItems)) {
-          let inspectionItem = {
-            itemName: key1,
-            ...value1,
-          };
-
-          inspectionArea.inspectionItems.push(inspectionItem);
-        }
-
-        if (value.inventoryItems) {
-          for (const [key1, value1] of Object.entries(value.inventoryItems)) {
-            let inventoryItem = {
+        for (const val of value.inspectionItems) {
+          for (const [key1, value1] of Object.entries(val)){
+            let inspectionItem = {
               itemName: key1,
               ...value1,
             };
-            inspectionArea.inventoryItems.push(inventoryItem);
+            inspectionArea.inspectionItems.push(inspectionItem);
+          }  
+        }
+
+        if (value.inventoryItems) {
+          for (const val of value.inventoryItems) {
+            for (const [key1, value1] of Object.entries(val)){
+              let inventoryItem = {
+                itemName: key1,
+                ...value1,
+              };
+              inspectionArea.inventoryItems.push(inventoryItem);
+            }
           }
         }
         formData.inspectionAreas.push(inspectionArea);
@@ -206,7 +220,8 @@ const MoveIn = ({
         // e.images = inspectionField[index].items[i].images;
       });
     });
-    dispatch(postInspection(cloneFormData));
+    console.log(cloneFormData);
+    // dispatch(postInspection(cloneFormData));
   };
 
   const [col1, setCol1] = useState('');
@@ -257,6 +272,9 @@ const MoveIn = ({
   useEffect(() => {
     if (match.params.id) {
       fetchRentalRecommendation(match.params.id);
+      if(inspectId){
+        fetchEachInspection(inspectId);
+      }    
     }
   }, [match.params.id]);
 
@@ -267,6 +285,58 @@ const MoveIn = ({
       }, 3000);
     }
   }, [message]);
+
+  console.log(inspection);
+
+  useEffect(() => {
+    if(inspection){
+      const oldInspections = inspection?.inspectionAreas?.map((area, i) => {
+        return {
+        id: area.id,
+        title: area.name,
+        items: area.inspectionItems.map(item => {
+          const {images, ...others} = item
+          return { ...others }
+        }),
+        inventories: area.inventoryItems,
+      }})
+    
+    SetInspectionField(oldInspections)
+    }
+    
+  }, [inspection]);
+
+  useEffect(() => {
+    let prevInspection = {};
+    const oldInspections = inspection?.inspectionAreas?.forEach((area, i) => {
+      // area.inspectionItems.forEach((item) => {
+        prevInspection = {
+          ...prevInspection,
+          generalComment: inspection.generalComment,
+          [area.name]: {
+            inspectionItems: {...area.inspectionItems.map(ins => { 
+              const { images, id, itemName, ...others } = ins;
+              return {
+                [ins.itemName]: others,
+              }
+            })},
+            inventoryItems: {...area.inventoryItems.map(inv => {
+              const { id, itemName, ...others } = inv
+              return {
+                [inv.itemName]: others,
+              }
+            })},           
+          },
+        }
+        
+      // })
+    })
+    setPrevInspections({...prevInspection})
+  }, [inspection]);
+
+  console.log(prevInspections);
+  console.log(inspectionField);
+
 
   return (
     <div className="page-content">
@@ -357,7 +427,7 @@ const MoveIn = ({
                   onClick={() => SetAddColumn(!addColumn)}
                   style={{ cursor: 'pointer' }}
                 >
-                  {inspectionField.length === 0 ? (
+                  {inspectionField?.length === 0 ? (
                     <div className="card-header text-center text-success shadow-md font-size-14 font-weight-bold">
                       Create Inspection
                     </div>
@@ -377,7 +447,7 @@ const MoveIn = ({
               </Card>
             </Collapse>
 
-            <AvForm onValidSubmit={handleSubmit}>
+            <AvForm onValidSubmit={handleSubmit} model={prevInspections}>
               {message && <Alert color="success">{message}</Alert>}
               {inspectionsError && (
                 <Alert color="danger">{inspectionsError.message}</Alert>
@@ -385,8 +455,8 @@ const MoveIn = ({
               <Row>
                 <Col xl={12} className="mx-auto">
                   <div id="accordion">
-                    {inspectionField.length > 0 &&
-                      inspectionField.map((data) => (
+                    {inspectionField?.length > 0 &&
+                      inspectionField?.map((data) => (
                         <Card key={data.id}>
                           <CardBody>
                             <Card className="mb-2">
@@ -473,8 +543,7 @@ const MoveIn = ({
                                             </Col>
                                             <Col ls={4}>
                                               <AvRadioGroup
-                                                name={`${data.title}.inspectionItems.${item.itemName}.itemState`}
-                                                value="GOOD"
+                                                name={`${data.title}.inspectionItems[${index}].${item.itemName}.itemState`}
                                               >
                                                 <Col
                                                   sm={12}
@@ -507,7 +576,7 @@ const MoveIn = ({
                                             >
                                               <AvField
                                                 type="text"
-                                                name={`${data.title}.inspectionItems.${item.itemName}.comment`}
+                                                name={`${data.title}.inspectionItems[${index}].${item.itemName}.comment`}
                                                 style={{
                                                   background: '#F4F4F4',
                                                   border: 'none',
@@ -569,8 +638,8 @@ const MoveIn = ({
                                             <Button
                                               type="submit"
                                               color="primary"
-                                              onClick={() =>
-                                                addInspectionItem(data.id)
+                                              onClick={(event) =>
+                                                addInspectionItem(event, data.id)
                                               }
                                             >
                                               Add Item
@@ -628,8 +697,7 @@ const MoveIn = ({
                                               >
                                                 <AvField
                                                   type="number"
-                                                  name={`${data.title}.inventoryItems.${inventory.itemName}.quantity`}
-                                                  value="0"
+                                                  name={`${data.title}.inventoryItems[${index}].${inventory.itemName}.quantity`}
                                                   min={0}
                                                   style={{
                                                     background: '#F4F4F4',
@@ -640,7 +708,7 @@ const MoveIn = ({
                                               <Col ls={4} className="d-flex">
                                                 <AvField
                                                   type="text"
-                                                  name={`${data.title}.inventoryItems.${inventory.itemName}.comment`}
+                                                  name={`${data.title}.inventoryItems[${index}].${inventory.itemName}.comment`}
                                                   style={{
                                                     background: '#F4F4F4',
                                                     border: 'none',
@@ -681,8 +749,8 @@ const MoveIn = ({
                                             <Button
                                               type="submit"
                                               color="primary"
-                                              onClick={() =>
-                                                addInventoryItem(data.id)
+                                              onClick={(event) =>
+                                                addInventoryItem(event, data.id)
                                               }
                                             >
                                               Add Item
@@ -758,5 +826,6 @@ export default withRouter(
   connect(mapStateToProps, {
     postInspection,
     fetchRentalRecommendation,
+    fetchEachInspection
   })(MoveIn)
 );

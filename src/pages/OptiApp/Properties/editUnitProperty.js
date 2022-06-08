@@ -52,6 +52,7 @@ class EditUnitProperty extends Component {
       name: "",
       percentageAmount: "",
       show: false,
+      others: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -588,6 +589,19 @@ class EditUnitProperty extends Component {
                                     label="Communication system"
                                     value="Communication system"
                                   />
+                                  <div className="d-flex align-items-center">
+                                    <AvCheckbox 
+                                      className="mb-2"
+                                      label="others"
+                                      value={this.state.others}
+                                    />
+                                    <Input 
+                                      className="form-control ml-2" 
+                                      value={this.state.others} 
+                                      onChange={(e) => this.setState({others: e.target.value})}
+                                      placeholder="Enter other amenities seperated by commas"
+                                    />
+                                  </div>
                                 </AvCheckboxGroup>
                               </FormGroup>
                             </Col>

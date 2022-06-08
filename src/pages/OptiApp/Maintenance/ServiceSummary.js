@@ -15,14 +15,16 @@ const ServiceSummary = (props) => {
 
   useEffect(() => {
     dispatch(fetchService(serviceId));
-  }, [dispatch]);
+  }, [dispatch, serviceId]);
 
   const { serviceSummary } = useSelector((state) => state.Maintenance);
+
+  console.log(serviceSummary);
 
   return (
     <div className="page-content">
       <Row className="mb-2">
-        <Col xl={10} className="header-box">
+        <Col xs={10} className="header-box">
           <Link to="/maintenance">
             <i className="ri-arrow-left-line"></i>
             <span className="ml-2">Back</span>
@@ -59,7 +61,7 @@ const ServiceSummary = (props) => {
         </Col>
       </Row>
       <Row className="mb-2">
-        <Col xl={10} className="header-box pt-5">
+        <Col xs={10} className="header-box pt-5">
           <Row className="other-info">
             <Col ls={6}>
               <div>
@@ -87,7 +89,7 @@ const ServiceSummary = (props) => {
       <Row className="images-dock d-flex flex-column mb-5">
         <h6 className="mb-4 mt-5">Images</h6>
         <div className="imgContainer">
-          <i className="fas fa-angle-left prev"></i>
+          {/* <i className="fas fa-angle-left prev"></i> */}
           {serviceSummary?.uploadedImages?.map((info) => (
             <img
               key={info?.id}
@@ -95,9 +97,10 @@ const ServiceSummary = (props) => {
               alt="circuit"
               width="100"
               height="100"
+              className="mr-2"
             />
           ))}
-          <i className="fas fa-angle-right next"></i>
+          {/* <i className="fas fa-angle-right next"></i> */}
         </div>
       </Row>
       <Row
@@ -123,7 +126,7 @@ const ServiceSummary = (props) => {
         )}
       </Row>
       <Row className="mb-3">
-        <Col xl={10} className="header-box">
+        <Col xs={10} className="header-box">
           <h6 className="mb-4"> Vendor</h6>
           <Row className="d-flex align-items-center ml-2 mb-3">
             <img src={profileImage} alt="profile" width="50" height="50" />
@@ -144,7 +147,7 @@ const ServiceSummary = (props) => {
         </Col>
       </Row>
       <Row className="mb-4">
-        <Col xl={10} className="header-box">
+        <Col xs={10} className="header-box">
           <h6 className="mb-4"> Tenant</h6>
           <Row className="d-flex align-items-center ml-2 mb-3">
             <img src={profileImage} alt="profile" width="38" height="38" />

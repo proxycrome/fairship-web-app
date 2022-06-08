@@ -16,9 +16,8 @@ import emptyCan from '../../../assets/images/EmptyCan.png';
 import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
 // user
-import avatar2 from '../../../assets/images/users/avatar-2.jpg';
 import Loader from '../../../components/Common/Loading/index';
-import {fetchTenant, loadUser} from '../../../store/actions'
+import { fetchTenant } from '../../../store/actions'
 
 import { MDBDataTable } from 'mdbreact';
 import './dataTables.scss';
@@ -46,14 +45,16 @@ class Tenants extends Component {
 
   componentDidMount() {
     this.props.fetchTenant(this.props.user?.id);
-    // document
-    //   .getElementsByClassName('pagination')[0]
-    //   .classList.add('pagination-rounded');
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevProps.user !== this.props.user){
+      this.props.fetchTenant(this.props.user?.id);
+    }
   }
 
   render() {
-    console.log(this.props.tenant)
-    console.log(this.props?.user)
+    console.log(this.props?.tenant)
     const data = {
       columns: [
         {
@@ -62,12 +63,12 @@ class Tenants extends Component {
           sort: 'asc',
           width: 130,
         },
-        {
-          label: 'Unit Number',
-          field: 'unitNumber',
-          sort: 'asc',
-          width: 120,
-        },
+        // {
+        //   label: 'Unit Number',
+        //   field: 'unitNumber',
+        //   sort: 'asc',
+        //   width: 120,
+        // },
         {
           label: 'Property',
           field: 'property',
@@ -107,14 +108,14 @@ class Tenants extends Component {
               <span> {tents?.firstName} {tents?.lastName}</span>
             </>
           ),
-          unitNumber: "001",
+          // unitNumber: "001",
           property: '', //`${tents?.property?.description}`
           address: `${tents?.address?.houseNoAddress}`,
           out_payment:'' ,
           total: '$172',
           status: (
             <div className="badge badge-soft-success font-size-12">
-              
+              {tents?.status}
             </div>
           ),
           action: (
@@ -198,9 +199,6 @@ const mapStateToProps = (state) => {
 };
 
 
-
-
-
 export default withRouter(
-  connect(mapStateToProps,  {fetchTenant})(Tenants)
+  connect(mapStateToProps,  { fetchTenant })(Tenants)
 );

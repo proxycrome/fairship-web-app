@@ -63,7 +63,7 @@ class RentalApplication extends Component {
       filter: e.target[e.target.selectedIndex].value
     })
     // console.log(this.state.filter)
-}
+  }
 
   componentDidMount() {
    this.props.fetchRental(this.state.filter)
@@ -98,7 +98,7 @@ componentDidUpdate(Pp,Ps, Ss){
           </Link>
         </>
       ),
-      unitNumber: '001',
+      // unitNumber: '001',
       property: `${rents?.property?.description}`,
       address: `${rents?.property?.address?.houseNoAddress}`,
       date: `${rents?.createdAt}`,
@@ -231,12 +231,12 @@ componentDidUpdate(Pp,Ps, Ss){
           sort: 'asc',
           width: 130,
         },
-        {
-          label: 'Unit Number',
-          field: 'unitNumber',
-          sort: 'asc',
-          width: 120,
-        },
+        // {
+        //   label: 'Unit Number',
+        //   field: 'unitNumber',
+        //   sort: 'asc',
+        //   width: 120,
+        // },
         {
           label: 'Property',
           field: 'property',
@@ -317,7 +317,7 @@ componentDidUpdate(Pp,Ps, Ss){
                   </Row>
                 ) : (
                   //  <Preview SetShowPreview={this.SetShowPreview}/>
-                  (<Row>
+                  <Row>
                     <Col lg={12}>
                       <Card>
                         <CardBody>
@@ -332,7 +332,7 @@ componentDidUpdate(Pp,Ps, Ss){
                         </CardBody>
                       </Card>
                     </Col>
-                  </Row>)
+                  </Row>
                 )}
               </>
             )}

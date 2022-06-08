@@ -29,6 +29,7 @@ const Preview = (props) => {
 
   const {agent, loading} = useSelector(state => state.Agents)
 
+  console.log(agent);
 
   return (
     <div className="page-content">
@@ -122,7 +123,7 @@ const Preview = (props) => {
                   </Row>
                 </CardBody>
               </Card>
-              <Card>
+              {/* <Card>
                 <Col md="8">
                   <CardBody>
                     <h4>Unit (4)</h4>
@@ -240,7 +241,7 @@ const Preview = (props) => {
                     </Table>
                   </CardBody>
                 </Col>
-              </Card>
+              </Card> */}
               <Card>
                 <CardBody>
                   <h4>Activities</h4>

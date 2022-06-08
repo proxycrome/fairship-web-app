@@ -5,7 +5,19 @@ export const fetchPropertiesService = (payload, collectiveId) => {
   const http = new HttpService();
   let url = 'auth/properties?limit=100&entityLevel=COLLECTIVE_ENTITY';
   if (payload?.type === 'general') {
-    url = 'properties?limit=100000&status=ACTIVE';
+    url = `properties?limit=100000&status=ACTIVE${
+      payload?.query.maxPrice ? `&maxPrice=${payload?.query.maxPrice}` : ''
+    }${
+      payload?.query.minPrice || payload?.query.minPrice === 0
+        ? `&minPrice=${payload?.query.minPrice}`
+        : ''
+    }${
+      payload?.query.saleOrRent
+        ? `&saleOrRent=${payload?.query.saleOrRent}`
+        : ''
+    }${payload?.query.state ? `&state=${payload?.query.state}` : ''}${
+      payload?.query.search ? `&search=${payload?.query.search}` : ''
+    }`;
     // url = 'auth/properties?limit=100&entityLevel=UNIT_ENTITY'
   } else if (payload?.type === 'unit_entity') {
     url = 'auth/properties?limit=100&entityLevel=SINGLE_ENTITY';
@@ -56,7 +68,7 @@ export const putSingleUnitPropertyService = ({ formData, propertyId }) => {
   const http = new HttpService();
   let url = `auth/single-entity-properties/${propertyId}`;
   return http.putData(formData, url);
-}
+};
 
 export const updateUnitService = ({ data, unitId }) => {
   const http = new HttpService();
@@ -68,4 +80,4 @@ export const deletePropertyService = (propertyId) => {
   const http = new HttpService();
   let url = `auth/properties/${propertyId}`;
   return http.deleteData(url);
-}
+};

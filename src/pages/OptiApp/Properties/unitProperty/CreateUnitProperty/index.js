@@ -32,6 +32,7 @@ import {
   fetchCountry,
   fetchState,
   fetchLga,
+  clearUnitMessage
 } from "../../../../../store/actions";
 
 import { connect } from "react-redux";
@@ -58,6 +59,7 @@ class CreateProperty extends Component {
       state: "",
       LGA: "",
       country: "",
+      others: "",
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -146,6 +148,7 @@ class CreateProperty extends Component {
     this.props.getPropertyTypes();
     this.props.getPropertySubcategory(this.state.id);
     this.props.fetchCountry();
+    this.props.clearUnitMessage();
     // this.props.fetchState(1);
   }
 
@@ -716,6 +719,19 @@ class CreateProperty extends Component {
                                   label="Communication system"
                                   value="Communication system"
                                 />
+                                {/* <div className="d-flex align-items-center"> */}
+                                  <AvCheckbox 
+                                    className="mb-2"
+                                    label="others"
+                                    value={this.state.others}
+                                  />
+                                  <Input 
+                                    className="form-control ml-2" 
+                                    value={this.state.others} 
+                                    onChange={(e) => this.setState({others: e.target.value})}
+                                    placeholder="Enter other amenities seperated by commas"
+                                  />
+                                {/* </div> */}
                               </AvCheckboxGroup>
                             </FormGroup>
                           </Col>
@@ -791,4 +807,5 @@ export default connect(mapStatetoProps, {
   fetchCountry,
   fetchState,
   fetchLga,
+  clearUnitMessage,
 })(CreateProperty);

@@ -207,26 +207,26 @@ const Preview = (props) => {
                         <Col sm={3}>
                           <p className="text-muted mb-0">Referees Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                          {rentalId?.rentApplicationForm?.refreesName}
+                          {rentalId?.rentApplicationForm?.refereesName}
                           </h5>
                         </Col>
                         <Col sm={6}>
                           <p className="text-muted mb-0">Address</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                          {rentalId?.rentApplicationForm?.refreeAddress}
+                          {rentalId?.rentApplicationForm?.refereeAddress}
                           </h5>
                         </Col>
 
-                        <Col sm={3}>
+                        {/* <Col sm={3}>
                           <p className="text-muted mb-0">Referees Name</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
                           {rentalId?.rentApplicationForm?.refreesName}
                           </h5>
-                        </Col>
+                        </Col> */}
                         <Col sm={3} className="mt-2">
                           <p className="text-muted mb-0">Phone No</p>
                           <h5 className="font-size-12 text-capitalize mt-2">
-                          {rentalId?.rentApplicationForm?.refreePhoneNo}
+                          {rentalId?.rentApplicationForm?.refereePhoneNo}
                           </h5>
                         </Col>
                       </Row>
@@ -541,7 +541,7 @@ const Preview = (props) => {
                </button>
               )
              :
-            'THIS USER CANT USE THE TENANT RECOMMENDATION') 
+              null) 
               
             }
           </div>
