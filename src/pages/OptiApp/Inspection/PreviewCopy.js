@@ -10,9 +10,9 @@ import {
   CardHeader,
 } from 'reactstrap';
 import { useReactToPrint } from 'react-to-print';
-import Moment from 'moment';
+// import Moment from 'moment';
 import { Link } from 'react-router-dom';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { fetchEachInspection } from '../../../store/inspection/actions';
 import Loading from '../../../components/Common/Loading';
 
@@ -24,8 +24,8 @@ const PreviewCopy = ({
   inspectionsError,
 }) => {
   const [col1, setCol1] = useState(true);
-  const [col2, setCol2] = useState(false);
-  const [col3, setCol3] = useState(false);
+  // const [col2, setCol2] = useState(false);
+  // const [col3, setCol3] = useState(false);
 
   const t_col1 = (val) => {
     if (col1 === val) {
@@ -44,9 +44,9 @@ const PreviewCopy = ({
     if (match.params.id) {
       fetchEachInspection(match.params.id);
     }
-  }, [match.params.id]);
+  }, [match.params.id, fetchEachInspection]);
 
-  console.log(inspection);
+  // console.log(inspection);
 
   return (
     <div className="page-content">
@@ -55,7 +55,6 @@ const PreviewCopy = ({
           <Button
             className="mr-5"
             color="primary"
-            outlink
             onClick={handlePrint}
           >
             <i className="far fa-file-pdf mr-1"></i>
@@ -164,7 +163,7 @@ const PreviewCopy = ({
                                 </h6>
                               </CardHeader>
                             </Link>
-                            <Collapse isOpen={inspection}>
+                            <Collapse isOpen={true}>
                               <CardBody>
                                 <Row>
                                   <Col ls={4}>

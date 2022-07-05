@@ -44,17 +44,18 @@ class Tenants extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTenant(this.props.user?.id);
+    if(this.props.user?.id) {
+      this.props.fetchTenant(this.props.user?.id);
+    } 
   }
 
   componentDidUpdate(prevProps, prevState){
-    if(prevProps.user !== this.props.user){
+    if(prevProps.user !== this.props.user && this.props.user?.id){
       this.props.fetchTenant(this.props.user?.id);
     }
   }
 
   render() {
-    console.log(this.props?.tenant)
     const data = {
       columns: [
         {

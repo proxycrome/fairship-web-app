@@ -35,10 +35,10 @@ const Preview = (props) => {
 
   const tenantId = props?.match?.params?.id;
 
-  console.log(tenantId)
+  // console.log(tenantId)
 
   const {user} = useSelector((state) => state.Account);
-  console.log(user)
+  // console.log(user)
 
 
   const review = (e) => {
@@ -56,7 +56,7 @@ const Preview = (props) => {
 
   useEffect(() => {
     dispatch(fetchRentalRecommendation(tenantId)); //id
-  }, [tenantId])
+  }, [dispatch, tenantId])
 
 
   
@@ -64,7 +64,6 @@ const Preview = (props) => {
   const {rentalId, data, errordata } = useSelector( (state) => state.PreviewReducer)
   
   
-  console.log('sodiq>>>>>>>>>',rentalId)
   
   
 
@@ -74,7 +73,7 @@ const Preview = (props) => {
 
   const TenantRecom = (e) => {
     e.preventDefault()
-    console.log('first')
+    // console.log('first')
     const data ={
       recommendationNotes: tenant 
     }

@@ -9,7 +9,7 @@ const AcceptAppointment = ({match}) => {
 
   useEffect(() => {
     dispatch(clearAppointmentMessage());
-  }, [])
+  }, [dispatch])
 
   const handleAccept = () => {
     const data = {

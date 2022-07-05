@@ -18,7 +18,6 @@ export const fetchPropertiesService = (payload, collectiveId) => {
     }${payload?.query.state ? `&state=${payload?.query.state}` : ''}${
       payload?.query.search ? `&search=${payload?.query.search}` : ''
     }`;
-    // url = 'auth/properties?limit=100&entityLevel=UNIT_ENTITY'
   } else if (payload?.type === 'unit_entity') {
     url = 'auth/properties?limit=100&entityLevel=SINGLE_ENTITY';
   } else if (payload?.type === 'all_user_properties') {

@@ -24,10 +24,10 @@ function* getAgents({payload}) {
   try {
     const response = yield call(getAgentsService, payload);
     yield put(getAgentsSuccessful(response.data));
-    console.log(response)
+    // console.log(response)
   } catch (error) {
-    console.log(error)
-    console.log(error.response)
+    // console.log(error)
+    // console.log(error.response)
     yield put(getAgentsFailure(error?.response?.data));
   }
 }
@@ -36,9 +36,9 @@ function* postAgent({ payload: { formData } }) {
   try {
     const response = yield call(postAgentService, formData);
     yield put(postAgentSuccessful(response.data));
-    console.log(response.data);
+    // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
+    // console.log(error?.response);
     yield put(postAgentFailure(error?.response?.data));
   }
 }
@@ -57,7 +57,7 @@ function* fetchAgent ({payload: {agentEmail}}) {
         const response = yield call(fetchAgentService, agentEmail);
         yield put(fetchAgentSuccess(response.data)); 
     } catch (error) {
-      console.log(error.response)
+      // console.log(error.response)
         yield put(fetchAgentFailure(error?.response?.data));
     }
 }

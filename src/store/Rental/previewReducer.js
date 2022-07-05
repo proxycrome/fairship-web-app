@@ -42,7 +42,6 @@
           rentalIdError: null,
           loading: false,
         };
-        console.log(state.rentalId)
         break;
       case FETCH_RENTAL_RECOMMENDATION_ERROR:
         state = {

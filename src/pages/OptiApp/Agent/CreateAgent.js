@@ -53,9 +53,9 @@ const CreateAgent = ({ BackToHome }) => {
     (agent) => !AgentsIdArray?.find((id) => id === agent?.id)
   );
 
-  console.log(filteredAgents);
+  // console.log(filteredAgents);
 
-  console.log(postAgentData?.message);
+  // console.log(postAgentData?.message);
 
   const optionGroup = [
     {

@@ -6,7 +6,7 @@ const Document = () => {
     <div className="page-content">
       <Card>
         <CardBody>
-          <h5 className="ml-2"> Inspections </h5>
+          <h5 className="ml-2"> Documents </h5>
           <div className="d-flex justify-content-between">
             <div className="search-box">
               <div className="position-relative">

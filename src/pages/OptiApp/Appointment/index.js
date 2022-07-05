@@ -39,7 +39,6 @@ class Appointment extends Component {
   }
 
   render() {
-    console.log(this.props.appointment);
     const data = {
       columns: [
         {

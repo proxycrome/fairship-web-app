@@ -6,7 +6,6 @@ import {
 
 
   export const fetchTenant = (tenantId) => {
-      console.log(tenantId)
     return {
       type: FETCH_TENANT,
       tenantId

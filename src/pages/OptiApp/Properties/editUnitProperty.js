@@ -36,7 +36,7 @@ import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import plus from "./images/plus.svg";
 import DropZone from "../../../components/Common/imageUpload";
-import Loading from "../../../components/Common/Loading";
+// import Loading from "../../../components/Common/Loading";
 
 class EditUnitProperty extends Component {
   constructor(props) {
@@ -154,7 +154,6 @@ class EditUnitProperty extends Component {
   }
 
   render() { 
-    console.log(this.state.pays);
     return (
       <React.Fragment>
         <div className="page-content">

@@ -11,6 +11,7 @@ import {
   UncontrolledTooltip,
   Button,
 } from "reactstrap";
+
 import Loading from "../../../components/Common/Loading";
 import chat from "./images/chat.svg";
 
@@ -38,12 +39,12 @@ const PropertyCard = ({
   deleteMessage,
   message,
 }) => {
+  
   useEffect(() => {
     if (match.params.id) {
       fetchEachProperties(match.params.id);
-      // fetchProperties(isAuth, match.params.id);
     }
-  }, []);
+  }, [match.params.id, fetchEachProperties]);
 
   const duplicateProperty = (id) => {
     duplicateUnitProperty(id);
@@ -66,9 +67,8 @@ const PropertyCard = ({
     if (match.params.id) {
       fetchProperties(isAuth, match.params.id);
     }
-  }, []);
+  }, [match.params.id, fetchProperties]);
 
-  console.log(properties);
   return (
     <>
       <div className="page-content">

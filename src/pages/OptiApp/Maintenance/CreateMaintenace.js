@@ -33,7 +33,7 @@ const Maintenance = ({
     };
     fetchProperties(isAuth);
     getServiceTypes();
-  }, []);
+  }, [fetchProperties, getServiceTypes]);
 
   const handleDefault = (date) => {
     setDefaultDate(date);

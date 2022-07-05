@@ -22,7 +22,7 @@ function* fetchInspections({payload}) {
     const response = yield call(fetchInspectionsService, payload);
     yield put(fetchInspectionsSuccessful(response.data));
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     yield put(fetchInspectionsError(error?.response?.data));
   }
 }
@@ -32,20 +32,20 @@ function* fetchEachInspection({payload}) {
     const response = yield call(fetchEachInspectionService, payload);
     yield put(fetchEachInspectionSuccessful(response.data));
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     yield put(fetchEachInspectionError(error?.response?.data));
   }
 }
 
 function* postInspection({ payload }) {
   try {
-    console.log(payload);
+    // console.log(payload);
     const response = yield call(postInspectionService, payload);
-    console.log(response);
+    // console.log(response);
     yield put(postInspectionSuccessful(response.data));
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
+    // console.log(error);
+    // console.log(error.response);
     yield put(postInspectionFailure(error?.response?.data));
   }
 }

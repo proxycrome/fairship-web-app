@@ -6,7 +6,6 @@ import {
   CardBody,
   Collapse,
   Input,
-  CardHeader,
   Button,
   Label,
   Alert,
@@ -44,27 +43,27 @@ const MoveIn = ({
   history,
   location,
 }) => {
-  const [selectedFiles, SetSelectedFiles] = useState([]);
+  // const [selectedFiles, SetSelectedFiles] = useState([]);
   const [type, setType] = useState('MOVE_IN');
-  const [newInspection, setNewInspection] = useState('');
+  // const [newInspection, setNewInspection] = useState('');
   const [prevInspections, setPrevInspections] = useState({});
 
   const [addColumn, SetAddColumn] = useState(false);
   const [inspectionField, SetInspectionField] = useState([]);
-  const [rentId, setRentId] = useState('');
+  // const [rentId, setRentId] = useState('');
   const [newInspect, setNewInspect] = useState('');
   const [addInspectColumn, setAddInspectColumn] = useState(false);
   const [addInventColumn, setAddInventColumn] = useState(false);
   const [newInvent, setNewInvent] = useState('');
   const [imageError, SetImageError] = useState(false);
 
-  const [inspectionData, setInspectionData] = useState({});
+  // const [inspectionData, setInspectionData] = useState({});
   const [startInspection, setStartInspection] = useState(false);
   const dispatch = useDispatch();
 
   const headerNameRef = useRef(null);
 
-  const inspectId = +location.pathname.split("/")[3];
+  const inspectId = +location.pathname.split('/')[3];
 
   const uploadFIle = (file, areaId, itemId) => {
     const ans = inspectionField.map((data) => {
@@ -95,7 +94,7 @@ const MoveIn = ({
       return el.length <= 0 ? [] : el;
     });
     foundItems.items.push(newItems);
-    console.log(foundItems);
+    // console.log(foundItems);
     setAddInspectColumn(false);
     SetInspectionField([...inspectionField, foundItems]);
     setNewInspect('');
@@ -118,7 +117,7 @@ const MoveIn = ({
       return el.length <= 0 ? [] : el;
     });
     foundItems.inventories.push(newItems);
-    console.log(foundItems);
+    // console.log(foundItems);
     setAddInventColumn(false);
     SetInspectionField([...inspectionField, foundItems]);
     setNewInvent('');
@@ -151,30 +150,30 @@ const MoveIn = ({
     SetInspectionField([...inspectionField, foundItem]);
   };
 
-  const formatData = (data, field, imageUrl) => {
-    const inspectionAreas = {
-      name: field,
-    };
-    inspectionAreas.inspectionItems = [];
-    inspectionAreas.inventoryItems = [];
+  // const formatData = (data, field, imageUrl) => {
+  //   const inspectionAreas = {
+  //     name: field,
+  //   };
+  //   inspectionAreas.inspectionItems = [];
+  //   inspectionAreas.inventoryItems = [];
 
-    for (const [key, value] of Object.entries(data[field].inspectionItems)) {
-      const newData = { ...value };
-      newData.itemName = key;
-      newData.images = imageUrl;
-      inspectionAreas.inspectionItems.push(newData);
-    }
+  //   for (const [key, value] of Object.entries(data[field].inspectionItems)) {
+  //     const newData = { ...value };
+  //     newData.itemName = key;
+  //     newData.images = imageUrl;
+  //     inspectionAreas.inspectionItems.push(newData);
+  //   }
 
-    for (const [key, value] of Object.entries(data[field].inventoryItems)) {
-      const newData = { ...value, quantity: Number(value.quantity) };
-      newData.itemName = key;
-      inspectionAreas.inventoryItems.push(newData);
-    }
-    return inspectionAreas;
-  };
+  //   for (const [key, value] of Object.entries(data[field].inventoryItems)) {
+  //     const newData = { ...value, quantity: Number(value.quantity) };
+  //     newData.itemName = key;
+  //     inspectionAreas.inventoryItems.push(newData);
+  //   }
+  //   return inspectionAreas;
+  // };
 
   const handleSubmit = (event, values) => {
-    console.log(values);
+    // console.log(values);
     SetImageError(false);
     const formData = {};
     formData.type = type;
@@ -189,18 +188,18 @@ const MoveIn = ({
         inspectionArea.inspectionItems = [];
         inspectionArea.inventoryItems = [];
         for (const val of value.inspectionItems) {
-          for (const [key1, value1] of Object.entries(val)){
+          for (const [key1, value1] of Object.entries(val)) {
             let inspectionItem = {
               itemName: key1,
               ...value1,
             };
             inspectionArea.inspectionItems.push(inspectionItem);
-          }  
+          }
         }
 
         if (value.inventoryItems) {
           for (const val of value.inventoryItems) {
-            for (const [key1, value1] of Object.entries(val)){
+            for (const [key1, value1] of Object.entries(val)) {
               let inventoryItem = {
                 itemName: key1,
                 ...value1,
@@ -220,8 +219,8 @@ const MoveIn = ({
         // e.images = inspectionField[index].items[i].images;
       });
     });
-    console.log(cloneFormData);
-    // dispatch(postInspection(cloneFormData));
+    // console.log(cloneFormData);
+    dispatch(postInspection(cloneFormData));
   };
 
   const [col1, setCol1] = useState('');
@@ -250,33 +249,24 @@ const MoveIn = ({
     SetInspectionField([...inspectionField, newInspection]);
   };
 
-  const removeInspectionArea = (id) => {
-    let result = inspectionField.filter((data) => data.id !== id);
-    SetInspectionField(result);
-  };
-
-  const createInspectionHandler = () => {
-    if (newInspection.length !== 0) {
-      SetInspectionField([
-        ...inspectionField,
-        {
-          title: newInspection,
-          items: [],
-          inventories: [],
-          selectedFiles: [],
-        },
-      ]);
-    }
-  };
+  // const removeInspectionArea = (id) => {
+  //   let result = inspectionField.filter((data) => data.id !== id);
+  //   SetInspectionField(result);
+  // };
 
   useEffect(() => {
     if (match.params.id) {
       fetchRentalRecommendation(match.params.id);
-      if(inspectId){
+      if (inspectId) {
         fetchEachInspection(inspectId);
-      }    
+      }
     }
-  }, [match.params.id]);
+  }, [
+    match.params.id,
+    inspectId,
+    fetchEachInspection,
+    fetchRentalRecommendation,
+  ]);
 
   useEffect(() => {
     if (message) {
@@ -284,59 +274,59 @@ const MoveIn = ({
         history.push('/inspection');
       }, 3000);
     }
-  }, [message]);
+  }, [history, message]);
 
-  console.log(inspection);
+  // console.log(inspection);
 
   useEffect(() => {
-    if(inspection){
+    if (inspection) {
       const oldInspections = inspection?.inspectionAreas?.map((area, i) => {
         return {
-        id: area.id,
-        title: area.name,
-        items: area.inspectionItems.map(item => {
-          const {images, ...others} = item
-          return { ...others }
-        }),
-        inventories: area.inventoryItems,
-      }})
-    
-    SetInspectionField(oldInspections)
+          id: area.id,
+          title: area.name,
+          items: area.inspectionItems.map((item) => {
+            const { images, ...others } = item;
+            return { ...others };
+          }),
+          inventories: area.inventoryItems,
+        };
+      });
+
+      SetInspectionField(oldInspections);
     }
-    
   }, [inspection]);
 
   useEffect(() => {
     let prevInspection = {};
     const oldInspections = inspection?.inspectionAreas?.forEach((area, i) => {
-      // area.inspectionItems.forEach((item) => {
-        prevInspection = {
-          ...prevInspection,
-          generalComment: inspection.generalComment,
-          [area.name]: {
-            inspectionItems: {...area.inspectionItems.map(ins => { 
+      prevInspection = {
+        ...prevInspection,
+        generalComment: inspection.generalComment,
+        [area.name]: {
+          inspectionItems: {
+            ...area.inspectionItems.map((ins) => {
               const { images, id, itemName, ...others } = ins;
               return {
                 [ins.itemName]: others,
-              }
-            })},
-            inventoryItems: {...area.inventoryItems.map(inv => {
-              const { id, itemName, ...others } = inv
+              };
+            }),
+          },
+          inventoryItems: {
+            ...area.inventoryItems.map((inv) => {
+              const { id, itemName, ...others } = inv;
               return {
                 [inv.itemName]: others,
-              }
-            })},           
+              };
+            }),
           },
-        }
-        
-      // })
-    })
-    setPrevInspections({...prevInspection})
+        },
+      };
+    });
+    setPrevInspections({ ...prevInspection });
   }, [inspection]);
 
-  console.log(prevInspections);
-  console.log(inspectionField);
-
+  // console.log(prevInspections);
+  // console.log(inspectionField);
 
   return (
     <div className="page-content">
@@ -639,7 +629,10 @@ const MoveIn = ({
                                               type="submit"
                                               color="primary"
                                               onClick={(event) =>
-                                                addInspectionItem(event, data.id)
+                                                addInspectionItem(
+                                                  event,
+                                                  data.id
+                                                )
                                               }
                                             >
                                               Add Item
@@ -826,6 +819,6 @@ export default withRouter(
   connect(mapStateToProps, {
     postInspection,
     fetchRentalRecommendation,
-    fetchEachInspection
+    fetchEachInspection,
   })(MoveIn)
 );

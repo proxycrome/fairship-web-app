@@ -52,7 +52,7 @@ import {
   };
   
   export const fetchRentalRecommendationSuccessful = (data) => {
-    console.log(data)
+    // console.log(data)
     return {
       type: FETCH_RENTAL_RECOMMENDATION_SUCCESSFUL,
       payload: data

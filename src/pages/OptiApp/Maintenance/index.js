@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Card, CardBody } from "reactstrap";
@@ -6,7 +6,7 @@ import livingRoom from "../../../assets/images/Living.png";
 import MaintenanceSummary from "./MaintenanceSummary";
 import ServiceRequest from "./ServiceRequest";
 import CreateMaintenace from "./CreateMaintenace";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { getMaintenanceReq } from "../../../store/actions";
 
 const MaintenanceRequest = () => {

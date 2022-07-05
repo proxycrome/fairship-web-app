@@ -49,12 +49,11 @@ class SalesAnalytics extends Component {
       this.props.twenty
     ) {
       this.setState({
-        ...this.state,
         series: [
-          this.props.rent?.entities?.length,
-          this.props.sixty?.entities?.length,
-          this.props.twenty?.entities?.length,
-        ],
+          this.props.rent?.total,
+          this.props.sixty?.total,
+          this.props.twenty?.total,
+        ]
       });
     }
   }
@@ -65,25 +64,22 @@ class SalesAnalytics extends Component {
       Pp.sixty !== this.props.sixty ||
       Pp.twenty !== this.props.twenty
     ) {
-      console.log(this.props);
       this.setState({
-        ...this.state,
         series: [
-          this.props.rent?.entities?.length,
-          this.props.sixty?.entities?.length,
-          this.props.twenty?.entities?.length,
-        ],
+          this.props.rent?.total,
+          this.props.sixty?.total,
+          this.props.twenty?.total,
+        ]
       });
     }
   }
 
   render() {
-    console.log(this.props.rent);
     return (
       <React.Fragment>
-        {this.props.rent?.entities?.length === 0 &&
-        this.props.sixty?.entities?.length === 0 &&
-        this.props.twenty?.entities?.length === 0 ? (
+        {this.props.rent?.total === 0 &&
+        this.props.sixty?.total === 0 &&
+        this.props.twenty?.total === 0 ? (
           <Card>
             <CardBody>
               <h4 className="card-title mb-4">Expiring Leases</h4>
@@ -119,7 +115,7 @@ class SalesAnalytics extends Component {
                       <i className="mdi mdi-circle text-primary font-size-10 mr-1"></i>{" "}
                       30Days
                     </p>
-                    <h5>{this.props.rent?.entities?.length}</h5>
+                    <h5>{this.props.rent?.total}</h5>
                   </div>
                 </Col>
                 <Col xs={4}>
@@ -128,7 +124,7 @@ class SalesAnalytics extends Component {
                       <i className="mdi mdi-circle text-success font-size-10 mr-1"></i>{" "}
                       31 - 60days
                     </p>
-                    <h5>{this.props.sixty?.entities?.length}</h5>
+                    <h5>{this.props.sixty?.total}</h5>
                   </div>
                 </Col>
                 <Col xs={4}>
@@ -137,7 +133,7 @@ class SalesAnalytics extends Component {
                       <i className="mdi mdi-circle text-warning font-size-10 mr-1"></i>{" "}
                       61 - 120 days
                     </p>
-                    <h5>{this.props.twenty?.entities?.length}</h5>
+                    <h5>{this.props.twenty?.total}</h5>
                   </div>
                 </Col>
               </Row>

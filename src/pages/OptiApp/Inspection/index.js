@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, Table, Card, CardBody, Select } from 'reactstrap';
-import NewInspection from './NewInspection';
+import { Input, Table, Card, CardBody } from 'reactstrap';
+// import NewInspection from './NewInspection';
 // import { Link } from 'react-router-dom'
 import { fetchInspections } from '../../../store/inspection/actions';
 import { useDispatch, connect } from 'react-redux';
@@ -15,9 +15,9 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
 
   useEffect(() => {
     dispatch(fetchInspections(payloadStatus));
-  }, [payloadStatus]);
+  }, [dispatch, payloadStatus, fetchInspections]);
 
-  console.log(inspections);
+  // console.log(inspections);
 
   return (
     <div className="page-content">
@@ -69,7 +69,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                       <thead>
                         <tr>
                           <th>Tenant</th>
-                          <th data-priority="1">Unit Number</th>
+                          {/* <th data-priority="1">Unit Number</th> */}
                           <th data-priority="3">Property</th>
                           <th data-priority="1">Type</th>
                           <th data-priority="3">Date</th>
@@ -95,7 +95,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                                 </span>
                               </Link>
                             </td>
-                            <td>001</td>
+                            {/* <td>001</td> */}
                             <td>
                               {inspect?.rent?.property?.address?.houseNoAddress}
                             </td>

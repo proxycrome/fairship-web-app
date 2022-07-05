@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input, Button, Table, Card, CardBody } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
-import profileImage from "../../../assets/images/ProfileImage.svg";
+// import profileImage from "../../../assets/images/ProfileImage.svg";
 import Preview from "./Preview";
 import CreateAgent from "./CreateAgent";
 import { connect, useDispatch } from "react-redux";
@@ -18,8 +18,11 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLandlordAgents(user?.id));
-  }, [user]);
+    if(user?.id) {
+      dispatch(getLandlordAgents(user?.id));
+    }
+    
+  }, [dispatch, user, getLandlordAgents]);
 
   useEffect(() => {
     setFilteredAgents(
@@ -31,7 +34,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
           (agent.firstName + " " + agent.lastName).toLowerCase().includes(searchName.toLowerCase())
       )
     );
-  }, [searchName]);
+  }, [searchName, landlordAgents]);
 
   if (preview) {
     return <Preview BackToHome={() => setPreview(false)} />;

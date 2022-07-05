@@ -24,9 +24,6 @@ componentDidMount(){
 
 
   render() {
-
-    console.log(this.props.zero)
-    console.log(this.props.zero?.entities.slice(0,3))
     
     return (
       <React.Fragment>

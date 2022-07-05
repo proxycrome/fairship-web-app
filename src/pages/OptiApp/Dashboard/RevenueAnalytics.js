@@ -6,67 +6,68 @@ import ReactApexChart from 'react-apexcharts';
 import './dashboard.scss';
 
 class RevenueAnalytics extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      series: [
+        {
+          name: '2020',
+          type: 'column',
+          data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
+        },
+        {
+          name: '2019',
+          type: 'line',
+          data: [23, 32, 27, 38, 27, 32, 27, 38, 22, 31, 21, 16],
+        },
+      ],
+      options: {
+        chart: {
+          toolbar: {
+            show: false,
+          },
+        },
+        stroke: {
+          width: [0, 3],
+          curve: 'smooth',
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '20%',
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
 
-  state = {
-    series: [
-      {
-        name: '2020',
-        type: 'column',
-        data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
-      },
-      {
-        name: '2019',
-        type: 'line',
-        data: [23, 32, 27, 38, 27, 32, 27, 38, 22, 31, 21, 16],
-      },
-    ],
-    options: {
-      chart: {
-        toolbar: {
+        legend: {
           show: false,
         },
+        colors: ['#5664d2', '#1cbb8c'],
+        labels: [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ],
       },
-      stroke: {
-        width: [0, 3],
-        curve: 'smooth',
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '20%',
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
+    };
+  }
 
-      legend: {
-        show: false,
-      },
-      colors: ['#5664d2', '#1cbb8c'],
-      labels: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ],
-    },
-  };
   render() {
-    console.log(this.props)
-
-    const rentcurrent = this.props?.allrentals?.entities.filter((rentals)=> rentals.status=='ACTIVE' || rentals.status=='WAITING_TO_BE_MOVED_IN' ||  rentals.status=='EXPIRED' ||  rentals.status=='WAITING_TO_BE_MOVED_OUT' || rentals.status=='EXITED').length
+    const rentcurrent = this.props?.allrentals?.entities?.filter((rentals) => rentals.status === 'ACTIVE' || rentals.status === 'WAITING_TO_BE_MOVED_IN' ||  rentals.status === 'EXPIRED' ||  rentals.status === 'WAITING_TO_BE_MOVED_OUT' || rentals.status === 'EXITED')?.length
 
 
-    const rentactive = this.props?.allrentals?.entities.filter((rentals)=> rentals.status=='ACTIVE').length
+    const rentactive = this.props?.allrentals?.entities?.filter((rentals) => rentals.status === 'ACTIVE')?.length
     
     
     return (

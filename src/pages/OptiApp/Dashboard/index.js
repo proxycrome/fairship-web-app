@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 // actions
-import { fetchDashboard, fetchAppointment, getAllServiceReq, fetchRental } from '../../../store/actions';
+import { fetchDashboard, fetchAppointment, getAllServiceReq } from '../../../store/actions';
 
 
 import ExpiringListAnalytics from './ExpiringListAnalytics';
@@ -20,7 +20,7 @@ import Loader from '../../../components/Common/Loading/index';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllRental } from '../../../store/actions';
 
-const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReq }) => {
+const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReq, fetchAllRental }) => {
   const date = new Date();
   const mm = date.getMonth();
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -34,16 +34,14 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
     fetchDashboard();
     fetchAppointment();
     getAllServiceReq();
-    dispatch(fetchAllRental());
+    fetchAllRental();
   }, []);
 
 
   // const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
  const recentAppointment = appointment?.slice(0, 1);
 
- const allrentals = useSelector((state) => state.fetchReducerExpiring.allrent)
-
- console.log(allrentals)
+ const allrentals = useSelector((state) => state.fetchReducerExpiring.allrent);
 
 
   const services = useSelector((state) => state.Maintenance?.services );

@@ -26,7 +26,6 @@ import {
           tenant: action.payload,
           loading: false,
         };
-        console.log(state.tenant)
         break;
       case FETCH_TENANT_ERROR:
         state = {

@@ -1,94 +1,105 @@
-import { takeEvery, call, put, all, fork } from "redux-saga/effects";
-import { FETCH_EXPIRING, FETCH_EXPIRING_SIXTY, FETCH_EXPIRING_ONETWENTY, FETCH_EXPIRING_ZERO, FETCH_ALL_RENTAL} from './actionTypes'
+import { takeEvery, call, put, all, fork } from 'redux-saga/effects';
 import {
-  fetchExpiringSuccessful, fetchExpiringError, fetchExpiringSuccessfulSixty,fetchExpiringErrorSixty, fetchExpiringSuccessfulOnetwenty,fetchExpiringErrorOnetwenty, fetchExpiringSuccessfulZero, fetchExpiringErrorZero, fetchAllRentalSuccessful, fetchAllRentalError
-} from './actions'
+  FETCH_EXPIRING,
+  FETCH_EXPIRING_SIXTY,
+  FETCH_EXPIRING_ONETWENTY,
+  FETCH_EXPIRING_ZERO,
+  FETCH_ALL_RENTAL,
+} from './actionTypes';
+import {
+  fetchExpiringSuccessful,
+  fetchExpiringError,
+  fetchExpiringSuccessfulSixty,
+  fetchExpiringErrorSixty,
+  fetchExpiringSuccessfulOnetwenty,
+  fetchExpiringErrorOnetwenty,
+  fetchExpiringSuccessfulZero,
+  fetchExpiringErrorZero,
+  fetchAllRentalSuccessful,
+  fetchAllRentalError,
+} from './actions';
 
-import { fetchleaseServices, fetchleaseServicesSixty, fetchleaseServicesTwenty, fetchleaseServicesZeroTwenty, fetchallrentServices } from "../../services/expiringLeasesServices";
+import {
+  fetchleaseServices,
+  fetchleaseServicesSixty,
+  fetchleaseServicesTwenty,
+  fetchleaseServicesZeroTwenty,
+  fetchallrentServices,
+} from '../../services/expiringLeasesServices';
 
-
-function* fetchlease (){
-    try{
-      const response = yield call(fetchleaseServices)
-      yield put(fetchExpiringSuccessful(response.data))
-      console.log(response.data)
-    }catch(error){
-        yield put(fetchExpiringError(error?.response?.data))
-    }
-}
-
-
-export function*  watchFetchlease(){
-    yield takeEvery(FETCH_EXPIRING, fetchlease)
-}
-
-function* fetchleaseSixty (){
-  try{
-    const response = yield call(fetchleaseServicesSixty)
-    yield put(fetchExpiringSuccessfulSixty(response.data))
-    console.log(response.data)
-  }catch(error){
-      yield put(fetchExpiringErrorSixty(error?.response?.data))
+function* fetchlease() {
+  try {
+    const response = yield call(fetchleaseServices);
+    yield put(fetchExpiringSuccessful(response.data));
+  } catch (error) {
+    yield put(fetchExpiringError(error?.response?.data));
   }
 }
 
-
-export function*  watchFetchleaseSixty(){
-  yield takeEvery(FETCH_EXPIRING_SIXTY, fetchleaseSixty)
+export function* watchFetchlease() {
+  yield takeEvery(FETCH_EXPIRING, fetchlease);
 }
 
-function* fetchleaseTwenty (){
-  try{
-    const response = yield call(fetchleaseServicesTwenty)
-    yield put(fetchExpiringSuccessfulOnetwenty(response.data))
-    console.log(response.data)
-  }catch(error){
-      yield put(fetchExpiringErrorOnetwenty(error?.response?.data))
+function* fetchleaseSixty() {
+  try {
+    const response = yield call(fetchleaseServicesSixty);
+    yield put(fetchExpiringSuccessfulSixty(response.data));
+  } catch (error) {
+    yield put(fetchExpiringErrorSixty(error?.response?.data));
   }
 }
 
-
-export function*  watchFetchleaseOnetwenty(){
-  yield takeEvery(FETCH_EXPIRING_ONETWENTY, fetchleaseTwenty)
+export function* watchFetchleaseSixty() {
+  yield takeEvery(FETCH_EXPIRING_SIXTY, fetchleaseSixty);
 }
 
-function* fetchleaseZero (){
-  try{
-    const response = yield call(fetchleaseServicesZeroTwenty)
-    yield put(fetchExpiringSuccessfulZero(response.data))
-    console.log(response.data)
-  }catch(error){
-      yield put(fetchExpiringErrorZero(error?.response?.data))
+function* fetchleaseTwenty() {
+  try {
+    const response = yield call(fetchleaseServicesTwenty);
+    yield put(fetchExpiringSuccessfulOnetwenty(response.data));
+  } catch (error) {
+    yield put(fetchExpiringErrorOnetwenty(error?.response?.data));
   }
 }
 
-
-export function*  watchFetchleaseZero(){
-  yield takeEvery(FETCH_EXPIRING_ZERO, fetchleaseZero)
+export function* watchFetchleaseOnetwenty() {
+  yield takeEvery(FETCH_EXPIRING_ONETWENTY, fetchleaseTwenty);
 }
 
-
-function* fetchallrent (){
-  try{
-    const response = yield call(fetchallrentServices)
-    yield put(fetchAllRentalSuccessful(response.data))
-    console.log(response.data)
-  }catch(error){
-      yield put(fetchAllRentalError(error?.response?.data))
+function* fetchleaseZero() {
+  try {
+    const response = yield call(fetchleaseServicesZeroTwenty);
+    yield put(fetchExpiringSuccessfulZero(response.data));
+  } catch (error) {
+    yield put(fetchExpiringErrorZero(error?.response?.data));
   }
 }
 
-
-export function*  watchFetchallrent(){
-  yield takeEvery(FETCH_ALL_RENTAL, fetchallrent)
+export function* watchFetchleaseZero() {
+  yield takeEvery(FETCH_EXPIRING_ZERO, fetchleaseZero);
 }
 
+function* fetchallrent() {
+  try {
+    const response = yield call(fetchallrentServices);
+    yield put(fetchAllRentalSuccessful(response.data));
+  } catch (error) {
+    yield put(fetchAllRentalError(error?.response?.data));
+  }
+}
 
+export function* watchFetchallrent() {
+  yield takeEvery(FETCH_ALL_RENTAL, fetchallrent);
+}
 
 function* fetchleaseSaga() {
-    yield all([fork(watchFetchlease), fork(watchFetchleaseSixty), fork(watchFetchleaseOnetwenty), fork(watchFetchleaseZero), fork(watchFetchallrent)]);
+  yield all([
+    fork(watchFetchlease),
+    fork(watchFetchleaseSixty),
+    fork(watchFetchleaseOnetwenty),
+    fork(watchFetchleaseZero),
+    fork(watchFetchallrent),
+  ]);
 }
-
-
 
 export default fetchleaseSaga;

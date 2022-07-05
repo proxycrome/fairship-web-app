@@ -98,11 +98,11 @@ class CreateProperty extends Component {
     formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = [
-      this.props.agents?.agents.find((agent) => {
+      this.props.agents?.agents?.find((agent) => {
         if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
           return agent.id;
         }
-      }).id,
+      })?.id,
     ];
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);

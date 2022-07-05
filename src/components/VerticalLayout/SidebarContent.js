@@ -155,7 +155,8 @@ class SidebarContent extends Component {
             {/* Maintenance */}
             <li>
               <Link to="/maintenance" className="waves-effect">
-                <i className="ri-store-2-line"></i>
+                {/* <i className="ri-store-2-line"></i> */}
+                <i className="ri-service-line"></i>
                 <span className="ml-1">Maintenance/Service</span>
               </Link>
             </li>

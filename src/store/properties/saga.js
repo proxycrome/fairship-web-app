@@ -48,10 +48,7 @@ function* fetchProperties({payload: {payload, collectiveId}}) {
   try {
     const response = yield call(fetchPropertiesService, payload, collectiveId);
     yield put(fetchPropertiesSuccessful(response.data));
-    console.log(response.data);
   } catch (error) {
-    console.log(error);
-    console.log(error?.response);
     yield put(fetchPropertiesError(error?.response?.data));
   }
 }
@@ -60,10 +57,7 @@ function* fetchEachProperty({ payload }) {
   try {
     const response = yield call(fetchEachPropertiesService, payload);
     yield put(fetchEachPropertiesSuccessful(response.data));
-    console.log(response.data)
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
     yield put(fetchEachPropertiesError(error?.response?.data));
   }
 }
@@ -72,10 +66,7 @@ function* createProperties({ payload }) {
   try {
     const response = yield call(createPropertiesService, payload);
     yield put(createPropertiesSuccessful(response.data));
-    console.log(response.data)
   } catch (error) {
-    console.log(error);
-    console.log(error?.response);
     yield put(createPropertiesError(error?.response?.data));
   }
 }
@@ -86,7 +77,7 @@ function* getPropertyTypes() {
     yield put(getPropertyTypesSuccess(response.data));
     // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
+    // console.log(error?.response);
     yield put(getPropertyTypesError(error?.response?.data))
   }
 }
@@ -97,7 +88,7 @@ function* getPropertySubcategory({payload: {id}}) {
     yield put(getPropertySubcategorySuccess(response.data))
     // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
+    // console.log(error?.response);
     yield put(getPropertySubcategoryError(error?.response?.data))
   }
 }
@@ -106,10 +97,10 @@ function* getPropertySubcategory({payload: {id}}) {
     try {
       const response = yield call(duplicateUnitService, payload);
       yield put(duplicateUnitPropertySuccess(response.data));
-      console.log(response.data)
+      // console.log(response.data)
     } catch (error) {
-      console.log(error);
-      console.log(error?.response);
+      // console.log(error);
+      // console.log(error?.response);
       yield put(duplicateUnitPropertyError(error?.response?.data));
     }
   }
@@ -119,10 +110,10 @@ function* getPropertySubcategory({payload: {id}}) {
     try {
       const response = yield call(putSingleUnitPropertyService, payload);
       yield put(createPropertiesSuccessful(response.date));
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      console.log(error)
-      console.log(error?.response);
+      // console.log(error)
+      // console.log(error?.response);
       yield put(createPropertiesError(error?.response?.data));
     }
   }
@@ -131,10 +122,10 @@ function* getPropertySubcategory({payload: {id}}) {
     try {
       const response = yield call(updateUnitService, payload);
       yield put(updateUnitPropertySuccessful(response.data));
-      console.log(response.data)
+      // console.log(response.data)
     } catch (error) {
-      console.log(error);
-      console.log(error?.response);
+      // console.log(error);
+      // console.log(error?.response);
       yield put(updateUnitPropertyError(error?.response?.data));
     }
   }
@@ -143,10 +134,10 @@ function* getPropertySubcategory({payload: {id}}) {
     try {
       const response = yield call(deletePropertyService, propertyId);
       yield put(deletePropertySuccess(response.data));
-      console.log(response.data)
+      // console.log(response.data)
     } catch (error) {
-      console.log(error);
-      console.log(error?.response);
+      // console.log(error);
+      // console.log(error?.response);
       yield put(deletePropertyError(error?.response?.data));
     }
   }
