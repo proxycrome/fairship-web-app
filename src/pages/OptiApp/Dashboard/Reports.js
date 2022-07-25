@@ -164,7 +164,7 @@ class EarningReports extends Component {
                     <p className="text-muted text-truncate mb-2">
                       Occupied Units
                     </p>
-                    <h5>{this.props?.data?.purchasedProperty}</h5>
+                    <h5>{this.props?.data?.rentedProperty}</h5>
                   </div>
                 </CardBody>
               </Card>

@@ -112,7 +112,7 @@ class SidebarContent extends Component {
             {/* Listings */}
             <li>
               <Link to="/listing_properties" className="waves-effect">
-                <i className="ri-home-3-line"></i>
+                <i className="ri-home-3-fill"></i>
                 <span className="ml-1">Listings</span>
               </Link>
             </li>
@@ -156,7 +156,7 @@ class SidebarContent extends Component {
             <li>
               <Link to="/maintenance" className="waves-effect">
                 {/* <i className="ri-store-2-line"></i> */}
-                <i className="ri-service-line"></i>
+                <i className="ri-tools-fill"></i>
                 <span className="ml-1">Maintenance/Service</span>
               </Link>
             </li>
@@ -172,7 +172,7 @@ class SidebarContent extends Component {
             {/* Rental Applications */}
             <li>
               <Link to="/rental_application" className="waves-effect">
-                <i className=" ri-pencil-line"></i>
+                <i className="ri-key-2-fill"></i>
                 <span className="ml-1">Rental Applications</span>
               </Link>
             </li>
@@ -180,7 +180,7 @@ class SidebarContent extends Component {
             {/* Buy Applications */}
             <li>
               <Link to="/buy_application" className="waves-effect">
-                <i className=" ri-pencil-line"></i>
+                <i className="ri-briefcase-4-line"></i>
                 <span className="ml-1">Buy Applications</span>
               </Link>
             </li>
@@ -189,7 +189,7 @@ class SidebarContent extends Component {
             {/* inspections */}
             <li>
               <Link to="/#" className="has-arrow waves-effect">
-                <i className=" ri-eye-line"></i>
+                <i className="ri-search-line"></i>
                 <span className="ml-1">Inspections</span>
               </Link>
               <ul className="sub-menu" aria-expanded="false">

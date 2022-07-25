@@ -17,7 +17,7 @@ import Breadcrumbs from '../../../components/Common/Breadcrumb';
 
 // user
 import Loader from '../../../components/Common/Loading/index';
-import { fetchTenant } from '../../../store/actions'
+import { fetchRental } from '../../../store/actions';
 
 import { MDBDataTable } from 'mdbreact';
 import './dataTables.scss';
@@ -43,15 +43,22 @@ class Tenants extends Component {
     }
   }
 
+  getDifferenceInDays = (date1, date2) => {
+    if (date2 >= date1) {
+      const diffInMs = date2 - date1;
+      return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    }
+  };
+
   componentDidMount() {
-    if(this.props.user?.id) {
-      this.props.fetchTenant(this.props.user?.id);
-    } 
+    if (this.props.user?.id) {
+      this.props.fetchRental('CURRENT');
+    }
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevProps.user !== this.props.user && this.props.user?.id){
-      this.props.fetchTenant(this.props.user?.id);
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.user !== this.props.user && this.props.user?.id) {
+      this.props.fetchRental('CURRENT');
     }
   }
 
@@ -83,8 +90,14 @@ class Tenants extends Component {
           width: 80,
         },
         {
-          label: 'Outstanding Payment',
+          label: 'Payment Date',
           field: 'out_payment',
+          sort: 'asc',
+          width: 110,
+        },
+        {
+          label: 'Rent Amount (₦)',
+          field: 'rent_price',
           sort: 'asc',
           width: 110,
         },
@@ -95,97 +108,104 @@ class Tenants extends Component {
           width: 135,
         },
       ],
-      rows: 
-      this?.props?.tenant?.entities?.map(tents =>
-        (
-        {
-          tenants: (
-            <>
-              <img
-                className="rounded-circle header-profile-user mr-1"
-                src={tents?.profilePhoto}
-                alt="Header Avatar"
-              />
-              <span> {tents?.firstName} {tents?.lastName}</span>
-            </>
-          ),
-          // unitNumber: "001",
-          property: '', //`${tents?.property?.description}`
-          address: `${tents?.address?.houseNoAddress}`,
-          out_payment:'' ,
-          total: '$172',
-          status: (
-            <div className="badge badge-soft-success font-size-12">
-              {tents?.status}
-            </div>
-          ),
-          action: (
-            <>
-              <Link to="#" className="mr-3 text-primary" id="edit1">
-                <i className="mdi mdi-pencil font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="edit1">
-                Edit
-              </UncontrolledTooltip>
-              <Link to="#" className="text-danger" id="delete1">
-                <i className="mdi mdi-trash-can font-size-18"></i>
-              </Link>
-              <UncontrolledTooltip placement="top" target="delete1">
-                Delete
-              </UncontrolledTooltip>
-            </>
-          ),
-        }
-      ))
-    }
+      rows: this?.props?.rental?.entities?.map((tents) => ({
+        tenants: (
+          <>
+            <img
+              className="rounded-circle header-profile-user mr-1"
+              src={tents?.tenant?.profilePhoto}
+              alt="Header Avatar"
+            />
+            <span>
+              {' '}
+              {tents?.tenant?.firstName} {tents?.tenant?.lastName}
+            </span>
+          </>
+        ),
+        // unitNumber: "001",
+        property: `${
+          tents?.property?.parentProperty?.title
+            ? tents?.property?.parentProperty?.title
+            : ''
+        } ${tents?.property?.title}`,
+        address: `${tents?.property?.address?.houseNoAddress}`,
+        out_payment: `${tents.dueDate}`,
+        rent_price: `${tents.property.price.toLocaleString()}`,
+        status: (
+          <div className="badge badge-soft-success font-size-12">
+            {tents?.status}
+          </div>
+        ),
+        action: (
+          <>
+            <Link to="#" className="mr-3 text-primary" id="edit1">
+              <i className="mdi mdi-pencil font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="edit1">
+              Edit
+            </UncontrolledTooltip>
+            <Link to="#" className="text-danger" id="delete1">
+              <i className="mdi mdi-trash-can font-size-18"></i>
+            </Link>
+            <UncontrolledTooltip placement="top" target="delete1">
+              Delete
+            </UncontrolledTooltip>
+          </>
+        ),
+      })),
+    };
+    console.log(this.props.rental);
     return (
       <React.Fragment>
         <div className="page-content">
           <Container fluid>
-          { this.props.loading ? (
+            {this.props.loading ? (
               <Card>
                 <CardBody>
                   <Loader loading={this.props.loading} />
                 </CardBody>
               </Card>
-          ) : (
-            <>
-            <Breadcrumbs
-            title="Tenants"
-            breadcrumbItems={this.state.breadcrumbItems}
-          />
+            ) : (
+              <>
+                <Breadcrumbs
+                  title="Tenants"
+                  breadcrumbItems={this.state.breadcrumbItems}
+                />
 
-           { this.props.tenant?.entities?.length !== 0 ?               
-               (                
-              <Row>
-                <Col lg={12}>
-                  <Card>
-                    <CardBody className="pt-0">
-                      <MDBDataTable responsive data={data} className="mt-4" />
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-                ) : (
-              <Row>
-                <Col lg={12}>
-                  <Card>
-                    <CardBody >
-                        <div className="text-center">
-                          <img
-                            src={emptyCan}
-                            alt="empty"
-                            className="rounded mb-2"
+                {this.props.tenant?.entities?.length !== 0 ? (
+                  <Row>
+                    <Col lg={12}>
+                      <Card>
+                        <CardBody className="pt-0">
+                          <MDBDataTable
+                            responsive
+                            data={data}
+                            className="mt-4"
                           />
-                          <h4> Table is Empty </h4>
-                        </div>
                         </CardBody>
-                  </Card>
-                </Col>
-              </Row>    
+                      </Card>
+                    </Col>
+                  </Row>
+                ) : (
+                  <Row>
+                    <Col lg={12}>
+                      <Card>
+                        <CardBody>
+                          <div className="text-center">
+                            <img
+                              src={emptyCan}
+                              alt="empty"
+                              className="rounded mb-2"
+                            />
+                            <h4> Table is Empty </h4>
+                          </div>
+                        </CardBody>
+                      </Card>
+                    </Col>
+                  </Row>
                 )}
-          </>
-          )}  
+              </>
+            )}
           </Container>
         </div>
       </React.Fragment>
@@ -194,12 +214,10 @@ class Tenants extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { tenant, loading } = state.Tenant
-  const { user } = state.Account
-  return { tenant, loading,  user }
+  const { tenant, loading } = state.Tenant;
+  const { rental } = state.Rental;
+  const { user } = state.Account;
+  return { tenant, loading, user, rental };
 };
 
-
-export default withRouter(
-  connect(mapStateToProps,  { fetchTenant })(Tenants)
-);
+export default withRouter(connect(mapStateToProps, { fetchRental })(Tenants));

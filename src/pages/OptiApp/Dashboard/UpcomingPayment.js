@@ -24,7 +24,7 @@ componentDidMount(){
 
 
   render() {
-    
+  
     return (
       <React.Fragment>
             { this.props.zero?.entities?.length !== 0 ? (
@@ -48,13 +48,17 @@ componentDidMount(){
                         </h5>
                         <h5 className="font-size-13">
                           <small className="text-muted mr-2">Overdue</small>
-                          {twent?.property?.price}
+                          {twent?.property?.price.toLocaleString()}
+                        </h5>
+                        <h5 className="font-size-13">
+                          <small className="text-muted mr-2">Property name</small>
+                          {twent?.property?.parentProperty?.title} {twent?.property?.title}
                         </h5>
                       </div>
    
                       <div>
                         <p className="text-muted mb-0">
-                          {twent?.tenant?.address?.houseNoAddress}
+                          {twent?.property?.address?.houseNoAddress}
                         </p>
                       </div>
                     </div>

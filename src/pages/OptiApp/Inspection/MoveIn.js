@@ -257,9 +257,9 @@ const MoveIn = ({
   useEffect(() => {
     if (match.params.id) {
       fetchRentalRecommendation(match.params.id);
-      if (inspectId) {
-        fetchEachInspection(inspectId);
-      }
+    }
+    if (inspectId) {
+      fetchEachInspection(inspectId);
     }
   }, [
     match.params.id,
@@ -267,6 +267,8 @@ const MoveIn = ({
     fetchEachInspection,
     fetchRentalRecommendation,
   ]);
+
+  console.log(match, location)
 
   useEffect(() => {
     if (message) {
@@ -279,7 +281,7 @@ const MoveIn = ({
   // console.log(inspection);
 
   useEffect(() => {
-    if (inspection) {
+    if (inspection?.approvalStatus !== "APPROVED") {
       const oldInspections = inspection?.inspectionAreas?.map((area, i) => {
         return {
           id: area.id,
@@ -294,40 +296,47 @@ const MoveIn = ({
 
       SetInspectionField(oldInspections);
     }
+    if( inspection?.approvalStatus === "APPROVED") {
+      SetInspectionField([]);
+    }
+    SetInspectionField([]);  
   }, [inspection]);
 
   useEffect(() => {
     let prevInspection = {};
-    const oldInspections = inspection?.inspectionAreas?.forEach((area, i) => {
-      prevInspection = {
-        ...prevInspection,
-        generalComment: inspection.generalComment,
-        [area.name]: {
-          inspectionItems: {
-            ...area.inspectionItems.map((ins) => {
-              const { images, id, itemName, ...others } = ins;
-              return {
-                [ins.itemName]: others,
-              };
-            }),
+    if(inspection?.approvalStatus !== "APPROVED") { 
+      const oldInspections = inspection?.inspectionAreas?.forEach((area, i) => {
+        prevInspection = {
+          ...prevInspection,
+          generalComment: inspection.generalComment,
+          [area.name]: {
+            inspectionItems: {
+              ...area.inspectionItems.map((ins) => {
+                const { images, id, itemName, ...others } = ins;
+                return {
+                  [ins.itemName]: others,
+                };
+              }),
+            },
+            inventoryItems: {
+              ...area.inventoryItems.map((inv) => {
+                const { id, itemName, ...others } = inv;
+                return {
+                  [inv.itemName]: others,
+                };
+              }),
+            },
           },
-          inventoryItems: {
-            ...area.inventoryItems.map((inv) => {
-              const { id, itemName, ...others } = inv;
-              return {
-                [inv.itemName]: others,
-              };
-            }),
-          },
-        },
-      };
-    });
-    setPrevInspections({ ...prevInspection });
+        };
+      });
+    }
+    setPrevInspections(prevInspection);
   }, [inspection]);
 
   // console.log(prevInspections);
   // console.log(inspectionField);
 
+  // // console.log(inspection);
   return (
     <div className="page-content">
       <Container fluid>

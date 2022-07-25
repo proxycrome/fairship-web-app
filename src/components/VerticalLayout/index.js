@@ -85,6 +85,8 @@ class Layout extends Component {
       this.toggleRightSidebar();
     }
   }
+
+  
   toggleMenuCallback = () => {
     if (this.props.leftSideBarType === "default") {
       this.props.changeSidebarType("condensed", this.state.isMobile);

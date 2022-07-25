@@ -23,7 +23,7 @@ import {
   fetchleaseServices,
   fetchleaseServicesSixty,
   fetchleaseServicesTwenty,
-  fetchleaseServicesZeroTwenty,
+  fetchleaseServicesZero,
   fetchallrentServices,
 } from '../../services/expiringLeasesServices';
 
@@ -68,7 +68,7 @@ export function* watchFetchleaseOnetwenty() {
 
 function* fetchleaseZero() {
   try {
-    const response = yield call(fetchleaseServicesZeroTwenty);
+    const response = yield call(fetchleaseServicesZero);
     yield put(fetchExpiringSuccessfulZero(response.data));
   } catch (error) {
     yield put(fetchExpiringErrorZero(error?.response?.data));

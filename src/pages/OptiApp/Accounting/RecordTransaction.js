@@ -1,24 +1,69 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Container,
   Card,
   CardBody,
   Col,
   FormGroup,
-  Input,
-  Form,
+  Alert,
 } from 'reactstrap';
 
+import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
+import { postTransaction,getAccounts, fetchRental } from '../../../store/actions';
+import { clearMessages } from '../../../store/Accounting/actions';
+import { useSelector, useDispatch } from 'react-redux';
+
 const RecordTransaction = ({ closePage }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAccounts());
+    dispatch(fetchRental('CURRENT'))
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(clearMessages());
+  }, [dispatch])
+
+  const {accounts, transMessage, transErrorMessage } = useSelector(state => state.Accounting);
+
+  const { rental } = useSelector(state => state.Rental);
+
+  console.log(transMessage);
+
+  console.log(transErrorMessage);
+
+  useEffect(() => {
+    if(transMessage) {
+      setTimeout(() => {
+        dispatch(clearMessages());
+        dispatch(getAccounts());
+        dispatch(fetchRental('CURRENT'))
+      }, 3000)
+    }
+  }, [dispatch, transMessage]);
+
+  const handleSubmit = (event, values) => {
+    const formData = {
+      ...values,
+      accountId: +values.accountId,
+      amountPaid: +values.amountPaid,
+      balance: +values.balance,
+      propertyId: +values.propertyId,
+      tenantId: +values.tenantId,
+    }
+    // console.log(formData);
+    dispatch(postTransaction(formData));
+  }
+
   return (
     <React.Fragment>
       <div>
         <Container fluid>
-          <span onClick={closePage} className="mx-2 font-size-14 mb-2">
+          <span onClick={closePage} className="mx-2 font-size-14 mb-2" style={{cursor: "pointer"}}>
             <span>
               <i
-                className="fas fa-arrow-left
- font-size-14 mr-2"
+                className="fas fa-arrow-left font-size-14 mr-2"
               />
             </span>
             Back
@@ -28,111 +73,125 @@ const RecordTransaction = ({ closePage }) => {
               <h5>
                 <b>Add Account</b>
               </h5>
-              <Form className="mx-4 mt-2">
-                <FormGroup row>
+              {transMessage && (
+                <Alert color="success" className="text-center">{transMessage?.message}</Alert>
+              )}
+              {transErrorMessage && (
+                <Alert color="danger" className="text-center">{transErrorMessage?.message}</Alert>
+              )}
+              <AvForm className="mx-4 mt-2" onValidSubmit={handleSubmit}>
+                <AvGroup row>
                   <Col md={6}>
-                    <select className="form-control bg-light border border-0">
-                      <option>Account</option>
-                      <option>Large select</option>
-                      <option>Small select</option>
-                    </select>
+                    <AvField 
+                      className="form-control bg-light border border-0"
+                      type="select"
+                      label="Account"
+                      name="accountId"
+                      required
+                    >
+                      <option value="">Select...</option>
+                      {accounts?.map(acc => (
+                        <option key={acc.id} value={acc.id}>{acc.accountName}</option>
+                      ))}
+                    </AvField>
                   </Col>
                   <Col md={6}>
-                    <Input
+                    <AvField
                       className="form-control bg-light border border-0"
                       type="date"
-                      placeholder="payment Date"
+                      label="Payment Date"
+                      name="paymentDate"
+                      placeholder="Payment Date"
+                      required
                     />
                   </Col>
-                </FormGroup>
+                </AvGroup>
 
-                <FormGroup row>
+                <AvGroup row>
                   <Col md={6}>
-                    <Input
+                    <AvField
                       className="form-control bg-light border border-0"
-                      type="text"
+                      type="number"
+                      label="Amount Paid"
+                      name="amountPaid"
                       placeholder="Amount Paid"
+                      required
                     />
                   </Col>
                   <Col md={6}>
-                    <Input
+                    <AvField
                       className="form-control bg-light border border-0"
-                      type="text"
+                      type="number"
+                      label="Balance"
+                      name="balance"
                       placeholder="Balance"
                     />
                   </Col>
-                </FormGroup>
-                <FormGroup row>
+                </AvGroup>
+                <AvGroup row>
                   <Col md={6}>
-                    <Input
+                    <AvField
                       className="form-control bg-light border border-0"
-                      type="text"
-                      placeholder="Properties"
-                    />
+                      type="select"
+                      label="Property"
+                      name="propertyId"
+                      placeholder="Property"
+                      required
+                    >
+                      <option value="">Select...</option>
+                      {rental?.entities?.map(data => (
+                        <option key={data.property.id} value={data.property.id}>{data.property.parentProperty?.title} {data.property.title}</option>
+                      ))}
+                    </AvField>
                   </Col>
                   <Col md={6}>
-                    <Input
+                    <AvField
                       className="form-control bg-light border border-0"
-                      type="number"
+                      type="select"
+                      label="Tenant"
+                      name="tenantId"
                       placeholder="Tenant"
-                    />
+                      required
+                    >
+                      <option value="">Select...</option>
+                      {rental?.entities?.map(data => (
+                        <option key={data.id} value={data.tenant.id}>{data.tenant.firstName} {data.tenant.lastName}</option>
+                      ))}
+                    </AvField>
                   </Col>
-                </FormGroup>
-
-                <FormGroup row>
+                </AvGroup>
+                <AvGroup row>
                   <Col md={6}>
-                    <Input
+                    <AvField 
                       className="form-control bg-light border border-0"
                       type="text"
-                      placeholder="Unit"
+                      label="Payment Category"
+                      name="paymentCategory"
+                      placeholder="Payment Category (rent, late fee, etc)"
+                      required
                     />
                   </Col>
                   <Col md={6}>
-                    <select className="form-control bg-light border border-0">
-                      <option>Payment Type</option>
-                      <option>Large select</option>
-                      <option>Small select</option>
-                    </select>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col md={6}>
-                    <select className="form-control bg-light border border-0">
-                      <option>Payment Category</option>
-                      <option>Large select</option>
-                      <option>Small select</option>
-                    </select>
-                  </Col>
-                  <Col md={6}>
-                    <Input
+                    <AvField
                       className="form-control bg-light border border-0"
-                      type="number"
-                      placeholder="Debit/Credit"
-                    />
+                      type="select"
+                      label="Transaction Type"
+                      name="transactionType"
+                      placeholder="Credit/Debit"
+                      required
+                    >
+                      <option value="">Select...</option>
+                      <option value="CREDIT">Credit</option>
+                      <option value="DEBIT">Debit</option>
+                    </AvField>
                   </Col>
+                </AvGroup>
+                <FormGroup>
+                  <div className="text-center">
+                    <button className="btn btn-success px-5">Save</button>
+                  </div>
                 </FormGroup>
-
-                <FormGroup row>
-                  <Col md={6}>
-                    <textarea
-                      className="form-control bg-light"
-                      id="description"
-                      rows="5"
-                    ></textarea>
-                  </Col>
-                  <Col md={6}>
-                    <textarea
-                      className="form-control bg-light"
-                      id="comment"
-                      rows="5"
-                    ></textarea>
-                  </Col>
-                </FormGroup>
-
-                <div className="text-center">
-                  <button className="btn btn-success px-5" onClick={closePage}>Save</button>
-                </div>
-              </Form>
+              </AvForm>
             </CardBody>
           </Card>
         </Container>

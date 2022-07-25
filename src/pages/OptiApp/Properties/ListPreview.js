@@ -46,24 +46,31 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
                 <h5>{property?.parentProperty?.title} <br/>{property?.title}</h5>
               </div>
               <div className='mr-3'>
-                <p>From N<span style={{fontWeight: "600", color: "blue"}}>{property?.price}</span>/ yr</p>
+                <p>From N<span style={{fontWeight: "600", color: "blue"}}>{property?.price.toLocaleString()}</span>/ yr</p>
               </div>
             </Row>
             <Row>
               <div className="d-flex flex-column ml-3">
-                <span>(ID: {match.params.id})</span>
-                <span>{property?.address?.houseNoAddress}</span>
+                <span>(ID: {property?.propertyRef})</span>
+                <span>{property?.address?.houseNoAddress}, {property?.address?.state}, {property?.address?.country}</span>
               </div>
             </Row>
             <Row>
               <Col md={6}>
-                <div className="my-3">
+                {/* <div className="my-3">
                   <img src={BusStop} alt="busstop icon" className="ml-1"/>
                   <span className="ml-2">Bus-stop: 4 min walk to the bus line</span>
                 </div>
                 <div className="my-3">
                   <img src={Parking} alt="parking icon" className="ml-1"/>
                   <span className="ml-2">Parking: 3 drive way spaces</span>
+                </div> */}
+                <div className="my-3">
+                  <img src={PropertyIcon} alt="property icon" className="ml-1"/>
+                  <span className="ml-2"><strong>Features: </strong>{property?.bedrooms} bedrooms {property?.bathrooms} bathrooms</span>
+                </div>
+                <div className="my-3">
+                  <span className="ml-2"><strong>Size: </strong>{property?.size}sqm</span>
                 </div>
                 <Button color="success">
                   {" "}
@@ -71,19 +78,15 @@ const ListPreview = ({ match, fetchEachProperties, property }) => {
                 </Button>
               </Col>
               <Col md={6}>
-                <div className="my-3">
+                {/* <div className="my-3">
                   <img src={Transit} alt="Transit icon" className="ml-1"/>
                   <span className="ml-2">Transit: 20 min walk to ikeja bus terminal</span>
-                </div>
-                <div className="my-3">
-                  <img src={PropertyIcon} alt="property icon" className="ml-1"/>
-                  <span className="ml-2">{property?.bedrooms} bedrooms {property?.bathrooms} bathrooms</span>
-                </div>
+                </div> */}
               </Col>
             </Row>
             <Row>
               <div className="ml-3 mt-5">
-                <h6>Overview</h6>
+                <h6>Description</h6>
                 <p>{property?.description}</p>
               </div>
             </Row>

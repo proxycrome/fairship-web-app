@@ -14,6 +14,7 @@ import {
     FETCH_SERVICE,
     FETCH_SERVICE_SUCCESS,
     FETCH_SERVICE_FAILURE,
+    CLEAR_MESSAGES,
   } from './actionTypes.js';
 
   export const getAllServiceReq = () => {
@@ -116,4 +117,10 @@ import {
           type: FETCH_SERVICE_FAILURE,
           payload: error
       }
+  }
+
+  export const clearMessages = () => {
+    return {
+        type: CLEAR_MESSAGES,
+    }
   }

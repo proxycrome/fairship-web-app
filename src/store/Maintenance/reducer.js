@@ -13,7 +13,8 @@ import {
     GET_MAINTENANCE_REQ_FAILURE,
     FETCH_SERVICE,
     FETCH_SERVICE_SUCCESS,
-    FETCH_SERVICE_FAILURE
+    FETCH_SERVICE_FAILURE,
+    CLEAR_MESSAGES
   } from './actionTypes';
 
 const initialState = {
@@ -132,6 +133,13 @@ const Maintenance = (state = initialState, action) => {
                 error: action.payload
             }
         break;
+
+        case CLEAR_MESSAGES: 
+            state = {
+                maintenance: null,
+                error: null,
+            }
+            break;
 
         default:
             state = {...state};

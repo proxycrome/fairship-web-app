@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 
 import Loading from "../../../components/Common/Loading";
-import chat from "./images/chat.svg";
+// import chat from "./images/chat.svg";
 
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -167,10 +167,10 @@ const PropertyCard = ({
                               {property?.publishedBy?.lastName}
                             </h5>
                           </div>
-                          <div className="d-flex">
+                          {/* <div className="d-flex">
                             <img src={chat} alt="chat" />
                             <h6 className="ml-2">Chat with this Agent</h6>
-                          </div>
+                          </div> */}
                         </div>
                         <div className="d-flex">
                           <div>
@@ -180,6 +180,7 @@ const PropertyCard = ({
                                 backgroundColor: "lightGreen",
                                 height: "50%",
                               }}
+                              id="phone"
                             >
                               <i
                                 className="fa fa-phone"
@@ -187,6 +188,14 @@ const PropertyCard = ({
                               ></i>
                             </div>
                             <p> Call </p>
+                            {property?.publishedBy && (
+                              <UncontrolledTooltip
+                              placement="left"
+                              target="phone"
+                            >
+                              {property?.publishedBy && property?.publishedBy?.phone}
+                            </UncontrolledTooltip>
+                            )}
                           </div>
                           <div className="ml-5">
                             <a
@@ -196,6 +205,7 @@ const PropertyCard = ({
                                 backgroundColor: "lightGreen",
                                 height: "50%",
                               }}
+                              id="email"
                             >
                               <i
                                 className=" fas fa-envelope"
@@ -203,6 +213,15 @@ const PropertyCard = ({
                               ></i>
                             </a>
                             <p> Email </p>
+                            {property?.publishedBy && (
+                              <UncontrolledTooltip
+                              placement="top"
+                              target="email"
+                            >
+                              {property?.publishedBy && property?.publishedBy?.email}
+                            </UncontrolledTooltip>
+                            )}
+                            
                           </div>
                         </div>
                       </div>

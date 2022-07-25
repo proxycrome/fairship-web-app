@@ -67,18 +67,18 @@ class RentalApplication extends Component {
 
   componentDidMount() {
    this.props.fetchRental(this.state.filter)
-}
+  }
 
 
-componentDidUpdate(Pp,Ps, Ss){
-  if(Ps.filter !== this.state.filter){ 
-    this.props.fetchRental(this.state.filter)
-  } 
-}
+  componentDidUpdate(Pp,Ps, Ss){
+    if(Ps.filter !== this.state.filter){ 
+      this.props.fetchRental(this.state.filter)
+    } 
+  }
 
   render() {
-
-  const processingRental = this?.props?.rental?.entities?.map((rents) => ({
+    console.log(this.props.rental)
+  const processingRental = this.props?.rental?.entities?.map((rents) => ({
       application: (
         /*map data from api here for each Tenant */
         <>
@@ -94,13 +94,13 @@ componentDidUpdate(Pp,Ps, Ss){
               // src={avatar2}
               alt="Header Avatar"
             />
-            <span> {rents.rentApplicationForm.name} </span>
+            <span> {rents.tenant.firstName} {rents.tenant.lastName}</span>
           </Link>
         </>
       ),
       // unitNumber: '001',
-      property: `${rents?.property?.description}`,
-      address: `${rents?.property?.address?.houseNoAddress}`,
+      property: `${rents?.property?.parentProperty?.title ? rents?.property?.parentProperty?.title : ''} ${rents?.property?.title}`,
+      address: `${rents?.tenant?.address?.houseNoAddress}`,
       date: `${rents?.createdAt}`,
       total: '$172',
       status: (

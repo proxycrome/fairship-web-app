@@ -235,16 +235,11 @@ const Profile = ({goBack}) => {
                     </Col>{' '}
                     <Col sm="6">
                       <AvGroup row>
-                        <Label
-                          htmlFor="dateOfBirth"
-                          className="col-md-12 col-form-label"
-                        >
-                          Date Of Birth
-                        </Label>
                         <Col md={12}>
-                          <AvInput
+                          <AvField
                             className="form-control"
                             type="date"
+                            label="Date of Birth"
                             id="dateOfBirth"
                             name = 'dob'
                           />
@@ -253,14 +248,8 @@ const Profile = ({goBack}) => {
                     </Col>{" "}
                     <Col sm="6">
                       <AvGroup row>
-                        <Label
-                          htmlFor="title"
-                          className="col-md-12 col-form-label"
-                        >
-                          Role
-                        </Label>
                         <Col md={12}>
-                          <AvField type="select" name="role" className="form-control" id="title" >
+                          <AvField type="select" name="role" label="Role" className="form-control" id="title" >
                             <option value="" >CHOOSE ROLE</option>
                             <option value="PROPERTY_OWNER" >PROPERTY OWNER</option>
                             <option value="AGENT" >AGENT</option>

@@ -20,6 +20,8 @@ import Agents from './Agent/reducer';
 import Maintenance from './Maintenance/reducer';
 import fetchReducerExpiring from './DashboardExpiringLeases/reducer';
 import Location from './location/reducer';
+import Settings from './Settings/reducer';
+import Accounting from './Accounting/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -27,13 +29,14 @@ const rootReducer = combineReducers({
 
     // public
     Layout,
+    Accounting,
     Appointment,
     Properties,
     Inspections,
     Rental,
     PreviewReducer,
     Location,
-
+    Settings,
     Tenant,
     fetchReducerExpiring,
 

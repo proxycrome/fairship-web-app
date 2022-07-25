@@ -9,8 +9,9 @@ import {
 } from "../../../store/actions";
 import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { clearMessages } from "../../../store/Maintenance/actions";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 const Maintenance = ({
   GoHome,
@@ -21,8 +22,10 @@ const Maintenance = ({
   serviceTypes,
   postMaintenanceReq,
   error,
+  clearMessages,
+  loading,
 }) => {
-  const [defaultDate, setDefaultDate] = useState(new Date());
+  // const [defaultDate, setDefaultDate] = useState(new Date());
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [imageError, setImageError] = useState("")
   const dispatch = useDispatch();
@@ -35,9 +38,21 @@ const Maintenance = ({
     getServiceTypes();
   }, [fetchProperties, getServiceTypes]);
 
-  const handleDefault = (date) => {
-    setDefaultDate(date);
-  };
+  useEffect(() => {
+    clearMessages();
+  }, [clearMessages])
+
+  // useEffect(() => {
+  //   if (maintenance) {
+  //     setTimeout(() => {
+  //       clearMessages();  
+  //     }, 3000)
+  //   }
+  // }, [maintenance, clearMessages])
+
+  // const handleDefault = (date) => {
+  //   setDefaultDate(date);
+  // };
 
   const handleSubmit = (event, values) => {
     setImageError("");
@@ -85,11 +100,12 @@ const Maintenance = ({
                     name="propertyId"
                     label="Property"
                     className="form-ctrl"
+                    required
                   >
                     <option value="">Select Property</option>
                     {properties?.entities?.map((property) => (
                       <option key={property.id} value={property.id}>
-                        {property.title}
+                        {property.parentProperty?.title} {property.title}
                       </option>
                     ))}
                   </AvField>
@@ -101,6 +117,7 @@ const Maintenance = ({
                     name="serviceTypeId"
                     className="form-ctrl"
                     label="Service Type"
+                    required
                   >
                     <option value="">Select Service type</option>
                     {serviceTypes?.map((service) => (
@@ -109,16 +126,6 @@ const Maintenance = ({
                       </option>
                     ))}
                   </AvField>
-                </AvGroup>
-                <AvGroup className="form-group-custom m-4">
-                  <Label htmlFor="comments">Description</Label>
-                  <AvField
-                    type="textarea"
-                    name="description"
-                    id="comments"
-                    placeholder="Description..."
-                    rows="3"
-                  />
                 </AvGroup>
               </Col>
               <Col xl={6}>
@@ -139,7 +146,7 @@ const Maintenance = ({
                   </AvField>
                 </AvGroup> */}
 
-                <FormGroup className="form-group-custom m-4">
+                {/* <FormGroup className="form-group-custom m-4">
                   <Label htmlFor="date">Date</Label>
                   <DatePicker
                     id="date"
@@ -147,10 +154,25 @@ const Maintenance = ({
                     selected={defaultDate}
                     onChange={handleDefault}
                   />
-                </FormGroup>
+                </FormGroup> */}
 
                 <AvGroup className="form-group-custom m-4">
-                  <AvField name="fee" label="Amount" />
+                  <AvField 
+                    type="number"
+                    name="fee" 
+                    label="Amount" 
+                    required 
+                  />
+                </AvGroup>
+                <AvGroup className="form-group-custom m-4">
+                  <Label htmlFor="comments">Description</Label>
+                  <AvField
+                    type="textarea"
+                    name="description"
+                    id="comments"
+                    placeholder="Description..."
+                    rows="3"
+                  />
                 </AvGroup>
               </Col>
             </Row>
@@ -160,7 +182,7 @@ const Maintenance = ({
                   selectedFiles={selectedFiles}
                   setFile={(files) => setSelectedFiles(files)}
                 />
-                {imageError && (
+                {selectedFiles?.length === 0 && imageError && (
                   <Alert color="danger" className="text-danger">
                     {imageError}
                   </Alert>
@@ -175,7 +197,7 @@ const Maintenance = ({
                     color="success"
                     className="waves-effect pr-5 pl-5 w-lg"
                   >
-                    Send
+                    {loading ? "Sending ..." : " Send"}
                   </Button>
                 </FormGroup>
               </Col>
@@ -188,8 +210,8 @@ const Maintenance = ({
 };
 
 const mapStatetoProps = (state) => {
-  const { properties, loading } = state.Properties;
-  const { serviceTypes, maintenance, error } = state.Maintenance;
+  const { properties } = state.Properties;
+  const { serviceTypes, maintenance, error, loading } = state.Maintenance;
   return { properties, loading, serviceTypes, maintenance, error };
 };
 
@@ -198,5 +220,6 @@ export default withRouter(
     fetchProperties,
     getServiceTypes,
     postMaintenanceReq,
+    clearMessages,
   })(Maintenance)
 );

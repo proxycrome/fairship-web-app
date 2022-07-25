@@ -3,15 +3,15 @@ import {
   Container,
   Card,
   CardBody,
-  Alert,
   Row,
   Col,
   Button,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
+  UncontrolledTooltip,
 } from "reactstrap";
+
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import DocumentsUpload from "../leaseUpload";
@@ -19,6 +19,7 @@ import { fetchEachProperties } from "../../../../store/actions";
 import PropertyIcon from "../../../../assets/images/Property.png";
 import avatar from "../../../../assets/images/avi.jpg";
 import Loader from "../../../../components/Common/Loading/index";
+import chat from "../images/chat.svg"
 
 const ListUnitPreview = ({
   match,
@@ -153,7 +154,7 @@ const ListUnitPreview = ({
                   <Col md={4} sm={12}>
                     <div className="mb-3">
                       <h6>Basic Rent</h6>
-                      <span>₦{property?.price}</span>
+                      <span>₦{property?.price.toLocaleString()}</span>
                     </div>
                     <div className="mb-3">
                       {/* <h6>Last payment date</h6>
@@ -183,11 +184,11 @@ const ListUnitPreview = ({
                     </div>
                     <div className="mb-3">
                       <h6>Next Payment Amount</h6>
-                      <span>₦{property?.price}</span>
+                      <span>₦{property?.price.toLocaleString()}</span>
                     </div>
                     <div>
                       <h6>Advertised Amount</h6>
-                      <span>₦{property?.price}</span>
+                      <span>₦{property?.price.toLocaleString()}</span>
                     </div>
                   </Col>
                   <Col md={4} sm={12}>
@@ -220,25 +221,31 @@ const ListUnitPreview = ({
                 <h4 className="card-title">Current Tenant</h4>
                 <div className="d-flex justify-content-between align-items-center">
                   {property?.rentedBy ? (
-                    <div className="d-flex align-items-center">
+                    <div className=" align-items-center">
                       {property?.rentedBy?.profilePhoto ? (
                         <img
                           src={property?.rentedBy?.profilePhoto}
                           alt="tenant"
-                          className="avatar-sm mr-4"
+                          className="avatar-sm mr-4 mb-2"
                         />
                       ) : (
                         <img
                           src={avatar}
                           alt="tenant"
-                          className="avatar-sm mr-4"
+                          className="avatar-sm mr-4 mb-2"
                         />
                       )}
 
-                      <h5 className="card-title">
+                      <h5 className="card-title mb-2">
                         {property?.rentedBy?.firstName}{" "}
                         {property?.rentedBy?.lastName}
                       </h5>
+                      <Link to="#">
+                        <div className="d-flex mb-2">
+                          <img src={chat} alt="chat" />
+                          <h6 className="ml-2">Chat with this Tenant</h6>
+                        </div>
+                      </Link>  
                     </div>
                   ) : (
                     <span>You have no tenant for this unit</span>
@@ -249,6 +256,7 @@ const ListUnitPreview = ({
                       <div
                         className="d-flex rounded-circle justify-content-center align-items-center"
                         style={{ backgroundColor: "lightGreen", height: "50%" }}
+                        id="call"
                       >
                         <i
                           className="fa fa-phone"
@@ -256,12 +264,21 @@ const ListUnitPreview = ({
                         ></i>
                       </div>
                       <p> Call </p>
+                      {property?.rentedBy && (
+                        <UncontrolledTooltip
+                        placement="left"
+                        target="call"
+                      >
+                         {property?.rentedBy && property?.rentedBy?.phone}
+                      </UncontrolledTooltip>
+                      )}    
                     </div>
                     <div className="ml-5">
                       <a
-                        href={`mailto:${property?.rentedBy?.email}`}
+                        href={property?.rentedBy && `mailto:${property?.rentedBy?.email}`}
                         className="d-flex rounded-circle justify-content-center align-items-center"
                         style={{ backgroundColor: "lightGreen", height: "50%" }}
+                        id="email"
                       >
                         <i
                           className=" fas fa-envelope"
@@ -269,6 +286,14 @@ const ListUnitPreview = ({
                         ></i>
                       </a>
                       <p> Email </p>
+                      {property?.rentedBy && (
+                        <UncontrolledTooltip
+                        placement="top"
+                        target="email"
+                      >
+                        {property?.rentedBy && property?.rentedBy?.email}
+                      </UncontrolledTooltip>
+                      )}  
                     </div>
                   </div>
                 </div>

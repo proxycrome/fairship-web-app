@@ -67,6 +67,9 @@ class ProfileMenu extends Component {
             <DropdownItem tag={Link} to="/profile">
               <i className="ri-user-line align-middle mr-1"></i> Profile
             </DropdownItem>
+            <DropdownItem tag={Link} to="/change-password">
+              <i className="ri-lock-unlock-line align-middle mr-1"></i> Change Password
+            </DropdownItem>
             {/* <DropdownItem href="#">
               <i className="ri-wallet-2-line align-middle mr-1"></i> My Wallet
             </DropdownItem> */}
@@ -74,10 +77,6 @@ class ProfileMenu extends Component {
               <span className="badge badge-success float-right mt-1">11</span>
               <i className="ri-settings-2-line align-middle mr-1"></i> Settings
             </DropdownItem>
-            {/* <DropdownItem href="#">
-              <i className="ri-lock-unlock-line align-middle mr-1"></i> Lock
-              screen
-            </DropdownItem> */}
             <DropdownItem divider />
             <DropdownItem
               className="text-danger"

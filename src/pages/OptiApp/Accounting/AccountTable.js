@@ -1,93 +1,82 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { SearchOutlined } from '@mui/icons-material'
 import { Row, Col, Card, CardBody, Table } from 'reactstrap';
+import { getAccounts } from '../../../store/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import emptyCan from "../../../assets/images/EmptyCan.png";
+import Loader from "../../../components/Common/Loading/index";
 
-const AccountantTable = () => {
+const AccountTable = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAccounts());
+  }, [dispatch]);
+
+  const { accounts, loading } = useSelector(state => state.Accounting);
+
+  console.log(accounts);
+
   return (
     <>
       <div>
-      
-          <Row>
-            <Col xs={12}>
+        <Row>
+          <Col xs={12}>
+            {loading ? (
               <Card>
                 <CardBody>
-                  <div className="table-rep-plugin">
-                    <div
-                      className="table-responsive mb-0"
-                      data-pattern="priority-columns"
-                    >
-                      <Table id="tech-companies-1" striped responsive>
-                        <thead>
-                          <tr>
-                            <th>Account Name</th>
-                            <th>Account Number</th>
-                            <th>Bank Name</th>
-                            <th>Branch</th>
-                            <th>Balance</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th>Realest Limited</th>
-                            <td>001</td>
-                            <td>GTB</td>
-                            <td>Move in</td>
-                            <td>N500,000</td>
-                            <td>Active⋮</td>
-                          </tr>
-                          <tr>
-                            <th>Realest Limited</th>
-                            <td>001</td>
-                            <td>United Bank for Africa</td>
-                            <td>Move Out</td>
-                            <td>N500,000</td>
-                            <td>Active⋮</td>
-                          </tr>
-                          <tr>
-                            <th>Realest Limited</th>
-                            <td>001</td>
-                            <td>First Bank</td>
-                            <td>Move in</td>
-                            <td>N500,000</td>
-                            <td>Active⋮</td>
-                          </tr>
-                          <tr>
-                            <th>Realest Limited</th>
-                            <td>001</td>
-                            <td>GTB</td>
-                            <td>Bi-annual</td>
-                            <td>N500,000</td>
-                            <td>Active⋮</td>
-                          </tr>
-                          <tr>
-                            <th>Realest Limited</th>
-                            <td>001</td>
-                            <td>Zenith</td>
-                            <td>Move in</td>
-                            <td>N500,000</td>
-                            <td>Active⋮</td>
-                          </tr>
-                          <tr>
-                            <th>Realest Limited</th>
-                            <td>001</td>
-                            <td>Cosy Studio in the heart of Lagos</td>
-                            <td>Move Out</td>
-                            <td>N500,000</td>
-                            <td>Active⋮</td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                  </div>
+                  <Loader loading={loading} />
                 </CardBody>
               </Card>
-            </Col>
-          </Row>
-        
+            ) : (
+              <Card>
+                <CardBody>
+                  {accounts && accounts?.length !== 0 ? (
+                    <div className="table-rep-plugin">
+                      <div
+                        className="table-responsive mb-0"
+                        data-pattern="priority-columns"
+                      >
+                        <Table id="tech-companies-1" striped responsive>
+                          <thead>
+                            <tr>
+                              <th>Account Name</th>
+                              <th>Account Number</th>
+                              <th>Bank Name</th>
+                              {/* <th>Branch</th>
+                                <th>Balance</th> */}
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {accounts?.map(acc => (
+                              <tr key={acc.id}>
+                                <th>{acc.accountName}</th>
+                                <td>{acc.accountNumber}</td>
+                                <td>{acc.bank.name}</td>
+                                {/* <td>Move in</td>
+                                  <td>N500,000</td> */}
+                                <td>{acc.status}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <img src={emptyCan} alt="empty" className="rounded mb-2" />
+                      <h4> Table is Empty </h4>
+                    </div>
+                  )}  
+                </CardBody>
+              </Card>
+            )}   
+          </Col>
+        </Row>
       </div>
     </>
   );
 };
 
-export default AccountantTable;
+export default AccountTable;

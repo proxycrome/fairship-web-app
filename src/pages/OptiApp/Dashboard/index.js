@@ -6,8 +6,13 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 // actions
-import { fetchDashboard, fetchAppointment, getAllServiceReq } from '../../../store/actions';
-
+import {
+  fetchDashboard,
+  fetchAppointment,
+  getAllServiceReq,
+  // getMaintenanceReq,
+  fetchAllRental,
+} from '../../../store/actions';
 
 import ExpiringListAnalytics from './ExpiringListAnalytics';
 import OutstandingBalance from './OutstandingBalance';
@@ -17,46 +22,79 @@ import UpcomingPayment from './UpcomingPayment';
 import ServiceAnalytics from './listTable';
 import MaintenanceAnalytics from './maintenaceListTable';
 import Loader from '../../../components/Common/Loading/index';
-import { useSelector, useDispatch } from "react-redux";
-import { fetchAllRental } from '../../../store/actions';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetchAppointment, getAllServiceReq, fetchAllRental }) => {
+
+const Dashboard = ({
+  fetchDashboard,
+  dashboard,
+  loading,
+  user,
+  appointment,
+  fetchAppointment,
+  getAllServiceReq,
+  fetchAllRental,
+  // getMaintenanceReq,
+}) => {
   const date = new Date();
   const mm = date.getMonth();
-  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const day = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+  const month = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const day = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
-  const dispatch = useDispatch()
-
-  
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     fetchDashboard();
     fetchAppointment();
     getAllServiceReq();
     fetchAllRental();
+    // getMaintenanceReq();
   }, []);
 
-
   // const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
- const recentAppointment = appointment?.slice(0, 1);
+  const recentAppointment = appointment?.slice(0, 1);
 
- const allrentals = useSelector((state) => state.fetchReducerExpiring.allrent);
+  const allrentals = useSelector((state) => state.fetchReducerExpiring.allrent);
 
+  const { services, maintenanceRequests } = useSelector(
+    (state) => state.Maintenance
+  );
 
-  const services = useSelector((state) => state.Maintenance?.services );
-
-  const appDate = new Date(recentAppointment && (recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[0] + "-" + recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[2] + " " + recentAppointment[0]?.startDateTime?.split(" ")[1] + " " + recentAppointment[0]?.startDateTime?.split(" ")[2]));
+  const appDate = new Date(
+    recentAppointment &&
+      recentAppointment[0]?.startDateTime?.split(' ')[0].split('-')[1] +
+        '-' +
+        recentAppointment[0]?.startDateTime?.split(' ')[0].split('-')[0] +
+        '-' +
+        recentAppointment[0]?.startDateTime?.split(' ')[0].split('-')[2] +
+        ' ' +
+        recentAppointment[0]?.startDateTime?.split(' ')[1] +
+        ' ' +
+        recentAppointment[0]?.startDateTime?.split(' ')[2]
+  );
   const dd = appDate.getDay();
-  
+
   function getDifferenceInHours(date1, date2) {
-    if(date2 >= date1){
+    if (date2 >= date1) {
       const diffInMs = Math.abs(date2 - date1);
       return Math.round(diffInMs / (1000 * 60 * 60));
     }
   }
 
-  const remainingHours = getDifferenceInHours(date, appDate)
+  const remainingHours = getDifferenceInHours(date, appDate);
 
   return (
     <React.Fragment>
@@ -106,7 +144,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           borderTop: 0,
                           borderBottom: '60px solid #c100A1',
                           marginTop: '80px',
-                          position: "absolute",
+                          position: 'absolute',
                           top: '10%',
                           left: '4%',
                         }}
@@ -135,14 +173,18 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           lineHeight: '4',
                         }}
                       >
-                        {date.getDate() + " " + month[mm] + " " + date.getFullYear()}
+                        {date.getDate() +
+                          ' ' +
+                          month[mm] +
+                          ' ' +
+                          date.getFullYear()}
                       </p>
                       <hr
                         style={{
                           width: '252.14px',
                           color: 'rgba(255, 255, 255, 0.42)',
                           marginRight: '130px',
-                          marginTop: '20px'
+                          marginTop: '20px',
                         }}
                       />
                       <div style={{ display: 'flex' }}>
@@ -159,7 +201,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                         >
                           Your Appointments
                         </p>
-                        <Link 
+                        <Link
                           to="/appointments"
                           className="text-white"
                           style={{
@@ -186,7 +228,8 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                             fontWeight: 600,
                           }}
                         >
-                          {recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[1]}
+                          {recentAppointment &&
+                            recentAppointment[0]?.startDateTime?.split(' ')[1]}
                         </p>
                         <div style={{ display: 'flex' }}>
                           <p
@@ -201,7 +244,10 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                               marginLeft: '2px',
                             }}
                           >
-                            {recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[2]}
+                            {recentAppointment &&
+                              recentAppointment[0]?.startDateTime?.split(
+                                ' '
+                              )[2]}
                           </p>
                           <p
                             className="text-white"
@@ -214,12 +260,19 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                               marginRight: '7px',
                             }}
                           ></p>
-                          <p className="text-white">{recentAppointment && recentAppointment[0]?.startDateTime?.split(" ")[0]}</p>
+                          <p className="text-white">
+                            {recentAppointment &&
+                              recentAppointment[0]?.startDateTime?.split(
+                                ' '
+                              )[0]}
+                          </p>
                         </div>
                       </div>
                       <div style={{ display: 'flex' }}>
                         <p
-                          className={day[dd] === "Mo" ? "appointDay" : "nonAppDay"}
+                          className={
+                            day[dd] === 'Mo' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -230,8 +283,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Mo
                         </p>
                         <p
-                 className={day[dd] === "Tu" ? "appointDay" : "nonAppDay"}
-
+                          className={
+                            day[dd] === 'Tu' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -243,7 +297,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Tu
                         </p>
                         <p
-                          className={day[dd] === "We" ? "appointDay" : "nonAppDay"}
+                          className={
+                            day[dd] === 'We' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -255,7 +311,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           We
                         </p>
                         <p
-                          className={day[dd] === "Th" ? "appointDay" : "nonAppDay"}
+                          className={
+                            day[dd] === 'Th' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -267,7 +325,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Th
                         </p>
                         <p
-                          className={day[dd] === "Fr" ? "appointDay" : "nonAppDay"}
+                          className={
+                            day[dd] === 'Fr' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -279,7 +339,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Fr
                         </p>
                         <p
-                          className={day[dd] === "Sa" ? "appointDay" : "nonAppDay"}
+                          className={
+                            day[dd] === 'Sa' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -291,7 +353,9 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           Sa
                         </p>
                         <p
-                          className={day[dd] === "Su" ? "appointDay" : "nonAppDay"}
+                          className={
+                            day[dd] === 'Su' ? 'appointDay' : 'nonAppDay'
+                          }
                           style={{
                             width: '23px',
                             height: '23px',
@@ -316,7 +380,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                             lineHeight: '13.1px',
                           }}
                         >
-                          {remainingHours ? remainingHours : 0 } Hours left
+                          {remainingHours ? remainingHours : 0} Hours left
                         </p>
                       </div>
                     </div>
@@ -330,7 +394,7 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                           borderRadius: '50%',
                           position: 'absolute',
                           top: '60%',
-                          left: "6%"
+                          left: '6%',
                         }}
                       ></div>
                       <div
@@ -363,10 +427,10 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                 <RevenueAnalytics allrentals={allrentals} />
               </Col>
               <Col md={6}>
-                <Reports data={dashboard}/>
+                <Reports data={dashboard} />
               </Col>
               <Col md={6}>
-                <OutstandingBalance />
+                <OutstandingBalance allrentals={allrentals} />
               </Col>
               <Col md={6}>
                 <ExpiringListAnalytics />
@@ -375,10 +439,13 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
                 <UpcomingPayment />
               </Col>
               <Col md={6}>
-                <ServiceAnalytics Title={'Recent Service Request'} services={services}/>
+                <ServiceAnalytics
+                  Title={'Recent Service Request'}
+                  services={services}
+                />
               </Col>
               <Col md={6}>
-                <MaintenanceAnalytics Title={'Recent Maintenance Request'} />
+                <MaintenanceAnalytics Title={'Recent Maintenance Request'} maintenance={maintenanceRequests}/>
               </Col>
             </Row>
           )}
@@ -391,10 +458,16 @@ const Dashboard = ({ fetchDashboard, dashboard, loading, user, appointment, fetc
 const mapStatetoProps = (state) => {
   const { dashboard, loading, user } = state.Account;
   const { appointment } = state.Appointment;
-  const {allrent, errorrent } = state.fetchReducerExpiring;
-  return { dashboard, loading, user, appointment, allrent, errorrent};
+  const { allrent, errorrent } = state.fetchReducerExpiring;
+  return { dashboard, loading, user, appointment, allrent, errorrent };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { fetchDashboard, fetchAppointment, getAllServiceReq, fetchAllRental})(Dashboard)
+  connect(mapStatetoProps, {
+    fetchDashboard,
+    fetchAppointment,
+    getAllServiceReq,
+    fetchAllRental,
+    // getMaintenanceReq,
+  })(Dashboard)
 );

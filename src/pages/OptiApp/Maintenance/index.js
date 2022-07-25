@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Card, CardBody } from "reactstrap";
@@ -6,21 +6,22 @@ import livingRoom from "../../../assets/images/Living.png";
 import MaintenanceSummary from "./MaintenanceSummary";
 import ServiceRequest from "./ServiceRequest";
 import CreateMaintenace from "./CreateMaintenace";
-import { useSelector } from "react-redux";
-// import { getMaintenanceReq } from "../../../store/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { getMaintenanceReq } from "../../../store/actions";
 
 const MaintenanceRequest = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [ShowMaintenance, SetShowMaintenance] = useState(false);
   const [showService, setShowService] = useState(false);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getMaintenanceReq());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getMaintenanceReq());
+  }, [dispatch]);
 
   const { maintenanceRequests } = useSelector((state) => state.Maintenance);
 
+  console.log(maintenanceRequests);
 
   if (ShowMaintenance) {
     return <CreateMaintenace GoHome={() => SetShowMaintenance(false)} />;
@@ -53,30 +54,32 @@ const MaintenanceRequest = () => {
         width: 100,
       },
     ],
-    rows: maintenanceRequests?.data?.list.map((request) => ({
+    rows: maintenanceRequests?.map((request) => request.propertyMaintenances?.map(maintain => ({
       property: (
         <>
           <Link
-            to="#"
+            to={`/maintenancepreview/${maintain.id}`}
             className="mr-3"
             onClick={() => setShowPreview(!showPreview)}
           >
             <img
               className="mr-1"
-              src={livingRoom}
+              src={request.indexImage}
               alt="Header Avatar"
               width="70"
               height="60"
             />
-            <span>Unit {request?.unit}</span>
+            <span>{request?.parentProperty?.title} {maintain?.propertyTitle}</span>
           </Link>
           {/* <span>Unit {request?.unit}</span> */}
         </>
       ),
-      description: `${request?.description}`,
-      date: "",
-      status: `${request?.serviceTypeDto?.status}`,
-    })),
+      description: `${maintain?.description}`,
+      date: `${maintain.createdAt}`,
+      status: `${maintain?.status}`,
+    }))).flatMap((el) => {
+      return el.length <= 0 ? [] : el;
+    })
   };
 
   return (

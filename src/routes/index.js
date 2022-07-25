@@ -28,6 +28,7 @@ import Inspection from '../pages/OptiApp/Inspection';
 import PreviewInspection from '../pages/OptiApp/Inspection/PreviewCopy';
 import create_inspection from '../pages/OptiApp/Inspection/MoveIn';
 import Maintenance from '../pages/OptiApp/Maintenance';
+import MaintenanceSummary from '../pages/OptiApp/Maintenance/MaintenanceSummary';
 import PowerMonitory from '../pages/OptiApp/PowerMonitory';
 import Profile from '../pages/OptiApp/Profile';
 
@@ -41,6 +42,7 @@ import PreviewUnitProperties from '../pages/OptiApp/Properties/unitProperty/Prev
 
 import CreateUnitProperties from '../pages/OptiApp/Properties/unitProperty/CreateUnitProperty';
 import AddMoreUnit from '../pages/OptiApp/Properties/addMoreUnit';
+import ChangePassword from '../pages/OptiApp/ChangePassword';
 
 import Properties from '../pages/OptiApp/Properties/index';
 import UpdateProperty from '../pages/OptiApp/Properties/editUnitProperty';
@@ -77,6 +79,7 @@ import Preview from '../pages/OptiApp/Rental/Preview';
 const authProtectedRoutes = [
   //FairShip Board
   { path: '/dashboard', component: Dashboard1 },
+  { path: '/change-password', component: ChangePassword },
   { path: '/properties', component: Properties },
   { path: '/update_unit/:id', component: UpdateProperty },
   
@@ -98,6 +101,7 @@ const authProtectedRoutes = [
   { path: '/documents', component: Documents },
   { path: '/tenants', component: Tenants },
   { path: '/maintenance', component: Maintenance },
+  { path: '/maintenancepreview/:id', component: MaintenanceSummary },
   { path: '/serviceSummary/:bookedServiceId', component: ServicePreview },
   { path: '/service', component: Service },
   { path: '/chats', component: Chats },

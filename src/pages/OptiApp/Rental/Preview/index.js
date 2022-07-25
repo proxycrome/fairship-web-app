@@ -67,7 +67,7 @@ const Preview = (props) => {
   
   
 
-  // console.log(rentalId.tenant)
+  // console.log(rentalId)
   
   // console.log(loading)
 

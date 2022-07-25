@@ -48,7 +48,7 @@ export const fetchleaseServicesTwenty = () => {
   return http.getData(url);
 };
 
-export const fetchleaseServicesZeroTwenty = () => {
+export const fetchleaseServicesZero = () => {
   const m = new Date();
 
   m.setDate(m.getDate());

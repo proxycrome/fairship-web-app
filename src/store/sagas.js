@@ -12,13 +12,14 @@ import ProfileSaga from './profile/saga';
 import LayoutSaga from './layout/saga';
 import InspectionsSaga from './inspection/saga';
 import LocationSaga from './location/saga';
-
+import SettingsSaga from './Settings/saga';
 
 import TenantSaga from './Tenants/saga'
 
 import AgentsSaga from './Agent/saga';
 import MaintenanceSaga from './Maintenance/saga';
 import fetchleaseSaga from './DashboardExpiringLeases/saga';
+import AccountingSaga from './Accounting/saga';
 
 
 export default function* rootSaga() {
@@ -27,8 +28,9 @@ export default function* rootSaga() {
         //public
         accountSaga(),
         appointment(),
+        AccountingSaga(),
         properties(),
-
+        SettingsSaga(),
         // agent(),
         TenantSaga(),
         ProfileSaga(),

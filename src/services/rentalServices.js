@@ -5,7 +5,7 @@ export const fetchRentalService = (payload) => {
   const http = new HttpService();
   let url = 'auth/rent-applications';
   if(payload){
-    url = `auth/rent-applications?filter=${payload}`
+    url = `auth/rent-applications?filter=${payload}&limit=100000`
   }
   // console.log(url)
   return http.getData(url);

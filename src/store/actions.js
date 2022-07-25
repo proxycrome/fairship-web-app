@@ -12,4 +12,6 @@ export * from './profile/actions';
 export * from './DashboardExpiringLeases/actions';
 export * from './location/actions';
 export * from './inspection/actions';
+export * from './Settings/actions'
+export * from './Accounting/actions'
 // export * from './auth/forgetpwd/actions';
