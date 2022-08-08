@@ -75,6 +75,7 @@ import AgentPreview from '../pages/OptiApp/Agent/Preview';
 // import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
 import Preview from '../pages/OptiApp/Rental/Preview';
+import CreateMaintenance from '../pages/OptiApp/Maintenance/CreateMaintenace';
 
 const authProtectedRoutes = [
   //FairShip Board
@@ -101,7 +102,8 @@ const authProtectedRoutes = [
   { path: '/documents', component: Documents },
   { path: '/tenants', component: Tenants },
   { path: '/maintenance', component: Maintenance },
-  { path: '/maintenancepreview/:id', component: MaintenanceSummary },
+  { path: '/maintenanceSummary/:id', component: MaintenanceSummary },
+  { path: '/createMaintenance', component: CreateMaintenance },
   { path: '/serviceSummary/:bookedServiceId', component: ServicePreview },
   { path: '/service', component: Service },
   { path: '/chats', component: Chats },

@@ -20,6 +20,7 @@ import AgentsSaga from './Agent/saga';
 import MaintenanceSaga from './Maintenance/saga';
 import fetchleaseSaga from './DashboardExpiringLeases/saga';
 import AccountingSaga from './Accounting/saga';
+import DocumentSaga from './Documents/saga';
 
 
 export default function* rootSaga() {
@@ -29,6 +30,7 @@ export default function* rootSaga() {
         accountSaga(),
         appointment(),
         AccountingSaga(),
+        DocumentSaga(),
         properties(),
         SettingsSaga(),
         // agent(),

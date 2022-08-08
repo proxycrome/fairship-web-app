@@ -29,3 +29,9 @@ export const postTransactionService = (formData) => {
     const url = "/auth/transactions/create";
     return http.postDataWithToken(formData, url);
 }
+
+export const deleteAccountService = (accountId) => {
+    const http = new HttpService();
+    let url = `auth/account-details/${accountId}`;
+    return http.deleteData(url);
+  };

@@ -14,7 +14,13 @@ import {
     FETCH_SERVICE,
     FETCH_SERVICE_SUCCESS,
     FETCH_SERVICE_FAILURE,
-    CLEAR_MESSAGES
+    CLEAR_MESSAGES,
+    FETCH_MAINTENANCE,
+    FETCH_MAINTENANCE_SUCCESS,
+    FETCH_MAINTENANCE_FAILURE,
+    GET_SERVICE_PROVIDERS,
+    GET_SERVICE_PROVIDERS_SUCCESS,
+    GET_SERVICE_PROVIDERS_ERROR
   } from './actionTypes';
 
 const initialState = {
@@ -24,7 +30,9 @@ const initialState = {
     serviceTypes: null,
     maintenance: null,
     maintenanceRequests: null,
-    serviceSummary: null
+    serviceSummary: null,
+    maintenanceSummary: null,
+    serviceProviders: null,
 }
 
 const Maintenance = (state = initialState, action) => {
@@ -34,6 +42,8 @@ const Maintenance = (state = initialState, action) => {
         case POST_MAINTENANCE_REQ:
         case GET_MAINTENANCE_REQ:
         case FETCH_SERVICE:
+        case FETCH_MAINTENANCE:
+        case GET_SERVICE_PROVIDERS:
             state = {
                 ...state,
                 loading: true,
@@ -55,7 +65,6 @@ const Maintenance = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 services: null,
-                pendingServices: null,
                 error: action.payload
             }
         break;
@@ -93,7 +102,6 @@ const Maintenance = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 maintenance: null,
-                serviceTypes: null,
                 error: action.payload
             }
         break;
@@ -140,6 +148,42 @@ const Maintenance = (state = initialState, action) => {
                 error: null,
             }
             break;
+
+        case FETCH_MAINTENANCE_SUCCESS:
+            state = {
+                ...state,
+                loading: false,
+                maintenanceSummary: action.payload,
+                error: null,
+            }
+            break;
+
+        case FETCH_MAINTENANCE_FAILURE:
+            state = {
+                ...state,
+                loading: false,
+                maintenanceSummary: null,
+                error: action.payload,
+            }
+            break;
+
+        case GET_SERVICE_PROVIDERS_SUCCESS:
+            state = {
+                ...state,
+                loading: false,
+                serviceProviders: action.payload,
+                error: null,
+            }
+            break;
+
+        case GET_SERVICE_PROVIDERS_ERROR:
+            state = {
+                ...state,
+                loading: false,
+                serviceProviders: null,
+                error: action.payload,
+            }
+            break;    
 
         default:
             state = {...state};

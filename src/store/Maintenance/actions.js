@@ -15,6 +15,12 @@ import {
     FETCH_SERVICE_SUCCESS,
     FETCH_SERVICE_FAILURE,
     CLEAR_MESSAGES,
+    FETCH_MAINTENANCE,
+    FETCH_MAINTENANCE_SUCCESS,
+    FETCH_MAINTENANCE_FAILURE,
+    GET_SERVICE_PROVIDERS,
+    GET_SERVICE_PROVIDERS_SUCCESS,
+    GET_SERVICE_PROVIDERS_ERROR,
   } from './actionTypes.js';
 
   export const getAllServiceReq = () => {
@@ -122,5 +128,47 @@ import {
   export const clearMessages = () => {
     return {
         type: CLEAR_MESSAGES,
+    }
+  }
+
+  export const fetchMaintenance = (id) => {
+    return {
+        type: FETCH_MAINTENANCE,
+        payload: {id},
+    }
+  }
+
+  export const fetchMaintenanceSuccess = (data) => {
+    return {
+        type: FETCH_MAINTENANCE_SUCCESS,
+        payload: data,
+    }
+  }
+
+  export const fetchMaintenanceFailure = (error) => {
+    return {
+        type: FETCH_MAINTENANCE_FAILURE,
+        payload: error,
+    }
+  }
+
+  export const getServiceProviders = (serviceName) => {
+    return {
+        type: GET_SERVICE_PROVIDERS,
+        payload: {serviceName},
+    }
+  }
+
+  export const getServiceProvidersSuccess = (data) => {
+    return {
+        type: GET_SERVICE_PROVIDERS_SUCCESS,
+        payload: data,
+    }
+  }
+
+  export const getServiceProvidersError = (error) => {
+    return {
+        type: GET_SERVICE_PROVIDERS_ERROR,
+        payload: error,
     }
   }

@@ -1,103 +1,71 @@
-import React from 'react';
-import { Input, Table, Card, CardBody } from 'reactstrap';
+import React, { useEffect } from 'react';
+import { MDBDataTable } from 'mdbreact';
+import { Card, CardBody } from 'reactstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchDocuments } from '../../../store/actions';
+import Loader from '../../../components/Common/Loading/index';
 
 const Document = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchDocuments());
+  }, []);
+
+  const { loading, documents } = useSelector((state) => state.Document);
+
+  console.log(documents);
+
+  const data = {
+    columns: [
+      {
+        label: 'Name',
+        field: 'name',
+        width: 100,
+      },
+      {
+        label: 'Property',
+        field: 'property',
+        width: 150,
+      },
+      {
+        label: 'Type',
+        field: 'type',
+        width: 100,
+      },
+      {
+        label: 'Date',
+        field: 'date',
+        width: 100,
+      },
+    ],
+    rows: documents?.map((doc) => ({
+      name: (
+        <>
+          <a href={doc.link} target="_blank" rel="noopener noreferrer">
+            <i className=" ri-profile-line font-size-14" />
+            <span className="co-name mx-2">{doc.name}</span>
+          </a>
+        </>
+      ),
+      property: `${
+        doc.property.parentProperty ? doc.property.parentProperty?.title : ''
+      } ${doc.property.title}`,
+      type: '',
+      date: `${doc.createdAt}`,
+    })),
+  };
+
   return (
     <div className="page-content">
       <Card>
         <CardBody>
-          <h5 className="ml-2"> Documents </h5>
-          <div className="d-flex justify-content-between">
-            <div className="search-box">
-              <div className="position-relative">
-                <Input
-                  type="text"
-                  className="form-control rounded"
-                  placeholder="Search..."
-                />
-                <i className="mdi mdi-magnify search-icon"></i>
-              </div>
-            </div>
-            <div className="text-right">
-              <span>Filter By :</span>
-              <select className="p-1 ml-2">
-                <option> Document</option>
-              </select>
-            </div>
-          </div>
-          <div className="table-rep-plugin mt-4">
-            <div
-              className="table-responsive mb-0"
-              data-pattern="priority-columns"
-            >
-              <Table id="tech-companies-1" striped responsive>
-                <thead>
-                  <tr>
-                    <th data-priority="1">Name</th>
-                    <th data-priority="3">Property</th>
-                    <th data-priority="1">Unit</th>
-                    <th data-priority="3">Type</th>
-                    <th data-priority="3">Date</th>
-                    <th data-priority="3">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="d-flex align-items-center">
-                      <i className=" ri-profile-line font-size-14" />
-                      <span className="co-name mx-2">Rental Application</span>
-                    </td>
-                    <td>Cosy Studio in the heart of lagos</td>
-                    <th data-priority="1">Unit</th>
-                    <td>Move in</td>
-                    <td>3rd Jul 2020</td>
-                    <td>
-                      <i className=" ri-eye-line"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="d-flex align-items-center">
-                      <i className=" ri-profile-line font-size-14" />
-                      <span className="co-name mx-2">Lease Agreement</span>
-                    </td>
-                    <td>Cosy Studio in the heart of lagos</td>
-                    <th data-priority="1">Unit</th>
-                    <td>Move Out</td>
-                    <td>3rd Jul 2020</td>
-                    <td>
-                      <i className=" ri-eye-line"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="d-flex align-items-center">
-                      <i className=" ri-profile-line font-size-14" />
-                      <span className="co-name mx-2">Rental Application</span>
-                    </td>
-                    <td>Cosy Studio in the heart of lagos</td>
-                    <th data-priority="1">Unit</th>
-                    <td>External</td>
-                    <td>3rd Jul 2020</td>
-                    <td>
-                      <i className=" ri-eye-line"></i>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="d-flex align-items-center">
-                      <i className=" ri-profile-line font-size-14" />
-                      <span className="co-name mx-2">Lease Agreement</span>
-                    </td>
-                    <td>Cosy Studio in the heart of lagos</td>
-                    <th data-priority="1">Unit</th>
-                    <td>Bi-annual</td>
-                    <td>3rd Jul 2020</td>
-                    <td>
-                      <i className=" ri-eye-line"></i>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </div>
-          </div>
+          <h5 className="ml-2 mb-5"> Documents </h5>
+          {loading ? (
+            <Loader loading={loading} />
+          ) : (
+            <MDBDataTable responsive striped bordered data={data} />
+          )}
         </CardBody>
       </Card>
     </div>

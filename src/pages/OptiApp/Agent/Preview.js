@@ -126,7 +126,7 @@ const Preview = (props) => {
               <Card>
                 <Col md="8">
                   <CardBody>
-                    <h4>Unit (4)</h4>
+                    <h4>Unit ({agent?.properties?.length})</h4>
                     <Table id="tech-companies-1" striped responsive>
                       <thead>
                         <tr>
@@ -137,116 +137,51 @@ const Preview = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="d-flex">
-                            <img
-                              src={home}
-                              alt="profile"
-                              className="avatar-xs rounded"
-                            />
-                            <div>
-                              <p className="co-name mx-2 mb-0 text-muted">
-                                Cusy Studio
-                              </p>
-                              <p className="co-name mx-2 mb-0">Heart Of Lagos</p>
-                            </div>
-                          </td>
-                          <td>013</td>
-                          <td>Lorem Ipmus donor sit</td>
-                          <td className="d-flex align-items-center">
-                            <img
-                              src={avatar}
-                              alt="profile"
-                              className="avatar-xs rounded-circle"
-                            />
-                            <p className="co-name mx-2 text-muted">Cusy Studio</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="d-flex">
-                            <img
-                              src={home}
-                              alt="profile"
-                              className="avatar-xs rounded"
-                            />
-                            <div>
-                              <p className="co-name mx-2 mb-0 text-muted">
-                                Cusy Studio
-                              </p>
-                              <p className="co-name mx-2 mb-0">Heart Of Lagos</p>
-                            </div>
-                          </td>
-                          <td>013</td>
-                          <td>Lorem Ipmus donor sit</td>
-                          <td className="d-flex align-items-center">
-                            <img
-                              src={avatar}
-                              alt="profile"
-                              className="avatar-xs rounded-circle"
-                            />
-                            <p className="co-name mx-2 text-muted">Cusy Studio</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="d-flex">
-                            <img
-                              src={home}
-                              alt="profile"
-                              className="avatar-xs rounded"
-                            />
-                            <div>
-                              <p className="co-name mx-2 mb-0 text-muted">
-                                Cusy Studio
-                              </p>
-                              <p className="co-name mx-2 mb-0">Heart Of Lagos</p>
-                            </div>
-                          </td>
-                          <td>013</td>
-                          <td>Lorem Ipmus donor sit</td>
-                          <td className="d-flex align-items-center">
-                            <img
-                              src={avatar}
-                              alt="profile"
-                              className="avatar-xs rounded-circle"
-                            />
-                            <p className="co-name mx-2 text-muted">Cusy Studio</p>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="d-flex">
-                            <img
-                              src={home}
-                              alt="profile"
-                              className="avatar-xs rounded"
-                            />
-                            <div>
-                              <p className="co-name mx-2 mb-0 text-muted">
-                                Cusy Studio
-                              </p>
-                              <p className="co-name mx-2 mb-0">Heart Of Lagos</p>
-                            </div>
-                          </td>
-                          <td>013</td>
-                          <td>Lorem Ipmus donor sit</td>
-                          <td className="d-flex align-items-center">
-                            <img
-                              src={avatar}
-                              alt="profile"
-                              className="avatar-xs rounded-circle"
-                            />
-                            <p className="co-name mx-2 text-muted">Cusy Studio</p>
-                          </td>
-                        </tr>
+                        {agent?.properties?.map(property => (
+                          <tr key={property?.id}>
+                            <td className="d-flex">
+                              <img
+                                src={property.indexImage}
+                                alt="profile"
+                                className="avatar-xs rounded"
+                              />
+                              <div>
+                                <p className="co-name mx-2 mb-0 text-muted">
+                                  {property?.parentProperty?.title}
+                                </p>
+                                <p className="co-name mx-2 mb-0">{property?.title}</p>
+                              </div>
+                            </td>
+                            <td>{property.unitNo ? property.unitNo : ""}</td>
+                            <td>{property.description}</td>
+                            <td className="d-flex align-items-center">
+                              {property?.rentedBy?.profilePhoto ? (
+                                <img
+                                  src={property?.rentedBy?.profilePhoto}
+                                  alt="profile"
+                                  className="avatar-xs rounded-circle"
+                                />
+                              ) : (
+                                <img
+                                  src={avatar}
+                                  alt="profile"
+                                  className="avatar-xs rounded-circle"
+                                />
+                              )}
+                              <p className="co-name mx-2 text-muted">{property?.rentedBy?.firstName} {property?.rentedBy?.lastName}</p>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </Table>
                   </CardBody>
                 </Col>
               </Card>
-              <Card>
+              {/* <Card>
                 <CardBody>
                   <h4>Activities</h4>
                 </CardBody>
-              </Card>
+              </Card> */}
             </Col>
           </Row>
         )}       

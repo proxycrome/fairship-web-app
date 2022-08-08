@@ -8,7 +8,7 @@ import avatar from "../../../assets/images/avi.jpg";
 import { getAllServiceReq } from "../../../store/actions";
 
 
-const ServiceRequest = ({ setShowPreview }) => {
+const ServiceRequest = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,6 +16,7 @@ const ServiceRequest = ({ setShowPreview }) => {
   }, [dispatch]);
 
   const { services, loading } = useSelector((state) => state.Maintenance);
+  console.log(services);
   
 
   const data = {
@@ -41,15 +42,15 @@ const ServiceRequest = ({ setShowPreview }) => {
         width: 100,
       },
     ],
-    rows: services?.entities?.map((service) => {
+    rows: services?.map((service) => {
       return {
       property: (
         <>
-          <Link to={`/serviceSummary/${service?.id}`} className="mr-3" onClick={() => setShowPreview(true)}>
-            {service?.tenant?.profilePhoto ? (
+          <Link to={`/serviceSummary/${service?.id}`} className="mr-3">
+            {service?.property?.indexImage ? (
               <img
                 className="mr-1"
-                src={service?.tenant?.profilePhoto}
+                src={service?.property?.indexImage}
                 alt="Header Avatar"
                 width="70"
                 height="60"
@@ -63,12 +64,12 @@ const ServiceRequest = ({ setShowPreview }) => {
                 height="60"
               />
             )}
-            <span>{service?.tenant?.address?.houseNoAddress}</span>
+            <span>{service?.property?.parentProperty?.title} {service?.property?.title}</span>
           </Link>
         </>
       ),
       description: `${service?.description}`,
-      date: `${service?.appointedDate}`,
+      date: `${service?.appointedDate} ${service?.appointedTime}`,
       status: `${service?.status}`,
     }})
   };

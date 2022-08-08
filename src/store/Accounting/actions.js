@@ -1,5 +1,8 @@
 import {
     CLEAR_MESSAGES,
+  DELETE_ACCOUNT,
+  DELETE_ACCOUNT_ERROR,
+  DELETE_ACCOUNT_SUCCESS,
   FETCH_BANKS,
   FETCH_BANKS_ERROR,
   FETCH_BANKS_SUCCESSFUL,
@@ -123,4 +126,25 @@ export const clearMessages = () => {
     return {
         type: CLEAR_MESSAGES,
     }
+}
+
+export const deleteAccount = (accountId) => {
+  return {
+    type: DELETE_ACCOUNT,
+    payload: {accountId},
+  }
+}
+
+export const deleteAccountSuccess = (data) => {
+  return {
+    type: DELETE_ACCOUNT_SUCCESS,
+    payload: data,
+  }
+}
+
+export const deleteAccountError = (error) => {
+  return {
+    type: DELETE_ACCOUNT_ERROR,
+    payload: error,
+  }
 }

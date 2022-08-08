@@ -11,7 +11,7 @@ import { getMaintenanceReq } from "../../../store/actions";
 
 const MaintenanceRequest = () => {
   const [showPreview, setShowPreview] = useState(false);
-  const [ShowMaintenance, SetShowMaintenance] = useState(false);
+  // const [ShowMaintenance, SetShowMaintenance] = useState(false);
   const [showService, setShowService] = useState(false);
   const dispatch = useDispatch();
 
@@ -23,9 +23,9 @@ const MaintenanceRequest = () => {
 
   console.log(maintenanceRequests);
 
-  if (ShowMaintenance) {
-    return <CreateMaintenace GoHome={() => SetShowMaintenance(false)} />;
-  }
+  // if (ShowMaintenance) {
+  //   return <CreateMaintenace GoHome={() => SetShowMaintenance(false)} />;
+  // }
 
   if (showPreview) {
     return <MaintenanceSummary />;
@@ -54,42 +54,43 @@ const MaintenanceRequest = () => {
         width: 100,
       },
     ],
-    rows: maintenanceRequests?.map((request) => request.propertyMaintenances?.map(maintain => ({
+    rows: maintenanceRequests?.map((request) => ({
       property: (
         <>
           <Link
-            to={`/maintenancepreview/${maintain.id}`}
+            to={`/maintenanceSummary/${request.id}`}
             className="mr-3"
             onClick={() => setShowPreview(!showPreview)}
           >
             <img
               className="mr-1"
-              src={request.indexImage}
+              src={request.property.indexImage}
               alt="Header Avatar"
               width="70"
               height="60"
             />
-            <span>{request?.parentProperty?.title} {maintain?.propertyTitle}</span>
+            <span>{request?.property.parentProperty?.title} {request?.property?.title}</span>
           </Link>
           {/* <span>Unit {request?.unit}</span> */}
         </>
       ),
-      description: `${maintain?.description}`,
-      date: `${maintain.createdAt}`,
-      status: `${maintain?.status}`,
-    }))).flatMap((el) => {
-      return el.length <= 0 ? [] : el;
-    })
+      description: `${request?.description}`,
+      date: `${request.createdAt}`,
+      status: `${request?.status}`,
+    }))
+
   };
 
   return (
     <div className="page-content">
       <div className="mb-2">
         <div className="float-right">
-          <Button color="success" onClick={() => SetShowMaintenance(true)}>
-            {" "}
-            Create Maintenance
-          </Button>
+          <Link to="/createMaintenance">
+            <Button color="success">
+              {" "}
+              Create Maintenance
+            </Button>
+          </Link> 
         </div>
         <div className="p-2 bg-white rounded d-inline-block">
           <Button

@@ -1,5 +1,8 @@
 import {
   CLEAR_MESSAGES,
+  DELETE_ACCOUNT,
+  DELETE_ACCOUNT_ERROR,
+  DELETE_ACCOUNT_SUCCESS,
   FETCH_BANKS,
   FETCH_BANKS_ERROR,
   FETCH_BANKS_SUCCESSFUL,
@@ -28,13 +31,16 @@ const initialState = {
   transactions: null,
   transactionsError: null,
   transMessage: null,
-  transErrorMessage: null
+  transErrorMessage: null,
+  deleteMessage: null,
+  deleteErrorMessage: null,
 };
 
 const Accounting = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_BANKS:
       state = {
+        ...state,
         loading: true,
         banks: null,
         banksError: null,
@@ -43,6 +49,7 @@ const Accounting = (state = initialState, action) => {
 
     case FETCH_BANKS_SUCCESSFUL:
       state = {
+        ...state,
         loading: false,
         banks: action.payload,
         banksError: null,
@@ -51,6 +58,7 @@ const Accounting = (state = initialState, action) => {
 
     case FETCH_BANKS_ERROR:
       state = {
+        ...state,
         loading: false,
         banks: null,
         banksError: action.payload,
@@ -59,6 +67,7 @@ const Accounting = (state = initialState, action) => {
 
     case POST_ACCOUNT:
       state = {
+        ...state,
         loading: true,
         message: null,
         errorMessage: null,
@@ -67,6 +76,7 @@ const Accounting = (state = initialState, action) => {
 
     case POST_ACCOUNT_SUCCESSFUL:
       state = {
+        ...state,
         loading: false,
         message: action.payload,
         errorMessage: null,
@@ -75,6 +85,7 @@ const Accounting = (state = initialState, action) => {
 
     case POST_ACCOUNT_ERROR:
       state = {
+        ...state,
         loading: false,
         message: null,
         errorMessage: action.payload,
@@ -83,6 +94,7 @@ const Accounting = (state = initialState, action) => {
 
     case GET_ACCOUNTS:
       state = {
+        ...state,
         loading: true,
         accounts: null,
         accountsError: null,
@@ -91,6 +103,7 @@ const Accounting = (state = initialState, action) => {
 
     case GET_ACCOUNTS_SUCCESSFUL:
       state = {
+        ...state,
         loading: false,
         accounts: action.payload,
         accountsError: null,
@@ -99,6 +112,7 @@ const Accounting = (state = initialState, action) => {
 
     case GET_ACCOUNTS_ERROR:
       state = {
+        ...state,
         loading: false,
         accounts: null,
         accountsError: action.payload,
@@ -107,6 +121,7 @@ const Accounting = (state = initialState, action) => {
 
     case GET_TRANSACTIONS:
         state = {
+          ...state,
             loading: true,
             transactions: null,
             transactionsError: null,
@@ -115,6 +130,7 @@ const Accounting = (state = initialState, action) => {
     
     case GET_TRANSACTIONS_SUCCESSFUL:
         state = {
+          ...state,
             loading: false,
             transactions: action.payload,
             transactionsError: null,
@@ -123,6 +139,7 @@ const Accounting = (state = initialState, action) => {
         
     case GET_TRANSACTIONS_ERROR:
         state = {
+          ...state,
             loading: false,
             transactions: null,
             transactionsError: action.payload,
@@ -131,6 +148,7 @@ const Accounting = (state = initialState, action) => {
 
     case POST_TRANSACTION:
         state = {
+          ...state,
             loading: true,
             transMessage: null,
             transErrorMessage: null,
@@ -139,6 +157,7 @@ const Accounting = (state = initialState, action) => {
 
     case POST_TRANSACTION_SUCCESSFUL:
         state = {
+          ...state,
             loading: false,
             transMessage: action.payload,
             transErrorMessage: null,
@@ -147,6 +166,7 @@ const Accounting = (state = initialState, action) => {
 
     case POST_TRANSACTION_ERROR:
         state = {
+          ...state,
             loading: false,
             transMessage: null,
             transErrorMessage: action.payload,
@@ -155,11 +175,41 @@ const Accounting = (state = initialState, action) => {
 
     case CLEAR_MESSAGES:
       state = {
+        ...state,
         message: null,
         errorMessage: null,
         transMessage: null,
         transErrorMessage: null,
+        deleteMessage: null,
+        deleteErrorMessage: null,
       };
+      break;
+
+    case DELETE_ACCOUNT:
+      state = {
+        ...state,
+        loading: true,
+        deleteMessage: null,
+        deleteErrorMessage: null,
+      }
+      break;
+
+    case DELETE_ACCOUNT_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        deleteMessage: "Account Deleted Successfully",
+        deleteErrorMessage: null,
+      }
+      break;
+
+    case DELETE_ACCOUNT_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        deleteMessage: null,
+        deleteErrorMessage: action.payload,
+      }
       break;
 
     default:

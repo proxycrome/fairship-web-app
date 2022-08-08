@@ -22,6 +22,7 @@ import fetchReducerExpiring from './DashboardExpiringLeases/reducer';
 import Location from './location/reducer';
 import Settings from './Settings/reducer';
 import Accounting from './Accounting/reducer';
+import Document from './Documents/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     Layout,
     Accounting,
     Appointment,
+    Document,
     Properties,
     Inspections,
     Rental,

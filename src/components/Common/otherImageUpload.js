@@ -41,7 +41,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
       reader.onload = () => {
         setBase64File((prevState) => [
           ...prevState,
-          { image: reader.result.split('base64,')[1] },
+          { encodedUpload: reader.result.split('base64,')[1] },
         ]);
       };
       reader.readAsDataURL(file);

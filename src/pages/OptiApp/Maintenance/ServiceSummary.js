@@ -19,12 +19,14 @@ const ServiceSummary = (props) => {
 
   const { serviceSummary } = useSelector((state) => state.Maintenance);
 
+  console.log(serviceSummary);
+
 
   return (
     <div className="page-content">
       <Row className="mb-2">
         <Col xs={10} className="header-box">
-          <Link to="/maintenance">
+          <Link to="#" onClick={() => props.history.goBack()}>
             <i className="ri-arrow-left-line"></i>
             <span className="ml-2">Back</span>
           </Link>
@@ -65,7 +67,7 @@ const ServiceSummary = (props) => {
             <Col ls={6}>
               <div>
                 <h6>Fee</h6>
-                <p>{serviceSummary?.invoice?.totalCost}</p>
+                <p>₦{serviceSummary?.invoice?.totalCost}</p>
               </div>
               <div>
                 <h6>Description</h6>
@@ -87,7 +89,7 @@ const ServiceSummary = (props) => {
       </Row>
       <Row className="images-dock d-flex flex-column mb-5">
         <h6 className="mb-4 mt-5">Images</h6>
-        <div className="imgContainer">
+        <div className="imgContainer d-flex">
           {/* <i className="fas fa-angle-left prev"></i> */}
           {serviceSummary?.uploadedImages?.map((info) => (
             <img
@@ -107,20 +109,16 @@ const ServiceSummary = (props) => {
         style={{ margin: "80px 0 30px 80px" }}
       >
         <h6>Documents</h6>
-        {serviceSummary?.signedContractAgreement ? (
-          <img
-            src={serviceSummary?.signedContractAgreement}
-            alt="contract"
-            width="100"
-          />
-        ) : (
-          <div className="docContainer">
-            <i
-              className="far fa-file-alt mr-1"
-              style={{ color: "#187CC3" }}
-            ></i>
-            <span>Contract Agreement</span>
+        {serviceSummary?.signedContractAgreement && (
+          <div className="docContainer p-3">
+            <a href={serviceSummary?.signedContractAgreement} target="_blank" rel="noopener noreferrer">
+            <img
+              src={serviceSummary?.signedContractAgreement}
+              alt="contract"
+              width="100"
+            />
             <small>signed</small>
+            </a>
           </div>
         )}
       </Row>

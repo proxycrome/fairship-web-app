@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 // import { SearchOutlined } from '@mui/icons-material'
-import { Row, Col, Card, CardBody, Table } from 'reactstrap';
-import { getAccounts } from '../../../store/actions';
+import { Row, Col, Card, CardBody, Table, UncontrolledTooltip, Alert } from 'reactstrap';
+import { Link } from "react-router-dom"
+import { getAccounts, deleteAccount } from '../../../store/actions';
+import { clearMessages } from '../../../store/Accounting/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
@@ -13,15 +15,35 @@ const AccountTable = () => {
     dispatch(getAccounts());
   }, [dispatch]);
 
-  const { accounts, loading } = useSelector(state => state.Accounting);
+  useEffect(() => {
+    dispatch(clearMessages());
+  }, [])
+
+
+  const deleteAccountHandler = (id) => {
+    dispatch(deleteAccount(id));
+    setTimeout(() => {
+      window.location.reload(true);
+    }, 3000);
+  }
+
+  const { accounts, loading, deleteMessage, deleteErrorMessage } = useSelector(state => state.Accounting);
 
   console.log(accounts);
+
+  console.log(deleteMessage);
 
   return (
     <>
       <div>
         <Row>
           <Col xs={12}>
+            {deleteMessage && (
+              <Alert color="success" className="text-center">{deleteMessage}</Alert>
+            )}
+            {deleteErrorMessage && (
+              <Alert color="danger" className="text-center">{deleteErrorMessage.error}</Alert>
+            )}
             {loading ? (
               <Card>
                 <CardBody>
@@ -46,6 +68,7 @@ const AccountTable = () => {
                               {/* <th>Branch</th>
                                 <th>Balance</th> */}
                               <th>Status</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -57,6 +80,24 @@ const AccountTable = () => {
                                 {/* <td>Move in</td>
                                   <td>N500,000</td> */}
                                 <td>{acc.status}</td>
+                                <td>
+                                  <Link
+                                    to="#"
+                                    className="mx-2 text-danger"
+                                    id="delete"
+                                    onClick={() =>
+                                      deleteAccountHandler(acc.id)
+                                    }
+                                  >
+                                    <i className="fas fa-trash font-size-12"></i>
+                                  </Link>
+                                  <UncontrolledTooltip
+                                    placement="top"
+                                    target="delete"
+                                  >
+                                    Delete
+                                  </UncontrolledTooltip>
+                                </td>
                               </tr>
                             ))}
                           </tbody>

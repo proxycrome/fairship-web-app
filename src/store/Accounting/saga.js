@@ -1,6 +1,13 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
-import { FETCH_BANKS, GET_ACCOUNTS, GET_TRANSACTIONS, POST_ACCOUNT, POST_TRANSACTION } from './actionTypes';
+import {
+  DELETE_ACCOUNT,
+  FETCH_BANKS,
+  GET_ACCOUNTS,
+  GET_TRANSACTIONS,
+  POST_ACCOUNT,
+  POST_TRANSACTION,
+} from './actionTypes';
 
 import {
   fetchBanksSuccessful,
@@ -13,9 +20,12 @@ import {
   getTransactionsError,
   postTransactionSuccessful,
   postTransactionError,
+  deleteAccountSuccess,
+  deleteAccountError,
 } from './actions';
 
 import {
+  deleteAccountService,
   fetchBanksService,
   getAccountsService,
   getTransactionsService,
@@ -51,21 +61,32 @@ function* getAccounts() {
 }
 
 function* getTransactions() {
-    try {
-        const response = yield call(getTransactionsService);
-        yield put(getTransactionsSuccessful(response.data));
-    } catch (error) {
-        yield put(getTransactionsError(error?.response?.data));
-    }
+  try {
+    const response = yield call(getTransactionsService);
+    yield put(getTransactionsSuccessful(response.data));
+  } catch (error) {
+    yield put(getTransactionsError(error?.response?.data));
+  }
 }
 
-function* postTransaction({payload: {formData}}) {
-    try {
-        const response = yield call(postTransactionService, formData);
-        yield put(postTransactionSuccessful(response.data));
-    } catch (error) {
-        yield put(postTransactionError(error?.response?.data))
-    }
+function* postTransaction({ payload: { formData } }) {
+  try {
+    const response = yield call(postTransactionService, formData);
+    yield put(postTransactionSuccessful(response.data));
+  } catch (error) {
+    yield put(postTransactionError(error?.response?.data));
+  }
+}
+
+function* deleteAccount({ payload: { accountId } }) {
+  try {
+    const response = yield call(deleteAccountService, accountId);
+    yield put(deleteAccountSuccess(response.data));
+    console.log(response.data);
+  } catch (error) {
+    console.log(error?.response?.data);
+    yield put(deleteAccountError(error?.response?.data));
+  }
 }
 
 export function* watchFetchBanks() {
@@ -81,11 +102,15 @@ export function* watchGetAccounts() {
 }
 
 export function* watchGetTransactions() {
-    yield takeEvery(GET_TRANSACTIONS, getTransactions);
+  yield takeEvery(GET_TRANSACTIONS, getTransactions);
 }
 
 export function* watchPostTransaction() {
-    yield takeEvery(POST_TRANSACTION, postTransaction);
+  yield takeEvery(POST_TRANSACTION, postTransaction);
+}
+
+export function* watchDeleteAccount() {
+  yield takeEvery(DELETE_ACCOUNT, deleteAccount);
 }
 
 function* AccountingSaga() {
@@ -95,6 +120,7 @@ function* AccountingSaga() {
     fork(watchGetAccounts),
     fork(watchGetTransactions),
     fork(watchPostTransaction),
+    fork(watchDeleteAccount),
   ]);
 }
 
