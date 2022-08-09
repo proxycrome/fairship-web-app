@@ -66,6 +66,6 @@ export const fetchleaseServicesZero = () => {
 
 export const fetchallrentServices = () => {
   const http = new HttpService();
-  const api = `/auth/rent/rent-status?limit=${100}`;
+  const api = '/auth/rent/rent-status?limit=10000';
   return http.getData(api);
 };

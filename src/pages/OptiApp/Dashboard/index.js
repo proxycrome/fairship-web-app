@@ -10,7 +10,7 @@ import {
   fetchDashboard,
   fetchAppointment,
   getAllServiceReq,
-  // getMaintenanceReq,
+  getMaintenanceReq,
   fetchAllRental,
 } from '../../../store/actions';
 
@@ -24,7 +24,6 @@ import MaintenanceAnalytics from './maintenaceListTable';
 import Loader from '../../../components/Common/Loading/index';
 import { useSelector, useDispatch } from 'react-redux';
 
-
 const Dashboard = ({
   fetchDashboard,
   dashboard,
@@ -34,7 +33,7 @@ const Dashboard = ({
   fetchAppointment,
   getAllServiceReq,
   fetchAllRental,
-  // getMaintenanceReq,
+  getMaintenanceReq,
 }) => {
   const date = new Date();
   const mm = date.getMonth();
@@ -61,7 +60,7 @@ const Dashboard = ({
     fetchAppointment();
     getAllServiceReq();
     fetchAllRental();
-    // getMaintenanceReq();
+    getMaintenanceReq();
   }, []);
 
   // const recentAppointment = appointment?.filter(appoint => appoint?.status === "PENDING").slice(0, 1);
@@ -72,6 +71,8 @@ const Dashboard = ({
   const { services, maintenanceRequests } = useSelector(
     (state) => state.Maintenance
   );
+
+  const cardLoading = useSelector((state) => state.Maintenance.loading);
 
   const appDate = new Date(
     recentAppointment &&
@@ -442,10 +443,15 @@ const Dashboard = ({
                 <ServiceAnalytics
                   Title={'Recent Service Request'}
                   services={services}
+                  loading={cardLoading}
                 />
               </Col>
               <Col md={6}>
-                <MaintenanceAnalytics Title={'Recent Maintenance Request'} maintenance={maintenanceRequests}/>
+                <MaintenanceAnalytics
+                  Title={'Recent Maintenance Request'}
+                  maintenance={maintenanceRequests}
+                  loading={cardLoading}
+                />
               </Col>
             </Row>
           )}
@@ -468,6 +474,6 @@ export default withRouter(
     fetchAppointment,
     getAllServiceReq,
     fetchAllRental,
-    // getMaintenanceReq,
+    getMaintenanceReq,
   })(Dashboard)
 );
