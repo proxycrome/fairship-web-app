@@ -24,9 +24,9 @@ export const getMaintenanceReqService = () => {
   return http.getData(url);
 }
 
-export const fetchServiceServer = (bookedServiceId) => {
+export const fetchServiceServer = (bookedServiceId, requestType) => {
   const http = new HttpService();
-  const url = `auth/booked-services-/${bookedServiceId}`;
+  const url = `auth/booked-services-/${bookedServiceId}?requestType=${requestType}`;
   return http.getData(url);
 }
 

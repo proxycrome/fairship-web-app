@@ -103,7 +103,7 @@ const Maintenance = ({
       appointmentTimeDate: String(moment(value).format("DD-MM-YYYY HH:mm"))
     };
     const {serviceProvider1, serviceProvider2, serviceProvider3, ...others} = formData;
-    console.log(others);
+    // console.log(others);
     postMaintenanceReq(others);
   };
 

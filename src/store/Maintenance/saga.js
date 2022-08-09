@@ -62,9 +62,9 @@ function* postMaintenanceReq({payload: {formData}}) {
   try {
     const response = yield call(postMaintenanceReqService, formData);
     yield put(postMaintenanceReqSuccess(response?.data));
-    console.log(response.data);
+    // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
+    // console.log(error?.response);
     yield put(postMaintenanceReqFailure(error?.response?.data));
   }
 }
@@ -78,9 +78,9 @@ function* getMaintenanceReq() {
   }
 }
 
-function* fetchService({payload: {serviceId}}) {
+function* fetchService({payload: {serviceId, requestType}}) {
   try {
-    const response = yield call(fetchServiceServer, serviceId)
+    const response = yield call(fetchServiceServer, serviceId, requestType)
     yield put(fetchServiceSuccess(response?.data));
   } catch (error) {
     yield put(fetchServiceFailure(error?.response?.data));

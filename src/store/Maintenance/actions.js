@@ -104,10 +104,10 @@ import {
       }
   }
 
-  export const fetchService = (serviceId) => {
+  export const fetchService = (serviceId, requestType) => {
       return {
           type: FETCH_SERVICE,
-          payload: {serviceId}
+          payload: {serviceId, requestType}
       }
   }
 

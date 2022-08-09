@@ -56,8 +56,8 @@ const ListTable = ({ Title, maintenance, loading }) => {
                             )}  
                             <span className="co-name mx-2">{maintain?.serviceProviderService?.serviceProviderDetail?.useraccount?.firstName} {maintain?.serviceProviderService?.serviceProviderDetail?.useraccount?.lastName}</span>
                           </td>
-                          <td>{maintain.serviceTypeDto.name}</td>
-                          <td>{maintain.createdAt}</td>
+                          <td>{maintain?.serviceTypeDto?.name}</td>
+                          <td>{maintain?.createdAt}</td>
                           <td>
                             <i className="ri-more-2-fill"></i>
                           </td>

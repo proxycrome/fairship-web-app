@@ -14,12 +14,13 @@ const ServiceSummary = (props) => {
   const serviceId = props?.match?.params?.bookedServiceId;
 
   useEffect(() => {
-    dispatch(fetchService(serviceId));
+    const requestType = "SERVICE_REQUEST";
+    dispatch(fetchService(serviceId, requestType));
   }, [dispatch, serviceId]);
 
   const { serviceSummary } = useSelector((state) => state.Maintenance);
 
-  console.log(serviceSummary);
+  // console.log(serviceSummary);
 
 
   return (
@@ -31,9 +32,9 @@ const ServiceSummary = (props) => {
             <span className="ml-2">Back</span>
           </Link>
           <Row className="d-flex align-items-center ml-5 mb-3 mt-3">
-            {serviceSummary?.tenant?.profilePhoto ? (
+            {serviceSummary?.property?.indexImage ? (
               <img
-                src={serviceSummary?.tenant?.profilePhoto}
+                src={serviceSummary?.property?.indexImage}
                 alt="livingroom"
                 width="116"
                 height="108"
@@ -41,7 +42,7 @@ const ServiceSummary = (props) => {
             ) : null}
             <Col ls={6}>
               <h6>Property</h6>
-              <span>{serviceSummary?.tenant?.address?.houseNoAddress}</span>
+              <span>{serviceSummary?.property?.parentProperty?.title} {serviceSummary?.property?.title}</span>
             </Col>
             <Col ls={6}>
               {/* <h6>Unit</h6>
@@ -91,7 +92,7 @@ const ServiceSummary = (props) => {
         <h6 className="mb-4 mt-5">Images</h6>
         <div className="imgContainer d-flex">
           {/* <i className="fas fa-angle-left prev"></i> */}
-          {serviceSummary?.uploadedImages?.map((info) => (
+          {serviceSummary?.serviceRequestImages?.map((info) => (
             <img
               key={info?.id}
               src={info?.imageUrl}
@@ -111,7 +112,7 @@ const ServiceSummary = (props) => {
         <h6>Documents</h6>
         {serviceSummary?.signedContractAgreement && (
           <div className="docContainer p-3">
-            <a href={serviceSummary?.signedContractAgreement} target="_blank" rel="noopener noreferrer">
+            <a href={`${serviceSummary?.signedContractAgreement}`} target="_blank" rel="noopener noreferrer">
             <img
               src={serviceSummary?.signedContractAgreement}
               alt="contract"
@@ -147,10 +148,15 @@ const ServiceSummary = (props) => {
         <Col xs={10} className="header-box">
           <h6 className="mb-4"> Tenant</h6>
           <Row className="d-flex align-items-center ml-2 mb-3">
-            <img src={profileImage} alt="profile" width="38" height="38" />
+            {serviceSummary?.user?.profilePhoto ? (
+              <img src={serviceSummary?.user?.profilePhoto} alt="profile" width="38" height="38" />
+            ): (
+              <img src={profileImage} alt="profile" width="38" height="38" />
+            )}
+            
             <span className="ml-2">
-              {serviceSummary?.tenant?.firstName}{" "}
-              {serviceSummary?.tenant?.lastName}
+              {serviceSummary?.user?.firstName}{" "}
+              {serviceSummary?.user?.lastName}
             </span>
           </Row>
         </Col>
