@@ -154,58 +154,54 @@ class Tenants extends Component {
         ),
       })),
     };
-    console.log(this.props.rental);
+    // console.log(this.props.rental);
     return (
       <React.Fragment>
         <div className="page-content">
-          <Container fluid>
+          <Container fluid>  
+            <Breadcrumbs
+              title="Tenants"
+              breadcrumbItems={this.state.breadcrumbItems}
+            />
             {this.props.loading ? (
               <Card>
                 <CardBody>
                   <Loader loading={this.props.loading} />
                 </CardBody>
               </Card>
+            ) : this.props.tenant?.entities?.length !== 0 ? (
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody className="pt-0">
+                      <MDBDataTable
+                        responsive
+                        data={data}
+                        className="mt-4"
+                      />
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
             ) : (
-              <>
-                <Breadcrumbs
-                  title="Tenants"
-                  breadcrumbItems={this.state.breadcrumbItems}
-                />
-
-                {this.props.tenant?.entities?.length !== 0 ? (
-                  <Row>
-                    <Col lg={12}>
-                      <Card>
-                        <CardBody className="pt-0">
-                          <MDBDataTable
-                            responsive
-                            data={data}
-                            className="mt-4"
-                          />
-                        </CardBody>
-                      </Card>
-                    </Col>
-                  </Row>
-                ) : (
-                  <Row>
-                    <Col lg={12}>
-                      <Card>
-                        <CardBody>
-                          <div className="text-center">
-                            <img
-                              src={emptyCan}
-                              alt="empty"
-                              className="rounded mb-2"
-                            />
-                            <h4> Table is Empty </h4>
-                          </div>
-                        </CardBody>
-                      </Card>
-                    </Col>
-                  </Row>
-                )}
-              </>
+              <Row>
+                <Col lg={12}>
+                  <Card>
+                    <CardBody>
+                      <div className="text-center">
+                        <img
+                          src={emptyCan}
+                          alt="empty"
+                          className="rounded mb-2"
+                        />
+                        <h4> Table is Empty </h4>
+                      </div>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
             )}
+              
           </Container>
         </div>
       </React.Fragment>
@@ -214,8 +210,8 @@ class Tenants extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { tenant, loading } = state.Tenant;
-  const { rental } = state.Rental;
+  const { tenant } = state.Tenant;
+  const { rental, loading } = state.Rental;
   const { user } = state.Account;
   return { tenant, loading, user, rental };
 };

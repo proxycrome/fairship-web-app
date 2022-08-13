@@ -1,4 +1,4 @@
-import React, {useState, Component, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import { Row, Col, Card, CardBody, ButtonGroup, Button } from 'reactstrap';
 
 //Import Charts
@@ -19,7 +19,7 @@ const RevenueAnalytics = (props) => {
     },
   ])
 
-  const [options, setOptions] = useState({
+  const [options] = useState({
     chart: {
       toolbar: {
         show: false,
@@ -103,7 +103,7 @@ const RevenueAnalytics = (props) => {
       },
     ])
     
-  }, [props.allrentals])
+  }, [props.allrentals, options.labels])
 
 
   const rentComplete = props?.allrentals?.entities?.filter((rentals) => rentals.status === 'EXPIRED' ||  rentals.status === 'WAITING_TO_BE_MOVED_OUT' || rentals.status === 'EXITED')?.length;

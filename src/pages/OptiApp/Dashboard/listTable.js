@@ -41,9 +41,9 @@ const ListTable = ({ Title, services, loading }) => {
                       {recentServices?.map(service => (
                         <tr key={service.id}>
                           <td className="d-flex align-items-center">
-                            {service?.tenant?.profilePhoto ? (
+                            {service?.user?.profilePhoto ? (
                               <img
-                                src={service?.tenant?.profilePhoto}
+                                src={service?.user?.profilePhoto}
                                 alt="profile"
                                 className="avatar-xs rounded-circle"
                               />
@@ -55,7 +55,7 @@ const ListTable = ({ Title, services, loading }) => {
                               />
                             )}
                             
-                            <span className="co-name mx-2">{service?.tenant?.firstName} {service?.tenant?.lastName}</span>
+                            <span className="co-name mx-2">{service?.user?.firstName} {service?.user?.lastName}</span>
                           </td>
                           <td>{service?.serviceProviderService?.serviceType}</td>
                           <td>{service?.appointedDate}</td>

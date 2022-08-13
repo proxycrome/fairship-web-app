@@ -27,7 +27,7 @@ const Accountant = () => {
                   <b>Accounting</b>
                 </h5>
                 <Row>
-                  <Col md={4} xs={12}>
+                  <Col md={4} xs={12} className="mt-3">
                     <div className="search-box">
                       <div className="position-relative">
                         <Input
@@ -39,16 +39,16 @@ const Accountant = () => {
                       </div>
                     </div>
                   </Col>
-                  <Col md={8} xs={12} className="text-right">
+                  <Col md={8} xs={12} className="text-right mt-2">
                     <button
-                      className="btn btn-success ml-4"
+                      className="btn btn-success ml-4 mt-2"
                       onClick={() => toggleFunction('account')}
                     >
                       Add Account
                     </button>
 
                     <button
-                      className="btn btn-outline-success ml-2"
+                      className="btn btn-outline-success ml-2 mt-2"
                       onClick={() => toggleFunction('transaction')}
                     >
                       Record Transaction

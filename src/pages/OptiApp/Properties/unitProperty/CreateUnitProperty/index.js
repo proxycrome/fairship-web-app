@@ -719,7 +719,7 @@ class CreateProperty extends Component {
                                   label="Communication system"
                                   value="Communication system"
                                 />
-                                {/* <div className="d-flex align-items-center"> */}
+                                <div className="d-flex align-items-center">
                                   <AvCheckbox 
                                     className="mb-2"
                                     label="others"
@@ -728,10 +728,11 @@ class CreateProperty extends Component {
                                   <Input 
                                     className="form-control ml-2" 
                                     value={this.state.others} 
+                                    style={{fontSize: "12px"}}
                                     onChange={(e) => this.setState({others: e.target.value})}
-                                    placeholder="Enter other amenities seperated by commas"
+                                    placeholder="Enter other amenities seperated by commas then check the box"
                                   />
-                                {/* </div> */}
+                                </div>
                               </AvCheckboxGroup>
                             </FormGroup>
                           </Col>

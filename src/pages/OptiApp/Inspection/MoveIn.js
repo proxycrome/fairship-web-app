@@ -268,7 +268,7 @@ const MoveIn = ({
     fetchRentalRecommendation,
   ]);
 
-  console.log(match, location)
+  // console.log(match, location)
 
   useEffect(() => {
     if (message) {

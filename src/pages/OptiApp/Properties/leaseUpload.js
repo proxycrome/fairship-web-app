@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AxiosInstance from '../../../utils/axiosInstance';
 import { Button, Alert } from 'reactstrap';
 import { AvForm, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';

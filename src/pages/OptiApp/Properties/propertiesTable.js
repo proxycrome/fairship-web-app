@@ -61,7 +61,6 @@ const PropertiesTable = ({ tableData }) => {
             ))}
           </span>
         ),
-        date: Moment(data.createdAt).format('l'),
         action: (
           <>
             <Link

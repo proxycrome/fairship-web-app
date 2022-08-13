@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, Card, CardBody, Row, Col, Button } from "reactstrap";
 
 // Redux
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 // actions
 // import { fetchProfile } from "../../../store/actions";

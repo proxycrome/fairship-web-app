@@ -17,21 +17,21 @@ const AccountTable = () => {
 
   useEffect(() => {
     dispatch(clearMessages());
-  }, [])
+  }, [dispatch])
 
 
   const deleteAccountHandler = (id) => {
     dispatch(deleteAccount(id));
     setTimeout(() => {
       window.location.reload(true);
-    }, 3000);
+    }, 1000);
   }
 
   const { accounts, loading, deleteMessage, deleteErrorMessage } = useSelector(state => state.Accounting);
 
-  console.log(accounts);
+  // console.log(accounts);
 
-  console.log(deleteMessage);
+  // console.log(deleteMessage);
 
   return (
     <>

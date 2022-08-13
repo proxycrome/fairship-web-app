@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Input, Button, Table, Card, CardBody, Container } from 'reactstrap';
+import React, { useEffect } from 'react';
+import { Button, Container } from 'reactstrap';
 // import profileImage from '../../../assets/images/home.png';
 // import CreateProperty from './CreateProperty';
 // import PreviewProperty from './PreviewProperty';
@@ -20,7 +20,7 @@ const UnitProperty = ({ fetchProperties, properties }) => {
       type: "unit_entity"
     };
     fetchProperties(isAuth);
-  }, []);
+  }, [fetchProperties]);
 
   return (
     <div className="page-content">

@@ -13,7 +13,6 @@ import {
 import Navbar from "./Navbar";
 import Header from "./Header";
 import Footer from "./Footer";
-import Rightbar from "../CommonForBoth/Rightbar";
 
 class Layout extends Component {
   constructor(props) {
@@ -106,7 +105,6 @@ class Layout extends Component {
             <Footer />
           </div>
         </div>
-        <Rightbar />
       </React.Fragment>
     );
   }

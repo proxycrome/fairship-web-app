@@ -1,20 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-// Authentication related pages
-// import Login from '../pages/Authentication/Login';
-// import Logout from '../pages/Authentication/Logout';
-// import Register from '../pages/Authentication/Register';
-// import ForgetPwd from '../pages/Authentication/ForgetPassword';
-// import AuthLockScreen from '../pages/Authentication/AuthLockScreen';
-
-// import Maintenance1 from '../pages/Utility/Maintenance';
-// import CommingSoon from '../pages/Utility/CommingSoon';
-// import Error404 from '../pages/Utility/Error404';
-// import Error500 from '../pages/Utility/Error500';
-
-// Inner Authentication
-// import Login1 from '../pages/AuthenticationInner/Login';
 import WelcomePage from '../pages/OptiApp/Authentication/WelcomePage';
 
 // Opti FairShip App
@@ -29,10 +15,11 @@ import PreviewInspection from '../pages/OptiApp/Inspection/PreviewCopy';
 import create_inspection from '../pages/OptiApp/Inspection/MoveIn';
 import Maintenance from '../pages/OptiApp/Maintenance';
 import MaintenanceSummary from '../pages/OptiApp/Maintenance/MaintenanceSummary';
+import ServiceRequest from '../pages/OptiApp/Maintenance/ServiceRequest';
 import PowerMonitory from '../pages/OptiApp/PowerMonitory';
 import Profile from '../pages/OptiApp/Profile';
 
-// import UnitProperties from '../pages/OptiApp/Properties/UnitProperties';
+
 import ListingProperties from '../pages/OptiApp/Properties/Listing';
 
 import ListingPreview from '../pages/OptiApp/Properties/ListPreview';
@@ -104,6 +91,7 @@ const authProtectedRoutes = [
   { path: '/maintenance', component: Maintenance },
   { path: '/maintenanceSummary/:id', component: MaintenanceSummary },
   { path: '/createMaintenance', component: CreateMaintenance },
+  { path: '/serviceRequest' , component: ServiceRequest},
   { path: '/serviceSummary/:bookedServiceId', component: ServicePreview },
   { path: '/service', component: Service },
   { path: '/chats', component: Chats },

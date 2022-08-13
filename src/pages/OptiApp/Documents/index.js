@@ -10,7 +10,7 @@ const Document = () => {
 
   useEffect(() => {
     dispatch(fetchDocuments());
-  }, []);
+  }, [dispatch]);
 
   const { loading, documents } = useSelector((state) => state.Document);
 

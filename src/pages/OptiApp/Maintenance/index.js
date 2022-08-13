@@ -2,16 +2,12 @@ import React, { useState, useEffect } from "react";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
 import { Row, Col, Button, Card, CardBody } from "reactstrap";
-import livingRoom from "../../../assets/images/Living.png";
-import MaintenanceSummary from "./MaintenanceSummary";
 import ServiceRequest from "./ServiceRequest";
-import CreateMaintenace from "./CreateMaintenace";
 import { useSelector, useDispatch } from "react-redux";
 import { getMaintenanceReq } from "../../../store/actions";
+import Loader from "../../../components/Common/Loading/index";
 
 const MaintenanceRequest = () => {
-  const [showPreview, setShowPreview] = useState(false);
-  // const [ShowMaintenance, SetShowMaintenance] = useState(false);
   const [showService, setShowService] = useState(false);
   const dispatch = useDispatch();
 
@@ -19,17 +15,10 @@ const MaintenanceRequest = () => {
     dispatch(getMaintenanceReq());
   }, [dispatch]);
 
-  const { maintenanceRequests } = useSelector((state) => state.Maintenance);
+  const { maintenanceRequests, loading } = useSelector((state) => state.Maintenance);
 
   // console.log(maintenanceRequests);
 
-  // if (ShowMaintenance) {
-  //   return <CreateMaintenace GoHome={() => SetShowMaintenance(false)} />;
-  // }
-
-  if (showPreview) {
-    return <MaintenanceSummary />;
-  }
 
   const data = {
     columns: [
@@ -60,7 +49,6 @@ const MaintenanceRequest = () => {
           <Link
             to={`/maintenanceSummary/${request.id}`}
             className="mr-3"
-            onClick={() => setShowPreview(!showPreview)}
           >
             <img
               className="mr-1"
@@ -93,33 +81,44 @@ const MaintenanceRequest = () => {
           </Link> 
         </div>
         <div className="p-2 bg-white rounded d-inline-block">
-          <Button
-            color={!showService ? "success" : "white"}
-            className="mr-2"
-            onClick={() => setShowService(!showService)}
-          >
-            Maintenance Request
-          </Button>
-          <Button
-            color={showService ? "success" : "white"}
-            outline
-            onClick={() => setShowService(!showService)}
-          >
-            Service Request
-          </Button>
+          <Link to="/maintenance" onClick={() => setShowService(false)}>
+            <Button
+              color={!showService ? "success" : "white"}
+              className="mr-2"
+            >
+              Maintenance Request
+            </Button>
+          </Link>
+          <Link to="/serviceRequest" onClick={() => setShowService(true)}>
+            <Button
+              color={showService ? "success" : "white"}
+            >
+              Service Request
+            </Button>
+          </Link>
+          
         </div>
       </div>
       <Row>
         <Col xs={12}>
-          <Card>
-            <CardBody>
-              {showService ? (
-                <ServiceRequest setShowPreview={setShowPreview} />
-              ) : (
-                <MDBDataTable responsive striped bordered data={data} />
-              )}
-            </CardBody>
-          </Card>
+          {loading ? (
+            <Card>
+              <CardBody>
+                <Loader loading={loading} />
+              </CardBody>
+            </Card>
+          ) : (
+            <Card>
+              <CardBody>
+                {showService ? (
+                  <ServiceRequest />
+                ) : (
+                  <MDBDataTable responsive striped bordered data={data} />
+                )}
+              </CardBody>
+            </Card>
+          )}
+          
         </Col>
       </Row>
     </div>

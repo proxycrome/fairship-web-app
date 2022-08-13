@@ -18,7 +18,7 @@ const MaintenanceSummary = (props) => {
 
   const { maintenanceSummary } = useSelector((state) => state.Maintenance);
 
-  // console.log(maintenanceSummary);
+  console.log(maintenanceSummary);
 
   return (
     <div className="page-content">
@@ -58,9 +58,12 @@ const MaintenanceSummary = (props) => {
             </div>
           </Row>
           <Row>
-            <div className="ml-5 mb-5">
-              <h6>Created on</h6>
-              <span>{maintenanceSummary?.createdAt}</span>
+            <div className="d-flex align-items-center ml-5 mb-5">
+              <i
+                className="far fa-calendar-alt ml-2 mr-2"
+                style={{ color: "#187CC3" }}
+              ></i>
+              <span>{maintenanceSummary?.appointedDate} {maintenanceSummary?.appointedTime}</span>
             </div>
           </Row>
         </Col>

@@ -154,7 +154,7 @@ const ListUnitPreview = ({
                   <Col md={4} sm={12}>
                     <div className="mb-3">
                       <h6>Basic Rent</h6>
-                      <span>₦{property?.price.toLocaleString()}</span>
+                      <span>₦{property?.price?.toLocaleString()}</span>
                     </div>
                     <div className="mb-3">
                       {/* <h6>Last payment date</h6>
@@ -184,11 +184,11 @@ const ListUnitPreview = ({
                     </div>
                     <div className="mb-3">
                       <h6>Next Payment Amount</h6>
-                      <span>₦{property?.price.toLocaleString()}</span>
+                      <span>₦{property?.price?.toLocaleString()}</span>
                     </div>
                     <div>
                       <h6>Advertised Amount</h6>
-                      <span>₦{property?.price.toLocaleString()}</span>
+                      <span>₦{property?.price?.toLocaleString()}</span>
                     </div>
                   </Col>
                   <Col md={4} sm={12}>

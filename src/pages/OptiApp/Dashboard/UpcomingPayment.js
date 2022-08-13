@@ -66,7 +66,7 @@ componentDidMount(){
                </ul> 
                ))}
                </SimpleBar>
-               <Link to='/rental_application' className="text-success"> More Details </Link>
+               <Link to='/tenants' className="text-success"> More Details </Link>
                </CardBody>
                </Card>)
                 : 

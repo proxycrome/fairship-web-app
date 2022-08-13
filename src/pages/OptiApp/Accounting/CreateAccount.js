@@ -26,9 +26,11 @@ const CreateAccount = ({ closePage }) => {
 
   const { banks, message, errorMessage } = useSelector(state => state.Accounting);
 
-  console.log(message)
+  const sortedBanks = banks?.sort((a, b) => (a.name > b.name ? 1 : -1));
 
-  console.log(errorMessage);
+  // console.log(message)
+
+  // console.log(errorMessage);
 
   useEffect(() => {
     if(message) {
@@ -103,7 +105,7 @@ const CreateAccount = ({ closePage }) => {
                       required
                     >
                       <option value="">Select</option>
-                      {banks?.map(bank => (
+                      {sortedBanks?.map(bank => (
                         <option key={bank.id} value={bank.id}>{bank.name}</option>
                       ))}
                     </AvField>

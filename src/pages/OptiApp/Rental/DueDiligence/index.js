@@ -1,42 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Col,
   Button,
   Card,
   CardBody,
   Row,
-  Alert,
-  Form,
-  Input,
-  FormGroup,
-  Label, } from 'reactstrap';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+  Alert, 
+} from 'reactstrap';
+
+import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { DiligenceRecommendation } from '../../../../store/actions';
-import DatePicker from "react-datepicker";
+
 
 const DueDiligenceForm = ({rentId}) => {
 
-  const [defaultDate, setDefaultDate] = useState(new Date());
+  // const [defaultDate, setDefaultDate] = useState(new Date());
    
   const dispatch = useDispatch();
 
-  console.log(defaultDate.toLocaleDateString('es-CL'))
+  // console.log(defaultDate.toLocaleDateString('es-CL'))
 
-  const handleDefault = (date) => {
-    setDefaultDate(date);
-  };
+  // const handleDefault = (date) => {
+  //   setDefaultDate(date);
+  // };
 
   
 
   const handleSubmit = (e, values) => {
-      e.preventDefault();
-      
-     
       const formData = {
         ...values,
-        moveInDate: defaultDate.toLocaleDateString('es-CL'),
+        moveInDate: moment(values.moveInDate).format('DD-MM-YYYY'),
         rentId
           // "annualIncome": values.annualIncome,
           // "companyName": values.companyName,
@@ -45,9 +41,9 @@ const DueDiligenceForm = ({rentId}) => {
           // "workAddress": values.workAddress 
       }
   
-      console.log(formData)
+      // console.log(formData)
       dispatch(DiligenceRecommendation(formData)) 
-      console.log(rentId)    
+      // console.log(rentId)    
   }
   
   const {diligence, errordilligence} = useSelector((state) => state.PreviewReducer)
@@ -132,15 +128,21 @@ const DueDiligenceForm = ({rentId}) => {
                     </Row> */}
                     <Row>
                       <Col xl={12}>
-                      <FormGroup className="form-group-custom m-4">
-                        <Label htmlFor="date">Date</Label>
-                        <DatePicker
-                         id="date"
+                      <AvGroup className="form-group-custom m-4">
+                        {/* <Label htmlFor="date">Date</Label> */}
+                        {/* <DatePicker
+                          id="date"
                           className="form-control"
                           selected={defaultDate}
                           onChange={handleDefault}
+                          /> */}
+                          <AvField 
+                            type="date"
+                            className="form-control"
+                            label="Move In Date"
+                            name="moveInDate"
                           />
-                        </FormGroup>
+                        </AvGroup>
                       </Col>
                     </Row>
                     <Row>

@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import { Row, Col, Dropdown, DropdownToggle, DropdownMenu, Form, Input, InputGroup, InputGroupAddon, Button, FormGroup } from "reactstrap";
 
 // Import menuDropdown
-import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
 import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 
@@ -284,7 +283,7 @@ class Header extends Component {
                             </div>
                         </div>
 
-                        <LanguageDropdown />
+                        
 
                         <Dropdown isOpen={this.state.isProfile} toggle={() => this.setState({isProfile : !this.state.isProfile})} className="d-none d-lg-inline-block ml-1">
                             <DropdownToggle tag="button" type="button" className="btn header-item noti-icon waves-effect">

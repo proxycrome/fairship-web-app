@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Card, CardBody, Row, Col, Button, Alert } from "reactstrap";
+import React, { useEffect } from "react";
+import { Container, Card, CardBody, Alert } from "reactstrap";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import {
@@ -36,7 +36,7 @@ const CreateMoreUnit = ({
   useEffect(() => {
     getLandlordAgents(user?.id);
     getPropertyTypes();
-  }, [user]);
+  }, [user, getLandlordAgents, getPropertyTypes]);
 
 
   return (

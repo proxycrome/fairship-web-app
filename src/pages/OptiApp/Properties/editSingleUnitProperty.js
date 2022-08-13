@@ -750,8 +750,9 @@ class CreateProperty extends Component {
                                       <Input 
                                         className="form-control ml-2" 
                                         value={this.state.others} 
+                                        style={{fontSize: "12px"}}
                                         onChange={(e) => this.setState({others: e.target.value})}
-                                        placeholder="Enter other amenities seperated by commas"
+                                        placeholder="Enter other amenities seperated by commas then check the box"
                                       />
                                     </div>
                                   </AvCheckboxGroup>

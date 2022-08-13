@@ -15,7 +15,6 @@ import Loader from '../../../components/Common/Loading/index';
 
 // user
 import avatar from "../../../assets/images/avi.jpg";
-import home from '../../../assets/images/home.png';
 
 const Preview = (props) => {
   const dispatch = useDispatch();

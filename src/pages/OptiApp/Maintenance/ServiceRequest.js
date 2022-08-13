@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBDataTable } from "mdbreact";
 import { Link } from "react-router-dom";
+import { Row, Col, Button, Card, CardBody } from "reactstrap";
 // import livingRoom from "../../../assets/images/Living.png";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../components/Common/Loading/index";
@@ -9,6 +10,7 @@ import { getAllServiceReq } from "../../../store/actions";
 
 
 const ServiceRequest = () => {
+  const [showService, setShowService] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,12 +77,48 @@ const ServiceRequest = () => {
   };
 
   return (
-    <div>
-      {loading ? (
-        <Loader loading={loading} />
-      ) : (
-        <MDBDataTable responsive striped bordered data={data} />
-      )}
+    <div className="page-content">
+      <div className="mb-2">
+        <div className="float-right">
+          <Link to="/createMaintenance">
+            <Button color="success">
+              {" "}
+              Create Maintenance
+            </Button>
+          </Link> 
+        </div>
+        <div className="p-2 bg-white rounded d-inline-block">
+          <Link to="/maintenance" onClick={() => setShowService(false)}>
+            <Button
+              color={!showService ? "success" : "white"}
+              className="mr-2"
+            >
+              Maintenance Request
+            </Button>
+          </Link>
+          <Link to="/serviceRequest" onClick={() => setShowService(true)}>
+            <Button
+              color={showService ? "success" : "white"}
+            >
+              Service Request
+            </Button>
+          </Link>
+          
+        </div>
+      </div>
+      <Row>
+        <Col xs={12}>
+          <Card>
+            <CardBody>
+              {loading ? (
+                <Loader loading={loading} />
+              ) : (
+                <MDBDataTable responsive striped bordered data={data} />
+              )}    
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };

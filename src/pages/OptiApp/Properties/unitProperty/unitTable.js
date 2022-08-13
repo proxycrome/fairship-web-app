@@ -18,6 +18,7 @@ const PropertiesTable = ({ tableData }) => {
     setIsLoading(false);
   }, []);
 
+
   const tableDataHandler = () => {
     const rowData = tableData?.map((data) => {
       const newData = {

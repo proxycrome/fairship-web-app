@@ -8,7 +8,7 @@ import {
   Table,
   Button,
 } from 'reactstrap';
-import img2 from '../../../assets/images/small/img-3.jpg';
+// import img2 from '../../../assets/images/small/img-3.jpg';
 
 export default function PropertyCard({ BackToHome }) {
   return (
@@ -37,7 +37,7 @@ export default function PropertyCard({ BackToHome }) {
               </p>
               <Row>
                 <Col md="auto">
-                  <img className="avatar-lg rounded" src={img2} alt="Skote" />
+                  {/* <img className="avatar-lg rounded" src={img2} alt="Skote" /> */}
                 </Col>
                 <Col>
                   <div>

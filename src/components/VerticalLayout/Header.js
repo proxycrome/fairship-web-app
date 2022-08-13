@@ -115,19 +115,6 @@ class Header extends Component {
               >
                 <i className="ri-menu-2-line align-middle"></i>
               </Button>
-
-              {/* <Form className="app-search d-none d-lg-block">
-                <div className="position-relative">
-                  <Input
-                    type="text"
-                    className="form-control"
-                    placeholder={this.props.t('Search')}
-                  />
-                  <span className="ri-search-line"></span>
-                </div>
-              </Form> */}
-
-              {/* <MegaMenu /> */}
             </div>
 
             <div className="d-flex">
@@ -167,68 +154,6 @@ class Header extends Component {
                   </Form>
                 </div>
               </div>
-
-              {/* <LanguageDropdown /> */}
-              {/* 
-              <Dropdown
-                isOpen={this.state.isSocialPf}
-                toggle={() =>
-                  this.setState({ isSocialPf: !this.state.isSocialPf })
-                }
-                className="d-none d-lg-inline-block ml-1"
-              >
-                <DropdownToggle
-                  tag="button"
-                  className="btn header-item noti-icon waves-effect"
-                >
-                  <i className="ri-apps-2-line"></i>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-menu-lg" right>
-                  <div className="px-lg-2">
-                    <Row className="no-gutters">
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={github} alt="Github" />
-                          <span>{this.props.t('GitHub')}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={bitbucket} alt="bitbucket" />
-                          <span>{this.props.t('Bitbucket')}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={dribbble} alt="dribbble" />
-                          <span>{this.props.t('Dribbble')}</span>
-                        </Link>
-                      </Col>
-                    </Row>
-
-                    <Row className="no-gutters">
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={dropbox} alt="dropbox" />
-                          <span>{this.props.t('Dropbox')}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={mail_chimp} alt="mail_chimp" />
-                          <span>{this.props.t('Mail Chimp')}</span>
-                        </Link>
-                      </Col>
-                      <Col>
-                        <Link className="dropdown-icon-item" to="#">
-                          <img src={slack} alt="slack" />
-                          <span>{this.props.t('Slack')}</span>
-                        </Link>
-                      </Col>
-                    </Row>
-                  </div>
-                </DropdownMenu>
-              </Dropdown> */}
 
               <div className="dropdown d-none d-lg-inline-block ml-1">
                 <Button

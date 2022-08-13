@@ -93,14 +93,15 @@ const ServiceSummary = (props) => {
         <div className="imgContainer d-flex">
           {/* <i className="fas fa-angle-left prev"></i> */}
           {serviceSummary?.serviceRequestImages?.map((info) => (
-            <img
-              key={info?.id}
-              src={info?.imageUrl}
-              alt="circuit"
-              width="100"
-              height="100"
-              className="mr-2"
-            />
+            <a href={`${info?.imageUrl}`} target="_blank" rel="noopener noreferrer" key={info?.id}>
+              <img
+                src={info?.imageUrl}
+                alt="circuit"
+                width="100"
+                height="100"
+                className="mr-2"
+              />
+            </a>  
           ))}
           {/* <i className="fas fa-angle-right next"></i> */}
         </div>
