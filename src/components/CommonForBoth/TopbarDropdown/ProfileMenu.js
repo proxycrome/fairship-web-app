@@ -73,10 +73,10 @@ class ProfileMenu extends Component {
             {/* <DropdownItem href="#">
               <i className="ri-wallet-2-line align-middle mr-1"></i> My Wallet
             </DropdownItem> */}
-            <DropdownItem className="d-block" href="#">
+            {/* <DropdownItem className="d-block" href="#">
               <span className="badge badge-success float-right mt-1">11</span>
               <i className="ri-settings-2-line align-middle mr-1"></i> Settings
-            </DropdownItem>
+            </DropdownItem> */}
             <DropdownItem divider />
             <DropdownItem
               className="text-danger"
