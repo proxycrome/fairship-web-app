@@ -92,7 +92,7 @@ const PreviewCopy = ({
                           <div className="mb-3">
                             <h6>Property</h6>
                             <span style={{ display: 'block' }}>
-                              {inspection?.rent?.property?.title}
+                              {inspection?.rent?.property?.parentProperty?.title} {inspection?.rent?.property?.title}
                             </span>
                             <span>
                               (ID: {inspection?.rent?.property?.propertyRef})

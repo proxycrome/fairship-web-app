@@ -2,9 +2,9 @@ import HttpService from './HttpService';
 
 export const fetchInspectionsService = (payload) => {
   const http = new HttpService();
-  let url = 'auth/inspection/all';
+  let url = 'auth/inspection/all?limit=100000';
   if (payload) {
-    url = `auth/inspection/all?approvalStatus=${payload}`;
+    url = `auth/inspection/all?approvalStatus=${payload}&limit=100000`;
   }
   return http.getData(url);
 };

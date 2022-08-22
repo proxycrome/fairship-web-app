@@ -21,7 +21,7 @@ export const fetchPropertiesService = (payload, collectiveId) => {
   } else if (payload?.type === 'unit_entity') {
     url = 'auth/properties?limit=100&entityLevel=SINGLE_ENTITY';
   } else if (payload?.type === 'all_user_properties') {
-    url = 'auth/properties-all-levels?limit=1000';
+    url = 'auth/properties-all-levels?limit=10000';
   } else if (payload?.type === 'collective_units') {
     url = `auth/collective-entity-properties/property-units/${collectiveId}`;
   }

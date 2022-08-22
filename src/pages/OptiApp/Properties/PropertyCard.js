@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
@@ -23,6 +23,8 @@ import {
   duplicateUnitProperty,
   deleteProperty,
 } from "../../../store/actions";
+
+import { clearUnitMessage } from "../../../store/properties/actions";
 import avatar from "../../../assets/images/avi.jpg";
 import PropertyIcon from "../../../assets/images/Property.png";
 
@@ -38,7 +40,34 @@ const PropertyCard = ({
   deleteProperty,
   deleteMessage,
   message,
+  clearUnitMessage,
 }) => {
+  const [propImages, setPropImages] = useState([]);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if(property){
+      setPropImages(property?.images)
+    }
+    const lastIndex = propImages?.length - 1;
+    if (index < 0) {
+      setIndex(lastIndex);
+    }
+    if (index > lastIndex) {
+      setIndex(0);
+    }
+  }, [index, propImages, property]);
+
+  useEffect(() => {
+    const slider = setInterval(()=> {
+      setIndex(index + 1)
+    }, 3000)
+    return () => clearInterval(slider);
+  }, [index]);
+
+  useEffect(() => {
+    clearUnitMessage();
+  }, []);
   
   useEffect(() => {
     if (match.params.id) {
@@ -94,11 +123,40 @@ const PropertyCard = ({
                   <CardBody>
                     <Row>
                       <Col md={4}>
-                        <CardImg
-                          className="img-fluid"
-                          src={property.indexImage}
-                          alt={property.title}
-                        />
+                        <div className="section-center">
+                          {propImages?.map((propImage, propIndex) => {
+                            const { id, imageUrl} = propImage;
+                            // more stuff coming up
+                            let position = "nextSlide";
+                            if (propIndex === index) {
+                              position = "activeSlide";
+                            }
+                            if (
+                              propIndex === index - 1 ||
+                              (index === 0 && propIndex === propImages.length - 1)
+                            ) {
+                              position = "lastSlide";
+                            }
+                            return (
+                              <article className={`imgarticle ${position}`} key={id}>
+                                <a href={`${imageUrl}`} target="_blank" rel="noopener noreferrer">
+                                <CardImg
+                                  className="img-fluid prop-img"
+                                  src={imageUrl}
+                                  alt={property.title}
+                                  style={{ borderRadius: "20px", width: "100%" }}
+                                />
+                                </a>  
+                              </article>
+                            );
+                          })}
+                          <button className="prevbtn" onClick={() => setIndex(index - 1)}>
+                            <i className="fas fa-angle-left"></i>
+                          </button>
+                          <button className="nextbtn" onClick={() => setIndex(index + 1)}>
+                            <i className="fas fa-angle-right"></i>
+                          </button>
+                        </div>   
                       </Col>
                       <Col md={8}>
                         <div className="ml-2">
@@ -147,9 +205,9 @@ const PropertyCard = ({
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="align-items-center">
                           <div className="d-flex mb-2">
-                            {property?.publishedBy?.profilePhoto ? (
+                            {property?.agentDetail?.profilePhoto ? (
                               <img
-                                src={property?.publishedBy?.profilePhoto}
+                                src={property?.agentDetail?.profilePhoto}
                                 alt="agent"
                                 className="avatar-sm mr-4"
                               />
@@ -163,8 +221,8 @@ const PropertyCard = ({
 
                             <h5 className="card-title">
                               {" "}
-                              {property?.publishedBy?.firstName}{" "}
-                              {property?.publishedBy?.lastName}
+                              {property?.agentDetail?.firstName}{" "}
+                              {property?.agentDetail?.lastName}
                             </h5>
                           </div>
                           {/* <div className="d-flex">
@@ -188,18 +246,18 @@ const PropertyCard = ({
                               ></i>
                             </div>
                             <p> Call </p>
-                            {property?.publishedBy && (
+                            {property?.agentDetail && (
                               <UncontrolledTooltip
                               placement="left"
                               target="phone"
                             >
-                              {property?.publishedBy && property?.publishedBy?.phone}
+                              {property?.agentDetail && property?.agentDetail?.phone}
                             </UncontrolledTooltip>
                             )}
                           </div>
                           <div className="ml-5">
                             <a
-                              href={`mailto:${property?.publishedBy?.email}`}
+                              href={property?.agentDetail && `mailto:${property?.agentDetail?.email}`}
                               className="d-flex rounded-circle justify-content-center align-items-center"
                               style={{
                                 backgroundColor: "lightGreen",
@@ -213,12 +271,12 @@ const PropertyCard = ({
                               ></i>
                             </a>
                             <p> Email </p>
-                            {property?.publishedBy && (
+                            {property?.agentDetail && (
                               <UncontrolledTooltip
                               placement="top"
                               target="email"
                             >
-                              {property?.publishedBy && property?.publishedBy?.email}
+                              {property?.agentDetail && property?.agentDetail?.email}
                             </UncontrolledTooltip>
                             )}
                             
@@ -388,5 +446,6 @@ export default withRouter(
     fetchProperties,
     duplicateUnitProperty,
     deleteProperty,
+    clearUnitMessage,
   })(PropertyCard)
 );

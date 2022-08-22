@@ -281,7 +281,8 @@ const MoveIn = ({
   // console.log(inspection);
 
   useEffect(() => {
-    if (inspection?.approvalStatus !== "APPROVED") {
+    SetInspectionField([]); 
+    if (inspection?.approvalStatus === "REJECTED") {
       const oldInspections = inspection?.inspectionAreas?.map((area, i) => {
         return {
           id: area.id,
@@ -296,10 +297,11 @@ const MoveIn = ({
 
       SetInspectionField(oldInspections);
     }
+
     if( inspection?.approvalStatus === "APPROVED") {
       SetInspectionField([]);
     }
-    SetInspectionField([]);  
+     
   }, [inspection]);
 
   useEffect(() => {
@@ -336,7 +338,7 @@ const MoveIn = ({
   // console.log(prevInspections);
   // console.log(inspectionField);
 
-  // // console.log(inspection);
+  // console.log(inspection);
   return (
     <div className="page-content">
       <Container fluid>

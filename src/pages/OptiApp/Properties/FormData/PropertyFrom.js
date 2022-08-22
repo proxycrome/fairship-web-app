@@ -39,15 +39,25 @@ class CreateProperty extends Component {
       this.setState({ ...this.state, imageError: "image can't be empty" });
       return;
     }
+
+    const selectAgent = () => {
+      if (values?.agentIds !== "") {
+        return [
+          +this.props.agents?.agents?.find((agent) => {
+            if (`${agent?.firstName} ${agent?.lastName}` === values?.agentIds) {
+              return agent?.id;
+            }
+          })?.id,
+        ]
+      }
+      if (values?.agentIds === "") {
+        return [];
+      }
+    }
+
     const formData = { ...values };
     formData.description = this.state.description;
-    formData.agentIds = [
-      this.props.agents?.agents.find((agent) => {
-        if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
-          return agent.id;
-        }
-      }).id,
-    ];
+    formData.agentIds = selectAgent();
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
@@ -284,19 +294,19 @@ class CreateProperty extends Component {
                         //       .lastName
                         //   }`
                         // }
-                        required
                       >
+                        <option value="">Select Agent...</option>
                         {this.props.landlordAgents?.data?.agents?.length !==
                         0 ? (
                           this.props.agents?.agents.map((agent) => (
-                            <option key={agent.id}>
+                            <option key={agent.id} value={`${agent?.firstName} ${agent?.lastName}`}>
                               {agent?.firstName} {agent?.lastName}
-                            </option>
+                            </option>  
                           ))
                         ) : this.props.landlordAgents === null ? (
-                          <option>Loading ...</option>
+                          <option value="">Loading ...</option>
                         ) : (
-                          <option>No Agents yet...</option>
+                          <option value="">No Agents yet...</option>
                         )}
                       </AvField>
                     </FormGroup>

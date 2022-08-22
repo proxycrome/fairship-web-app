@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Table, Card, CardBody } from 'reactstrap';
+import { MDBDataTable } from 'mdbreact';
 // import NewInspection from './NewInspection';
 // import { Link } from 'react-router-dom'
 import { fetchInspections } from '../../../store/inspection/actions';
@@ -19,6 +20,74 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
 
   // console.log(inspections);
 
+  const data = {
+    columns: [
+      {
+        label: 'Tenant',
+        field: 'tenant',
+        width: 150,
+      },
+      {
+        label: 'Property',
+        field: 'property',
+        width: 100,
+      },
+      {
+        label: 'Type',
+        field: 'type',
+        width: 100,
+      },
+      {
+        label: 'Date',
+        field: 'date',
+        width: 100,
+      },
+      {
+        label: 'Status',
+        field: 'status',
+        width: 100,
+      },
+      {
+        label: 'Actions',
+        field: 'actions',
+        width: 100,
+      },
+    ],
+    rows: inspections?.entities?.map((inspect) => ({
+      tenant: (
+        <>
+          <div className="d-flex align-items-center">
+            <Link to={`previewInspection/${inspect.id}`}>
+              <img
+                src={inspect?.rent?.tenant?.profilePhoto}
+                alt="profile"
+                width="38"
+                height="38"
+              />
+              <span className="co-name mx-2">
+                {inspect?.rent?.tenant?.firstName}{' '}
+                {inspect?.rent?.tenant?.lastName}
+              </span>
+            </Link>
+          </div>
+        </>
+      ),
+      property: `${
+        inspect?.rent?.property?.parentProperty?.title
+          ? inspect?.rent?.property?.parentProperty?.title
+          : ""
+      } ${inspect?.rent?.property?.title}`,
+      type: `${inspect?.type}`,
+      date: `${inspect?.createdAt}`,
+      status: `${inspect?.approvalStatus}`,
+      actions: inspect.approvalStatus !== 'PENDING' && (
+        <Link to={`/create_inspection/${inspect?.rent?.id}/${inspect?.id}`}>
+          <button className="btn btn-success btn-sm">Inspect</button>
+        </Link>
+      ),
+    })),
+  };
+
   return (
     <div className="page-content">
       <div className="d-flex justify-content-between mb-3">
@@ -34,18 +103,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
         <>
           <Card>
             <CardBody>
-              <div className="d-flex justify-content-between">
-                <div className="search-box">
-                  <div className="position-relative">
-                    <Input
-                      type="text"
-                      className="form-control rounded"
-                      placeholder="Search..."
-                    />
-                    <i className="mdi mdi-magnify search-icon"></i>
-                  </div>
-                </div>
-
+              <div className="d-flex justify-content-end">
                 <div className="text-right">
                   <select
                     className="custom-select custom-select-sm bg-light"
@@ -55,7 +113,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                     <option value="PENDING">Pending</option>
                     <option value="APPROVED">Approved</option>
                     <option value="REJECTED">Rejected</option>
-                    <option defaultValue>All Inspections</option>
+                    <option value="">All Inspections</option>
                   </select>
                 </div>
               </div>
@@ -65,55 +123,7 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
                     className="table-responsive mb-0"
                     data-pattern="priority-columns"
                   >
-                    <Table id="tech-companies-1" striped responsive>
-                      <thead>
-                        <tr>
-                          <th>Tenant</th>
-                          {/* <th data-priority="1">Unit Number</th> */}
-                          <th data-priority="3">Property</th>
-                          <th data-priority="1">Type</th>
-                          <th data-priority="3">Date</th>
-                          {payloadStatus !== 'PENDING' && (
-                            <th data-priority="3">Actions</th>
-                          )}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {inspections?.entities?.map((inspect) => (
-                          <tr key={inspect?.id}>
-                            <td className="d-flex align-items-center">
-                              <Link to={`previewInspection/${inspect.id}`}>
-                                <img
-                                  src={inspect?.rent?.tenant?.profilePhoto}
-                                  alt="profile"
-                                  width="38"
-                                  height="38"
-                                />
-                                <span className="co-name mx-2">
-                                  {inspect?.rent?.tenant?.firstName}{' '}
-                                  {inspect?.rent?.tenant?.lastName}
-                                </span>
-                              </Link>
-                            </td>
-                            {/* <td>001</td> */}
-                            <td>
-                              {inspect?.rent?.property?.address?.houseNoAddress}
-                            </td>
-                            <td>{inspect?.type}</td>
-                            <td>{inspect?.createdAt}</td>
-                            {payloadStatus !== 'PENDING' && (
-                              <td>
-                                <Link to={`/create_inspection/${inspect?.rent?.id}/${inspect?.id}`}>
-                                  <button className="btn btn-success btn-sm">
-                                    Inspect
-                                  </button>
-                                </Link>
-                              </td>
-                            )}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                    <MDBDataTable responsive striped bordered data={data} />
                   </div>
                 </div>
               ) : (

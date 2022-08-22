@@ -10,6 +10,7 @@ import {
   ModalHeader,
   Form,
   Input,
+  Label,
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -42,6 +43,7 @@ class CreateProperty extends Component {
       price: "",
       show: false,
       others: "",
+      description: "no description",
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -84,10 +86,26 @@ class CreateProperty extends Component {
       this.setState({ ...this.state, imageError: "image can't be empty" });
       return;
     }
+
+    const selectAgent = () => {
+      if (values?.agentIds !== "") {
+        return [
+          +this.props.agents?.agents?.find((agent) => {
+            if (`${agent?.firstName} ${agent?.lastName}` === values?.agentIds) {
+              return agent?.id;
+            }
+          })?.id,
+        ]
+      }
+      if (values?.agentIds === "") {
+        return [];
+      }
+    }
+
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
 
-    formData.description = "new spacious unit";
+    formData.description = this.state.description;
     formData.isServiced = values.isServiced === "Yes" ? true : false;
     formData.isFurnished = values.isFurnished === "Yes" ? true : false;
     formData.isShared = values.isShared === "Yes" ? true : false;
@@ -97,13 +115,8 @@ class CreateProperty extends Component {
     formData.bedrooms = Number(values.bedrooms);
     formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
-    formData.agentIds = [
-      this.props.agents?.agents?.find((agent) => {
-        if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
-          return agent.id;
-        }
-      })?.id,
-    ];
+    formData.agentIds = selectAgent();
+         
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
@@ -376,22 +389,38 @@ class CreateProperty extends Component {
                           //     this.props.landlordAgents?.data?.agents?.unshift()
                           //       .lastName
                           //   }`
-                          // }
-                          required  
+                          // } 
                         >
+                          <option value="">Select Agent...</option>
                           {this.props.landlordAgents?.data?.agents?.length !==
                           0 ? (
                             this.props.agents?.agents?.map((agent) => (
-                              <option key={agent.id}>
+                              <option key={agent.id} value={`${agent?.firstName} ${agent?.lastName}`}>
                                 {agent?.firstName} {agent?.lastName}
                               </option>
                             ))
                           ) : this.props.loadlordAgents === null ? (
-                            <option>Loading ...</option>
+                            <option value="">Loading ...</option>
                           ) : (
-                            <option>No Agents yet...</option>
+                            <option value="">No Agents yet...</option>
                           )}
                         </AvField>
+                      </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                      <FormGroup className="form-group-custom mb-4">
+                        <Label for="description">Description</Label>
+                        <Input
+                          name="description"
+                          type="textarea"
+                          rows={8}
+                          className="form-ctrl"
+                          onChange={(e) =>
+                            this.setState({ description: e.target.value })
+                          }
+                          id="description"
+                          placeholder="Description"
+                        />
                       </FormGroup>
                     </Col>
                     <Col xs={12}>
@@ -541,6 +570,7 @@ class CreateProperty extends Component {
                               className="mb-2"
                               label="others"
                               value={this.state.others}
+                              disabled={!this.state.others}
                             />
                             <Input 
                               className="form-control ml-2" 

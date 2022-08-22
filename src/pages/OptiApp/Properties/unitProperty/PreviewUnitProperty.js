@@ -31,6 +31,29 @@ const ListUnitPreview = ({
   const [uploadModal, setUploadModal] = useState(false);
   const [reload, reloadProperty] = useState(false);
   const [taskContents, setTaskContents] = useState(false);
+  const [propImages, setPropImages] = useState([]);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if(property){
+      setPropImages(property?.images)
+    }
+    const lastIndex = propImages?.length - 1;
+    if (index < 0) {
+      setIndex(lastIndex);
+    }
+    if (index > lastIndex) {
+      setIndex(0);
+    }
+  }, [index, propImages, property]);
+
+  useEffect(() => {
+    const slider = setInterval(()=> {
+      setIndex(index + 1)
+    }, 3000)
+    return () => clearInterval(slider);
+  }, [index]);
+
   useEffect(() => {
     fetchEachProperties(match.params.id);
   }, []);
@@ -78,11 +101,40 @@ const ListUnitPreview = ({
               <CardBody>
                 <Row>
                   <Col ls={2}>
-                    <img
-                      src={property?.indexImage}
-                      alt="property"
-                      style={{ borderRadius: "20px", width: "100%" }}
-                    />
+                    <div className="section-center">
+                      {propImages?.map((propImage, propIndex) => {
+                        const { id, imageUrl} = propImage;
+                        // more stuff coming up
+                        let position = "nextSlide";
+                        if (propIndex === index) {
+                          position = "activeSlide";
+                        }
+                        if (
+                          propIndex === index - 1 ||
+                          (index === 0 && propIndex === propImages.length - 1)
+                        ) {
+                          position = "lastSlide";
+                        }
+                        return (
+                          <article className={`imgarticle ${position}`} key={id}>
+                            <a href={`${imageUrl}`} target="_blank" rel="noopener noreferrer">
+                              <img
+                                src={imageUrl}
+                                alt="property"
+                                className="prop-img"
+                                style={{ borderRadius: "20px", width: "100%" }}
+                              />
+                            </a>  
+                          </article>
+                        );
+                      })}
+                      <button className="prevbtn" onClick={() => setIndex(index - 1)}>
+                        <i className="fas fa-angle-left"></i>
+                      </button>
+                      <button className="nextbtn" onClick={() => setIndex(index + 1)}>
+                        <i className="fas fa-angle-right"></i>
+                      </button>
+                    </div>
                   </Col>
                   <Col ls={5}>
                     {/* <div className='mb-3'>
