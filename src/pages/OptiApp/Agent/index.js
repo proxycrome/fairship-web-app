@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Input, Button, Table, Card, CardBody } from "reactstrap";
-import { Link, withRouter } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Input, Button, Table, Card, CardBody } from 'reactstrap';
+import { Link, withRouter } from 'react-router-dom';
 // import profileImage from "../../../assets/images/ProfileImage.svg";
-import Preview from "./Preview";
-import CreateAgent from "./CreateAgent";
-import { connect, useDispatch } from "react-redux";
-import { getLandlordAgents } from "../../../store/actions";
-import emptyCan from "../../../assets/images/EmptyCan.png";
-import Loader from "../../../components/Common/Loading/index";
-import avatar from "../../../assets/images/avi.jpg";
+import Preview from './Preview';
+import CreateAgent from './CreateAgent';
+import { connect, useDispatch } from 'react-redux';
+import { getLandlordAgents } from '../../../store/actions';
+import emptyCan from '../../../assets/images/EmptyCan.png';
+import Loader from '../../../components/Common/Loading/index';
+import avatar from '../../../assets/images/avi.jpg';
 
 const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState('');
   const [filteredAgents, setFilteredAgents] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(user?.id) {
+    if (user?.id) {
       dispatch(getLandlordAgents(user?.id));
     }
-    
   }, [dispatch, user, getLandlordAgents]);
 
   useEffect(() => {
@@ -31,7 +30,9 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
           agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
           agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
           agent.email.toLowerCase().includes(searchName.toLowerCase()) ||
-          (agent.firstName + " " + agent.lastName).toLowerCase().includes(searchName.toLowerCase())
+          (agent.firstName + ' ' + agent.lastName)
+            .toLowerCase()
+            .includes(searchName.toLowerCase())
       )
     );
   }, [searchName, landlordAgents]);
@@ -41,7 +42,14 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   }
 
   if (isNewAgent) {
-    return <CreateAgent BackToHome={() => setIsNewAgent(false)} />;
+    return (
+      <CreateAgent
+        BackToHome={() => {
+          window.location.reload(true);
+          setIsNewAgent(false);  
+        }}
+      />
+    );
   }
 
   return (
@@ -72,7 +80,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
               <div className="text-right">
                 <Button
                   color="success"
-                  onClick={() => setIsNewAgent(!isNewAgent)}
+                  onClick={() => setIsNewAgent(true)}
                 >
                   New Agent
                 </Button>

@@ -11,6 +11,7 @@ import {
     FETCH_AGENT,
     FETCH_AGENT_SUCCESS,
     FETCH_AGENT_FAILURE,
+    CLEAR_MESSAGES,
 } from './actionTypes'
 
 export const getAgents = (id) => {
@@ -94,5 +95,11 @@ export const fetchAgentFailure = (error) => {
     return {
         type: FETCH_AGENT_FAILURE,
         payload: error
+    }
+}
+
+export const clearMessages = () => {
+    return {
+        type: CLEAR_MESSAGES
     }
 }

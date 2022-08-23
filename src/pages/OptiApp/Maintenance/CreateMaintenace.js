@@ -52,22 +52,26 @@ const Maintenance = ({
   }, [clearMessages])
 
   useEffect(() => {
-    getServiceProviders(String(serviceName))
+    if(serviceName){
+      getServiceProviders(String(serviceName))
+    }  
   }, [serviceName, getServiceProviders])
 
-  // useEffect(() => {
-  //   if (maintenance) {
-  //     setTimeout(() => {
-  //       clearMessages();  
-  //     }, 3000)
-  //   }
-  // }, [maintenance, clearMessages])
+  useEffect(() => {
+    if (maintenance || error) {
+      setTimeout(() => {
+        clearMessages(); 
+        // window.location.reload(true); 
+      }, 10000)
+    }
+  }, [maintenance, clearMessages, error])
 
   // const handleDefault = (date) => {
   //   setDefaultDate(date);
   // };
 
   const handleSubmit = (event, values) => {
+
     setImageError("");
     if (selectedFiles.length === 0) {
       setImageError("image can't be empty");
@@ -88,12 +92,10 @@ const Maintenance = ({
       return serviveProviderAccountIds;
     }
     
-
-
     const formData = {
       ...values,
       propertyId: +values.propertyId,
-      serviceTypeId: serviceTypes?.find(service => {
+      serviceTypeId: +serviceTypes?.find(service => {
         if (service.name === values.serviceTypeId) {
           return service.id
         }
@@ -103,10 +105,11 @@ const Maintenance = ({
       appointmentTimeDate: String(moment(value).format("DD-MM-YYYY HH:mm"))
     };
     const {serviceProvider1, serviceProvider2, serviceProvider3, ...others} = formData;
-    // console.log(others);
+    console.log(others);
     postMaintenanceReq(others);
   };
 
+  const sortedServiceTypes = serviceTypes?.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
   // console.log(serviceProviders);
   // console.log(serviceTypes);
 
@@ -172,7 +175,7 @@ const Maintenance = ({
                     onChange={(e) => setServiceName(e.target.value)}
                   >
                     <option value="">Select Service type</option>
-                    {serviceTypes?.map((service) => (
+                    {sortedServiceTypes?.map((service) => (
                       <option key={service.id} value={service.name}>
                         {service.name}
                       </option>

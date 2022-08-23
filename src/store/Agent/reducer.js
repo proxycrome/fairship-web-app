@@ -11,6 +11,7 @@ import {
     FETCH_AGENT,
     FETCH_AGENT_SUCCESS,
     FETCH_AGENT_FAILURE,
+    CLEAR_MESSAGES,
 } from './actionTypes';
 
 const initialState = {
@@ -121,6 +122,14 @@ const Agents = (state = initialState, action) => {
                 agentsError: null,
                 postAgentError: null,
                 agentError: action.payload
+            }
+        break;
+
+        case CLEAR_MESSAGES: 
+            state = {
+                ...state,
+                postAgentData: null,
+                postAgentError: null,
             }
         break;
 

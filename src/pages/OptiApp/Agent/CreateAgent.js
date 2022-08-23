@@ -13,6 +13,7 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { getAgents, postAgents } from "../../../store/actions";
 import Loader from "../../../components/Common/Loading/index";
+import { clearMessages } from "../../../store/Agent/actions";
 
 const CreateAgent = ({ BackToHome }) => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const CreateAgent = ({ BackToHome }) => {
 
   useEffect(() => {
     dispatch(getAgents());
+    dispatch(clearMessages());
   }, [dispatch]);
 
   const { user } = useSelector((state) => state.Account);
