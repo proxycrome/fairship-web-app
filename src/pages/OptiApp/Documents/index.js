@@ -14,7 +14,7 @@ const Document = () => {
 
   const { loading, documents } = useSelector((state) => state.Document);
 
-  console.log(documents);
+  // console.log(documents);
 
   const data = {
     columns: [

@@ -268,6 +268,94 @@ const ListUnitPreview = ({
                 </Row>
               </CardBody>
             </Card>
+            <div>
+              <Card>
+                <CardBody>
+                  <h4 className="card-title">Agent</h4>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div className="align-items-center">
+                      <div className="d-flex mb-2">
+                        {property?.agentDetail?.profilePhoto ? (
+                          <img
+                            src={property?.agentDetail?.profilePhoto}
+                            alt="agent"
+                            className="avatar-sm mr-4"
+                          />
+                        ) : (
+                          <img
+                            src={avatar}
+                            alt="agent"
+                            className="avatar-sm mr-4"
+                          />
+                        )}
+
+                        <h5 className="card-title">
+                          {" "}
+                          {property?.agentDetail?.firstName}{" "}
+                          {property?.agentDetail?.lastName}
+                        </h5>
+                      </div>
+                      {/* <div className="d-flex">
+                        <img src={chat} alt="chat" />
+                        <h6 className="ml-2">Chat with this Agent</h6>
+                      </div> */}
+                    </div>
+                    <div className="d-flex">
+                      <div>
+                        <div
+                          className="d-flex rounded-circle justify-content-center align-items-center"
+                          style={{
+                            backgroundColor: "lightGreen",
+                            height: "50%",
+                          }}
+                          id="phone"
+                        >
+                          <i
+                            className="fa fa-phone"
+                            style={{ color: "white" }}
+                          ></i>
+                        </div>
+                        <p> Call </p>
+                        {property?.agentDetail && (
+                          <UncontrolledTooltip
+                          placement="left"
+                          target="phone"
+                        >
+                          {property?.agentDetail && property?.agentDetail?.phone}
+                        </UncontrolledTooltip>
+                        )}
+                      </div>
+                      <div className="ml-5">
+                        <a
+                          href={property?.agentDetail && `mailto:${property?.agentDetail?.email}`}
+                          className="d-flex rounded-circle justify-content-center align-items-center"
+                          style={{
+                            backgroundColor: "lightGreen",
+                            height: "50%",
+                          }}
+                          id="email"
+                        >
+                          <i
+                            className=" fas fa-envelope"
+                            style={{ color: "white" }}
+                          ></i>
+                        </a>
+                        <p> Email </p>
+                        {property?.agentDetail && (
+                          <UncontrolledTooltip
+                          placement="top"
+                          target="email"
+                        >
+                          {property?.agentDetail && property?.agentDetail?.email}
+                        </UncontrolledTooltip>
+                        )}
+                        
+                      </div>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
             <Card>
               <CardBody>
                 <h4 className="card-title">Current Tenant</h4>

@@ -43,7 +43,7 @@ const CreateAccount = ({ closePage }) => {
 
   const handleSubmit = (event, values) => {
     const formData = { ...values, bankId: +values.bankId };
-    console.log(formData);
+    // console.log(formData);
     dispatch(postAccount(formData));
   }
 

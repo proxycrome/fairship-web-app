@@ -3,7 +3,7 @@ import HttpService from './HttpService';
 export const LoginService = (payload) => {
   const http = new HttpService();
   const url = 'login';
-  console.log(payload)
+  // console.log(payload)
   return http.postData(payload, url);
 };
 
@@ -14,7 +14,7 @@ export const loadUserServer = () => {
 };
 
 export const RegisterService = (payload) => {
-  console.log(payload);
+  // console.log(payload);
   const http = new HttpService();
   const url = 'users';
   return http.postData(payload, url);
@@ -27,14 +27,14 @@ export const ActivateServices = (payload) => {
 };
 
 export const ForgetPasswordServices = (payload) => {
-  console.log(payload)
+  // console.log(payload)
   const http = new HttpService();
   const url = 'user/forgotPassword';
   return http.postData(payload, url);
 };
 
 export const createNewPasswordServices = (payload) => {
-  console.log(payload)
+  // console.log(payload)
   const http = new HttpService();
   const url = 'user/setNewPassword';
   return http.postData(payload, url);

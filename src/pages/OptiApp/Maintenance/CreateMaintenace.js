@@ -61,7 +61,7 @@ const Maintenance = ({
     if (maintenance || error) {
       setTimeout(() => {
         clearMessages(); 
-        // window.location.reload(true); 
+        window.location.reload(true); 
       }, 10000)
     }
   }, [maintenance, clearMessages, error])
@@ -102,10 +102,10 @@ const Maintenance = ({
       }).id,
       images: selectedFiles,
       serviceProviderAccountIds: serviceProvidersId(),
-      appointmentTimeDate: String(moment(value).format("DD-MM-YYYY HH:mm"))
+      appointedDateTime: String(moment(value).format("DD-MM-YYYY HH:mm"))
     };
     const {serviceProvider1, serviceProvider2, serviceProvider3, ...others} = formData;
-    console.log(others);
+    // console.log(others);
     postMaintenanceReq(others);
   };
 

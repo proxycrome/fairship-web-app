@@ -47,7 +47,7 @@ const RejectionForm = ({id}) => {
       reviewComments: Optis
     }
     dispatch(PutDataRecommendation(data))
-    console.log(Optis)
+    // console.log(Optis)
     setFirst('') 
     setSecond('')
     setThird('')
@@ -65,7 +65,7 @@ const RejectionForm = ({id}) => {
   }
 
   const {put, rentaldError} = useSelector((state) => state.PreviewReducer);
-  console.log(put)
+  // console.log(put)
   return (
 
     <div>

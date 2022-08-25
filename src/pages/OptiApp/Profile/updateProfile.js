@@ -24,7 +24,7 @@ const Profile = ({goBack}) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.Account);
 
-  console.log(user)
+  // console.log(user)
 
   const {result, err} = useSelector(state => state.updateProfileReducer)
 

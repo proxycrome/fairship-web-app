@@ -76,7 +76,7 @@ class EditUnitProperty extends Component {
     payee.percentageAmount = Number(this.state.percentageAmount);
     payee.name = this.state.name;
     this.state.pays.push(payee);
-    console.log(payee);
+    // console.log(payee);
     this.setState({
       pays: this.state.pays,
       show: false,

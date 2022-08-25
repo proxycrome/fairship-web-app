@@ -29,9 +29,9 @@ const RecordTransaction = ({ closePage }) => {
 
   const { rental } = useSelector(state => state.Rental);
 
-  console.log(transMessage);
+  // console.log(transMessage);
 
-  console.log(transErrorMessage);
+  // console.log(transErrorMessage);
 
   useEffect(() => {
     if(transMessage) {

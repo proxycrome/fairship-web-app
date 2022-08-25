@@ -17,7 +17,7 @@ export const fetchEachInspectionService = (payload) => {
 
 
 export const postInspectionService = (formData) => {
-  console.log(formData);
+  // console.log(formData);
   const http = new HttpService();
   const url = 'auth/inspection';
   return http.postDataWithToken(formData, url);

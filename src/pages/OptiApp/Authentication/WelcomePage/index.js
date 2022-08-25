@@ -48,7 +48,7 @@ class Welcome extends Component {
       return <WelcomeLandlord />;
     }
 
-    console.log(this.props.login);
+    // console.log(this.props.login);
 
     return (
       <React.Fragment>

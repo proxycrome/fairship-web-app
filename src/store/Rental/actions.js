@@ -93,7 +93,7 @@ import {
   ////Put data for review part of rejection
 
   export const PutDataRecommendation = (data) => {
-    console.log(data)
+    // console.log(data)
     return {
       type: PUT_DATA_RECOMMENDATION,
       payload : {data}

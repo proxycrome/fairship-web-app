@@ -6,7 +6,7 @@ import {
 
 
 export const updateProfile = (formSent) => {
-    console.log(formSent)
+    // console.log(formSent)
     return {
         type: UPDATE_PROFILE,
         payload:{formSent}

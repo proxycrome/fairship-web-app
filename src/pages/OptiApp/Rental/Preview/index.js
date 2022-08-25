@@ -50,7 +50,7 @@ const Preview = (props) => {
     }
     dispatch(PutDataRecommendation(data))
     SetApprove(true)
-    console.log(data)
+    // console.log(data)
     // window.location.reload(1)
   }
 
@@ -77,7 +77,7 @@ const Preview = (props) => {
     const data ={
       recommendationNotes: tenant 
     }
-    console.log(data)
+    // console.log(data)
     dispatch(PutTenantRecommendation(tenantId, data))
     setTenant('') 
      

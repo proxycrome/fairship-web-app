@@ -61,7 +61,7 @@ const Register = ({
     };
     formData.agentDetails = agentDetails;
     formData.role = 'PROPERTY_OWNER';
-    console.log(formData);
+    // console.log(formData);
     registerUser(formData, history);
   };
 

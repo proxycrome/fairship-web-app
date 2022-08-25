@@ -18,7 +18,7 @@ const MaintenanceSummary = (props) => {
 
   const { maintenanceSummary } = useSelector((state) => state.Maintenance);
 
-  console.log(maintenanceSummary);
+  // console.log(maintenanceSummary);
 
   return (
     <div className="page-content">
