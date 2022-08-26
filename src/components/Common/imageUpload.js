@@ -27,7 +27,7 @@ const ImageUpload = ({
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
-    maxSize: 500000,
+    maxSize: 5000000,
     accept: 'image/jpeg, image/png',
   });
 
@@ -40,7 +40,7 @@ const ImageUpload = ({
       })
     );
 
-    if (files.length < 2) {
+    if (files.length < 3) {
       setImageError('Atleast 3 images are required');
     } else {
       setUploadFile(files);
@@ -82,20 +82,26 @@ const ImageUpload = ({
         <i className=" fas fa-star-of-life mr-1 pb-2 text-danger font-size-10" />
         Attach Image(s)
       </h4>
-      <p className="card-title-desc mb-0 pb-0">Add at least 3 image here</p>
       <span className="text-danger">
-        Note: you can select multiple images once
+        Note: You can select multiple images once
       </span>
-      {
-          imageError && (
-            <Alert color="danger" className="py-1 mb-2"> {imageError} </Alert>
-          )
-        }
+      {imageError && (
+        <Alert color="danger" className="py-1 mb-2">
+          {imageError}
+        </Alert>
+      )}
       <div {...getRootProps()}>
-        <div className="dropzone">
+        <div
+          style={{
+            minHeight: '100px',
+            border: '2px dashed #ced4da',
+            background: '#fff',
+            borderRadius: '6px',
+          }}
+        >
           <div className="dz-message needsclick mt-2">
             <input {...getInputProps()} />
-            <div className="mb-3">
+            <div>
               <i className="display-4 text-muted ri-upload-cloud-2-line"></i>
             </div>
             {isFileError && (
@@ -103,12 +109,11 @@ const ImageUpload = ({
                 {isFileError}
               </span>
             )}
-            <h4>Upload atleast one image here.</h4>
           </div>
         </div>
       </div>
 
-        <p className="card-title-desc">Ensure Image are not more than 5mb</p>
+      <p className="card-title-desc">Ensure Image is not more than 5mb</p>
 
       <div className="dropzone-previews mt-3" id="file-previews">
         <Row className="mb-3">
@@ -120,7 +125,7 @@ const ImageUpload = ({
                   key={i + '-file'}
                 >
                   <div className="p-2">
-                    <Row className="align-items-center">
+                    <Row className="d-flex flex-column align-items-center">
                       <Col className="col-auto">
                         <img
                           className="avatar-lg rounded bg-light"
@@ -129,10 +134,7 @@ const ImageUpload = ({
                         />
                       </Col>
                       <Col>
-                        {/* <Link to="#" className="text-muted font-weight-bold">
-                          {f.name}
-                        </Link> */}
-                        <p className="mb-0">
+                        <p className="text-center">
                           <strong>{f.formattedSize}</strong>
                         </p>
                       </Col>

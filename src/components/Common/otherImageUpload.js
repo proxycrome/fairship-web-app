@@ -22,7 +22,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
-    maxSize: 500000,
+    maxSize: 5000000,
     accept: 'image/jpeg, image/png',
   });
 
@@ -74,7 +74,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
       </h4>
       <p className="card-title-desc mb-0 pb-0">Add at least 1 image here</p>
       <span className="text-danger">
-        Note: you can select multiple images once
+        Note: You can select multiple images once
       </span>
       <div {...getRootProps()}>
         <div className="dropzone">
@@ -89,12 +89,12 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
                 please select proper file and size{' '}
               </span>
             )}
-            <h4>Upload atleast one image here.</h4>
+            <h4>Upload at least one image here.</h4>
           </div>
         </div>
       </div>
 
-      <p className="card-title-desc">Ensure Image are not more than 5mb</p>
+      <p className="card-title-desc">Ensure Image is not more than 5mb</p>
       <div className="dropzone-previews mt-3" id="file-previews">
         <Row className="mb-3">
           {selectedUploadFiles.map((f, i) => {
@@ -105,7 +105,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
                   key={i + '-file'}
                 >
                   <div className="p-2">
-                    <Row className="align-items-center">
+                    <Row className="d-flex flex-column align-items-center">
                       <Col className="col-auto">
                         <img
                           className="avatar-lg rounded bg-light"
@@ -117,7 +117,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
                         {/* <Link to="#" className="text-muted font-weight-bold">
                           {f.name}
                         </Link> */}
-                        <p className="mb-0">
+                        <p className="text-center">
                           <strong>{f.formattedSize}</strong>
                         </p>
                       </Col>

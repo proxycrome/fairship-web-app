@@ -27,7 +27,7 @@ const ImageUpload = ({
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
-    maxSize: 500000,
+    maxSize: 5000000,
     accept: 'image/jpeg, image/png',
   });
 
@@ -84,7 +84,7 @@ const ImageUpload = ({
         Attach Image(s)
       </h4>
       <span className="text-danger">
-        Note: you can select multiple images once
+        Note: You can select multiple images once
       </span>
       {imageError && (
         <Alert color="danger" className="py-1 mb-2">
@@ -114,7 +114,7 @@ const ImageUpload = ({
         </div>
       </div>
 
-      <p className="card-title-desc">Ensure Image are not more than 5mb</p>
+      <p className="card-title-desc">Ensure Image is not more than 5mb</p>
 
       <div className="dropzone-previews mt-3" id="file-previews">
         <Row className="mb-3">
@@ -126,7 +126,7 @@ const ImageUpload = ({
                   key={i + '-file'}
                 >
                   <div className="p-2">
-                    <Row className="align-items-center">
+                    <Row className="d-flex flex-column align-items-center">
                       <Col className="col-auto">
                         <img
                           className="avatar-lg rounded bg-light"
@@ -135,7 +135,7 @@ const ImageUpload = ({
                         />
                       </Col>
                       <Col>
-                        <p className="mb-0">
+                        <p className="text-center">
                           <strong>{f.formattedSize}</strong>
                         </p>
                       </Col>
