@@ -59,7 +59,7 @@ const ImageUpload = ({
   };
 
   useEffect(() => {
-    if (base64File.length > 0) {
+    if (base64File.length > 2) {
       setFile(base64File);
     }
   }, [base64File]);
