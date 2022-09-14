@@ -26,7 +26,7 @@ const ImageUpload = ({
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop,
-    maxSize: 150000,
+    maxSize: 250000,
     accept: '.pdf',
   });
 
@@ -78,7 +78,7 @@ const ImageUpload = ({
               <i className="display-4 text-muted ri-upload-cloud-2-line"></i>
             </div>
             <span className="text-danger font-size-12">
-              Note: you can't select file greater than 122kb
+              Note: you can't select file greater than 250kb
             </span>
           </div>
         </div>

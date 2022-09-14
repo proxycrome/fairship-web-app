@@ -3,9 +3,9 @@ import AxiosInstance from '../../../utils/axiosInstance';
 import { Button, Alert } from 'reactstrap';
 import { AvForm, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
 import Uploader from './cardProperty/uploadFile';
-const defaultInput = {uploadType: "default"}
+const defaultInput = { uploadType: 'default' };
 
-const LeaseUpload = ({ propertyId, closeModal, reloadProperty }) => {
+const LeaseUpload = ({ propertyId, closeModal, reloadProperty, name }) => {
   const [msg, setMsg] = useState(null);
   const [uploadField, setUploadField] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -14,19 +14,26 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty }) => {
   };
 
   const submitUpload = () => {
-    let formData = [{ ...selectedFile[0], documentName: 'LEASE_AGREEMENT' }];
+    let formData = [{ ...selectedFile[0], documentName: name }];
     let url = `auth/properties/documents/${propertyId}`;
     AxiosInstance.put(url, formData)
       .then((res) => {
         setMsg('upload successfully');
         closeModal(false);
-        reloadProperty(true)
+        reloadProperty(true);
       })
       .catch((error) => {
-        alert("error found, please refresh")
+        alert('error found, please refresh');
         console.log(error);
         console.log(error.response);
       });
+  };
+
+  const capitalize = (str) => {
+    return (
+      str.split('_').join(' ').charAt(0).toUpperCase() +
+      str.split('_').join(' ').slice(1).toLowerCase()
+    );
   };
 
   return (
@@ -37,12 +44,12 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty }) => {
           <AvRadioGroup name="uploadType" required>
             <div className="mb-3">
               <AvRadio
-                label="Use PMA Generated Lease Agreement"
+                label={`Use PMA Generated ${capitalize(name)}`}
                 value="default"
               />
             </div>
             <div>
-              <AvRadio label="Use your Lease Agreement" value="upload" />
+              <AvRadio label={`Use your ${capitalize(name)}`} value="upload" />
             </div>
           </AvRadioGroup>
           <Button color="success" type="submit">
@@ -53,8 +60,14 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty }) => {
 
       {uploadField !== null && uploadField === 'default' && (
         <>
-          <Alert color="danger text-center"> The page is under review by the admin, please check back </Alert>
-          <span>Use PMA Generated Lease Agreement under review, please select other option</span>
+          <Alert color="danger text-center">
+            {' '}
+            The page is under review by the admin, please check back{' '}
+          </Alert>
+          <span>
+            Use PMA Generated Lease Agreement under review, please select other
+            option
+          </span>
         </>
       )}
 

@@ -98,6 +98,8 @@ const PropertyCard = ({
     }
   }, [match.params.id, fetchProperties]);
 
+  console.log(property);
+
   return (
     <>
       <div className="page-content">

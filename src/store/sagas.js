@@ -21,6 +21,7 @@ import MaintenanceSaga from './Maintenance/saga';
 import fetchleaseSaga from './DashboardExpiringLeases/saga';
 import AccountingSaga from './Accounting/saga';
 import DocumentSaga from './Documents/saga';
+import BuyApplicationSaga from './Buy/saga';
 
 
 export default function* rootSaga() {
@@ -38,7 +39,7 @@ export default function* rootSaga() {
         ProfileSaga(),
         fetchleaseSaga(),
         LocationSaga(),
-
+        BuyApplicationSaga(),
         RentalSaga(),
         RentalPreviewRecommendationSaga(),
         // forgetSaga(),

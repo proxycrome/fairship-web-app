@@ -23,12 +23,11 @@ import Location from './location/reducer';
 import Settings from './Settings/reducer';
 import Accounting from './Accounting/reducer';
 import Document from './Documents/reducer';
+import Buy from './Buy/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
 const rootReducer = combineReducers({
-
-    // public
     Layout,
     Accounting,
     Appointment,
@@ -41,16 +40,11 @@ const rootReducer = combineReducers({
     Settings,
     Tenant,
     fetchReducerExpiring,
-
-
-    // Authentication
     Account,
     Agents,
     Maintenance,
-    updateProfileReducer
-    // Login,
-    // Forget
-
+    updateProfileReducer,
+    Buy,
 });
 
 export default rootReducer;

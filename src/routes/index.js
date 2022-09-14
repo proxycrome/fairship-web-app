@@ -56,8 +56,9 @@ import Tenants from '../pages/OptiApp/Tenants';
 // OptiTenants
 import Opti_Welcome from '../pages/OptiApp/Authentication/WelcomePage';
 import Opti_Privacy from '../pages/OptiApp/Authentication/privacy';
-import OptiRentalApplication from '../pages/OptiApp/Rental';
-import OptiBuyApplication from '../pages/OptiApp/Buy';
+import RentalApplication from '../pages/OptiApp/Rental';
+import BuyApplication from '../pages/OptiApp/Buy';
+import BuyPreview from '../pages/OptiApp/Buy/Preview/Preview';
 import AgentPreview from '../pages/OptiApp/Agent/Preview';
 // import MaintenancePreview from '../pages/OptiApp/Maintenance/MaintenanceSummary';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
@@ -98,8 +99,9 @@ const authProtectedRoutes = [
   { path: '/appointments', component: Appointment },
   { path: '/accept_appointment/:appointId', component: AcceptAppointment },
   { path: '/reject_appointment/:appointId', component: RejectAppointment },
-  { path: '/rental_application', component: OptiRentalApplication },
-  { path: '/buy_application', component: OptiBuyApplication },
+  { path: '/rental_application', component: RentalApplication },
+  { path: '/buy_application', component: BuyApplication },
+  { path: '/buy_preview/:id', component: BuyPreview },
   { path: '/inspection', component: Inspection },
   { path: '/previewInspection/:id', component: PreviewInspection },
   

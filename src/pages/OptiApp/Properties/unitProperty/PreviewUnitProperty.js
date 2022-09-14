@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Card,
@@ -10,16 +10,16 @@ import {
   ModalHeader,
   ModalBody,
   UncontrolledTooltip,
-} from "reactstrap";
+} from 'reactstrap';
 
-import { withRouter, Link } from "react-router-dom";
-import { connect } from "react-redux";
-import DocumentsUpload from "../leaseUpload";
-import { fetchEachProperties } from "../../../../store/actions";
-import PropertyIcon from "../../../../assets/images/Property.png";
-import avatar from "../../../../assets/images/avi.jpg";
-import Loader from "../../../../components/Common/Loading/index";
-import chat from "../images/chat.svg"
+import { withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import DocumentsUpload from '../leaseUpload';
+import { fetchEachProperties } from '../../../../store/actions';
+import PropertyIcon from '../../../../assets/images/Property.png';
+import avatar from '../../../../assets/images/avi.jpg';
+import Loader from '../../../../components/Common/Loading/index';
+import chat from '../images/chat.svg';
 
 const ListUnitPreview = ({
   match,
@@ -28,15 +28,21 @@ const ListUnitPreview = ({
   property,
   loading,
 }) => {
-  const [uploadModal, setUploadModal] = useState(false);
+  const [leaseUploadModal, setLeaseUploadModal] = useState(false);
+  const [purchaseUploadModal, setPurchaseUploadModal] = useState(false);
+  const [cooUploadModal, setCooUploadModal] = useState(false);
+  const [loaUploadModal, setLoaUploadModal] = useState(false);
+  const [lcUploadModal, setLcUploadModal] = useState(false);
+  const [conveyUploadModal, setConveyUploadModal] = useState(false);
+  const [concentUploadModal, setConcentUploadModal] = useState(false);
   const [reload, reloadProperty] = useState(false);
   const [taskContents, setTaskContents] = useState(false);
   const [propImages, setPropImages] = useState([]);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if(property){
-      setPropImages(property?.images)
+    if (property) {
+      setPropImages(property?.images);
     }
     const lastIndex = propImages?.length - 1;
     if (index < 0) {
@@ -48,9 +54,9 @@ const ListUnitPreview = ({
   }, [index, propImages, property]);
 
   useEffect(() => {
-    const slider = setInterval(()=> {
-      setIndex(index + 1)
-    }, 3000)
+    const slider = setInterval(() => {
+      setIndex(index + 1);
+    }, 3000);
     return () => clearInterval(slider);
   }, [index]);
 
@@ -69,19 +75,21 @@ const ListUnitPreview = ({
   };
 
   const cardStyle = {
-    boxShadow: "0px 4px 30px rgba(98, 134, 154, 0.38)",
-    borderRadius: "10px",
-    width: "90%",
-    textAlign: "center",
-    padding: "10px",
-    height: "100px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "20px",
-    flex: "1",
-    cursor: "pointer",
+    boxShadow: '0px 4px 30px rgba(98, 134, 154, 0.38)',
+    borderRadius: '10px',
+    width: '90%',
+    textAlign: 'center',
+    padding: '10px',
+    height: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '20px',
+    flex: '1',
+    cursor: 'pointer',
   };
+
+  console.log(property);
 
   return (
     <div className="page-content">
@@ -100,38 +108,51 @@ const ListUnitPreview = ({
             <Card>
               <CardBody>
                 <Row>
-                  <Col ls={2}>
+                  <Col md={4} sm={12}>
                     <div className="section-center">
                       {propImages?.map((propImage, propIndex) => {
-                        const { id, imageUrl} = propImage;
+                        const { id, imageUrl } = propImage;
                         // more stuff coming up
-                        let position = "nextSlide";
+                        let position = 'nextSlide';
                         if (propIndex === index) {
-                          position = "activeSlide";
+                          position = 'activeSlide';
                         }
                         if (
                           propIndex === index - 1 ||
                           (index === 0 && propIndex === propImages.length - 1)
                         ) {
-                          position = "lastSlide";
+                          position = 'lastSlide';
                         }
                         return (
-                          <article className={`imgarticle ${position}`} key={id}>
-                            <a href={`${imageUrl}`} target="_blank" rel="noopener noreferrer">
+                          <article
+                            className={`imgarticle ${position}`}
+                            key={id}
+                          >
+                            <a
+                              href={`${imageUrl}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               <img
                                 src={imageUrl}
                                 alt="property"
                                 className="prop-img"
-                                style={{ borderRadius: "20px", width: "100%" }}
+                                style={{ borderRadius: '20px', width: '100%' }}
                               />
-                            </a>  
+                            </a>
                           </article>
                         );
                       })}
-                      <button className="prevbtn" onClick={() => setIndex(index - 1)}>
+                      <button
+                        className="prevbtn"
+                        onClick={() => setIndex(index - 1)}
+                      >
                         <i className="fas fa-angle-left"></i>
                       </button>
-                      <button className="nextbtn" onClick={() => setIndex(index + 1)}>
+                      <button
+                        className="nextbtn"
+                        onClick={() => setIndex(index + 1)}
+                      >
                         <i className="fas fa-angle-right"></i>
                       </button>
                     </div>
@@ -141,23 +162,23 @@ const ListUnitPreview = ({
                       <h6>Unit Number</h6>
                       <span>{property?.unitNo}</span>
                     </div> */}
-                    <div className="mb-3">
+                    <div className="my-3">
                       <h6>Property</h6>
-                      <span style={{ display: "block" }}>
+                      <span style={{ display: 'block' }}>
                         {property?.title}
                       </span>
                       <span>(ID: {property?.propertyRef})</span>
                     </div>
                     <div className="mb-3">
                       <span>
-                        {property?.address?.houseNoAddress},{" "}
+                        {property?.address?.houseNoAddress},{' '}
                         {property?.address?.state}, {property?.address?.country}
                       </span>
                     </div>
                     <div className="mb-3">
                       <img src={PropertyIcon} alt="property icon" />
                       <span className="ml-2">
-                        {property?.bedrooms} bedrooms {property?.bathrooms}{" "}
+                        {property?.bedrooms} bedrooms {property?.bathrooms}{' '}
                         bathrooms
                       </span>
                     </div>
@@ -167,25 +188,29 @@ const ListUnitPreview = ({
                     </div>
                     <div>
                       <h6>Amenities</h6>
-                      {property?.otherAmenities?.split(',').map((amentity, i) => (
-                        <span key={i} className="d-block">{amentity}</span>
-                      ))}
+                      {property?.otherAmenities
+                        ?.split(',')
+                        .map((amentity, i) => (
+                          <span key={i} className="d-block">
+                            {amentity}
+                          </span>
+                        ))}
                     </div>
                   </Col>
                   <Col ls={5}>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end mt-3">
                       <Button
                         onClick={() => setTaskContents(true)}
                         color="success"
                       >
-                        {" "}
+                        {' '}
                         Tasks
                       </Button>
                     </div>
                     <div className="d-flex justify-content-end mt-3">
                       <p>
                         From ₦
-                        <span style={{ fontWeight: "800", color: "blue" }}>
+                        <span style={{ fontWeight: '800', color: 'blue' }}>
                           {property?.price?.toLocaleString()}
                         </span>
                         / yr
@@ -195,79 +220,119 @@ const ListUnitPreview = ({
                 </Row>
               </CardBody>
             </Card>
-            <Card>
-              <CardBody>
-                <Row>
-                  <Col>
-                    <h4>Rental Information</h4>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={4} sm={12}>
-                    <div className="mb-3">
-                      <h6>Basic Rent</h6>
-                      <span>₦{property?.price?.toLocaleString()}</span>
-                    </div>
-                    <div className="mb-3">
-                      {/* <h6>Last payment date</h6>
-                      <span>3rd Jul 2021</span> */}
-                      <h6>Serviced</h6>
-                      <span>
-                        {property?.isServiced === true ? "True" : "False"}
-                      </span>
-                    </div>
-                    <div>
-                      {/* <h6>Last Inspection</h6>
-                      <span>3rd Jul 2021</span> */}
-                      <h6>Furnished</h6>
-                      <span>
-                        {property?.isFurnished === true ? "True" : "False"}
-                      </span>
-                    </div>
-                  </Col>
-                  <Col md={4} sm={12}>
-                    <div className="mb-3">
-                      {/* <h6>Rental Status</h6>
-                      <span>Occupied</span> */}
-                      <h6>Parking Space</h6>
-                      <span>
-                        {property?.parkingLot === true ? "True" : "False"}
-                      </span>
-                    </div>
-                    <div className="mb-3">
-                      <h6>Next Payment Amount</h6>
-                      <span>₦{property?.price?.toLocaleString()}</span>
-                    </div>
-                    <div>
-                      <h6>Advertised Amount</h6>
-                      <span>₦{property?.price?.toLocaleString()}</span>
-                    </div>
-                  </Col>
-                  <Col md={4} sm={12}>
-                    <div className="mb-3">
-                      <h6>Payment plan</h6>
-                      <span>
-                        {property?.periodInMonths
-                          ? property?.periodInMonths + " months"
-                          : "None"}
-                      </span>
-                    </div>
-                    <div className="mb-3">
-                      {/* <h6>Next Payment Date</h6>
-                      <span>3rd Jul 2021</span> */}
-                      <h6>Size</h6>
-                      <span>{property?.size}</span>
-                    </div>
-                    <div>
-                      {/* <h6>Application fee</h6>
-                      <span>N 50,000</span> */}
-                      <h6>Unit Type</h6>
-                      <span>{property?.type}</span>
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
+            {property?.feature === 'RENT' ? (
+              <Card>
+                <CardBody>
+                  <Row>
+                    <Col>
+                      <h4>Rental Information</h4>
+                    </Col>
+                  </Row>
+                  <Row className="mt-3">
+                    <Col md={4} sm={12}>
+                      <div className="mb-3">
+                        <h6>Basic Rent</h6>
+                        <span>₦{property?.price?.toLocaleString()}</span>
+                      </div>
+                      <div className="mb-3">
+                        <h6>Serviced</h6>
+                        <span>
+                          {property?.isServiced === true ? 'True' : 'False'}
+                        </span>
+                      </div>
+                      <div>
+                        <h6>Furnished</h6>
+                        <span>
+                          {property?.isFurnished === true ? 'True' : 'False'}
+                        </span>
+                      </div>
+                    </Col>
+                    <Col md={4} sm={12}>
+                      <div className="mb-3">
+                        <h6>Parking Space</h6>
+                        <span>
+                          {property?.parkingLot === true ? 'True' : 'False'}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <h6>Next Payment Amount</h6>
+                        <span>₦{property?.price?.toLocaleString()}</span>
+                      </div>
+                      <div>
+                        <h6>Advertised Amount</h6>
+                        <span>₦{property?.price?.toLocaleString()}</span>
+                      </div>
+                    </Col>
+                    <Col md={4} sm={12}>
+                      <div className="mb-3">
+                        <h6>Payment plan</h6>
+                        <span>
+                          {property?.periodInMonths
+                            ? property?.periodInMonths + ' months'
+                            : 'None'}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <h6>Size</h6>
+                        <span>{property?.size}</span>
+                      </div>
+                      <div>
+                        <h6>Unit Type</h6>
+                        <span>{property?.type}</span>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            ) : property?.feature === 'SALE' ? (
+              <Card>
+                <CardBody>
+                  <Row>
+                    <Col>
+                      <h4>Sale Information</h4>
+                    </Col>
+                  </Row>
+                  <Row className="mt-3">
+                    <Col md={4} sm={12}>
+                      <div className="mb-3">
+                        <h6>Price</h6>
+                        <span>₦{property?.price?.toLocaleString()}</span>
+                      </div>
+                      <div className="mb-3">
+                        <h6>last Inspection</h6>
+                        <span></span>
+                      </div>
+                    </Col>
+                    <Col md={4} sm={12}>
+                      <div className="mb-3">
+                        <h6>Status</h6>
+                        <span>
+                          {property?.status !== "SOLD" ? 'Processing' : 'Sold'}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <h6>Advertised Amount</h6>
+                        <span>₦{property?.price?.toLocaleString()}</span>
+                      </div>
+                    </Col>
+                    <Col md={4} sm={12}>
+                      <div className="mb-3">
+                        <h6>Payment plan</h6>
+                        <span>
+                          {property?.periodInMonths
+                            ? property?.periodInMonths + ' months'
+                            : 'None'}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <h6>Application Fee</h6>
+                        <span></span>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            ) : null}
             <div>
               <Card>
                 <CardBody>
@@ -290,8 +355,8 @@ const ListUnitPreview = ({
                         )}
 
                         <h5 className="card-title">
-                          {" "}
-                          {property?.agentDetail?.firstName}{" "}
+                          {' '}
+                          {property?.agentDetail?.firstName}{' '}
                           {property?.agentDetail?.lastName}
                         </h5>
                       </div>
@@ -305,51 +370,49 @@ const ListUnitPreview = ({
                         <div
                           className="d-flex rounded-circle justify-content-center align-items-center"
                           style={{
-                            backgroundColor: "lightGreen",
-                            height: "50%",
+                            backgroundColor: 'lightGreen',
+                            height: '50%',
                           }}
                           id="phone"
                         >
                           <i
                             className="fa fa-phone"
-                            style={{ color: "white" }}
+                            style={{ color: 'white' }}
                           ></i>
                         </div>
                         <p> Call </p>
                         {property?.agentDetail && (
-                          <UncontrolledTooltip
-                          placement="left"
-                          target="phone"
-                        >
-                          {property?.agentDetail && property?.agentDetail?.phone}
-                        </UncontrolledTooltip>
+                          <UncontrolledTooltip placement="left" target="phone">
+                            {property?.agentDetail &&
+                              property?.agentDetail?.phone}
+                          </UncontrolledTooltip>
                         )}
                       </div>
                       <div className="ml-5">
                         <a
-                          href={property?.agentDetail && `mailto:${property?.agentDetail?.email}`}
+                          href={
+                            property?.agentDetail &&
+                            `mailto:${property?.agentDetail?.email}`
+                          }
                           className="d-flex rounded-circle justify-content-center align-items-center"
                           style={{
-                            backgroundColor: "lightGreen",
-                            height: "50%",
+                            backgroundColor: 'lightGreen',
+                            height: '50%',
                           }}
                           id="email"
                         >
                           <i
                             className=" fas fa-envelope"
-                            style={{ color: "white" }}
+                            style={{ color: 'white' }}
                           ></i>
                         </a>
                         <p> Email </p>
                         {property?.agentDetail && (
-                          <UncontrolledTooltip
-                          placement="top"
-                          target="email"
-                        >
-                          {property?.agentDetail && property?.agentDetail?.email}
-                        </UncontrolledTooltip>
+                          <UncontrolledTooltip placement="top" target="email">
+                            {property?.agentDetail &&
+                              property?.agentDetail?.email}
+                          </UncontrolledTooltip>
                         )}
-                        
                       </div>
                     </div>
                   </div>
@@ -377,7 +440,7 @@ const ListUnitPreview = ({
                       )}
 
                       <h5 className="card-title mb-2">
-                        {property?.rentedBy?.firstName}{" "}
+                        {property?.rentedBy?.firstName}{' '}
                         {property?.rentedBy?.lastName}
                       </h5>
                       <Link to="#">
@@ -385,7 +448,7 @@ const ListUnitPreview = ({
                           <img src={chat} alt="chat" />
                           <h6 className="ml-2">Chat with this Tenant</h6>
                         </div>
-                      </Link>  
+                      </Link>
                     </div>
                   ) : (
                     <span>You have no tenant for this unit</span>
@@ -395,45 +458,42 @@ const ListUnitPreview = ({
                     <div>
                       <div
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: "lightGreen", height: "50%" }}
+                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
                         id="call"
                       >
                         <i
                           className="fa fa-phone"
-                          style={{ color: "white" }}
+                          style={{ color: 'white' }}
                         ></i>
                       </div>
                       <p> Call </p>
                       {property?.rentedBy && (
-                        <UncontrolledTooltip
-                        placement="left"
-                        target="call"
-                      >
-                         {property?.rentedBy && property?.rentedBy?.phone}
-                      </UncontrolledTooltip>
-                      )}    
+                        <UncontrolledTooltip placement="left" target="call">
+                          {property?.rentedBy && property?.rentedBy?.phone}
+                        </UncontrolledTooltip>
+                      )}
                     </div>
                     <div className="ml-5">
                       <a
-                        href={property?.rentedBy && `mailto:${property?.rentedBy?.email}`}
+                        href={
+                          property?.rentedBy &&
+                          `mailto:${property?.rentedBy?.email}`
+                        }
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: "lightGreen", height: "50%" }}
+                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
                         id="email"
                       >
                         <i
                           className=" fas fa-envelope"
-                          style={{ color: "white" }}
+                          style={{ color: 'white' }}
                         ></i>
                       </a>
                       <p> Email </p>
                       {property?.rentedBy && (
-                        <UncontrolledTooltip
-                        placement="top"
-                        target="email"
-                      >
-                        {property?.rentedBy && property?.rentedBy?.email}
-                      </UncontrolledTooltip>
-                      )}  
+                        <UncontrolledTooltip placement="top" target="email">
+                          {property?.rentedBy && property?.rentedBy?.email}
+                        </UncontrolledTooltip>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -460,7 +520,7 @@ const ListUnitPreview = ({
                               </a>
                             </Card>
                           ))
-                        : "No document found"}
+                        : 'No document found'}
                     </div>
                   </div>
                 </div>
@@ -469,15 +529,118 @@ const ListUnitPreview = ({
             <div>
               <Modal
                 // size="sm"
-                isOpen={uploadModal}
-                toggle={() => setUploadModal(!uploadModal)}
+                isOpen={leaseUploadModal}
+                toggle={() => setLeaseUploadModal(!leaseUploadModal)}
               >
-                <ModalHeader toggle={() => setUploadModal(false)}>
+                <ModalHeader toggle={() => setLeaseUploadModal(false)}>
                   Lease Agreement
                 </ModalHeader>
                 <ModalBody>
                   <DocumentsUpload
-                    closeModal={setUploadModal}
+                    name="LEASE_AGREEMENT"
+                    closeModal={setLeaseUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal
+                // size="sm"
+                isOpen={purchaseUploadModal}
+                toggle={() => setPurchaseUploadModal(!purchaseUploadModal)}
+              >
+                <ModalHeader toggle={() => setPurchaseUploadModal(false)}>
+                  Purchase Agreement
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    name="PURCHASE_AGREEMENT"
+                    closeModal={setPurchaseUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal
+                // size="sm"
+                isOpen={cooUploadModal}
+                toggle={() => setCooUploadModal(!cooUploadModal)}
+              >
+                <ModalHeader toggle={() => setCooUploadModal(false)}>
+                  Certificate of Occupancy
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    name="CERTIFICATE_OF_OCCUPANCY"
+                    closeModal={setCooUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal
+                // size="sm"
+                isOpen={loaUploadModal}
+                toggle={() => setLoaUploadModal(!loaUploadModal)}
+              >
+                <ModalHeader toggle={() => setLoaUploadModal(false)}>
+                  Letter of Allocation
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    name="LETTER_OF_ALLOCATION"
+                    closeModal={setLoaUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal
+                // size="sm"
+                isOpen={lcUploadModal}
+                toggle={() => setLcUploadModal(!lcUploadModal)}
+              >
+                <ModalHeader toggle={() => setLcUploadModal(false)}>
+                  Land Certificate
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    name="LAND_CERTIFICATE"
+                    closeModal={setLcUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal
+                // size="sm"
+                isOpen={conveyUploadModal}
+                toggle={() => setConveyUploadModal(!conveyUploadModal)}
+              >
+                <ModalHeader toggle={() => setConveyUploadModal(false)}>
+                  Conveyance
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    name="CONVEYANCE"
+                    closeModal={setConveyUploadModal}
+                    propertyId={property?.id}
+                    reloadProperty={reloadProperty}
+                  />
+                </ModalBody>
+              </Modal>
+              <Modal
+                // size="sm"
+                isOpen={concentUploadModal}
+                toggle={() => setConcentUploadModal(!concentUploadModal)}
+              >
+                <ModalHeader toggle={() => setConcentUploadModal(false)}>
+                  Concent
+                </ModalHeader>
+                <ModalBody>
+                  <DocumentsUpload
+                    name="CONCENT"
+                    closeModal={setConcentUploadModal}
                     propertyId={property?.id}
                     reloadProperty={reloadProperty}
                   />
@@ -494,18 +657,7 @@ const ListUnitPreview = ({
                   Select Tasks
                 </ModalHeader>
                 <ModalBody>
-                  <div className="d-flex justify-content-around">
-                    <div
-                      style={cardStyle}
-                      onClick={() => {
-                        setUploadModal(true);
-                        return setTaskContents(false);
-                      }}
-                    >
-                      <span className="mb-4 text-success">
-                        Upload Lease Agreement
-                      </span>
-                    </div>
+                  <div className="d-grid">
                     <Link to="/walkthrough">
                       <div style={cardStyle}>
                         <span className="mb-4 text-success">
@@ -513,6 +665,89 @@ const ListUnitPreview = ({
                         </span>
                       </div>
                     </Link>
+                    {property?.feature === 'RENT' && (
+                      <div
+                        style={cardStyle}
+                        onClick={() => {
+                          setLeaseUploadModal(true);
+                          return setTaskContents(false);
+                        }}
+                      >
+                        <span className="mb-4 text-success">
+                          Upload Lease Agreement
+                        </span>
+                      </div>
+                    )}
+                    {property?.feature === 'SALE' && (
+                      <>
+                        <div
+                          style={cardStyle}
+                          onClick={() => {
+                            setPurchaseUploadModal(true);
+                            return setTaskContents(false);
+                          }}
+                        >
+                          <span className="mb-4 text-success">
+                            Upload Purchase Agreement
+                          </span>
+                        </div>
+                        <div
+                          style={cardStyle}
+                          onClick={() => {
+                            setCooUploadModal(true);
+                            return setTaskContents(false);
+                          }}
+                        >
+                          <span className="mb-4 text-success">
+                            Upload Certificate of Occupancy
+                          </span>
+                        </div>
+                        <div
+                          style={cardStyle}
+                          onClick={() => {
+                            setLoaUploadModal(true);
+                            return setTaskContents(false);
+                          }}
+                        >
+                          <span className="mb-4 text-success">
+                            Upload Letter of Allocation
+                          </span>
+                        </div>
+                        <div
+                          style={cardStyle}
+                          onClick={() => {
+                            setLcUploadModal(true);
+                            return setTaskContents(false);
+                          }}
+                        >
+                          <span className="mb-4 text-success">
+                            Upload Land Certificate
+                          </span>
+                        </div>
+                        <div
+                          style={cardStyle}
+                          onClick={() => {
+                            setConveyUploadModal(true);
+                            return setTaskContents(false);
+                          }}
+                        >
+                          <span className="mb-4 text-success">
+                            Upload Conveyance
+                          </span>
+                        </div>
+                        <div
+                          style={cardStyle}
+                          onClick={() => {
+                            setConcentUploadModal(true);
+                            return setTaskContents(false);
+                          }}
+                        >
+                          <span className="mb-4 text-success">
+                            Upload Concent
+                          </span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </ModalBody>
               </Modal>
