@@ -16,4 +16,5 @@ export * from './Settings/actions';
 export * from './Accounting/actions';
 export * from './Documents/actions';
 export * from './Buy/actions';
+export * from './Payments/actions';
 // export * from './auth/forgetpwd/actions';

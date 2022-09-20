@@ -249,3 +249,18 @@
 .imgarticle.nextSlide {
   transform: translateX(100%);
 }
+
+.cardStyle {
+  border-radius: 10px;
+  width: 90%;
+  text-align: center;
+  padding: 15px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #ccc;
+  &:hover {
+    box-shadow: 0px 4px 30px rgba(98, 134, 154, 0.38);
+  }
+}

@@ -22,6 +22,7 @@ import fetchleaseSaga from './DashboardExpiringLeases/saga';
 import AccountingSaga from './Accounting/saga';
 import DocumentSaga from './Documents/saga';
 import BuyApplicationSaga from './Buy/saga';
+import PaymentSaga from './Payments/saga';
 
 
 export default function* rootSaga() {
@@ -46,6 +47,7 @@ export default function* rootSaga() {
         LayoutSaga(),
         InspectionsSaga(),
         AgentsSaga(),
-        MaintenanceSaga()
+        MaintenanceSaga(),
+        PaymentSaga(),
     ])
 }

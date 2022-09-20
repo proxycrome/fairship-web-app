@@ -80,7 +80,7 @@ const authProtectedRoutes = [
   { path: '/create_unit_property', component: CreateUnitProperties },
   { path: '/update_single_unit/:id', component: UpdateSingleUnitProperty},
   { path: '/create_more_unit/:id', component: AddMoreUnit},
-  { path: '/walkthrough', component: WalkThroughPage},
+  { path: '/walkthrough/:id', component: WalkThroughPage},
 
   { path: '/agents', component: Agent },
   { path: '/agentpreview/:email', component: AgentPreview },

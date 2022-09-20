@@ -13,6 +13,7 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty, name }) => {
     setUploadField(values.uploadType);
   };
 
+  console.log(selectedFile);
   const submitUpload = () => {
     let formData = [{ ...selectedFile[0], documentName: name }];
     let url = `auth/properties/documents/${propertyId}`;
@@ -28,6 +29,27 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty, name }) => {
         console.log(error.response);
       });
   };
+
+  const submitPMAUpload = () => {
+    let url = "";
+    if (name === "LEASE_AGREEMENT") {
+      url = `auth/properties/documents/select-pma-generated-lease-agreement-doc/${propertyId}`;
+    }
+
+    if (name === "SALE_AGREEMENT") {
+      url = `auth/properties/documents/select-pma-generated-sell-agreement-doc/${propertyId}`
+    }
+    
+    AxiosInstance.put(url)
+    .then((res) => {
+      setMsg('Document uploaded successfully');
+      closeModal(false);
+      reloadProperty(true);
+    })
+    .catch((error) => {
+      alert('error found, please refresh')
+    })
+  }
 
   const capitalize = (str) => {
     return (
@@ -60,14 +82,20 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty, name }) => {
 
       {uploadField !== null && uploadField === 'default' && (
         <>
-          <Alert color="danger text-center">
+          {/* <Alert color="danger text-center">
             {' '}
             The page is under review by the admin, please check back{' '}
           </Alert>
           <span>
             Use PMA Generated Lease Agreement under review, please select other
             option
-          </span>
+          </span> */}
+          <h5 className='mb-5'>Upload PMA Document</h5>
+          <div className="text-center mt-5">
+            <button className="btn btn-success" onClick={submitPMAUpload}>
+              Done
+            </button>
+          </div>
         </>
       )}
 

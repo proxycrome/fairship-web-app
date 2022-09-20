@@ -554,14 +554,14 @@ const ListUnitPreview = ({
                 </ModalHeader>
                 <ModalBody>
                   <DocumentsUpload
-                    name="PURCHASE_AGREEMENT"
+                    name="SELL_AGREEMENT"
                     closeModal={setPurchaseUploadModal}
                     propertyId={property?.id}
                     reloadProperty={reloadProperty}
                   />
                 </ModalBody>
               </Modal>
-              <Modal
+              {/* <Modal
                 // size="sm"
                 isOpen={cooUploadModal}
                 toggle={() => setCooUploadModal(!cooUploadModal)}
@@ -645,7 +645,7 @@ const ListUnitPreview = ({
                     reloadProperty={reloadProperty}
                   />
                 </ModalBody>
-              </Modal>
+              </Modal> */}
             </div>
             <div>
               <Modal
@@ -658,7 +658,7 @@ const ListUnitPreview = ({
                 </ModalHeader>
                 <ModalBody>
                   <div className="d-grid">
-                    <Link to="/walkthrough">
+                    <Link to={`/walkthrough/${match.params.id}`}>
                       <div style={cardStyle}>
                         <span className="mb-4 text-success">
                           Upload WalkThrough Video
@@ -691,7 +691,7 @@ const ListUnitPreview = ({
                             Upload Purchase Agreement
                           </span>
                         </div>
-                        <div
+                        {/* <div
                           style={cardStyle}
                           onClick={() => {
                             setCooUploadModal(true);
@@ -745,7 +745,7 @@ const ListUnitPreview = ({
                           <span className="mb-4 text-success">
                             Upload Concent
                           </span>
-                        </div>
+                        </div> */}
                       </>
                     )}
                   </div>
