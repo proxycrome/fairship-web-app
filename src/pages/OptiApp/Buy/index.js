@@ -73,7 +73,7 @@ class BuyApplication extends Component {
 
   render() {
     // console.log(this.props.buyApplications)
-  const processingRental = this.props?.buyApplications?.purchase?.map((data) => ({
+  const buyApplications = this.props?.buyApplications?.purchase?.map((data) => ({
       application: (
         /*map data from api here for each Tenant */
         <>
@@ -155,7 +155,7 @@ class BuyApplication extends Component {
           width: 135,
         },
       ],
-      rows: processingRental
+      rows: buyApplications
     };
 
     if (this.state.showPreview) {

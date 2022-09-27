@@ -11,6 +11,7 @@ import {
   DUPLICATE_UNIT_PROPERTY,
   PUT_UNIT_PROPERTY,
   DELETE_PROPERTY,
+  NOTIFY_ADMIN_WALKTHROUGH,
 } from './actionTypes';
 
 import {
@@ -29,7 +30,9 @@ import {
   duplicateUnitPropertySuccess,
   duplicateUnitPropertyError,
   deletePropertySuccess,
-  deletePropertyError
+  deletePropertyError,
+  notifyAdminWalkthroughSuccess,
+  notifyAdminWalkthroughError,
 } from './actions';
 
 import {
@@ -41,10 +44,11 @@ import {
   getPropertySubcategoryService,
   duplicateUnitService,
   deletePropertyService,
-  putSingleUnitPropertyService
+  putSingleUnitPropertyService,
+  notifyAdminWalkthroughService,
 } from '../../services/propertiesServices';
 
-function* fetchProperties({payload: {payload, collectiveId}}) {
+function* fetchProperties({ payload: { payload, collectiveId } }) {
   try {
     const response = yield call(fetchPropertiesService, payload, collectiveId);
     yield put(fetchPropertiesSuccessful(response.data));
@@ -78,72 +82,87 @@ function* getPropertyTypes() {
     // console.log(response.data);
   } catch (error) {
     // console.log(error?.response);
-    yield put(getPropertyTypesError(error?.response?.data))
+    yield put(getPropertyTypesError(error?.response?.data));
   }
 }
 
-function* getPropertySubcategory({payload: {id}}) {
+function* getPropertySubcategory({ payload: { id } }) {
   try {
-    const response = yield call(getPropertySubcategoryService, id)
-    yield put(getPropertySubcategorySuccess(response.data))
+    const response = yield call(getPropertySubcategoryService, id);
+    yield put(getPropertySubcategorySuccess(response.data));
     // console.log(response.data);
   } catch (error) {
     // console.log(error?.response);
-    yield put(getPropertySubcategoryError(error?.response?.data))
+    yield put(getPropertySubcategoryError(error?.response?.data));
   }
 }
 
-  function* getDuplicateUnit({ payload }) {
-    try {
-      const response = yield call(duplicateUnitService, payload);
-      yield put(duplicateUnitPropertySuccess(response.data));
-      // console.log(response.data)
-    } catch (error) {
-      // console.log(error);
-      // console.log(error?.response);
-      yield put(duplicateUnitPropertyError(error?.response?.data));
-    }
+function* getDuplicateUnit({ payload }) {
+  try {
+    const response = yield call(duplicateUnitService, payload);
+    yield put(duplicateUnitPropertySuccess(response.data));
+    // console.log(response.data)
+  } catch (error) {
+    // console.log(error);
+    // console.log(error?.response);
+    yield put(duplicateUnitPropertyError(error?.response?.data));
   }
+}
 
-
-  function* putUnitProperty({payload}) {
-    try {
-      const response = yield call(putSingleUnitPropertyService, payload);
-      yield put(createPropertiesSuccessful(response.date));
-      // console.log(response.data);
-    } catch (error) {
-      // console.log(error)
-      // console.log(error?.response);
-      yield put(createPropertiesError(error?.response?.data));
-    }
+function* putUnitProperty({ payload }) {
+  try {
+    const response = yield call(putSingleUnitPropertyService, payload);
+    yield put(createPropertiesSuccessful(response.date));
+    // console.log(response.data);
+  } catch (error) {
+    // console.log(error)
+    // console.log(error?.response);
+    yield put(createPropertiesError(error?.response?.data));
   }
+}
 
-  function* updateUnitProperty({ payload }) {
-    try {
-      const response = yield call(updateUnitService, payload);
-      yield put(updateUnitPropertySuccessful(response.data));
-      // console.log(response.data)
-    } catch (error) {
-      // console.log(error);
-      // console.log(error?.response);
-      yield put(updateUnitPropertyError(error?.response?.data));
-    }
+function* updateUnitProperty({ payload }) {
+  try {
+    const response = yield call(updateUnitService, payload);
+    yield put(updateUnitPropertySuccessful(response.data));
+    // console.log(response.data)
+  } catch (error) {
+    // console.log(error);
+    // console.log(error?.response);
+    yield put(updateUnitPropertyError(error?.response?.data));
   }
+}
 
-  function* deleteProperty({ payload: {propertyId} }) {
-    try {
-      const response = yield call(deletePropertyService, propertyId);
-      yield put(deletePropertySuccess(response.data));
-      // console.log(response.data)
-    } catch (error) {
-      // console.log(error);
-      // console.log(error?.response);
-      yield put(deletePropertyError(error?.response?.data));
-    }
+function* deleteProperty({ payload: { propertyId } }) {
+  try {
+    const response = yield call(deletePropertyService, propertyId);
+    yield put(deletePropertySuccess(response.data));
+    // console.log(response.data)
+  } catch (error) {
+    // console.log(error);
+    // console.log(error?.response);
+    yield put(deletePropertyError(error?.response?.data));
   }
+}
+
+function* notifyAdminWalkthrough({ payload: {formData, history, id} }) {
+  try {
+    const response = yield call(notifyAdminWalkthroughService, formData);
+    yield put(notifyAdminWalkthroughSuccess(response.data));
+    setTimeout(() => {
+      history.push(`/unit_property/${id}`);
+    }, 1000);   
+  } catch (error) {
+    console.log(error?.response?.data);
+    yield put(notifyAdminWalkthroughError(error?.response?.data));
+    setTimeout(() => {
+      history.push(`/unit_property/${id}`);
+    }, 1000);
+  }
+}
 
 export function* watchDeleteProperty() {
-  yield takeEvery(DELETE_PROPERTY, deleteProperty)
+  yield takeEvery(DELETE_PROPERTY, deleteProperty);
 }
 
 export function* watchFetchProperties() {
@@ -161,22 +180,24 @@ export function* watchGetPropertyTypes() {
 }
 
 export function* watchGetPropertySubcategory() {
-  yield takeEvery(GET_PROPERTY_SUBCATEGORY, getPropertySubcategory)
+  yield takeEvery(GET_PROPERTY_SUBCATEGORY, getPropertySubcategory);
 }
 
 export function* watchGetDuplicateProperty() {
-  yield takeEvery(DUPLICATE_UNIT_PROPERTY, getDuplicateUnit)
+  yield takeEvery(DUPLICATE_UNIT_PROPERTY, getDuplicateUnit);
 }
 
-
-export function* watchPutUnitProperty(){
-  yield takeEvery(PUT_UNIT_PROPERTY, putUnitProperty)
-} 
+export function* watchPutUnitProperty() {
+  yield takeEvery(PUT_UNIT_PROPERTY, putUnitProperty);
+}
 
 export function* watchUpdateUnitProperty() {
-  yield takeEvery(UPDATE_UNIT, updateUnitProperty)
+  yield takeEvery(UPDATE_UNIT, updateUnitProperty);
 }
 
+export function* watchNotifyAdminWalkthrough() {
+  yield takeEvery(NOTIFY_ADMIN_WALKTHROUGH, notifyAdminWalkthrough);
+}
 
 function* PropertiesSaga() {
   yield all([
@@ -189,6 +210,7 @@ function* PropertiesSaga() {
     fork(watchPutUnitProperty),
     fork(watchUpdateUnitProperty),
     fork(watchDeleteProperty),
+    fork(watchNotifyAdminWalkthrough),
   ]);
 }
 

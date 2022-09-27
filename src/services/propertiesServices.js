@@ -80,3 +80,9 @@ export const deletePropertyService = (propertyId) => {
   let url = `auth/properties/${propertyId}`;
   return http.deleteData(url);
 };
+
+export const notifyAdminWalkthroughService = (formData) => {
+  const http = new HttpService();
+  let url = 'auth/notify-admin-after-walkthrough-video-payment';
+  return http.postDataWithToken(formData, url);
+};

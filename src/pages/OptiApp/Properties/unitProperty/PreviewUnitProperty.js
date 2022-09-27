@@ -10,12 +10,14 @@ import {
   ModalHeader,
   ModalBody,
   UncontrolledTooltip,
+  Alert,
 } from 'reactstrap';
 
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DocumentsUpload from '../leaseUpload';
 import { fetchEachProperties } from '../../../../store/actions';
+import { clearUnitMessage } from '../../../../store/properties/actions';
 import PropertyIcon from '../../../../assets/images/Property.png';
 import avatar from '../../../../assets/images/avi.jpg';
 import Loader from '../../../../components/Common/Loading/index';
@@ -27,6 +29,9 @@ const ListUnitPreview = ({
   fetchEachProperties,
   property,
   loading,
+  notifyMsg,
+  notifyMsgError,
+  clearUnitMessage,
 }) => {
   const [leaseUploadModal, setLeaseUploadModal] = useState(false);
   const [purchaseUploadModal, setPurchaseUploadModal] = useState(false);
@@ -58,10 +63,11 @@ const ListUnitPreview = ({
       setIndex(index + 1);
     }, 3000);
     return () => clearInterval(slider);
-  }, [index]);
+  }, []);
 
   useEffect(() => {
     fetchEachProperties(match.params.id);
+    clearUnitMessage();
   }, []);
 
   useEffect(() => {
@@ -107,6 +113,16 @@ const ListUnitPreview = ({
           <>
             <Card>
               <CardBody>
+                {notifyMsg && notifyMsg?.message && (
+                  <Alert className="text-center" color="success">
+                    {notifyMsg?.message}
+                  </Alert>
+                )}
+                {notifyMsgError && notifyMsgError?.message && (
+                  <Alert className="text-center" color="danger">
+                    {notifyMsgError?.message}
+                  </Alert>
+                )}
                 <Row>
                   <Col md={4} sm={12}>
                     <div className="section-center">
@@ -307,7 +323,7 @@ const ListUnitPreview = ({
                       <div className="mb-3">
                         <h6>Status</h6>
                         <span>
-                          {property?.status !== "SOLD" ? 'Processing' : 'Sold'}
+                          {property?.status !== 'SOLD' ? 'Processing' : 'Sold'}
                         </span>
                       </div>
                       <div className="mb-3">
@@ -760,10 +776,12 @@ const ListUnitPreview = ({
 };
 
 const mapStatetoProps = (state) => {
-  const { property, loading } = state.Properties;
-  return { property, loading };
+  const { property, loading, notifyMsg, notifyMsgError } = state.Properties;
+  return { property, loading, notifyMsg, notifyMsgError };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { fetchEachProperties })(ListUnitPreview)
+  connect(mapStatetoProps, { fetchEachProperties, clearUnitMessage })(
+    ListUnitPreview
+  )
 );

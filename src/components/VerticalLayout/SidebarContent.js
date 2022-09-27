@@ -198,6 +198,14 @@ class SidebarContent extends Component {
                 </li>
               </ul>
             </li>
+
+            {/* Lease Termination */}
+            <li>
+              <Link to="/lease-termination" className="waves-effect">
+                <i className=" ri-calendar-2-line"></i>
+                <span className="ml-1">Lease Termination</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </React.Fragment>

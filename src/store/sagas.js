@@ -23,6 +23,7 @@ import AccountingSaga from './Accounting/saga';
 import DocumentSaga from './Documents/saga';
 import BuyApplicationSaga from './Buy/saga';
 import PaymentSaga from './Payments/saga';
+import leaseTerminationSaga from './LeaseTermination/saga';
 
 
 export default function* rootSaga() {
@@ -49,5 +50,6 @@ export default function* rootSaga() {
         AgentsSaga(),
         MaintenanceSaga(),
         PaymentSaga(),
+        leaseTerminationSaga(),
     ])
 }

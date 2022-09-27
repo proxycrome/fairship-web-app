@@ -25,6 +25,9 @@ import {
   DELETE_PROPERTY_ERROR,
   DUPLICATE_UNIT_PROPERTY_ERROR,
   DUPLICATE_UNIT_PROPERTY_SUCCESS,
+  NOTIFY_ADMIN_WALKTHROUGH,
+  NOTIFY_ADMIN_WALKTHROUGH_SUCCESS,
+  NOTIFY_ADMIN_WALKTHROUGH_ERROR,
 } from './actionTypes';
 
 const initialState = {
@@ -42,9 +45,11 @@ const initialState = {
   PropertyTypeError: null,
   propertySubcategories: null,
   subcategoryError: null,
-  unitMessage: null, 
+  unitMessage: null,
   deleteMessage: null,
   duppleData: null,
+  notifyMsg: null,
+  notifyMsgError: null,
 };
 
 const Properties = (state = initialState, action) => {
@@ -121,15 +126,15 @@ const Properties = (state = initialState, action) => {
       };
       break;
 
-      case UPDATE_UNIT_SUCCESSFUL:
-        state = {
-          ...state,
-          loading: false,
-          unitMessage: action.payload,
-          PropertyTypeError: null,
-          editMessage: "Unit Updated Successfully"
-        };
-        break;
+    case UPDATE_UNIT_SUCCESSFUL:
+      state = {
+        ...state,
+        loading: false,
+        unitMessage: action.payload,
+        PropertyTypeError: null,
+        editMessage: 'Unit Updated Successfully',
+      };
+      break;
 
     case GET_PROPERTY_TYPES:
       state = {
@@ -191,9 +196,9 @@ const Properties = (state = initialState, action) => {
         loading: true,
         message: null,
         propertiesError: null,
-      }
+      };
       break;
-    
+
     case CLEAR_MESSAGES:
       state = {
         ...state,
@@ -202,7 +207,9 @@ const Properties = (state = initialState, action) => {
         editMessage: null,
         deleteMessage: null,
         duppleMessage: null,
-      }
+        notifyMsg: null,
+        notifyMsgError: null,
+      };
       break;
 
     case DELETE_PROPERTY_SUCCESS:
@@ -210,8 +217,8 @@ const Properties = (state = initialState, action) => {
         ...state,
         loading: false,
         deleteMessage: action.payload.message,
-        propertiesError: null
-      }
+        propertiesError: null,
+      };
       break;
 
     case DUPLICATE_UNIT_PROPERTY_SUCCESS:
@@ -223,7 +230,34 @@ const Properties = (state = initialState, action) => {
         message: 'Property Created Successfully',
         createdProperty: [...state.createdProperty, action.payload],
         createUnit: true,
-      }
+      };
+      break;
+
+    case NOTIFY_ADMIN_WALKTHROUGH:
+      state = {
+        ...state,
+        loading: true,
+        notifyMsg: null,
+        notifyMsgError: null,
+      };
+      break;
+
+    case NOTIFY_ADMIN_WALKTHROUGH_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        notifyMsg: action.payload,
+        notifyMsgError: null,
+      };
+      break;
+
+    case NOTIFY_ADMIN_WALKTHROUGH_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        notifyMsg: null,
+        notifyMsgError: action.payload,
+      };
       break;
 
     default:

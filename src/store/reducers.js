@@ -25,6 +25,7 @@ import Accounting from './Accounting/reducer';
 import Document from './Documents/reducer';
 import Buy from './Buy/reducer';
 import payment from './Payments/reducer';
+import terminationReducer from './LeaseTermination/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
     updateProfileReducer,
     Buy,
     payment,
+    terminationReducer,
 });
 
 export default rootReducer;

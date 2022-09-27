@@ -64,6 +64,8 @@ import AgentPreview from '../pages/OptiApp/Agent/Preview';
 import ServicePreview from '../pages/OptiApp/Maintenance/ServiceSummary';
 import Preview from '../pages/OptiApp/Rental/Preview';
 import CreateMaintenance from '../pages/OptiApp/Maintenance/CreateMaintenace';
+import LeaseTermination from '../pages/OptiApp/LeaseTermination';
+import PreviewLeaseTermination from '../pages/OptiApp/LeaseTermination/Preview';
 
 const authProtectedRoutes = [
   //FairShip Board
@@ -106,6 +108,8 @@ const authProtectedRoutes = [
   { path: '/previewInspection/:id', component: PreviewInspection },
   
   { path: '/create_inspection/:id', component: create_inspection },
+  { path: '/lease-termination', component: LeaseTermination },
+  { path: '/previewLeaseTermination/:id', component: PreviewLeaseTermination },
   
   { path: '/items', component: Items },
   { path: '/keys_meters', component: KeysMeters },

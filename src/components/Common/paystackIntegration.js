@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { PaystackButton } from 'react-paystack';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPaymentGateways, loadUser } from '../../store/actions';
+import { getPaymentGateways, loadUser, notifyAdminWalkthrough } from '../../store/actions';
 import { useHistory } from 'react-router-dom';
 
-const PaystackIntegration = ({amount, id}) => {
+const PaystackIntegration = ({amount, id, apartmentType, planType}) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -20,11 +20,16 @@ const PaystackIntegration = ({amount, id}) => {
     onSuccess: (transaction) => {
         // window.location.href(`https://api.paystack.co/transaction/verify/${transaction.reference}`)
         // alert(`${transaction.reference}`);
-        setTimeout(() => {
-            history.push(`/unit_property/${id}`)
-        }, 500)
+        if(transaction?.reference) {
+            const formData = {
+                apartmentType,
+                planType,
+                propertyId: Number(id),
+            }
+            dispatch(notifyAdminWalkthrough(formData, history, id))
+        }    
     }, 
-    onClose: () => alert("Wait! Don't leave :("),
+    onClose: () => {},
   }
 
 

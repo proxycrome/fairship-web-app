@@ -232,6 +232,8 @@ const WalkThroughPayment = ({ match }) => {
                 <PaystackIntegration
                   amount={amount}
                   id={id}
+                  apartmentType={apartmentType}
+                  planType={planType}
                 />
               </Col>
             </Row>
