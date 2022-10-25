@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 // MetisMenu
-import MetisMenu from 'metismenujs';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import MetisMenu from "metismenujs";
+import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import {
   changeLayout,
   changeLayoutWidth,
   changeSidebarTheme,
   changeSidebarType,
   changePreloader,
-} from '../../store/actions';
+} from "../../store/actions";
 
 class SidebarContent extends Component {
   constructor(props) {
@@ -35,11 +35,11 @@ class SidebarContent extends Component {
   }
 
   initMenu() {
-    new MetisMenu('#side-menu');
+    new MetisMenu("#side-menu");
 
     var matchingMenuItem = null;
-    var ul = document.getElementById('side-menu');
-    var items = ul.getElementsByTagName('a');
+    var ul = document.getElementById("side-menu");
+    var items = ul.getElementsByTagName("a");
     for (var i = 0; i < items.length; ++i) {
       if (this.props.location.pathname === items[i].pathname) {
         matchingMenuItem = items[i];
@@ -52,24 +52,24 @@ class SidebarContent extends Component {
   }
 
   activateParentDropdown = (item) => {
-    item.classList.add('active');
+    item.classList.add("active");
     const parent = item.parentElement;
 
     if (parent) {
-      parent.classList.add('mm-active');
+      parent.classList.add("mm-active");
       const parent2 = parent.parentElement;
 
       if (parent2) {
-        parent2.classList.add('mm-show');
+        parent2.classList.add("mm-show");
 
         const parent3 = parent2.parentElement;
 
         if (parent3) {
-          parent3.classList.add('mm-active'); // li
-          parent3.childNodes[0].classList.add('mm-active'); //a
+          parent3.classList.add("mm-active"); // li
+          parent3.childNodes[0].classList.add("mm-active"); //a
           const parent4 = parent3.parentElement;
           if (parent4) {
-            parent4.classList.add('mm-active');
+            parent4.classList.add("mm-active");
           }
         }
       }
@@ -143,7 +143,8 @@ class SidebarContent extends Component {
 
             {/* Agent */}
 
-            {this.props.user?.role?.name !== 'AGENT' && (
+            {(this.props.user?.role?.name !== "AGENT" ||
+              this.props.user?.agentDetail?.type === "COMPANY") && (
               <li>
                 <Link to="/agents" className="waves-effect">
                   <i className="ri-user-line"></i>
@@ -184,7 +185,6 @@ class SidebarContent extends Component {
                 <span className="ml-1">Buy Applications</span>
               </Link>
             </li>
-
 
             {/* inspections */}
             <li>

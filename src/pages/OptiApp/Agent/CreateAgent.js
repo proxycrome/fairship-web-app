@@ -49,13 +49,17 @@ const CreateAgent = ({ BackToHome }) => {
     (state) => state.Agents
   );
 
+
+
   const AgentsIdArray = landlordAgents?.data?.agents?.map((agent) => agent.id);
 
-  const filteredAgents = agents?.entities.filter(
+  const filteredAgents = agents?.entities?.filter(
     (agent) => !AgentsIdArray?.find((id) => id === agent?.id)
   );
 
   // console.log(filteredAgents);
+
+  console.log(agents);
 
   // console.log(postAgentData?.message);
 

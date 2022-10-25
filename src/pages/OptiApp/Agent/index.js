@@ -14,7 +14,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
   const [searchName, setSearchName] = useState('');
-  const [filteredAgents, setFilteredAgents] = useState([]);
+  const [filteredLandAgents, setFilteredLandAgents] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,9 +23,11 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
     }
   }, [dispatch, user, getLandlordAgents]);
 
+  console.log(user);
+
   useEffect(() => {
-    setFilteredAgents(
-      landlordAgents?.data?.agents.filter(
+    setFilteredLandAgents(
+      landlordAgents?.data?.agents?.filter(
         (agent) =>
           agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
           agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
@@ -86,7 +88,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                 </Button>
               </div>
             </div>
-            {landlordAgents?.data?.agents?.length !== 0 ? (
+            {user?.role?.name === "PROPERTY_OWNER" && landlordAgents?.data?.agents?.length !== 0 ? (
               <div className="table-rep-plugin mt-4">
                 <div
                   className="table-responsive mb-0"
@@ -105,7 +107,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                     </thead>
                     <tbody>
                       {searchName
-                        ? filteredAgents?.map((agent) => (
+                        ? filteredLandAgents?.map((agent) => (
                             <tr key={agent.id}>
                               <td className="d-flex align-items-center">
                                 <Link
@@ -188,7 +190,7 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                 </div>
               </div>
             ) : (
-              <div className="text-center">
+              <div className="text-center mt-4">
                 <img src={emptyCan} alt="empty" className="rounded mb-2" />
                 <h4> Table is Empty </h4>
               </div>

@@ -151,7 +151,7 @@ const Dashboard = ({
                         }}
                       ></div>
                     </div>
-                    <div style={{ width: '321px' }}>
+                    <div style={{ width: '100%' }}>
                       <p
                         className="text-white"
                         style={{

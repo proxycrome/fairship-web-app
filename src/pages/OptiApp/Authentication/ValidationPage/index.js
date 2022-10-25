@@ -1,50 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { Row, Col, Button, Alert, Container, FormGroup } from 'reactstrap';
+import { Row, Col, Button, Alert, Container, FormGroup } from "reactstrap";
 
 // Redux
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 // availity-reactstrap-validation
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // actions
 import {
   apiError,
   activateAccount,
-  clearRegistryMessage
-} from '../../../../store/actions';
+  clearRegistryMessage,
+} from "../../../../store/actions";
 
 // import images
-import logodark from '../../../../assets/images/FairshipLogo.svg';
+import logodark from "../../../../assets/images/FairshipLogo.svg";
 
-const Validation = ({ activationMessage, activationError, activateAccount, history, clearRegistryMessage }) => {
+const Validation = ({
+  activationMessage,
+  activationError,
+  activateAccount,
+  history,
+  clearRegistryMessage,
+}) => {
+
   const handleSubmit = (event, values) => {
-    activateAccount(values);
+    const formData = {
+      ...values,
+      phoneNumber: values.phoneNumber.startsWith("+234")
+        ? values.phoneNumber.replace(/\+234/, "234")
+        : values.phoneNumber.startsWith("0")
+        ? values.phoneNumber.replace(/0/, "234")
+        : values.phoneNumber,
+    };
+  
+    activateAccount(formData);
   };
 
   useEffect(() => {
     clearRegistryMessage();
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (activationMessage) {
       setTimeout(() => {
-        history.push('/login');
+        history.push("/login");
       }, [2000]);
     }
   }, [activationMessage]);
   return (
     <React.Fragment>
       <div>
-        <Container fluid className="p-0" style={{ overflowX: 'hidden' }}>
+        <Container fluid className="p-0" style={{ overflowX: "hidden" }}>
           <Row className="no-gutters">
             <Col lg={6}>
               <div className="authentication-bg text-center">
                 <div className="bg-overlay"></div>
                 <div className="overlay-text">
-                  <h1 style={{ left: '179px' }}>Welcome!</h1>
+                  <h1 style={{ left: "179px" }}>Welcome!</h1>
                   <p>Enter Token And phone No to Validate your Account</p>
                 </div>
               </div>
@@ -76,7 +92,9 @@ const Validation = ({ activationMessage, activationError, activateAccount, histo
                           </p>
                         </div>
 
-                        {activationMessage && <Alert color="success">{activationMessage}</Alert>}
+                        {activationMessage && (
+                          <Alert color="success">{activationMessage}</Alert>
+                        )}
 
                         {activationError && activationError ? (
                           <Alert color="danger">
@@ -140,5 +158,7 @@ const mapStatetoProps = (state) => {
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { activateAccount, apiError, clearRegistryMessage })(Validation)
+  connect(mapStatetoProps, { activateAccount, apiError, clearRegistryMessage })(
+    Validation
+  )
 );
