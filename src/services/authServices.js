@@ -26,18 +26,18 @@ export const ActivateServices = (payload) => {
   return http.postData(payload, url);
 };
 
-export const ForgetPasswordServices = (payload) => {
+export const ForgetPasswordServices = (email) => {
   // console.log(payload)
   const http = new HttpService();
-  const url = 'user/forgotPassword';
-  return http.postData(payload, url);
+  const url = `users/${email}/forgot-password`;
+  return http.postData(null, url);
 };
 
 export const createNewPasswordServices = (payload) => {
   // console.log(payload)
   const http = new HttpService();
-  const url = 'user/setNewPassword';
-  return http.postData(payload, url);
+  const url = 'auth/users/change-password';
+  return http.postDataWithToken(payload, url);
 };
 
 export const fetchDashboardService = () => {

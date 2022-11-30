@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
 // Login Redux States
 import {
@@ -11,7 +11,7 @@ import {
   CREATE_NEW_PASSWORD,
   FETCH_DASHBOARD,
   FETCH_PROFILE,
-} from './actionTypes';
+} from "./actionTypes";
 import {
   apiError,
   authError,
@@ -30,7 +30,7 @@ import {
   fetchDashboardError,
   fetchProfileSuccessful,
   fetchProfileError,
-} from './actions';
+} from "./actions";
 
 import {
   LoginService,
@@ -41,13 +41,13 @@ import {
   createNewPasswordServices,
   fetchDashboardService,
   fetchProfileService,
-} from '../../services/authServices';
+} from "../../services/authServices";
 
 function* loadUserHandler() {
   try {
     const response = yield call(loadUserServer);
     yield put(loadUserSuccessful(response.data));
-    localStorage.setItem('authUser', JSON.stringify(response.data.result));
+    localStorage.setItem("authUser", JSON.stringify(response.data.result));
   } catch (error) {
     console.log(error);
     yield put(authError(error?.response?.data));
@@ -58,24 +58,24 @@ function* loadUserHandler() {
 function* loginUser({ payload: { user, history } }) {
   try {
     const response = yield call(LoginService, user);
-    if (response.data.role.name === 'TENANT') {
-      throw 'error found';
-    } 
+    if (response.data.role.name === "TENANT") {
+      throw "error found";
+    }
     yield put(loginUserSuccessful(response.data));
     yield call(loadUserHandler);
-      history.push('/dashboard');
+    history.push("/dashboard");
   } catch (error) {
     console.log(error);
     console.log(error.response);
-    yield put(apiError('User not authorized or wrong details'));
+    yield put(apiError("User not authorized or wrong details"));
   }
 }
 
 function* logoutUser({ payload: { history } }) {
   try {
-    localStorage.removeItem('fairshipToken');
+    localStorage.removeItem("fairshipToken");
     yield put(logoutUserSuccess());
-    history.push('/logout');
+    history.push("/logout");
   } catch (error) {
     yield put(apiError(error));
   }
@@ -105,21 +105,15 @@ function* activateUser({ payload: { values } }) {
   }
 }
 
-function* forgetUser({ payload: { user, history } }) {
+function* forgetUser({ payload: { email } }) {
   try {
-    const response = yield call(ForgetPasswordServices, {
-      email: user.useremail,
-    });
+    const response = yield call(ForgetPasswordServices, email);
     if (response) {
-      yield put(
-        forgetUserSuccessful(
-          'Reset link are send to your mailbox, check there first'
-        )
-      );
+      yield put(forgetUserSuccessful(response.data));
     }
   } catch (error) {
-    console.log(error?.response?.data?.error?.error);
-    yield put(userForgetPasswordError(error?.response?.data?.error?.error));
+    console.log(error?.response?.data);
+    yield put(userForgetPasswordError(error?.response?.data));
   }
 }
 
@@ -130,17 +124,17 @@ function* CreateNewPassword({ payload: { user, history } }) {
     if (response) {
       yield put(
         createNewPasswordSuccessful(
-          'Password successfully change, Please login with your new credentials'
+          "Password successfully change, Please login with your new credentials"
         )
       );
     }
   } catch (error) {
-    console.log(error?.response?.data?.error?.error);
-    yield put(createNewPasswordError(error?.response?.data?.error?.error));
+    console.log(error?.response?.data);
+    yield put(createNewPasswordError(error?.response?.data));
   }
 }
 
-// create new password
+// fetch dashboard details
 function* fetchDashboard() {
   try {
     const response = yield call(fetchDashboardService);

@@ -31,10 +31,12 @@ const Validation = ({
     const formData = {
       ...values,
       phoneNumber: values.phoneNumber.startsWith("+234")
-        ? values.phoneNumber.replace(/\+234/, "234")
-        : values.phoneNumber.startsWith("0")
-        ? values.phoneNumber.replace(/0/, "234")
-        : values.phoneNumber,
+      ? values.phoneNumber.replace(/\+234/, "234")
+      : values.phoneNumber.startsWith("0")
+      ? values.phoneNumber.replace(/0/, "234")
+      : values.phoneNumber.startsWith("+2340")
+      ? values.phoneNumber.replace(/\+2340/, "234")
+      : values.phoneNumber,
     };
   
     activateAccount(formData);

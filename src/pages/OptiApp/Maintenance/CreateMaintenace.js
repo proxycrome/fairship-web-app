@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, FormGroup, Label, Alert } from "reactstrap";
+import { Row, Col, Button, FormGroup, Label, Alert, Input } from "reactstrap";
 import { AvForm, AvField, AvGroup } from "availity-reactstrap-validation";
 import DropZone from "../../../components/Common/otherImageUpload";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ import {
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { clearMessages } from "../../../store/Maintenance/actions";
-import DateTimePicker from 'react-datetime-picker'
+import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
@@ -28,20 +28,23 @@ const Maintenance = ({
   clearMessages,
   loading,
   getServiceProviders,
-  serviceProviders
+  serviceProviders,
 }) => {
   // const [defaultDate, setDefaultDate] = useState(new Date());
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [imageError, setImageError] = useState("")
-  const [value, onChange] = useState(new Date(moment().format("YYYY-MM-DD HH:mm")));
-  const [serviceName, setServiceName] = useState("")
+  const [imageError, setImageError] = useState("");
+  const [value, onChange] = useState(
+    new Date(moment().format("YYYY-MM-DD HH:mm"))
+  );
+  const [serviceName, setServiceName] = useState("");
   // const dispatch = useDispatch();
 
+  console.log(serviceProviders);
   // console.log(moment(value).format("DD-MM-YYYY HH:mm"));
 
   useEffect(() => {
     const isAuth = {
-      type: "all_user_properties"
+      type: "all_user_properties",
     };
     fetchProperties(isAuth);
     getServiceTypes();
@@ -49,36 +52,30 @@ const Maintenance = ({
 
   useEffect(() => {
     clearMessages();
-  }, [clearMessages])
+  }, [clearMessages]);
 
   useEffect(() => {
-    if(serviceName){
-      getServiceProviders(String(serviceName))
-    }  
-  }, [serviceName, getServiceProviders])
-
-  useEffect(() => {
-    if (maintenance || error) {
-      setTimeout(() => {
-        clearMessages(); 
-        window.location.reload(true); 
-      }, 10000)
+    if (serviceName) {
+      getServiceProviders(String(serviceName));
     }
-  }, [maintenance, clearMessages, error])
+  }, [serviceName, getServiceProviders]);
+
+  useEffect(() => {
+    clearMessages();
+  }, []);
 
   // const handleDefault = (date) => {
   //   setDefaultDate(date);
   // };
 
   const handleSubmit = (event, values) => {
-
     setImageError("");
     if (selectedFiles.length === 0) {
       setImageError("image can't be empty");
       return;
     }
 
-    function serviceProvidersId () {
+    function serviceProvidersId() {
       const serviveProviderAccountIds = [];
       if (values.serviceProvider1) {
         serviveProviderAccountIds.push(+values.serviceProvider1);
@@ -91,25 +88,28 @@ const Maintenance = ({
       }
       return serviveProviderAccountIds;
     }
-    
+
     const formData = {
       ...values,
       propertyId: +values.propertyId,
-      serviceTypeId: +serviceTypes?.find(service => {
+      serviceTypeId: +serviceTypes?.find((service) => {
         if (service.name === values.serviceTypeId) {
-          return service.id
+          return service.id;
         }
       }).id,
       images: selectedFiles,
       serviceProviderAccountIds: serviceProvidersId(),
-      appointedDateTime: String(moment(value).format("DD-MM-YYYY HH:mm"))
+      appointedDateTime: String(moment(value).format("DD-MM-YYYY HH:mm")),
     };
-    const {serviceProvider1, serviceProvider2, serviceProvider3, ...others} = formData;
+    const { serviceProvider1, serviceProvider2, serviceProvider3, ...others } =
+      formData;
     // console.log(others);
     postMaintenanceReq(others);
   };
 
-  const sortedServiceTypes = serviceTypes?.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
+  const sortedServiceTypes = serviceTypes?.sort((a, b) =>
+    a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
+  );
   // console.log(serviceProviders);
   // console.log(serviceTypes);
 
@@ -121,7 +121,7 @@ const Maintenance = ({
             <Button color="link">
               <i className="ri-arrow-left-line"></i>
             </Button>
-          </Link> 
+          </Link>
           <span className="ml-2">New Maintenance Request</span>
           {maintenance && (
             <Alert color="success" className="text-center">
@@ -144,7 +144,7 @@ const Maintenance = ({
                     className="form-ctrl"
                     required
                   >
-                    <option value="">Select Property</option>
+                    <option value="" hidden>Select Property</option>
                     {properties?.entities?.map((property) => (
                       <option key={property.id} value={property.id}>
                         {property.parentProperty?.title} {property.title}
@@ -155,13 +155,14 @@ const Maintenance = ({
 
                 <FormGroup className="form-group-custom m-4">
                   <Label htmlFor="date">Appointment Date</Label>
-                  <DateTimePicker
+                  <Input
+                    type="datetime-local"
                     className="form-ctrl d-block"
-                    style={{height: '50px'}}
                     id="date"
-                    onChange={onChange}
                     value={value}
+                    onChange={(e) => onChange(e.target.value)}
                     format="dd-MM-yyyy HH:mm"
+                    min={moment().format("YYYY-MM-DD HH:mm")}
                   />
                 </FormGroup>
 
@@ -174,7 +175,7 @@ const Maintenance = ({
                     required
                     onChange={(e) => setServiceName(e.target.value)}
                   >
-                    <option value="">Select Service type</option>
+                    <option value="" hidden>Select Service type</option>
                     {sortedServiceTypes?.map((service) => (
                       <option key={service.id} value={service.name}>
                         {service.name}
@@ -191,10 +192,12 @@ const Maintenance = ({
                     label="Service Provider 1"
                     required
                   >
-                    <option value="">Select Service Provider 1</option>
+                    <option value="" hidden>Select Service Provider 1</option>
                     {serviceProviders?.entities?.map((provider, idx) => (
-                      <option key={idx} value={provider.id}>{provider.firstName} {provider.lastName}</option>
-                    ))}  
+                      <option key={idx} value={provider.id}>
+                        {provider.firstName} {provider.lastName}
+                      </option>
+                    ))}
                   </AvField>
                 </AvGroup>
 
@@ -205,10 +208,12 @@ const Maintenance = ({
                     className="form-ctrl"
                     label="Service Provider 2"
                   >
-                    <option value="">Select Service Provider 2</option>
+                    <option value="" hidden>Select Service Provider 2</option>
                     {serviceProviders?.entities?.map((provider, idx) => (
-                      <option key={idx} value={provider.id}>{provider.firstName} {provider.lastName}</option>
-                    ))} 
+                      <option key={idx} value={provider.id}>
+                        {provider.firstName} {provider.lastName}
+                      </option>
+                    ))}
                   </AvField>
                 </AvGroup>
 
@@ -219,10 +224,12 @@ const Maintenance = ({
                     className="form-ctrl"
                     label="Service Provider 3"
                   >
-                    <option value="">Select Service Provider 3</option>
+                    <option value="" hidden>Select Service Provider 3</option>
                     {serviceProviders?.entities?.map((provider, idx) => (
-                      <option key={idx} value={provider.id}>{provider.firstName} {provider.lastName}</option>
-                    ))} 
+                      <option key={idx} value={provider.id}>
+                        {provider.firstName} {provider.lastName}
+                      </option>
+                    ))}
                   </AvField>
                 </AvGroup>
                 {/* <AvGroup className="form-group-custom m-4">
@@ -289,8 +296,16 @@ const Maintenance = ({
 
 const mapStatetoProps = (state) => {
   const { properties } = state.Properties;
-  const { serviceTypes, maintenance, error, loading, serviceProviders } = state.Maintenance;
-  return { properties, loading, serviceTypes, maintenance, error, serviceProviders };
+  const { serviceTypes, maintenance, error, loading, serviceProviders } =
+    state.Maintenance;
+  return {
+    properties,
+    loading,
+    serviceTypes,
+    maintenance,
+    error,
+    serviceProviders,
+  };
 };
 
 export default withRouter(
@@ -299,6 +314,6 @@ export default withRouter(
     getServiceTypes,
     postMaintenanceReq,
     clearMessages,
-    getServiceProviders
+    getServiceProviders,
   })(Maintenance)
 );

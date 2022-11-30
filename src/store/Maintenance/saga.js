@@ -1,13 +1,19 @@
 import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
 
 import { 
+  ACCEPT_INVOICE,
+  ACCEPT_SERVICE_AGREEMENT,
   FETCH_MAINTENANCE,
   FETCH_SERVICE,
   GET_ALL_SERVICE_REQ,  
+  GET_INVOICE_DETS,  
   GET_MAINTENANCE_REQ, 
   GET_SERVICE_PROVIDERS, 
   GET_SERVICE_TYPES, 
-  POST_MAINTENANCE_REQ
+  INIT_COMPLETE_PAYMENT, 
+  INIT_PART_PAYMENT, 
+  POST_MAINTENANCE_REQ,
+  REJECT_INVOICE
 } from './actionTypes';
 
 import { 
@@ -24,17 +30,35 @@ import {
   fetchMaintenanceSuccess,
   fetchMaintenanceFailure,
   getServiceProvidersSuccess,
-  getServiceProvidersError
+  getServiceProvidersError,
+  getInvoiceDetsSuccess,
+  getInvoiceDetsError,
+  acceptInvoiceSuccess,
+  acceptInvoiceError,
+  rejectInvoiceSuccess,
+  rejectInvoiceError,
+  acceptServiceAgreementSuccess,
+  acceptServiceAgreementError,
+  initPartPaymentSuccess,
+  initPartPaymentError,
+  initCompletePaymentSuccess,
+  initCompletePaymentError
 } from './actions';
 
 import { 
+  acceptInvoiceService,
+  acceptServiceAgreementService,
   fetchMaintenanceService,
   fetchServiceServer,
   getAllServicesServer,
+  getInvoiceDetsService,
   getMaintenanceReqService,
   getServiceProvidersService,
   getServiceTypesService,
-  postMaintenanceReqService
+  initCompletePaymentService,
+  initPartPaymentService,
+  postMaintenanceReqService,
+  rejectInvoiceService
 } from '../../services/maintenanceServices';
 
 function* getAllServiceReq() {
@@ -105,6 +129,72 @@ function* getServiceProviders({payload: {serviceName}}) {
   }
 }
 
+function* getInvoiceDets({payload: {invoiceRef}}) {
+  try {
+    const response = yield call(getInvoiceDetsService, invoiceRef);
+    yield put(getInvoiceDetsSuccess(response.data));
+    // console.log(response.data);
+  } catch (error) {
+    yield put(getInvoiceDetsError(error?.response?.data));
+    // console.log(error?.response)
+  }
+}
+
+function* acceptInvoice({payload: {id}}) {
+  try {
+    const response = yield call(acceptInvoiceService, id);
+    yield put(acceptInvoiceSuccess(response.data));
+    console.log(response.data);
+  } catch (error) {
+    yield put(acceptInvoiceError(error?.response?.data));
+    console.log(error?.response?.data)
+  }
+}
+
+function* rejectInvoice({payload: {id}}) {
+  try {
+    const response = yield call(rejectInvoiceService, id);
+    yield put(rejectInvoiceSuccess(response.data));
+    // console.log(response.data);
+  } catch (error) {
+    yield put(rejectInvoiceError(error?.response?.data));
+    // console.log(error?.response?.data)
+  }
+}
+
+function* acceptServiceAgreement({payload: {id}}) {
+  try {
+    const response = yield call(acceptServiceAgreementService, id);
+    yield put(acceptServiceAgreementSuccess(response.data));
+    // console.log(response.data);
+  } catch (error) {
+    yield put(acceptServiceAgreementError(error?.response?.data));
+    // console.log(error?.response?.data)
+  }
+}
+
+function* initPartPayment ({payload: {id}}) {
+  try {
+    const response = yield call(initPartPaymentService, id);
+    yield put(initPartPaymentSuccess(response.data));
+    // console.log(response.data);
+  } catch (error) {
+    yield put(initPartPaymentError(error?.response?.data));
+    // console.log(error?.response?.data)
+  }
+}
+
+function* initCompletePayment({payload: {id}}) {
+  try {
+    const response = yield call(initCompletePaymentService, id);
+    yield put(initCompletePaymentSuccess(response.data));
+    // console.log(response.data);
+  } catch (error) {
+    yield put(initCompletePaymentError(error?.response?.data));
+    // console.log(error?.response?.data)
+  }
+}
+
 export function* watchFetchService() {
   yield takeEvery(FETCH_SERVICE, fetchService)
 }
@@ -133,6 +223,30 @@ export function* watchGetServiceProviders() {
   yield takeEvery(GET_SERVICE_PROVIDERS, getServiceProviders);
 }
 
+export function* watchGetInvoiceDets() {
+  yield takeEvery(GET_INVOICE_DETS, getInvoiceDets);
+}
+
+export function* watchAcceptInvoice() {
+  yield takeEvery(ACCEPT_INVOICE, acceptInvoice);
+}
+
+export function* watchRejectInvoice() {
+  yield takeEvery(REJECT_INVOICE, rejectInvoice);
+}
+
+export function* watchAcceptServiceAgreement() {
+  yield takeEvery(ACCEPT_SERVICE_AGREEMENT, acceptServiceAgreement);
+}
+
+export function* watchInitPartPayment() {
+  yield takeEvery(INIT_PART_PAYMENT, initPartPayment);
+}
+
+export function* watchInitCompletePayment() {
+  yield takeEvery(INIT_COMPLETE_PAYMENT, initCompletePayment);
+}
+
 function* MaintenanceSaga() {
   yield all([
     fork(watchFetchService),
@@ -142,6 +256,12 @@ function* MaintenanceSaga() {
     fork(watchGetMaintenanceReq),
     fork(watchFetchMaintenance),
     fork(watchGetServiceProviders),
+    fork(watchGetInvoiceDets),
+    fork(watchAcceptInvoice),
+    fork(watchRejectInvoice),
+    fork(watchAcceptServiceAgreement),
+    fork(watchInitPartPayment),
+    fork(watchInitCompletePayment),
   ]);
 }
 

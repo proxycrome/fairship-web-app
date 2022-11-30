@@ -13,6 +13,7 @@ const CreateMoreUnit = ({
   duplicateUnitProperty,
   propertiesError,
   propertyTypes,
+  feature
 }) => {
   const [showForm, setShowForm] = useState(false);
 
@@ -29,6 +30,8 @@ const CreateMoreUnit = ({
       setShowForm(false);
     }
   }, [message]);
+
+  console.log(createdProperty);
 
   return (
     <div>
@@ -94,6 +97,7 @@ const CreateMoreUnit = ({
                   updateProperty={createUnitHandler}
                   propertyTypes={propertyTypes}
                   landlordAgents={landlordAgents}
+                  feature={createdProperty[0].feature}
                 />
               </div>
             )}

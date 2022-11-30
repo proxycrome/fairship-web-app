@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Container,
   Card,
@@ -12,18 +12,23 @@ import {
   Col,
   Button,
   Alert,
-} from 'reactstrap';
+} from "reactstrap";
 // Redux
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
-import PropertyForm from './FormData/PropertyFrom';
-import UnitForm from './FormData/UnitForm';
+import PropertyForm from "./FormData/PropertyForm";
+import UnitForm from "./FormData/UnitForm";
 
-import classnames from 'classnames';
-import CreateMoreUnit from './CreateMoreUnit';
+import classnames from "classnames";
+import CreateMoreUnit from "./CreateMoreUnit";
 // actions
-import { createProperties, getLandlordAgents, getPropertyTypes, loadUser } from '../../../store/actions';
+import {
+  createProperties,
+  getLandlordAgents,
+  getPropertyTypes,
+  loadUser,
+} from "../../../store/actions";
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -32,7 +37,7 @@ class CreateProperty extends Component {
       activeTab: 1,
       propertyData: null,
       unitData: null,
-      feature: 'RENT',
+      feature: "RENT",
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.updateProperty = this.updateProperty.bind(this);
@@ -53,6 +58,7 @@ class CreateProperty extends Component {
     const payload = {
       type: null,
     };
+
     this.props.createProperties(formData, payload);
 
     this.setState({ unitData: values });
@@ -70,12 +76,14 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
-    this.props.getLandlordAgents(this.props.user?.id);
-    this.props.getPropertyTypes();
+    if (this.props.user) {
+      this.props.getLandlordAgents(this.props.user?.id);
+      this.props.getPropertyTypes();
+    }
   }
 
   componentDidUpdate(prevProps, PrevState, snapshot) {
-    if(prevProps.user !== this.props.user){
+    if (prevProps.user !== this.props.user) {
       this.props.getLandlordAgents(this.props.user?.id);
       this.props.getPropertyTypes();
     }
@@ -146,13 +154,13 @@ class CreateProperty extends Component {
                             <div className="mb-4">
                               <Button
                                 color={
-                                  this.state.feature === 'SALE'
-                                    ? 'primary'
-                                    : 'light'
+                                  this.state.feature === "SALE"
+                                    ? "primary"
+                                    : "light"
                                 }
                                 onClick={() =>
                                   this.setState({
-                                    feature: 'SALE',
+                                    feature: "SALE",
                                   })
                                 }
                                 className="mr-2 px-4"
@@ -161,13 +169,13 @@ class CreateProperty extends Component {
                               </Button>
                               <Button
                                 color={
-                                  this.state.feature === 'RENT'
-                                    ? 'primary'
-                                    : 'light'
+                                  this.state.feature === "RENT"
+                                    ? "primary"
+                                    : "light"
                                 }
                                 onClick={() =>
                                   this.setState({
-                                    feature: 'RENT',
+                                    feature: "RENT",
                                   })
                                 }
                                 className="px-4"
@@ -182,6 +190,7 @@ class CreateProperty extends Component {
                               agents={this.props.landlordAgents?.data}
                               propertyTypes={this.props.propertyTypes}
                               landlordAgents={this.props.landlordAgents}
+                              feature={this.state.feature}
                             />
                           </TabPane>
                           <TabPane tabId={2}>
@@ -192,6 +201,7 @@ class CreateProperty extends Component {
                               agents={this.props.landlordAgents?.data}
                               propertyTypes={this.props.propertyTypes}
                               landlordAgents={this.props.landlordAgents}
+                              feature={this.state.feature}
                             />
                           </TabPane>
                         </TabContent>
@@ -201,7 +211,10 @@ class CreateProperty extends Component {
                 </Col>
               </Row>
             ) : (
-              <CreateMoreUnit agents={this.props.agents} propertyTypes={this.props.propertyTypes} />
+              <CreateMoreUnit
+                agents={this.props.agents}
+                propertyTypes={this.props.propertyTypes}
+              />
             )}
           </Container>
         </div>
@@ -211,11 +224,27 @@ class CreateProperty extends Component {
 }
 const mapStatetoProps = (state) => {
   const { loading, user } = state.Account;
-  const { message, property, createUnit, propertyTypes, propertiesError } = state.Properties;
+  const { message, property, createUnit, propertyTypes, propertiesError } =
+    state.Properties;
   const { agents, landlordAgents } = state.Agents;
-  return { loading, agents, message, property, createUnit, user, propertyTypes, landlordAgents, propertiesError };
+  return {
+    loading,
+    agents,
+    message,
+    property,
+    createUnit,
+    user,
+    propertyTypes,
+    landlordAgents,
+    propertiesError,
+  };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { createProperties, getLandlordAgents, getPropertyTypes, loadUser })(CreateProperty)
+  connect(mapStatetoProps, {
+    createProperties,
+    getLandlordAgents,
+    getPropertyTypes,
+    loadUser,
+  })(CreateProperty)
 );

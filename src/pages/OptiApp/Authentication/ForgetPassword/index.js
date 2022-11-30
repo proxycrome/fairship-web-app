@@ -1,38 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Row, Col, Button, Alert, Container, FormGroup } from 'reactstrap';
+import { Row, Col, Button, Alert, Container, FormGroup } from "reactstrap";
 
 // Redux
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 // availity-reactstrap-validation
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { AvForm, AvField } from "availity-reactstrap-validation";
 
 // actions
-import { checkLogin, apiError } from '../../../../../src/store/actions';
+import {
+  checkLogin,
+  apiError,
+  forgetUser,
+} from "../../../../../src/store/actions";
 
 // import images
-import logodark from '../../../../assets/images/FairshipLogo.svg';
+import logodark from "../../../../assets/images/FairshipLogo.svg";
 
 class ChangePassword extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: 'admin@themesdesign.in', password: '123456' };
+    this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event, values) {
-    this.props.checkLogin(values, this.props.history);
+    this.props.forgetUser(values.email);
   }
 
   componentDidMount() {
-    this.props.apiError('');
-    document.body.classList.add('auth-body-bg');
+    this.props.apiError("");
+    document.body.classList.add("auth-body-bg");
   }
 
   componentWillUnmount() {
-    document.body.classList.remove('auth-body-bg');
+    document.body.classList.remove("auth-body-bg");
   }
 
   render() {
@@ -54,6 +58,16 @@ class ChangePassword extends Component {
                         <img src={logodark} height="100" alt="logo" />
                       </Link>
                     </div>
+                    {this.props.message && this.props.message?.message && (
+                      <Alert className="text-center" color="success">
+                        {this.props.message?.message}
+                      </Alert>
+                    )}
+                    {this.props.forgetError && this.props.forgetError?.message && (
+                      <Alert className="text-center" color="danger">
+                        {this.props.forgetError?.message}
+                      </Alert>
+                    )}
                     <Row className="justify-content-center  mt-5">
                       <Col lg={9}>
                         <div>
@@ -62,7 +76,12 @@ class ChangePassword extends Component {
                               Forgot Password?
                             </h3>
                             <p className="text-muted">
-                              Don't worry we can help you out! if you still remember your email address you can quickly reset your password. just input that information in the fields below and click on the button. This will send you to a new email that will link you to the password change website.
+                              Don't worry we can help you out! if you still
+                              remember your email address you can quickly reset
+                              your password. just input that information in the
+                              fields below and click on the button. This will
+                              send you to a new email that will link you to the
+                              password change website.
                             </p>
                           </div>
 
@@ -73,12 +92,13 @@ class ChangePassword extends Component {
                             >
                               <FormGroup className="form-group-custom mb-4">
                                 <AvField
-                                  name="confirm_password"
+                                  name="email"
                                   // value={this.state.password}
                                   type="email"
                                   className="form-ctrl bg-light border-0"
                                   id="email"
                                   placeholder="Email Address"
+                                  required
                                 />
                               </FormGroup>
 
@@ -88,7 +108,9 @@ class ChangePassword extends Component {
                                   className="w-100 waves-effect waves-light"
                                   type="submit"
                                 >
-                                  Request Password Change
+                                  {this.props.loading
+                                    ? "Loading..."
+                                    : "Request Password Change"}
                                 </Button>
                               </div>
 
@@ -115,10 +137,10 @@ class ChangePassword extends Component {
 }
 
 const mapStatetoProps = (state) => {
-  const { loginError } = state.Account;
-  return { loginError };
+  const { loginError, message, forgetError, loading } = state.Account;
+  return { loginError, message, forgetError, loading };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { checkLogin, apiError })(ChangePassword)
+  connect(mapStatetoProps, { checkLogin, apiError, forgetUser })(ChangePassword)
 );

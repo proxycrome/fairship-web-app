@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
 // Login Redux States
 import {
@@ -12,7 +12,9 @@ import {
   PUT_UNIT_PROPERTY,
   DELETE_PROPERTY,
   NOTIFY_ADMIN_WALKTHROUGH,
-} from './actionTypes';
+  GET_ALL_APARTMENT_TYPES,
+  GET_WALKTHROUGH_BY_APARTMENT,
+} from "./actionTypes";
 
 import {
   fetchPropertiesSuccessful,
@@ -33,7 +35,11 @@ import {
   deletePropertyError,
   notifyAdminWalkthroughSuccess,
   notifyAdminWalkthroughError,
-} from './actions';
+  getAllApartmentTypesSuccess,
+  getAllApartmentTypesError,
+  getWalkByApartmentSuccess,
+  getWalkByApartmentError,
+} from "./actions";
 
 import {
   fetchPropertiesService,
@@ -46,7 +52,9 @@ import {
   deletePropertyService,
   putSingleUnitPropertyService,
   notifyAdminWalkthroughService,
-} from '../../services/propertiesServices';
+  getAllApartmentTypesService,
+  getWalkByApartmentService,
+} from "../../services/propertiesServices";
 
 function* fetchProperties({ payload: { payload, collectiveId } }) {
   try {
@@ -70,7 +78,9 @@ function* createProperties({ payload }) {
   try {
     const response = yield call(createPropertiesService, payload);
     yield put(createPropertiesSuccessful(response.data));
+    console.log(response?.data);
   } catch (error) {
+    console.log(error?.response?.data);
     yield put(createPropertiesError(error?.response?.data));
   }
 }
@@ -145,19 +155,44 @@ function* deleteProperty({ payload: { propertyId } }) {
   }
 }
 
-function* notifyAdminWalkthrough({ payload: {formData, history, id} }) {
+function* notifyAdminWalkthrough({ payload: { formData, setShow } }) {
   try {
     const response = yield call(notifyAdminWalkthroughService, formData);
     yield put(notifyAdminWalkthroughSuccess(response.data));
-    setTimeout(() => {
-      history.push(`/unit_property/${id}`);
-    }, 1000);   
+    console.log(response.data);
+    if (response.data) {
+      setShow(false);
+    }
   } catch (error) {
     console.log(error?.response?.data);
     yield put(notifyAdminWalkthroughError(error?.response?.data));
-    setTimeout(() => {
-      history.push(`/unit_property/${id}`);
-    }, 1000);
+    if (error?.response?.data) {
+      setShow(false);
+    }
+  }
+}
+
+function* getAllApartmentTypes() {
+  try {
+    const response = yield call(getAllApartmentTypesService);
+    yield put(getAllApartmentTypesSuccess(response.data));
+    // console.log(response.data)
+  } catch (error) {
+    // console.log(error);
+    // console.log(error?.response);
+    yield put(getAllApartmentTypesError(error?.response?.data));
+  }
+}
+
+function* getWalkByApartment({ payload: { apartmentType } }) {
+  try {
+    const response = yield call(getWalkByApartmentService, apartmentType);
+    yield put(getWalkByApartmentSuccess(response.data));
+    // console.log(response.data)
+  } catch (error) {
+    // console.log(error);
+    // console.log(error?.response);
+    yield put(getWalkByApartmentError(error?.response?.data));
   }
 }
 
@@ -199,6 +234,14 @@ export function* watchNotifyAdminWalkthrough() {
   yield takeEvery(NOTIFY_ADMIN_WALKTHROUGH, notifyAdminWalkthrough);
 }
 
+export function* watchGetAllApartmentTypes() {
+  yield takeEvery(GET_ALL_APARTMENT_TYPES, getAllApartmentTypes);
+}
+
+export function* watchGetWalkByApartment() {
+  yield takeEvery(GET_WALKTHROUGH_BY_APARTMENT, getWalkByApartment);
+}
+
 function* PropertiesSaga() {
   yield all([
     fork(watchFetchProperties),
@@ -211,6 +254,8 @@ function* PropertiesSaga() {
     fork(watchUpdateUnitProperty),
     fork(watchDeleteProperty),
     fork(watchNotifyAdminWalkthrough),
+    fork(watchGetAllApartmentTypes),
+    fork(watchGetWalkByApartment),
   ]);
 }
 

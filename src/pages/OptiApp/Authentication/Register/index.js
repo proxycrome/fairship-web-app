@@ -71,6 +71,8 @@ const Register = ({
         ? values.phone.replace(/\+234/, "234")
         : values.phone.startsWith("0")
         ? values.phone.replace(/0/, "234")
+        : values.phone.startsWith("+2340")
+        ? values.phone.replace(/\+2340/, "234") 
         : values.phone,
     };
    
@@ -97,7 +99,7 @@ const Register = ({
         registerUserFailed("");
       }, [2000]);
     }
-  }, [message]);
+  }, [message, registrationError]);
 
   return (
     <React.Fragment>
@@ -282,6 +284,7 @@ const Register = ({
                                     className="form-ctrl bg-light border border-0"
                                     id="password"
                                     placeholder="Password"
+                                    required
                                   />
                                 </FormGroup>
                               </Col>

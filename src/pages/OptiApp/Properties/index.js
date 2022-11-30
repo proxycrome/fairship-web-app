@@ -21,6 +21,8 @@ const Properties = ({ fetchProperties, properties, loading }) => {
     fetchProperties();
   }, []);
 
+  console.log(properties);
+
   if (showPreview) return <PreviewProperty BackToHome={SetShowPreview} />;
   return (
     <div className="page-content">

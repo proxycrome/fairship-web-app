@@ -136,10 +136,10 @@ export const activateAccountFailed = (error) => {
 };
 
 // forgetPassword
-export const forgetUser = (user, history) => {
+export const forgetUser = (email) => {
   return {
     type: FORGET_USER,
-    payload: { user, history },
+    payload: { email },
   };
 };
 

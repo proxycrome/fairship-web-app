@@ -15,7 +15,7 @@ import { getAgents, postAgents } from "../../../store/actions";
 import Loader from "../../../components/Common/Loading/index";
 import { clearMessages } from "../../../store/Agent/actions";
 
-const CreateAgent = ({ BackToHome }) => {
+const CreateAgent = ({ BackToHome, userId }) => {
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const CreateAgent = ({ BackToHome }) => {
     dispatch(clearMessages());
   }, [dispatch]);
 
-  const { user } = useSelector((state) => state.Account);
+  console.log(userId);
 
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -36,12 +36,13 @@ const CreateAgent = ({ BackToHome }) => {
     setFormData({
       ...formData,
       agentId: selectedOption.value,
-      landlordId: user?.id,
+      landlordId: userId,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log(formData);
     dispatch(postAgents(formData));
   };
 
@@ -50,6 +51,7 @@ const CreateAgent = ({ BackToHome }) => {
   );
 
 
+  console.log(postAgentError);
 
   const AgentsIdArray = landlordAgents?.data?.agents?.map((agent) => agent.id);
 
@@ -101,7 +103,7 @@ const CreateAgent = ({ BackToHome }) => {
                 )}
                 {postAgentError && (
                   <Alert color="danger" className="text-center">
-                    This Agent is Booked by another Landlord
+                    {postAgentError?.message}
                   </Alert>
                 )}
                 <h5>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Card,
@@ -11,17 +11,17 @@ import {
   ModalBody,
   UncontrolledTooltip,
   Alert,
-} from 'reactstrap';
+} from "reactstrap";
 
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import DocumentsUpload from '../leaseUpload';
-import { fetchEachProperties } from '../../../../store/actions';
-import { clearUnitMessage } from '../../../../store/properties/actions';
-import PropertyIcon from '../../../../assets/images/Property.png';
-import avatar from '../../../../assets/images/avi.jpg';
-import Loader from '../../../../components/Common/Loading/index';
-import chat from '../images/chat.svg';
+import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import DocumentsUpload from "../leaseUpload";
+import { fetchEachProperties } from "../../../../store/actions";
+import { clearUnitMessage } from "../../../../store/properties/actions";
+import PropertyIcon from "../../../../assets/images/Property.png";
+import avatar from "../../../../assets/images/avi.jpg";
+import Loader from "../../../../components/Common/Loading/index";
+import chat from "../images/chat.svg";
 
 const ListUnitPreview = ({
   match,
@@ -49,6 +49,9 @@ const ListUnitPreview = ({
     if (property) {
       setPropImages(property?.images);
     }
+  }, [property]);
+
+  useEffect(() => {
     const lastIndex = propImages?.length - 1;
     if (index < 0) {
       setIndex(lastIndex);
@@ -56,14 +59,14 @@ const ListUnitPreview = ({
     if (index > lastIndex) {
       setIndex(0);
     }
-  }, [index, propImages, property]);
+  }, [index, propImages]);
 
   useEffect(() => {
     const slider = setInterval(() => {
       setIndex(index + 1);
     }, 3000);
     return () => clearInterval(slider);
-  }, []);
+  }, [index]);
 
   useEffect(() => {
     fetchEachProperties(match.params.id);
@@ -81,18 +84,18 @@ const ListUnitPreview = ({
   };
 
   const cardStyle = {
-    boxShadow: '0px 4px 30px rgba(98, 134, 154, 0.38)',
-    borderRadius: '10px',
-    width: '90%',
-    textAlign: 'center',
-    padding: '10px',
-    height: '100px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '20px',
-    flex: '1',
-    cursor: 'pointer',
+    boxShadow: "0px 4px 30px rgba(98, 134, 154, 0.38)",
+    borderRadius: "10px",
+    width: "90%",
+    textAlign: "center",
+    padding: "10px",
+    height: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "20px",
+    flex: "1",
+    cursor: "pointer",
   };
 
   console.log(property);
@@ -111,33 +114,28 @@ const ListUnitPreview = ({
           <Loader loading={loading} />
         ) : (
           <>
+            {notifyMsg && notifyMsg?.message && (
+              <Alert className="text-center" color="success">
+                {notifyMsg?.message}
+              </Alert>
+            )}
             <Card>
               <CardBody>
-                {notifyMsg && notifyMsg?.message && (
-                  <Alert className="text-center" color="success">
-                    {notifyMsg?.message}
-                  </Alert>
-                )}
-                {notifyMsgError && notifyMsgError?.message && (
-                  <Alert className="text-center" color="danger">
-                    {notifyMsgError?.message}
-                  </Alert>
-                )}
                 <Row>
                   <Col md={4} sm={12}>
                     <div className="section-center">
                       {propImages?.map((propImage, propIndex) => {
                         const { id, imageUrl } = propImage;
                         // more stuff coming up
-                        let position = 'nextSlide';
+                        let position = "nextSlide";
                         if (propIndex === index) {
-                          position = 'activeSlide';
+                          position = "activeSlide";
                         }
                         if (
                           propIndex === index - 1 ||
                           (index === 0 && propIndex === propImages.length - 1)
                         ) {
-                          position = 'lastSlide';
+                          position = "lastSlide";
                         }
                         return (
                           <article
@@ -153,7 +151,7 @@ const ListUnitPreview = ({
                                 src={imageUrl}
                                 alt="property"
                                 className="prop-img"
-                                style={{ borderRadius: '20px', width: '100%' }}
+                                style={{ borderRadius: "20px", width: "100%" }}
                               />
                             </a>
                           </article>
@@ -180,21 +178,21 @@ const ListUnitPreview = ({
                     </div> */}
                     <div className="my-3">
                       <h6>Property</h6>
-                      <span style={{ display: 'block' }}>
+                      <span style={{ display: "block" }}>
                         {property?.title}
                       </span>
                       <span>(ID: {property?.propertyRef})</span>
                     </div>
                     <div className="mb-3">
                       <span>
-                        {property?.address?.houseNoAddress},{' '}
+                        {property?.address?.houseNoAddress},{" "}
                         {property?.address?.state}, {property?.address?.country}
                       </span>
                     </div>
                     <div className="mb-3">
                       <img src={PropertyIcon} alt="property icon" />
                       <span className="ml-2">
-                        {property?.bedrooms} bedrooms {property?.bathrooms}{' '}
+                        {property?.bedrooms} bedrooms {property?.bathrooms}{" "}
                         bathrooms
                       </span>
                     </div>
@@ -205,7 +203,7 @@ const ListUnitPreview = ({
                     <div>
                       <h6>Amenities</h6>
                       {property?.otherAmenities
-                        ?.split(',')
+                        ?.split(",")
                         .map((amentity, i) => (
                           <span key={i} className="d-block">
                             {amentity}
@@ -219,14 +217,14 @@ const ListUnitPreview = ({
                         onClick={() => setTaskContents(true)}
                         color="success"
                       >
-                        {' '}
+                        {" "}
                         Tasks
                       </Button>
                     </div>
                     <div className="d-flex justify-content-end mt-3">
                       <p>
                         From ₦
-                        <span style={{ fontWeight: '800', color: 'blue' }}>
+                        <span style={{ fontWeight: "800", color: "blue" }}>
                           {property?.price?.toLocaleString()}
                         </span>
                         / yr
@@ -236,7 +234,7 @@ const ListUnitPreview = ({
                 </Row>
               </CardBody>
             </Card>
-            {property?.feature === 'RENT' ? (
+            {property?.feature === "RENT" ? (
               <Card>
                 <CardBody>
                   <Row>
@@ -253,13 +251,13 @@ const ListUnitPreview = ({
                       <div className="mb-3">
                         <h6>Serviced</h6>
                         <span>
-                          {property?.isServiced === true ? 'True' : 'False'}
+                          {property?.isServiced === true ? "True" : "False"}
                         </span>
                       </div>
                       <div>
                         <h6>Furnished</h6>
                         <span>
-                          {property?.isFurnished === true ? 'True' : 'False'}
+                          {property?.isFurnished === true ? "True" : "False"}
                         </span>
                       </div>
                     </Col>
@@ -267,7 +265,7 @@ const ListUnitPreview = ({
                       <div className="mb-3">
                         <h6>Parking Space</h6>
                         <span>
-                          {property?.parkingLot === true ? 'True' : 'False'}
+                          {property?.parkingLot === true ? "True" : "False"}
                         </span>
                       </div>
                       <div className="mb-3">
@@ -284,8 +282,8 @@ const ListUnitPreview = ({
                         <h6>Payment plan</h6>
                         <span>
                           {property?.periodInMonths
-                            ? property?.periodInMonths + ' months'
-                            : 'None'}
+                            ? property?.periodInMonths + " months"
+                            : "None"}
                         </span>
                       </div>
                       <div className="mb-3">
@@ -300,7 +298,7 @@ const ListUnitPreview = ({
                   </Row>
                 </CardBody>
               </Card>
-            ) : property?.feature === 'SALE' ? (
+            ) : property?.feature === "SALE" ? (
               <Card>
                 <CardBody>
                   <Row>
@@ -323,7 +321,7 @@ const ListUnitPreview = ({
                       <div className="mb-3">
                         <h6>Status</h6>
                         <span>
-                          {property?.status !== 'SOLD' ? 'Processing' : 'Sold'}
+                          {property?.status !== "SOLD" ? "Processing" : "Sold"}
                         </span>
                       </div>
                       <div className="mb-3">
@@ -336,8 +334,8 @@ const ListUnitPreview = ({
                         <h6>Payment plan</h6>
                         <span>
                           {property?.periodInMonths
-                            ? property?.periodInMonths + ' months'
-                            : 'None'}
+                            ? property?.periodInMonths + " months"
+                            : "None"}
                         </span>
                       </div>
                       <div className="mb-3">
@@ -371,8 +369,8 @@ const ListUnitPreview = ({
                         )}
 
                         <h5 className="card-title">
-                          {' '}
-                          {property?.agentDetail?.firstName}{' '}
+                          {" "}
+                          {property?.agentDetail?.firstName}{" "}
                           {property?.agentDetail?.lastName}
                         </h5>
                       </div>
@@ -386,14 +384,14 @@ const ListUnitPreview = ({
                         <div
                           className="d-flex rounded-circle justify-content-center align-items-center"
                           style={{
-                            backgroundColor: 'lightGreen',
-                            height: '50%',
+                            backgroundColor: "lightGreen",
+                            height: "50%",
                           }}
                           id="phone"
                         >
                           <i
                             className="fa fa-phone"
-                            style={{ color: 'white' }}
+                            style={{ color: "white" }}
                           ></i>
                         </div>
                         <p> Call </p>
@@ -412,14 +410,14 @@ const ListUnitPreview = ({
                           }
                           className="d-flex rounded-circle justify-content-center align-items-center"
                           style={{
-                            backgroundColor: 'lightGreen',
-                            height: '50%',
+                            backgroundColor: "lightGreen",
+                            height: "50%",
                           }}
                           id="email"
                         >
                           <i
                             className=" fas fa-envelope"
-                            style={{ color: 'white' }}
+                            style={{ color: "white" }}
                           ></i>
                         </a>
                         <p> Email </p>
@@ -456,7 +454,7 @@ const ListUnitPreview = ({
                       )}
 
                       <h5 className="card-title mb-2">
-                        {property?.rentedBy?.firstName}{' '}
+                        {property?.rentedBy?.firstName}{" "}
                         {property?.rentedBy?.lastName}
                       </h5>
                       <Link to="#">
@@ -474,12 +472,12 @@ const ListUnitPreview = ({
                     <div>
                       <div
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
+                        style={{ backgroundColor: "lightGreen", height: "50%" }}
                         id="call"
                       >
                         <i
                           className="fa fa-phone"
-                          style={{ color: 'white' }}
+                          style={{ color: "white" }}
                         ></i>
                       </div>
                       <p> Call </p>
@@ -496,12 +494,12 @@ const ListUnitPreview = ({
                           `mailto:${property?.rentedBy?.email}`
                         }
                         className="d-flex rounded-circle justify-content-center align-items-center"
-                        style={{ backgroundColor: 'lightGreen', height: '50%' }}
+                        style={{ backgroundColor: "lightGreen", height: "50%" }}
                         id="email"
                       >
                         <i
                           className=" fas fa-envelope"
-                          style={{ color: 'white' }}
+                          style={{ color: "white" }}
                         ></i>
                       </a>
                       <p> Email </p>
@@ -536,7 +534,7 @@ const ListUnitPreview = ({
                               </a>
                             </Card>
                           ))
-                        : 'No document found'}
+                        : "No document found"}
                     </div>
                   </div>
                 </div>
@@ -681,7 +679,7 @@ const ListUnitPreview = ({
                         </span>
                       </div>
                     </Link>
-                    {property?.feature === 'RENT' && (
+                    {property?.feature === "RENT" && (
                       <div
                         style={cardStyle}
                         onClick={() => {
@@ -694,7 +692,7 @@ const ListUnitPreview = ({
                         </span>
                       </div>
                     )}
-                    {property?.feature === 'SALE' && (
+                    {property?.feature === "SALE" && (
                       <>
                         <div
                           style={cardStyle}

@@ -28,7 +28,13 @@ import {
   NOTIFY_ADMIN_WALKTHROUGH,
   NOTIFY_ADMIN_WALKTHROUGH_SUCCESS,
   NOTIFY_ADMIN_WALKTHROUGH_ERROR,
-} from './actionTypes';
+  GET_ALL_APARTMENT_TYPES,
+  GET_ALL_APARTMENT_TYPES_SUCCESS,
+  GET_ALL_APARTMENT_TYPES_ERROR,
+  GET_WALKTHROUGH_BY_APARTMENT,
+  GET_WALKTHROUGH_BY_APARTMENT_SUCCESS,
+  GET_WALKTHROUGH_BY_APARTMENT_ERROR,
+} from "./actionTypes";
 
 const initialState = {
   properties: null,
@@ -50,6 +56,11 @@ const initialState = {
   duppleData: null,
   notifyMsg: null,
   notifyMsgError: null,
+  noteLoading: false,
+  apartmentTypes: null,
+  apartmentTypesError: null,
+  walkVideoPlans: null,
+  walkVideoPlansError: null,
 };
 
 const Properties = (state = initialState, action) => {
@@ -104,7 +115,7 @@ const Properties = (state = initialState, action) => {
         ...state,
         createdProperty: [...state.createdProperty, action.payload],
         property: action.payload,
-        message: 'Property Created Successfully',
+        message: "Property Created Successfully",
         loading: false,
         createUnit: true,
       };
@@ -132,7 +143,7 @@ const Properties = (state = initialState, action) => {
         loading: false,
         unitMessage: action.payload,
         PropertyTypeError: null,
-        editMessage: 'Unit Updated Successfully',
+        editMessage: "Unit Updated Successfully",
       };
       break;
 
@@ -207,8 +218,8 @@ const Properties = (state = initialState, action) => {
         editMessage: null,
         deleteMessage: null,
         duppleMessage: null,
-        notifyMsg: null,
-        notifyMsgError: null,
+        // notifyMsg: null,
+        // notifyMsgError: null,
       };
       break;
 
@@ -227,7 +238,7 @@ const Properties = (state = initialState, action) => {
         loading: false,
         duppleData: action.payload.message,
         propertiesError: null,
-        message: 'Property Created Successfully',
+        message: "Property Created Successfully",
         createdProperty: [...state.createdProperty, action.payload],
         createUnit: true,
       };
@@ -239,6 +250,7 @@ const Properties = (state = initialState, action) => {
         loading: true,
         notifyMsg: null,
         notifyMsgError: null,
+        noteLoading: true,
       };
       break;
 
@@ -248,6 +260,7 @@ const Properties = (state = initialState, action) => {
         loading: false,
         notifyMsg: action.payload,
         notifyMsgError: null,
+        noteLoading: false,
       };
       break;
 
@@ -257,6 +270,61 @@ const Properties = (state = initialState, action) => {
         loading: false,
         notifyMsg: null,
         notifyMsgError: action.payload,
+        noteLoading: false,
+      };
+      break;
+
+    case GET_ALL_APARTMENT_TYPES:
+      state = {
+        ...state,
+        loading: true,
+        apartmentTypes: null,
+        apartmentTypesError: null,
+      };
+      break;
+
+    case GET_ALL_APARTMENT_TYPES_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        apartmentTypes: action.payload,
+        apartmentTypesError: null,
+      };
+      break;
+
+    case GET_ALL_APARTMENT_TYPES_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        apartmentTypes: null,
+        apartmentTypesError: action.payload,
+      };
+      break;
+
+    case GET_WALKTHROUGH_BY_APARTMENT:
+      state = {
+        ...state,
+        loading: true,
+        walkVideoPlans: null,
+        walkVideoPlansError: null,
+      };
+      break;
+
+    case GET_WALKTHROUGH_BY_APARTMENT_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        walkVideoPlans: action.payload,
+        walkVideoPlansError: null,
+      };
+      break;
+
+    case GET_WALKTHROUGH_BY_APARTMENT_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        walkVideoPlans: null,
+        walkVideoPlansError: action.payload,
       };
       break;
 

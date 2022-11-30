@@ -46,9 +46,12 @@ const PropertyCard = ({
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if(property){
-      setPropImages(property?.images)
+    if (property) {
+      setPropImages(property?.images);
     }
+  }, [property]);
+
+  useEffect(() => {
     const lastIndex = propImages?.length - 1;
     if (index < 0) {
       setIndex(lastIndex);
@@ -56,19 +59,22 @@ const PropertyCard = ({
     if (index > lastIndex) {
       setIndex(0);
     }
-  }, [index, propImages, property]);
+  }, [index, propImages]);
 
   useEffect(() => {
-    const slider = setInterval(()=> {
-      setIndex(index + 1)
-    }, 3000)
+    let slider =
+      propImages?.length > 2
+        ? setInterval(() => {
+            setIndex(index + 1);
+          }, 3000)
+        : null;
     return () => clearInterval(slider);
   }, [index]);
 
   useEffect(() => {
     clearUnitMessage();
   }, []);
-  
+
   useEffect(() => {
     if (match.params.id) {
       fetchEachProperties(match.params.id);
@@ -127,38 +133,56 @@ const PropertyCard = ({
                       <Col md={4}>
                         <div className="section-center">
                           {propImages?.map((propImage, propIndex) => {
-                            const { id, imageUrl} = propImage;
+                            const { id, imageUrl } = propImage;
                             // more stuff coming up
+                            console.log(imageUrl);
                             let position = "nextSlide";
                             if (propIndex === index) {
                               position = "activeSlide";
                             }
                             if (
                               propIndex === index - 1 ||
-                              (index === 0 && propIndex === propImages.length - 1)
+                              (index === 0 &&
+                                propIndex === propImages.length - 1)
                             ) {
                               position = "lastSlide";
                             }
                             return (
-                              <article className={`imgarticle ${position}`} key={id}>
-                                <a href={`${imageUrl}`} target="_blank" rel="noopener noreferrer">
-                                <CardImg
-                                  className="img-fluid prop-img"
-                                  src={imageUrl}
-                                  alt={property.title}
-                                  style={{ borderRadius: "20px", width: "100%" }}
-                                />
-                                </a>  
+                              <article
+                                className={`imgarticle ${position}`}
+                                key={id}
+                              >
+                                <a
+                                  href={`${imageUrl}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <img
+                                    src={imageUrl}
+                                    alt="property"
+                                    className="prop-img"
+                                    style={{
+                                      borderRadius: "20px",
+                                      width: "100%",
+                                    }}
+                                  />
+                                </a>
                               </article>
                             );
                           })}
-                          <button className="prevbtn" onClick={() => setIndex(index - 1)}>
+                          <button
+                            className="prevbtn"
+                            onClick={() => setIndex(index - 1)}
+                          >
                             <i className="fas fa-angle-left"></i>
                           </button>
-                          <button className="nextbtn" onClick={() => setIndex(index + 1)}>
+                          <button
+                            className="nextbtn"
+                            onClick={() => setIndex(index + 1)}
+                          >
                             <i className="fas fa-angle-right"></i>
                           </button>
-                        </div>   
+                        </div>
                       </Col>
                       <Col md={8}>
                         <div className="ml-2">
@@ -250,16 +274,20 @@ const PropertyCard = ({
                             <p> Call </p>
                             {property?.agentDetail && (
                               <UncontrolledTooltip
-                              placement="left"
-                              target="phone"
-                            >
-                              {property?.agentDetail && property?.agentDetail?.phone}
-                            </UncontrolledTooltip>
+                                placement="left"
+                                target="phone"
+                              >
+                                {property?.agentDetail &&
+                                  property?.agentDetail?.phone}
+                              </UncontrolledTooltip>
                             )}
                           </div>
                           <div className="ml-5">
                             <a
-                              href={property?.agentDetail && `mailto:${property?.agentDetail?.email}`}
+                              href={
+                                property?.agentDetail &&
+                                `mailto:${property?.agentDetail?.email}`
+                              }
                               className="d-flex rounded-circle justify-content-center align-items-center"
                               style={{
                                 backgroundColor: "lightGreen",
@@ -275,13 +303,13 @@ const PropertyCard = ({
                             <p> Email </p>
                             {property?.agentDetail && (
                               <UncontrolledTooltip
-                              placement="top"
-                              target="email"
-                            >
-                              {property?.agentDetail && property?.agentDetail?.email}
-                            </UncontrolledTooltip>
+                                placement="top"
+                                target="email"
+                              >
+                                {property?.agentDetail &&
+                                  property?.agentDetail?.email}
+                              </UncontrolledTooltip>
                             )}
-                            
                           </div>
                         </div>
                       </div>

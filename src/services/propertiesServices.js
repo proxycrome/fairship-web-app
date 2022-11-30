@@ -86,3 +86,15 @@ export const notifyAdminWalkthroughService = (formData) => {
   let url = 'auth/notify-admin-after-walkthrough-video-payment';
   return http.postDataWithToken(formData, url);
 };
+
+export const getAllApartmentTypesService = () => {
+  const http = new HttpService();
+  let url = `auth/walkthrough-video/apartment-types`;
+  return http.getData(url);
+};
+
+export const getWalkByApartmentService = (apartmentType) => {
+  const http = new HttpService();
+  let url = `auth/walkthrough-video-plan/${apartmentType}`;
+  return http.getData(url);
+};

@@ -24,7 +24,7 @@ import { getPropertySubcategory } from "../../../../store/actions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import plus from "../images/plus.svg";
-
+import DocsUpload from "../cardProperty/DocsUpload";
 import DropZone from "../../../../components/Common/imageUpload";
 
 class CreateProperty extends Component {
@@ -33,6 +33,13 @@ class CreateProperty extends Component {
     this.state = {
       activeTab: 1,
       selectedFiles: [],
+      cooImage: {},
+      faImage: {},
+      loaImage: {},
+      landCertImage: {},
+      conveyImage: {},
+      concentImage: {},
+      othersImage: {},
       imageError: "",
       name: "",
       percentageAmount: "",
@@ -50,6 +57,7 @@ class CreateProperty extends Component {
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.payment = this.payment.bind(this);
+    this.handleSaleDocuments = this.handleSaleDocuments.bind(this);
   }
 
   showModal = () => {
@@ -80,6 +88,32 @@ class CreateProperty extends Component {
     this.setState({ pays: paymentItem });
   }
 
+  handleSaleDocuments() {
+    let combineDocs = [];
+    if (Object.keys(this.state.faImage).length > 0) {
+      combineDocs.push(this.state.faImage);
+    }
+    if (Object.keys(this.state.cooImage).length > 0) {
+      combineDocs.push(this.state.cooImage);
+    }
+    if (Object.keys(this.state.loaImage).length > 0) {
+      combineDocs.push(this.state.loaImage);
+    }
+    if (Object.keys(this.state.landCertImage).length > 0) {
+      combineDocs.push(this.state.landCertImage);
+    }
+    if (Object.keys(this.state.conveyImage).length > 0) {
+      combineDocs.push(this.state.conveyImage);
+    }
+    if (Object.keys(this.state.concentImage).length > 0) {
+      combineDocs.push(this.state.concentImage);
+    }
+    if (Object.keys(this.state.othersImage).length > 0) {
+      combineDocs.push(this.state.othersImage);
+    }
+    return combineDocs;
+  }
+
   handleSubmit(events, values) {
     this.setState({ ...this.state, imageError: "" });
     if (this.state.selectedFiles.length === 0) {
@@ -95,12 +129,12 @@ class CreateProperty extends Component {
               return agent?.id;
             }
           })?.id,
-        ]
+        ];
       }
       if (values?.agentIds === "") {
         return [];
       }
-    }
+    };
 
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
@@ -116,7 +150,8 @@ class CreateProperty extends Component {
     formData.price = Number(values.price.split(",").join(""));
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = selectAgent();
-         
+    formData.propertyDocumentImages =
+      this.props.feature === "RENT" ? null : this.handleSaleDocuments();
     formData.images = this.state.selectedFiles;
     this.props.updateProperty(formData);
   }
@@ -295,16 +330,19 @@ class CreateProperty extends Component {
                 <AvRadio label="Payment Type" value="PaymentType" />
                 </FormGroup>
               </Col> */}
-              <Col xs={6}>
-                <FormGroup className="form-group-custom mb-4">
-                  <AvField
-                    type="number"
-                    name="periodInMonths"
-                    helpMessage="Months of Rent"
-                    placeholder="Enter No. of Months"
-                  />
-                </FormGroup>
-              </Col>
+              {this.props.feature === "RENT" ? (
+                <Col xs={6}>
+                  <FormGroup className="form-group-custom mb-4">
+                    <AvField
+                      type="number"
+                      name="periodInMonths"
+                      helpMessage="Months of Rent"
+                      placeholder="Enter No. of Months"
+                    />
+                  </FormGroup>
+                </Col>
+              ) : null}
+              
               <Col xs={6}>
                 <FormGroup className="form-group-custom mb-4">
                   <AvField
@@ -380,22 +418,18 @@ class CreateProperty extends Component {
                           name="agentIds"
                           label="Add Agent"
                           placeholder="Select an Agent"
-                          // value={
-                          //   this.props.landlordAgents &&
-                          //   `${
-                          //     this.props.landlordAgents?.data?.agents?.unshift()
-                          //       .firstName
-                          //   } ${
-                          //     this.props.landlordAgents?.data?.agents?.unshift()
-                          //       .lastName
-                          //   }`
-                          // } 
+                          required
                         >
-                          <option value="">Select Agent...</option>
+                          <option value="" hidden disabled>
+                            Select an Agent...
+                          </option>
                           {this.props.landlordAgents?.data?.agents?.length !==
                           0 ? (
                             this.props.agents?.agents?.map((agent) => (
-                              <option key={agent.id} value={`${agent?.firstName} ${agent?.lastName}`}>
+                              <option
+                                key={agent.id}
+                                value={`${agent?.firstName} ${agent?.lastName}`}
+                              >
                                 {agent?.firstName} {agent?.lastName}
                               </option>
                             ))
@@ -566,17 +600,19 @@ class CreateProperty extends Component {
                             value="Communication system"
                           />
                           <div className="d-flex align-items-center">
-                            <AvCheckbox 
+                            <AvCheckbox
                               className="mb-2"
                               label="others"
                               value={this.state.others}
                               disabled={!this.state.others}
                             />
-                            <Input 
-                              className="form-control ml-2" 
-                              value={this.state.others} 
-                              style={{fontSize: "12px"}}
-                              onChange={(e) => this.setState({others: e.target.value})}
+                            <Input
+                              className="form-control ml-2"
+                              value={this.state.others}
+                              style={{ fontSize: "12px" }}
+                              onChange={(e) =>
+                                this.setState({ others: e.target.value })
+                              }
                               placeholder="Enter other amenities seperated by commas then check the box"
                             />
                           </div>
@@ -585,19 +621,96 @@ class CreateProperty extends Component {
                     </Col>
                   </Col>
                   <Col xs={6}>
-                    <>
-                      <DropZone
-                        selectedFiles={this.state.selectedFiles}
-                        setFile={(files) =>
-                          this.setState({ selectedFiles: files })
-                        }
-                      />
-                      {this.state.imageError && (
-                        <Alert color="danger" className="text-danger">
-                          {this.state.imageError}
-                        </Alert>
-                      )}
-                    </>
+                    <Col xs={12}>
+                      <>
+                        <DropZone
+                          selectedFiles={this.state.selectedFiles}
+                          setFile={(files) =>
+                            this.setState({ selectedFiles: files })
+                          }
+                        />
+                        {this.state.imageError && (
+                          <Alert color="danger" className="text-danger">
+                            {this.state.imageError}
+                          </Alert>
+                        )}
+                      </>
+                    </Col>
+                    {this.props.feature === "RENT" ? (
+                      <></>
+                    ) : (
+                      <>
+                        <label
+                          style={{ fontSize: "12px" }}
+                          className="ml-3 text-danger"
+                        >
+                          Documents must be in pdf format and less than 250mb
+                        </label>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="FAMILY_AGREEMENT"
+                            documentName="Family agreement"
+                            setFile={(files) =>
+                              this.setState({ faImage: files })
+                            }
+                          />
+                        </Col>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="CERTIFICATE_OF_OCCUPANCY"
+                            documentName="Certificate of Occupancy"
+                            setFile={(files) =>
+                              this.setState({ cooImage: files })
+                            }
+                          />
+                        </Col>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="LETTER_OF_ALLOCATION"
+                            documentName="Letter of Allocation"
+                            setFile={(files) =>
+                              this.setState({ loaImage: files })
+                            }
+                          />
+                        </Col>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="LAND_CERTIFICATE"
+                            documentName="Land Certificate"
+                            setFile={(files) =>
+                              this.setState({ landCertImage: files })
+                            }
+                          />
+                        </Col>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="CONVEYANCE_LETTER"
+                            documentName="Conveyance"
+                            setFile={(files) =>
+                              this.setState({ conveyImage: files })
+                            }
+                          />
+                        </Col>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="CONSENT_LETTER"
+                            documentName="Concent"
+                            setFile={(files) =>
+                              this.setState({ concentImage: files })
+                            }
+                          />
+                        </Col>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="OTHERS"
+                            documentName="Others"
+                            setFile={(files) =>
+                              this.setState({ othersImage: files })
+                            }
+                          />
+                        </Col>
+                      </>
+                    )}
                   </Col>
                 </Row>
               </Col>

@@ -28,7 +28,13 @@ import {
   NOTIFY_ADMIN_WALKTHROUGH,
   NOTIFY_ADMIN_WALKTHROUGH_SUCCESS,
   NOTIFY_ADMIN_WALKTHROUGH_ERROR,
-} from './actionTypes.js';
+  GET_ALL_APARTMENT_TYPES,
+  GET_ALL_APARTMENT_TYPES_SUCCESS,
+  GET_ALL_APARTMENT_TYPES_ERROR,
+  GET_WALKTHROUGH_BY_APARTMENT,
+  GET_WALKTHROUGH_BY_APARTMENT_SUCCESS,
+  GET_WALKTHROUGH_BY_APARTMENT_ERROR,
+} from "./actionTypes.js";
 
 // Fetch appointment
 export const fetchProperties = (payload, collectiveId) => {
@@ -212,10 +218,10 @@ export const deletePropertyError = (error) => {
   };
 };
 
-export const notifyAdminWalkthrough = (formData, history, id) => {
+export const notifyAdminWalkthrough = (formData, setShow) => {
   return {
     type: NOTIFY_ADMIN_WALKTHROUGH,
-    payload: { formData, history, id },
+    payload: { formData, setShow },
   };
 };
 
@@ -229,6 +235,47 @@ export const notifyAdminWalkthroughSuccess = (data) => {
 export const notifyAdminWalkthroughError = (error) => {
   return {
     type: NOTIFY_ADMIN_WALKTHROUGH_ERROR,
+    payload: error,
+  };
+};
+
+export const getAllApartmentTypes = () => {
+  return {
+    type: GET_ALL_APARTMENT_TYPES,
+  };
+};
+
+export const getAllApartmentTypesSuccess = (data) => {
+  return {
+    type: GET_ALL_APARTMENT_TYPES_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getAllApartmentTypesError = (error) => {
+  return {
+    type: GET_ALL_APARTMENT_TYPES_ERROR,
+    payload: error,
+  };
+};
+
+export const getWalkByApartment = (apartmentType) => {
+  return {
+    type: GET_WALKTHROUGH_BY_APARTMENT,
+    payload: { apartmentType },
+  };
+};
+
+export const getWalkByApartmentSuccess = (data) => {
+  return {
+    type: GET_WALKTHROUGH_BY_APARTMENT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getWalkByApartmentError = (error) => {
+  return {
+    type: GET_WALKTHROUGH_BY_APARTMENT_ERROR,
     payload: error,
   };
 };

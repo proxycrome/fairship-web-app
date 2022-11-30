@@ -1,6 +1,6 @@
 import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
-import { GET_ALL_AGENTS, POST_AGENT, GET_LANDLORD_AGENTS, FETCH_AGENT } from "./actionTypes";
+import { GET_ALL_AGENTS, POST_AGENT, GET_LANDLORD_AGENTS, FETCH_AGENT, GET_COMPANY_AGENTS } from "./actionTypes";
 
 import {
   getAgentsSuccessful,
@@ -10,7 +10,9 @@ import {
   getLandlordAgentsSuccess,
   getLandlordAgentsFailure,
   fetchAgentSuccess,
-  fetchAgentFailure
+  fetchAgentFailure,
+  getCompanyAgentsSuccess,
+  getCompanyAgentsError
 } from "./actions";
 
 import {
@@ -18,6 +20,7 @@ import {
   getLandlordAgentsService,
   postAgentService,
   fetchAgentService,
+  getCompanyAgentsService,
 } from "../../services/agentServices";
 
 function* getAgents({payload}) {
@@ -36,9 +39,9 @@ function* postAgent({ payload: { formData } }) {
   try {
     const response = yield call(postAgentService, formData);
     yield put(postAgentSuccessful(response.data));
-    // console.log(response.data);
+    console.log(response.data);
   } catch (error) {
-    // console.log(error?.response);
+    console.log(error?.response);
     yield put(postAgentFailure(error?.response?.data));
   }
 }
@@ -49,6 +52,17 @@ function* getLandlordAgents({payload: {landlordId}}) {
     yield put(getLandlordAgentsSuccess(response.data));
   } catch (error) {
     yield put(getLandlordAgentsFailure(error?.response?.data));
+  }
+}
+
+function* getCompanyAgents({payload: {id}}) {
+  try {
+    const response = yield call(getCompanyAgentsService, id);
+    yield put(getCompanyAgentsSuccess(response.data));
+    console.log(response.data);
+  } catch (error) {
+    console.log(error?.response?.data)
+    yield put(getCompanyAgentsError(error?.response?.data));
   }
 }
 
@@ -78,12 +92,17 @@ export function* watchfetchAgent() {
     yield takeEvery(FETCH_AGENT, fetchAgent);
 }
 
+export function* watchGetCompanyAgents() {
+  yield takeEvery(GET_COMPANY_AGENTS, getCompanyAgents);
+}
+
 function* AgentsSaga() {
   yield all([
       fork(watchgetAgents), 
       fork(watchpostAgent), 
       fork(watchgetLandlordAgents),
-      fork(watchfetchAgent)
+      fork(watchfetchAgent),
+      fork(watchGetCompanyAgents)
     ])
 }
 

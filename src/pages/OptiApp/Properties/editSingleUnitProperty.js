@@ -54,7 +54,7 @@ class CreateProperty extends Component {
       show: false,
       imageError: "",
       feature: "RENT",
-      type: "Agricultural",
+      type: "",
       price: "",
       id: 1,
       formType: "",
@@ -159,7 +159,9 @@ class CreateProperty extends Component {
 
   componentDidMount() {
     this.props.fetchEachProperties(this.props.match.params.id);
-    this.props.getLandlordAgents(this.props.user?.id);
+    if(this.props.user){
+      this.props.getLandlordAgents(this.props.user?.id);
+    }
     this.props.getPropertyTypes();
     this.props.getPropertySubcategory(this.state.id);
     this.props.fetchCountry();
@@ -209,7 +211,7 @@ class CreateProperty extends Component {
   }
 
   render() {
-    // console.log(this.props.property);
+    console.log(this.props.property);
     return (
       <React.Fragment>
         <div className="page-content">
@@ -304,12 +306,12 @@ class CreateProperty extends Component {
                               type="select"
                               name="type"
                               helpMessage="Property Type"
-                              value={this.state.type}
                               onChange={(e) =>
-                                this.setState({ formType: e.target.value })
+                                this.setState({ type: e.target.value })
                               }
                               required
                             >
+                              <option value="" hidden>Select Type...</option>
                               {this.props.propertyTypes?.map((type) => (
                                 <option key={type.id} value={type.name}>
                                   {type.name}
@@ -361,7 +363,7 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="">Select...</option>
+                              <option value="" hidden>Select Country...</option>
                               {this.props.countries?.map((country) => (
                                 <option key={country.id} value={country.name}>
                                   {country.name}
@@ -381,7 +383,7 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="">Select...</option>
+                              <option value="" hidden>Select...</option>
                               {this.props.states?.map((state) => (
                                 <option key={state.id} value={state.name}>
                                   {state.name}
@@ -401,7 +403,7 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="">Select...</option>
+                              <option value="" hidden>Select...</option>
                               {this.props.lgas?.map((lga) => (
                                 <option key={lga.id} value={lga.name}>
                                   {lga.name}

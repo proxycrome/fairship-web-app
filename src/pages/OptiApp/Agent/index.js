@@ -1,42 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import { Input, Button, Table, Card, CardBody } from 'reactstrap';
-import { Link, withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Input, Button, Table, Card, CardBody } from "reactstrap";
+import { Link, withRouter } from "react-router-dom";
 // import profileImage from "../../../assets/images/ProfileImage.svg";
-import Preview from './Preview';
-import CreateAgent from './CreateAgent';
-import { connect, useDispatch } from 'react-redux';
-import { getLandlordAgents } from '../../../store/actions';
-import emptyCan from '../../../assets/images/EmptyCan.png';
-import Loader from '../../../components/Common/Loading/index';
-import avatar from '../../../assets/images/avi.jpg';
+import Preview from "./Preview";
+import CreateAgent from "./CreateAgent";
+import { connect, useDispatch } from "react-redux";
+import { getCompanyAgents, getLandlordAgents } from "../../../store/actions";
+import emptyCan from "../../../assets/images/EmptyCan.png";
+import Loader from "../../../components/Common/Loading/index";
+import avatar from "../../../assets/images/avi.jpg";
 
-const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
+const Agent = ({
+  user,
+  landlordAgents,
+  getLandlordAgents,
+  loading,
+  getCompanyAgents,
+  companyAgents,
+  companyAgentsError,
+}) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState("");
   const [filteredLandAgents, setFilteredLandAgents] = useState([]);
+  const [filteredCompanyAgents, setFilteredCompanyAgents] = useState([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user?.id) {
-      dispatch(getLandlordAgents(user?.id));
+    if (user) {
+      if (user?.agentDetail?.type === "COMPANY") {
+        // getCompanyAgents(user?.agentDetail?.company?.id);
+        getLandlordAgents(user?.id);
+      } else {
+        getLandlordAgents(user?.id);
+      }
     }
-  }, [dispatch, user, getLandlordAgents]);
+  }, [user, getLandlordAgents, getCompanyAgents]);
 
-  console.log(user);
+  console.log(landlordAgents);
+
+  // console.log(companyAgents);
+
+  // useEffect(() => {
+  //   if (companyAgents) {
+  //     setFilteredCompanyAgents(
+  //       companyAgents?.entities?.filter(
+  //         (agent) =>
+  //           agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
+  //           agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
+  //           agent.email.toLowerCase().includes(searchName.toLowerCase()) ||
+  //           (agent.firstName + " " + agent.lastName)
+  //             .toLowerCase()
+  //             .includes(searchName.toLowerCase())
+  //       )
+  //     );
+  //   }
+  // }, [searchName, companyAgents]);
 
   useEffect(() => {
-    setFilteredLandAgents(
-      landlordAgents?.data?.agents?.filter(
-        (agent) =>
-          agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
-          agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
-          agent.email.toLowerCase().includes(searchName.toLowerCase()) ||
-          (agent.firstName + ' ' + agent.lastName)
-            .toLowerCase()
-            .includes(searchName.toLowerCase())
-      )
-    );
+    if (landlordAgents) {
+      setFilteredLandAgents(
+        landlordAgents?.data?.agents?.filter(
+          (agent) =>
+            agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
+            agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
+            agent.email.toLowerCase().includes(searchName.toLowerCase()) ||
+            (agent.firstName + " " + agent.lastName)
+              .toLowerCase()
+              .includes(searchName.toLowerCase())
+        )
+      );
+    }
   }, [searchName, landlordAgents]);
 
   if (preview) {
@@ -48,11 +82,14 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
       <CreateAgent
         BackToHome={() => {
           window.location.reload(true);
-          setIsNewAgent(false);  
+          setIsNewAgent(false);
         }}
+        userId={user?.id}
       />
     );
   }
+
+  console.log(user);
 
   return (
     <div className="page-content">
@@ -80,15 +117,12 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
                 </div>
               </div>
               <div className="text-right">
-                <Button
-                  color="success"
-                  onClick={() => setIsNewAgent(true)}
-                >
+                <Button color="success" onClick={() => setIsNewAgent(true)}>
                   New Agent
                 </Button>
               </div>
             </div>
-            {user?.role?.name === "PROPERTY_OWNER" && landlordAgents?.data?.agents?.length !== 0 ? (
+            {landlordAgents?.data?.agents?.length !== 0 ? (
               <div className="table-rep-plugin mt-4">
                 <div
                   className="table-responsive mb-0"
@@ -204,10 +238,11 @@ const Agent = ({ user, landlordAgents, getLandlordAgents, loading }) => {
 
 const mapStatetoProps = (state) => {
   const { user } = state.Account;
-  const { landlordAgents, loading } = state.Agents;
-  return { landlordAgents, user, loading };
+  const { landlordAgents, companyAgents, companyAgentsError, loading } =
+    state.Agents;
+  return { landlordAgents, user, loading, companyAgents, companyAgentsError };
 };
 
 export default withRouter(
-  connect(mapStatetoProps, { getLandlordAgents })(Agent)
+  connect(mapStatetoProps, { getLandlordAgents, getCompanyAgents })(Agent)
 );

@@ -18,12 +18,18 @@ export const postAgentService = (data) => {
 
 export const getLandlordAgentsService = (landlordId) => {
   const http = new HttpService();
-  const url = `property-owner/all-agents/${landlordId}?size=100`;
+  const url = `property-owner/all-agents/${landlordId}?size=1000000`;
   return http.getData(url);
 };
 
 export const fetchAgentService = (email) => {
   const http = new HttpService();
   const url = `auth/${email}/users`;
+  return http.getData(url);
+};
+
+export const getCompanyAgentsService = (companyId) => {
+  const http = new HttpService();
+  const url = `auth/company-agents/${companyId}?limit=1000000`;
   return http.getData(url);
 };

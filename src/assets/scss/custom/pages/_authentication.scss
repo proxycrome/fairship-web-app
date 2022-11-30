@@ -264,3 +264,27 @@
     box-shadow: 0px 4px 30px rgba(98, 134, 154, 0.38);
   }
 }
+
+.grey-box-background {
+  width: 100%;
+  height: 50px;
+  background: #F4F4F4;
+  box-shadow: 0px 4px 20px rgba(159, 211, 241, 0.05);
+  border-radius: 15px;
+  h6 {
+    font-size: 12px;
+  }
+}
+
+.file-button {
+  margin-left: 6px;
+  width: 40px;
+  height: 40px;
+  border: 1px dashed #187CC4;
+  background: rgba(159, 211, 241, 0.38);
+  border-radius: 5px;
+}
+
+.file {
+  display: none;
+}

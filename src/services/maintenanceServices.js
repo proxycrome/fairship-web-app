@@ -41,3 +41,39 @@ export const getServiceProvidersService = (serviceName) => {
   const url = `auth/auth/service-providers?limit=100000&serviceType=${serviceName}`;
   return http.getData(url);
 }
+
+export const getInvoiceDetsService = (invoiceRef) => {
+  const http = new HttpService();
+  const url = `auth/booked-services/invoice-details/${invoiceRef}`;
+  return http.getData(url);
+}
+
+export const acceptInvoiceService = (id) => {
+  const http = new HttpService();
+  const url = `agent/property-maintenance/accept-invoice/${id}`;
+  return http.postDataWithToken(null, url);
+}
+
+export const rejectInvoiceService = (id) => {
+  const http = new HttpService();
+  const url = `agent/property-maintenance/reject-invoice/${id}`;
+  return http.postDataWithToken(null, url);
+}
+
+export const acceptServiceAgreementService = (id) => {
+  const http = new HttpService();
+  const url = `agent/property-maintenance/accept-service-agreement/${id}`;
+  return http.postDataWithToken(null, url);
+}
+
+export const initPartPaymentService = (id) => {
+  const http = new HttpService();
+  const url = `agent/property-maintenance/init-part-payment/${id}`;
+  return http.postDataWithToken(null, url);
+}
+
+export const initCompletePaymentService = (id) => {
+  const http = new HttpService();
+  const url = `agent/property-maintenance/init-complete-payment/${id}`;
+  return http.postDataWithToken(null, url);
+}
