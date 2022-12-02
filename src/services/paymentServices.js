@@ -13,3 +13,10 @@ export const verifyTransactionService = (transRef) => {
 
     return http.postDataWithToken(null, url);
 }
+
+export const getAgentSubFeeService = () => {
+    const http = new HttpService();
+    const url = "auth/pma-fee?feeType=AGENT_SUBSCRIPTION";
+
+    return http.getData(url);
+}

@@ -74,6 +74,8 @@ const Dashboard = ({
 
   const cardLoading = useSelector((state) => state.Maintenance.loading);
 
+  console.log(recentAppointment);
+
   const appDate = new Date(
     recentAppointment &&
       recentAppointment[0]?.startDateTime?.split(' ')[0].split('-')[1] +

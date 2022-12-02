@@ -1,4 +1,7 @@
 import {
+  GET_AGENT_SUB_FEE,
+  GET_AGENT_SUB_FEE_ERROR,
+  GET_AGENT_SUB_FEE_SUCCESS,
   GET_PAYMENT_GATEWAYS,
   GET_PAYMENT_GATEWAYS_ERROR,
   GET_PAYMENT_GATEWAYS_SUCCESS,
@@ -13,6 +16,8 @@ const initialState = {
   paymentDataError: null,
   verifyTransMsg: null,
   verifyTransError: null,
+  agentSubFee: null,
+  agentSubFeeError: null,
 };
 
 const payment = (state = initialState, action) => {
@@ -68,6 +73,33 @@ const payment = (state = initialState, action) => {
         loading: false,
         verifyTransMsg: null,
         verifyTransError: action.payload,
+      };
+      break;
+
+    case GET_AGENT_SUB_FEE:
+      state = {
+        ...state,
+        loading: true,
+        agentSubFee: null,
+        agentSubFeeError: null,
+      };
+      break;
+
+    case GET_AGENT_SUB_FEE_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        agentSubFee: action.payload,
+        agentSubFeeError: null,
+      };
+      break;
+
+    case GET_AGENT_SUB_FEE_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        agentSubFee: null,
+        agentSubFeeError: action.payload,
       };
       break;
 

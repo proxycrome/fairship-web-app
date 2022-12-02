@@ -11,21 +11,27 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
-import { getAgents, postAgents } from "../../../store/actions";
+import { getAgents, getAgentSubFee, postAgents } from "../../../store/actions";
 import Loader from "../../../components/Common/Loading/index";
 import { clearMessages } from "../../../store/Agent/actions";
+import PaystackIntegration from "../../../components/Common/paystackIntegration";
 
 const CreateAgent = ({ BackToHome, userId }) => {
   const dispatch = useDispatch();
+  const { show, setShow } = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState({
     agentId: 0,
     landlordId: 0,
   });
 
+  const { agentSubFee } = useSelector((state) => state.payment);
+  console.log(agentSubFee);
+
   useEffect(() => {
     dispatch(getAgents());
     dispatch(clearMessages());
+    dispatch(getAgentSubFee());
   }, [dispatch]);
 
   console.log(userId);
@@ -46,10 +52,9 @@ const CreateAgent = ({ BackToHome, userId }) => {
     dispatch(postAgents(formData));
   };
 
-  const { agents, postAgentData, landlordAgents, loading, postAgentError } = useSelector(
-    (state) => state.Agents
-  );
-
+  const { agents, postAgentData, landlordAgents, loading, postAgentError, agentSubMsg, 
+    agentSubMsgError } =
+    useSelector((state) => state.Agents);
 
   console.log(postAgentError);
 
@@ -87,13 +92,13 @@ const CreateAgent = ({ BackToHome, userId }) => {
             </span>
             Back
           </span>
-          {loading ? (
+          {/* {loading ? (
             <Card>
               <CardBody>
-                <Loader/>
+                <Loader />
               </CardBody>
-            </Card> 
-          ) : (
+            </Card>
+          ) : ( */}
             <Card className="mt-2">
               <CardBody>
                 {postAgentData && postAgentData?.message && (
@@ -101,9 +106,19 @@ const CreateAgent = ({ BackToHome, userId }) => {
                     {postAgentData?.message}
                   </Alert>
                 )}
-                {postAgentError && (
+                {postAgentError && postAgentError?.message && (
                   <Alert color="danger" className="text-center">
                     {postAgentError?.message}
+                  </Alert>
+                )}
+                {agentSubMsg && agentSubMsg?.message && (
+                  <Alert color="success" className="text-center">
+                    {agentSubMsg?.message}
+                  </Alert>
+                )}
+                {agentSubMsgError && agentSubMsgError?.message && (
+                  <Alert color="danger" className="text-center">
+                    {agentSubMsgError?.message}
                   </Alert>
                 )}
                 <h5>
@@ -122,18 +137,27 @@ const CreateAgent = ({ BackToHome, userId }) => {
                   </FormGroup>
 
                   <div className="text-center">
-                    <button
-                      className="btn btn-success px-5"
-                      onClick={handleSubmit}
-                    >
-                      Add
-                    </button>
+                    {postAgentError?.message?.includes(
+                      "Cannot save landord agents"
+                    ) ? (
+                      <PaystackIntegration
+                        amount={agentSubFee?.fee}
+                        paymentType="AGENT"
+                        setShow={setShow}
+                      />
+                    ) : (
+                      <button
+                        className="btn btn-success px-5"
+                        onClick={handleSubmit}
+                      >
+                        Add
+                      </button>
+                    )}
                   </div>
                 </Form>
               </CardBody>
             </Card>
-          )}
-          
+          {/* )} */}
         </Container>
       </div>
     </React.Fragment>

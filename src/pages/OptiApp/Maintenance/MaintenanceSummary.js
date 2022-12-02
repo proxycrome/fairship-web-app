@@ -503,7 +503,7 @@ const MaintenanceSummary = (props) => {
                   {maintenanceSummary?.invoice ? (
                     <Row className="mt-5 mb-5">
                       <Col
-                        xl={8}
+                        xs={12}
                         className="mx-auto d-flex justify-content-center"
                       >
                         {maintenanceSummary?.invoiceStatus !== "ACCEPTED" ? (
@@ -544,7 +544,7 @@ const MaintenanceSummary = (props) => {
                           />
                         ) : maintenanceSummary?.signedContractAgreement ===
                         "ACCEPTED" && maintenanceSummary?.paymentStatus === "PART_PAYMENT" ? (
-                          <h3 className="text-primary">70% PART PAYMENT DONE</h3>
+                          <h5 className="text-primary">70% PART PAYMENT DONE</h5>
                         ) : (
                           <></>
                         )}

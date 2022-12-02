@@ -15,6 +15,9 @@ import {
   GET_COMPANY_AGENTS,
   GET_COMPANY_AGENTS_SUCCESS,
   GET_COMPANY_AGENTS_ERROR,
+  UPDATE_AGENT_SUB,
+  UPDATE_AGENT_SUB_SUCCESS,
+  UPDATE_AGENT_SUB_ERROR,
 } from "./actionTypes";
 
 export const getAgents = (id) => {
@@ -118,6 +121,27 @@ export const getCompanyAgentsSuccess = (data) => {
 export const getCompanyAgentsError = (error) => {
   return {
     type: GET_COMPANY_AGENTS_ERROR,
+    payload: error,
+  };
+};
+
+export const updateAgentSub = (dispatch) => {
+  return {
+    type: UPDATE_AGENT_SUB,
+    payload: {dispatch},
+  };
+};
+
+export const updateAgentSubSuccess = (data) => {
+  return {
+    type: UPDATE_AGENT_SUB_SUCCESS,
+    payload: data,
+  };
+};
+
+export const updateAgentSubError = (error) => {
+  return {
+    type: UPDATE_AGENT_SUB_ERROR,
     payload: error,
   };
 };

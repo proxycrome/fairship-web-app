@@ -33,3 +33,9 @@ export const getCompanyAgentsService = (companyId) => {
   const url = `auth/company-agents/${companyId}?limit=1000000`;
   return http.getData(url);
 };
+
+export const updateAgentSubService = () => {
+  const http = new HttpService();
+  const url = 'property-owner/update-after-agent-subscription';
+  return http.postDataWithToken(null, url);
+};

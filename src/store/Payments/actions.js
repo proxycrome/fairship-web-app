@@ -1,4 +1,7 @@
 import {
+  GET_AGENT_SUB_FEE,
+  GET_AGENT_SUB_FEE_ERROR,
+  GET_AGENT_SUB_FEE_SUCCESS,
   GET_PAYMENT_GATEWAYS,
   GET_PAYMENT_GATEWAYS_ERROR,
   GET_PAYMENT_GATEWAYS_SUCCESS,
@@ -47,3 +50,23 @@ export const verifyTransactionError = (error) => {
     payload: error,
   };
 };
+
+export const getAgentSubFee = () => {
+  return {
+    type: GET_AGENT_SUB_FEE
+  }
+}
+
+export const getAgentSubFeeSuccess = (data) => {
+  return {
+    type: GET_AGENT_SUB_FEE_SUCCESS,
+    payload: data,
+  }
+}
+
+export const getAgentSubFeeError = (error) => {
+  return {
+    type: GET_AGENT_SUB_FEE_ERROR,
+    payload: error,
+  }
+}

@@ -5,6 +5,7 @@ import {
   initPartPayment,
   loadUser,
   notifyAdminWalkthrough,
+  updateAgentSub,
   verifyTransaction,
 } from "../../store/actions";
 import { usePaystackPayment } from "react-paystack";
@@ -17,7 +18,7 @@ const PaystackIntegration = ({
   apartmentType,
   planType,
   paymentType,
-  setShow
+  setShow,
 }) => {
   const { paymentData } = useSelector((state) => state.payment);
   const { user } = useSelector((state) => state.Account);
@@ -35,10 +36,15 @@ const PaystackIntegration = ({
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(getPaymentGateways());
-    dispatch(loadUser());
-  }, [dispatch]);
-  
+    if (!paymentData) {
+      dispatch(getPaymentGateways());
+    }
+    if (!user) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, user, paymentData]);
+
+  console.log(user);
 
   // you can call this function anything
   const onSuccess = (reference) => {
@@ -54,8 +60,12 @@ const PaystackIntegration = ({
       }
     }
 
-    if(paymentType === "PART") {
+    if (paymentType === "PART") {
       dispatch(verifyTransaction(transactionRef, setShow));
+    }
+
+    if (paymentType === "AGENT") {
+      dispatch(updateAgentSub(dispatch));
     }
   };
 
@@ -70,26 +80,34 @@ const PaystackIntegration = ({
     <>
       {paymentType === "WALKTHROUGH" ? (
         <button
-        className="btn btn-success w-lg"
-        onClick={() => {
-          initializePayment(onSuccess, onClose);
-        }}
-      >
-        {noteLoading ? "LOADING..." : "Pay"}
-      </button>
+          className="btn btn-success w-lg"
+          onClick={() => {
+            initializePayment(onSuccess, onClose);
+          }}
+        >
+          {noteLoading ? "LOADING..." : "Pay"}
+        </button>
       ) : paymentType === "PART" ? (
         <button
-        className="btn btn-success w-lg"
-        onClick={() => {
-          initializePayment(onSuccess, onClose);
-        }}
-      >
-        {loading ? "LOADING..." : "Pay"}
-      </button>
+          className="btn btn-success w-lg"
+          onClick={() => {
+            initializePayment(onSuccess, onClose);
+          }}
+        >
+          {loading ? "LOADING..." : "Pay"}
+        </button>
+      ) : paymentType === "AGENT" ? (
+        <button
+          className="btn btn-success w-lg"
+          onClick={() => {
+            initializePayment(onSuccess, onClose);
+          }}
+        >
+          Subscribe
+        </button>
       ) : null}
     </>
   );
 };
 
 export default PaystackIntegration;
-

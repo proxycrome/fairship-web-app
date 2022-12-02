@@ -98,8 +98,6 @@ const ListUnitPreview = ({
     cursor: "pointer",
   };
 
-  console.log(property);
-
   return (
     <div className="page-content">
       <Container fluid>
@@ -519,7 +517,7 @@ const ListUnitPreview = ({
                   <h6>Documents</h6>
                   <div>
                     {/* <span>Lease Agreement</span> */}
-                    <div className="d-flex mt-2">
+                    <div className="d-flex flex-wrap mt-2">
                       {property?.documents?.length > 0
                         ? property?.documents?.map((item) => (
                             <Card key={item.id} className="shadow-lg mr-3">

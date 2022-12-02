@@ -15,6 +15,9 @@ import {
   GET_COMPANY_AGENTS,
   GET_COMPANY_AGENTS_SUCCESS,
   GET_COMPANY_AGENTS_ERROR,
+  UPDATE_AGENT_SUB,
+  UPDATE_AGENT_SUB_SUCCESS,
+  UPDATE_AGENT_SUB_ERROR,
 } from "./actionTypes";
 
 const initialState = {
@@ -29,6 +32,8 @@ const initialState = {
   agentError: null,
   companyAgents: null,
   companyAgentsError: null,
+  agentSubMsg: null,
+  agentSubMsgError: null,
 };
 
 const Agents = (state = initialState, action) => {
@@ -38,6 +43,7 @@ const Agents = (state = initialState, action) => {
     case GET_LANDLORD_AGENTS:
     case FETCH_AGENT:
     case GET_COMPANY_AGENTS:
+    case UPDATE_AGENT_SUB:
       state = {
         ...state,
         loading: true,
@@ -131,6 +137,24 @@ const Agents = (state = initialState, action) => {
         loading: false,
         companyAgents: null,
         companyAgentsError: action.payload,
+      };
+      break;
+
+    case UPDATE_AGENT_SUB_SUCCESS:
+      state = {
+        ...state,
+        loading: false,
+        agentSubMsg: action.payload,
+        agentSubMsgError: null,
+      };
+      break;
+
+    case UPDATE_AGENT_SUB_ERROR:
+      state = {
+        ...state,
+        loading: false,
+        agentSubMsg: null,
+        agentSubMsgError: action.payload,
       };
       break;
 

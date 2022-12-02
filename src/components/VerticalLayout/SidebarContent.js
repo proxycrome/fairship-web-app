@@ -144,7 +144,7 @@ class SidebarContent extends Component {
             {/* Agent */}
 
             {(this.props.user?.role?.name !== "AGENT" ||
-              this.props.user?.agentDetail?.type === "COMPANY") && (
+              this.props.user?.role?.name === "COMPANY_AGENT") && (
               <li>
                 <Link to="/agents" className="waves-effect">
                   <i className="ri-user-line"></i>

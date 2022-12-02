@@ -176,7 +176,6 @@ class CreateProperty extends Component {
     };
     formData.images = this.state.selectedFiles;
 
-
     this.props.createProperties(formData, payload);
 
     // setTimeout(() => {
@@ -195,7 +194,7 @@ class CreateProperty extends Component {
   }
 
   componentDidMount() {
-    if(this.props.user){
+    if (this.props.user) {
       this.props.getLandlordAgents(this.props.user?.id);
     }
     this.props.getPropertyTypes();
@@ -378,7 +377,9 @@ class CreateProperty extends Component {
                           }
                           required
                         >
-                          <option value="" hidden>Select...</option>
+                          <option value="" hidden>
+                            Select...
+                          </option>
                           {this.props.countries?.map((country) => (
                             <option key={country.id} value={country.name}>
                               {country.name}
@@ -400,7 +401,9 @@ class CreateProperty extends Component {
                           }
                           required
                         >
-                          <option value="" hidden>Select...</option>
+                          <option value="" hidden>
+                            Select...
+                          </option>
                           {this.props.states?.map((state) => (
                             <option key={state.id} value={state.name}>
                               {state.name}
@@ -421,7 +424,9 @@ class CreateProperty extends Component {
                           }
                           required
                         >
-                          <option value="" hidden>Select...</option>
+                          <option value="" hidden>
+                            Select...
+                          </option>
                           {this.props.lgas?.map((lga) => (
                             <option key={lga.id} value={lga.name}>
                               {lga.name}
@@ -519,17 +524,19 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col>
+                    {this.state.feature === "RENT" ? (
+                      <Col xs={3}>
+                        <FormGroup className="form-group-custom mb-4">
+                          <AvField
+                            type="Number"
+                            name="periodInMonths"
+                            helpMessage="Months of Rent"
+                            placeholder="Enter No. of Months"
+                          />
+                        </FormGroup>
+                      </Col>
+                    ) : null}
 
-                    <Col xs={3}>
-                      <FormGroup className="form-group-custom mb-4">
-                        <AvField
-                          type="Number"
-                          name="periodInMonths"
-                          helpMessage="Months of Rent"
-                          placeholder="Enter No. of Months"
-                        />
-                      </FormGroup>
-                    </Col>
                     <Col xs={6}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
@@ -614,7 +621,9 @@ class CreateProperty extends Component {
                                 label="Add Agent"
                                 // helpMessage="Location"
                               >
-                                <option value="" hidden>Select Agent...</option>
+                                <option value="" hidden>
+                                  Select Agent...
+                                </option>
                                 {this.props.landlordAgents?.data?.agents
                                   ?.length !== 0 ? (
                                   this.props.landlordAgents?.data?.agents?.map(

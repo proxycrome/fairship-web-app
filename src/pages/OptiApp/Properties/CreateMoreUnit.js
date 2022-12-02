@@ -49,7 +49,7 @@ const CreateMoreUnit = ({
                 {propertiesError}
               </Alert>
             )}
-            <h4 className="card-title text-capitalize"> {createdProperty[0].parentProperty.title} </h4>
+            <h4 className="card-title text-capitalize"> {createdProperty[0]?.parentProperty?.title} </h4>
             {createdProperty &&
               createdProperty.map((property) => (
                 <Row
