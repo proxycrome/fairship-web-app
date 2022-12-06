@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Dropdown,
   DropdownToggle,
@@ -7,20 +7,30 @@ import {
   Row,
   Col,
   Media,
-} from 'reactstrap';
-import SimpleBar from 'simplebar-react';
+} from "reactstrap";
+import SimpleBar from "simplebar-react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { getAllNotifications } from "../../../store/actions";
 
 //Import images
-import avatar3 from '../../../assets/images/users/avatar-3.jpg';
-import avatar4 from '../../../assets/images/users/avatar-4.jpg';
+import avatar3 from "../../../assets/images/users/avatar-3.jpg";
+import avatar4 from "../../../assets/images/users/avatar-4.jpg";
+import moment from "moment";
+import { reverse } from "lodash";
 
 class NotificationDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
       menu: false,
+      more: false,
     };
     this.toggle = this.toggle.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getAllNotifications();
   }
 
   toggle() {
@@ -29,6 +39,12 @@ class NotificationDropdown extends Component {
     }));
   }
   render() {
+    const notificate = this.props.notifications ? this.props.notifications : [];
+    const moreNotificate = this.props.notifications ? this.props.notifications : [];
+    const currentNofifications = this.state.more
+      ? moreNotificate
+      : notificate?.reverse()?.slice(0, 5);
+
     return (
       <React.Fragment>
         <Dropdown
@@ -56,13 +72,72 @@ class NotificationDropdown extends Component {
                 </Col>
                 <div className="col-auto">
                   <Link to="#" className="small">
-                    View All
+                    {/* View All */}
                   </Link>
                 </div>
               </Row>
             </div>
-            <SimpleBar style={{ maxHeight: '230px' }}>
-              <Link to="#" className="text-reset notification-item">
+            <SimpleBar style={{ maxHeight: "230px" }}>
+              {this.state.more ? [...moreNotificate].reverse()?.map((item) => (
+                <Link
+                  to="#"
+                  className="text-reset notification-item"
+                  key={item.id}
+                >
+                  <Media>
+                    <div className="avatar-xs mr-3">
+                      <span className="avatar-title bg-success rounded-circle font-size-16">
+                        <i className="ri-checkbox-circle-line"></i>
+                      </span>
+                    </div>
+                    <Media body>
+                      <h6 className="mt-0 mb-1">{item.category}</h6>
+                      <div className="font-size-12 text-muted">
+                        <p className="mb-1">{item.message}</p>
+                        <p className="mb-0">
+                          <i className="mdi mdi-clock-outline"></i>{" "}
+                          {moment(
+                            moment(
+                              this.props.notifications &&
+                                this.props.notifications[0].dateSent.slice(0, 6)
+                            ).utcOffset(-6, true)._d
+                          ).fromNow()}
+                        </p>
+                      </div>
+                    </Media>
+                  </Media>
+                </Link>
+              )) : [...notificate]?.reverse()?.slice(0, 5)?.map((item) => (
+                <Link
+                  to="#"
+                  className="text-reset notification-item"
+                  key={item.id}
+                >
+                  <Media>
+                    <div className="avatar-xs mr-3">
+                      <span className="avatar-title bg-success rounded-circle font-size-16">
+                        <i className="ri-checkbox-circle-line"></i>
+                      </span>
+                    </div>
+                    <Media body>
+                      <h6 className="mt-0 mb-1">{item.category}</h6>
+                      <div className="font-size-12 text-muted">
+                        <p className="mb-1">{item.message}</p>
+                        <p className="mb-0">
+                          <i className="mdi mdi-clock-outline"></i>{" "}
+                          {moment(
+                            moment(
+                              this.props.notifications &&
+                                this.props.notifications[0].dateSent.slice(0, 6)
+                            ).utcOffset(-6, true)._d
+                          ).fromNow()}
+                        </p>
+                      </div>
+                    </Media>
+                  </Media>
+                </Link>
+              ))}
+              {/* <Link to="#" className="text-reset notification-item">
                 <Media>
                   <div className="avatar-xs mr-3">
                     <span className="avatar-title bg-primary rounded-circle font-size-16">
@@ -142,15 +217,17 @@ class NotificationDropdown extends Component {
                     </div>
                   </Media>
                 </Media>
-              </Link>
+              </Link> */}
             </SimpleBar>
             <div className="p-2 border-top">
               <Link
                 to="#"
                 className="btn btn-sm btn-link font-size-14 btn-block text-center"
+                onClick={() => this.setState({ more: !this.state.more })}
               >
                 <i className="mdi mdi-arrow-right-circle mr-1"></i>
-                View More
+                {this.state.more ? "View Less" : "View More"}
+                
               </Link>
             </div>
           </DropdownMenu>
@@ -159,4 +236,14 @@ class NotificationDropdown extends Component {
     );
   }
 }
-export default NotificationDropdown;
+
+const mapStatetoProps = (state) => {
+  const { notifications, loading } = state.notification;
+  return { notifications, loading };
+};
+
+export default withRouter(
+  connect(mapStatetoProps, {
+    getAllNotifications,
+  })(NotificationDropdown)
+);

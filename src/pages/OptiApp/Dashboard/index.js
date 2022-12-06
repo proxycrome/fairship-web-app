@@ -23,6 +23,7 @@ import ServiceAnalytics from './listTable';
 import MaintenanceAnalytics from './maintenaceListTable';
 import Loader from '../../../components/Common/Loading/index';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 
 const Dashboard = ({
   fetchDashboard,
@@ -90,6 +91,8 @@ const Dashboard = ({
   );
   const dd = appDate.getDay();
 
+  const testDate = new Date("2023-02-20");
+
   function getDifferenceInHours(date1, date2) {
     if (date2 >= date1) {
       const diffInMs = Math.abs(date2 - date1);
@@ -99,6 +102,7 @@ const Dashboard = ({
 
   const remainingHours = getDifferenceInHours(date, appDate);
 
+  console.log(moment().to());
   return (
     <React.Fragment>
       <div className="page-content">

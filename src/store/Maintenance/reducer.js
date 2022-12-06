@@ -186,6 +186,10 @@ const Maintenance = (state = initialState, action) => {
         rejectError: null,
         agreementError: null,
         agreementMsg: null,
+        partPaymentMsg: null,
+        partPaymentError: null,
+        completePaymentMsg: null,
+        completePaymentError: null,
       };
       break;
 

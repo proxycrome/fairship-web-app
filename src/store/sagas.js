@@ -24,6 +24,7 @@ import DocumentSaga from './Documents/saga';
 import BuyApplicationSaga from './Buy/saga';
 import PaymentSaga from './Payments/saga';
 import leaseTerminationSaga from './LeaseTermination/saga';
+import NotificationSaga from './Notification/saga';
 
 
 export default function* rootSaga() {
@@ -51,5 +52,6 @@ export default function* rootSaga() {
         MaintenanceSaga(),
         PaymentSaga(),
         leaseTerminationSaga(),
+        NotificationSaga(),
     ])
 }

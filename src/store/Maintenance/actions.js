@@ -212,10 +212,10 @@ export const getInvoiceDetsError = (error) => {
   };
 };
 
-export const acceptInvoice = (id) => {
+export const acceptInvoice = (id, setShow, dispatch) => {
   return {
     type: ACCEPT_INVOICE,
-    payload: { id },
+    payload: { id, setShow, dispatch },
   };
 };
 
@@ -233,10 +233,10 @@ export const acceptInvoiceError = (error) => {
   };
 };
 
-export const rejectInvoice = (id) => {
+export const rejectInvoice = (id, setShow, dispatch) => {
   return {
     type: REJECT_INVOICE,
-    payload: { id },
+    payload: { id, setShow, dispatch },
   };
 };
 
@@ -254,10 +254,10 @@ export const rejectInvoiceError = (error) => {
   };
 };
 
-export const acceptServiceAgreement = (id) => {
+export const acceptServiceAgreement = (id, dispatch) => {
   return {
     type: ACCEPT_SERVICE_AGREEMENT,
-    payload: { id },
+    payload: { id, dispatch },
   };
 };
 

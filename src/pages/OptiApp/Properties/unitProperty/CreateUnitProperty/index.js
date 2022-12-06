@@ -176,6 +176,7 @@ class CreateProperty extends Component {
     };
     formData.images = this.state.selectedFiles;
 
+    console.log(formData)
     this.props.createProperties(formData, payload);
 
     // setTimeout(() => {

@@ -4,6 +4,7 @@ import {
   getPaymentGatewayService,
   verifyTransactionService,
 } from "../../services/paymentServices";
+import { fetchMaintenance } from "../actions";
 import {
   getAgentSubFeeError,
   getAgentSubFeeSuccess,
@@ -29,11 +30,12 @@ function* getPaymentGateways() {
   }
 }
 
-function* verifyTransaction({ payload: { transRef, setShow } }) {
+function* verifyTransaction({ payload: { transRef, setShow, dispatch, id } }) {
   try {
     const response = yield call(verifyTransactionService, transRef);
     yield put(verifyTransactionSuccess(response.data));
     if (response) {
+      dispatch(fetchMaintenance(id));
       setShow(false);
     }
     //   console.log(response.data)

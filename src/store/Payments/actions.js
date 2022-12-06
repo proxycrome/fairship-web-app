@@ -30,10 +30,10 @@ export const getPaymentGatewaysError = (error) => {
   };
 };
 
-export const verifyTransaction = (transRef, setShow) => {
+export const verifyTransaction = (transRef, setShow, dispatch, id) => {
   return {
     type: VERIFY_TRANSACTION,
-    payload: { transRef, setShow },
+    payload: { transRef, setShow, dispatch, id },
   };
 };
 

@@ -26,6 +26,7 @@ import Document from './Documents/reducer';
 import Buy from './Buy/reducer';
 import payment from './Payments/reducer';
 import terminationReducer from './LeaseTermination/reducer';
+import notification from './Notification/reducer';
 
 // import Forget from './auth/forgetpwd/reducer';
 
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
     Buy,
     payment,
     terminationReducer,
+    notification,
 });
 
 export default rootReducer;

@@ -61,7 +61,11 @@ const PaystackIntegration = ({
     }
 
     if (paymentType === "PART") {
-      dispatch(verifyTransaction(transactionRef, setShow));
+      dispatch(verifyTransaction(transactionRef, setShow, dispatch, id));
+    }
+
+    if (paymentType === "FULL") {
+      dispatch(verifyTransaction(transactionRef, setShow, dispatch, id));
     }
 
     if (paymentType === "AGENT") {
@@ -104,6 +108,15 @@ const PaystackIntegration = ({
           }}
         >
           Subscribe
+        </button>
+      ) : paymentType === "FULL" ? (
+        <button
+          className="btn btn-success w-lg"
+          onClick={() => {
+            initializePayment(onSuccess, onClose);
+          }}
+        >
+          {loading ? "LOADING..." : "Complete Payment"}
         </button>
       ) : null}
     </>

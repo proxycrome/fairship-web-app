@@ -1,22 +1,22 @@
-import { takeEvery, fork, put, all, call } from 'redux-saga/effects';
+import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 
-import { 
+import {
   ACCEPT_INVOICE,
   ACCEPT_SERVICE_AGREEMENT,
   FETCH_MAINTENANCE,
   FETCH_SERVICE,
-  GET_ALL_SERVICE_REQ,  
-  GET_INVOICE_DETS,  
-  GET_MAINTENANCE_REQ, 
-  GET_SERVICE_PROVIDERS, 
-  GET_SERVICE_TYPES, 
-  INIT_COMPLETE_PAYMENT, 
-  INIT_PART_PAYMENT, 
+  GET_ALL_SERVICE_REQ,
+  GET_INVOICE_DETS,
+  GET_MAINTENANCE_REQ,
+  GET_SERVICE_PROVIDERS,
+  GET_SERVICE_TYPES,
+  INIT_COMPLETE_PAYMENT,
+  INIT_PART_PAYMENT,
   POST_MAINTENANCE_REQ,
-  REJECT_INVOICE
-} from './actionTypes';
+  REJECT_INVOICE,
+} from "./actionTypes";
 
-import { 
+import {
   getAllServiceReqSuccess,
   getAllServiceReqFailure,
   getServiceTypesSuccess,
@@ -42,10 +42,11 @@ import {
   initPartPaymentSuccess,
   initPartPaymentError,
   initCompletePaymentSuccess,
-  initCompletePaymentError
-} from './actions';
+  initCompletePaymentError,
+  fetchMaintenance,
+} from "./actions";
 
-import { 
+import {
   acceptInvoiceService,
   acceptServiceAgreementService,
   fetchMaintenanceService,
@@ -58,8 +59,8 @@ import {
   initCompletePaymentService,
   initPartPaymentService,
   postMaintenanceReqService,
-  rejectInvoiceService
-} from '../../services/maintenanceServices';
+  rejectInvoiceService,
+} from "../../services/maintenanceServices";
 
 function* getAllServiceReq() {
   try {
@@ -73,16 +74,15 @@ function* getAllServiceReq() {
 }
 
 function* getServiceTypes() {
-    try {
-        const response = yield call(getServiceTypesService);
-        yield put(getServiceTypesSuccess(response.data));
-    } catch (error) {
-        yield put(getServiceTypesFailure(error?.response?.data));
-    }
+  try {
+    const response = yield call(getServiceTypesService);
+    yield put(getServiceTypesSuccess(response.data));
+  } catch (error) {
+    yield put(getServiceTypesFailure(error?.response?.data));
+  }
 }
 
-function* postMaintenanceReq({payload: {formData}}) {
-  
+function* postMaintenanceReq({ payload: { formData } }) {
   try {
     const response = yield call(postMaintenanceReqService, formData);
     yield put(postMaintenanceReqSuccess(response?.data));
@@ -102,16 +102,16 @@ function* getMaintenanceReq() {
   }
 }
 
-function* fetchService({payload: {serviceId, requestType}}) {
+function* fetchService({ payload: { serviceId, requestType } }) {
   try {
-    const response = yield call(fetchServiceServer, serviceId, requestType)
+    const response = yield call(fetchServiceServer, serviceId, requestType);
     yield put(fetchServiceSuccess(response?.data));
   } catch (error) {
     yield put(fetchServiceFailure(error?.response?.data));
   }
 }
 
-function* fetchMaintenance({payload: {id}}) {
+function* fetchEachMaintenance({ payload: { id } }) {
   try {
     const response = yield call(fetchMaintenanceService, id);
     yield put(fetchMaintenanceSuccess(response?.data));
@@ -120,7 +120,7 @@ function* fetchMaintenance({payload: {id}}) {
   }
 }
 
-function* getServiceProviders({payload: {serviceName}}) {
+function* getServiceProviders({ payload: { serviceName } }) {
   try {
     const response = yield call(getServiceProvidersService, serviceName);
     yield put(getServiceProvidersSuccess(response?.data));
@@ -129,7 +129,7 @@ function* getServiceProviders({payload: {serviceName}}) {
   }
 }
 
-function* getInvoiceDets({payload: {invoiceRef}}) {
+function* getInvoiceDets({ payload: { invoiceRef } }) {
   try {
     const response = yield call(getInvoiceDetsService, invoiceRef);
     yield put(getInvoiceDetsSuccess(response.data));
@@ -140,40 +140,46 @@ function* getInvoiceDets({payload: {invoiceRef}}) {
   }
 }
 
-function* acceptInvoice({payload: {id}}) {
+function* acceptInvoice({ payload: { id, setShow, dispatch } }) {
   try {
     const response = yield call(acceptInvoiceService, id);
     yield put(acceptInvoiceSuccess(response.data));
     console.log(response.data);
+    setShow(false);
+    dispatch(fetchMaintenance(id));
   } catch (error) {
     yield put(acceptInvoiceError(error?.response?.data));
-    console.log(error?.response?.data)
+    console.log(error?.response?.data);
+    setShow(false);
   }
 }
 
-function* rejectInvoice({payload: {id}}) {
+function* rejectInvoice({ payload: { id, setShow, dispatch } }) {
   try {
     const response = yield call(rejectInvoiceService, id);
     yield put(rejectInvoiceSuccess(response.data));
-    // console.log(response.data);
+    console.log(response.data);
+    setShow(false);
+    dispatch(fetchMaintenance(id));
   } catch (error) {
     yield put(rejectInvoiceError(error?.response?.data));
-    // console.log(error?.response?.data)
+    console.log(error?.response?.data);
+    setShow(false);
   }
 }
 
-function* acceptServiceAgreement({payload: {id}}) {
+function* acceptServiceAgreement({ payload: { id, dispatch } }) {
   try {
     const response = yield call(acceptServiceAgreementService, id);
     yield put(acceptServiceAgreementSuccess(response.data));
-    // console.log(response.data);
+    dispatch(fetchMaintenance(id));
   } catch (error) {
     yield put(acceptServiceAgreementError(error?.response?.data));
     // console.log(error?.response?.data)
   }
 }
 
-function* initPartPayment ({payload: {id}}) {
+function* initPartPayment({ payload: { id } }) {
   try {
     const response = yield call(initPartPaymentService, id);
     yield put(initPartPaymentSuccess(response.data));
@@ -184,7 +190,7 @@ function* initPartPayment ({payload: {id}}) {
   }
 }
 
-function* initCompletePayment({payload: {id}}) {
+function* initCompletePayment({ payload: { id } }) {
   try {
     const response = yield call(initCompletePaymentService, id);
     yield put(initCompletePaymentSuccess(response.data));
@@ -196,7 +202,7 @@ function* initCompletePayment({payload: {id}}) {
 }
 
 export function* watchFetchService() {
-  yield takeEvery(FETCH_SERVICE, fetchService)
+  yield takeEvery(FETCH_SERVICE, fetchService);
 }
 
 export function* watchGetAllServiceReq() {
@@ -204,19 +210,19 @@ export function* watchGetAllServiceReq() {
 }
 
 export function* watchGetServiceTypes() {
-    yield takeEvery(GET_SERVICE_TYPES, getServiceTypes)
+  yield takeEvery(GET_SERVICE_TYPES, getServiceTypes);
 }
 
 export function* watchPostMaintenanceReq() {
-  yield takeEvery(POST_MAINTENANCE_REQ, postMaintenanceReq)
+  yield takeEvery(POST_MAINTENANCE_REQ, postMaintenanceReq);
 }
 
 export function* watchGetMaintenanceReq() {
-  yield takeEvery(GET_MAINTENANCE_REQ, getMaintenanceReq)
+  yield takeEvery(GET_MAINTENANCE_REQ, getMaintenanceReq);
 }
 
 export function* watchFetchMaintenance() {
-  yield takeEvery(FETCH_MAINTENANCE, fetchMaintenance);
+  yield takeEvery(FETCH_MAINTENANCE, fetchEachMaintenance);
 }
 
 export function* watchGetServiceProviders() {
