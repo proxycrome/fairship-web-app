@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Container,
-  Card,
-  CardBody,
-  Row,
-  Col,
-  Button,
-} from 'reactstrap';
+import React, { useState, useEffect } from "react";
+import { Container, Card, CardBody, Row, Col, Button } from "reactstrap";
 
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { fetchEachProperties } from '../../../store/actions';
+import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { fetchEachProperties } from "../../../store/actions";
 // import BusStop from '../../../assets/images/BusStop.png';
 // import Parking from '../../../assets/images/Parking.png';
 // import Transit from '../../../assets/images/Transit.png';
-import PropertyIcon from '../../../assets/images/Property.png';
-import Loading from '../../../components/Common/Loading/';
-
+import PropertyIcon from "../../../assets/images/Property.png";
+import Loading from "../../../components/Common/Loading/";
 
 const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
   const [propImages, setPropImages] = useState([]);
@@ -26,9 +18,11 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
     fetchEachProperties(match.params.id);
   }, [fetchEachProperties, match.params.id]);
 
+  // console.log(property);
+
   useEffect(() => {
-    if(property){
-      setPropImages(property?.images)
+    if (property) {
+      setPropImages(property?.images);
     }
     const lastIndex = propImages?.length - 1;
     if (index < 0) {
@@ -40,13 +34,11 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
   }, [index, propImages, property]);
 
   useEffect(() => {
-    const slider = setInterval(()=> {
-      setIndex(index + 1)
-    }, 3000)
+    const slider = setInterval(() => {
+      setIndex(index + 1);
+    }, 3000);
     return () => clearInterval(slider);
   }, [index]);
-
-  
 
   // console.log(property);
 
@@ -79,7 +71,7 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                     <div className="d-flex justify-content-center">
                       <div className="section-center">
                         {propImages?.map((propImage, propIndex) => {
-                          const { id, imageUrl} = propImage;
+                          const { id, imageUrl } = propImage;
                           // more stuff coming up
                           let position = "nextSlide";
                           if (propIndex === index) {
@@ -92,17 +84,34 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                             position = "lastSlide";
                           }
                           return (
-                            <article className={`imgarticle ${position}`} key={id}>
-                              <a href={`${imageUrl}`} target="_blank" rel="noopener noreferrer">
-                                <img src={imageUrl} alt="property" className="prop-img" />
-                              </a>  
+                            <article
+                              className={`imgarticle ${position}`}
+                              key={id}
+                            >
+                              <a
+                                href={`${imageUrl}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <img
+                                  src={imageUrl}
+                                  alt="property"
+                                  className="prop-img"
+                                />
+                              </a>
                             </article>
                           );
                         })}
-                        <button className="prevbtn" onClick={() => setIndex(index - 1)}>
+                        <button
+                          className="prevbtn"
+                          onClick={() => setIndex(index - 1)}
+                        >
                           <i className="fas fa-angle-left"></i>
                         </button>
-                        <button className="nextbtn" onClick={() => setIndex(index + 1)}>
+                        <button
+                          className="nextbtn"
+                          onClick={() => setIndex(index + 1)}
+                        >
                           <i className="fas fa-angle-right"></i>
                         </button>
                       </div>
@@ -119,7 +128,7 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                   <div className="mr-3">
                     <p>
                       From N
-                      <span style={{ fontWeight: '600', color: 'blue' }}>
+                      <span style={{ fontWeight: "600", color: "blue" }}>
                         {property?.price?.toLocaleString()}
                       </span>
                       / yr
@@ -130,7 +139,7 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                   <div className="d-flex flex-column ml-3">
                     <span>(ID: {property?.propertyRef})</span>
                     <span>
-                      {property?.address?.houseNoAddress},{' '}
+                      {property?.address?.houseNoAddress},{" "}
                       {property?.address?.state}, {property?.address?.country}
                     </span>
                   </div>
@@ -153,7 +162,7 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                       />
                       <span className="ml-2">
                         <strong>Features: </strong>
-                        {property?.bedrooms} bedrooms {property?.bathrooms}{' '}
+                        {property?.bedrooms} bedrooms {property?.bathrooms}{" "}
                         bathrooms
                       </span>
                     </div>
@@ -163,7 +172,13 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                         {property?.size}sqm
                       </span>
                     </div>
-                    <Button color="success"> View WalkThrough Video</Button>
+                    <a
+                      href={property && property?.video?.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button color="success"> View WalkThrough Video</Button>
+                    </a>
                   </Col>
                   <Col md={6}>
                     {/* <div className="my-3">
@@ -180,7 +195,6 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
                 </Row>
               </>
             )}
-            
           </CardBody>
         </Card>
       </Container>

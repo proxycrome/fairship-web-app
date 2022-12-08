@@ -39,11 +39,11 @@ class NotificationDropdown extends Component {
     }));
   }
   render() {
-    const notificate = this.props.notifications ? this.props.notifications : [];
-    const moreNotificate = this.props.notifications ? this.props.notifications : [];
+    // const notificate = this.props.notifications ? this.props.notifications : [];
+    // const moreNotificate = this.props.notifications ? this.props.notifications : [];
     const currentNofifications = this.state.more
-      ? moreNotificate
-      : notificate?.reverse()?.slice(0, 5);
+      ? this.props.notifications
+      : this.props.notifications?.slice(0, 5);
 
     return (
       <React.Fragment>
@@ -78,62 +78,38 @@ class NotificationDropdown extends Component {
               </Row>
             </div>
             <SimpleBar style={{ maxHeight: "230px" }}>
-              {this.state.more ? [...moreNotificate].reverse()?.map((item) => (
+              {currentNofifications?.map((item) => (
                 <Link
                   to="#"
                   className="text-reset notification-item"
                   key={item.id}
                 >
                   <Media>
-                    <div className="avatar-xs mr-3">
-                      <span className="avatar-title bg-success rounded-circle font-size-16">
-                        <i className="ri-checkbox-circle-line"></i>
-                      </span>
-                    </div>
-                    <Media body>
-                      <h6 className="mt-0 mb-1">{item.category}</h6>
-                      <div className="font-size-12 text-muted">
-                        <p className="mb-1">{item.message}</p>
-                        <p className="mb-0">
-                          <i className="mdi mdi-clock-outline"></i>{" "}
-                          {moment(
-                            moment(
-                              this.props.notifications &&
-                                this.props.notifications[0].dateSent.slice(0, 6)
-                            ).utcOffset(-6, true)._d
-                          ).fromNow()}
-                        </p>
+                    <div className="d-flex pr-4">
+                      <div className="avatar-xs mr-3">
+                        <span className="avatar-title bg-success rounded-circle font-size-16">
+                          <i className="ri-checkbox-circle-line"></i>
+                        </span>
                       </div>
-                    </Media>
-                  </Media>
-                </Link>
-              )) : [...notificate]?.reverse()?.slice(0, 5)?.map((item) => (
-                <Link
-                  to="#"
-                  className="text-reset notification-item"
-                  key={item.id}
-                >
-                  <Media>
-                    <div className="avatar-xs mr-3">
-                      <span className="avatar-title bg-success rounded-circle font-size-16">
-                        <i className="ri-checkbox-circle-line"></i>
-                      </span>
+                      <Media body>
+                        <h6 className="mt-0 mb-1">{item.category}</h6>
+                        <div className="font-size-12 text-muted">
+                          <p className="mb-1">{item.message}</p>
+                          <p className="mb-0">
+                            <i className="mdi mdi-clock-outline"></i>{" "}
+                            {moment(
+                              moment(
+                                this.props.notifications &&
+                                  this.props.notifications[0].dateSent.slice(
+                                    0,
+                                    6
+                                  )
+                              ).utcOffset(-6, true)._d
+                            ).fromNow()}
+                          </p>
+                        </div>
+                      </Media>
                     </div>
-                    <Media body>
-                      <h6 className="mt-0 mb-1">{item.category}</h6>
-                      <div className="font-size-12 text-muted">
-                        <p className="mb-1">{item.message}</p>
-                        <p className="mb-0">
-                          <i className="mdi mdi-clock-outline"></i>{" "}
-                          {moment(
-                            moment(
-                              this.props.notifications &&
-                                this.props.notifications[0].dateSent.slice(0, 6)
-                            ).utcOffset(-6, true)._d
-                          ).fromNow()}
-                        </p>
-                      </div>
-                    </Media>
                   </Media>
                 </Link>
               ))}
@@ -227,7 +203,6 @@ class NotificationDropdown extends Component {
               >
                 <i className="mdi mdi-arrow-right-circle mr-1"></i>
                 {this.state.more ? "View Less" : "View More"}
-                
               </Link>
             </div>
           </DropdownMenu>
