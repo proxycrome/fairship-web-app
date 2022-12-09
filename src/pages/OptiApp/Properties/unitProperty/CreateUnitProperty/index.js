@@ -622,7 +622,7 @@ class CreateProperty extends Component {
                                 label="Add Agent"
                                 // helpMessage="Location"
                               >
-                                <option value="" hidden>
+                                <option value="" hidden disabled>
                                   Select Agent...
                                 </option>
                                 {this.props.landlordAgents?.data?.agents

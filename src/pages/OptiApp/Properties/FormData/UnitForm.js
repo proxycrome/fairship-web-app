@@ -418,7 +418,6 @@ class CreateProperty extends Component {
                           name="agentIds"
                           label="Add Agent"
                           placeholder="Select an Agent"
-                          required
                         >
                           <option value="" hidden disabled>
                             Select an Agent...

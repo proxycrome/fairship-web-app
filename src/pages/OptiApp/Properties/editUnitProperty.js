@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Row,
   Col,
@@ -21,7 +21,7 @@ import {
   AvField,
   AvCheckboxGroup,
   AvCheckbox,
-} from 'availity-reactstrap-validation';
+} from "availity-reactstrap-validation";
 
 import {
   getPropertySubcategory,
@@ -30,7 +30,7 @@ import {
   getLandlordAgents,
   updateUnitProperty,
   clearUnitMessage,
-} from '../../../store/actions';
+} from "../../../store/actions";
 
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -44,7 +44,7 @@ class EditUnitProperty extends Component {
     this.state = {
       activeTab: 1,
       // imageError: '',
-      type: 'Agricultural',
+      type: "Agricultural",
       id: 1,
       pays: [],
       formType: "",
@@ -63,11 +63,11 @@ class EditUnitProperty extends Component {
 
   showModal = () => {
     this.setState({ show: true });
-  }
+  };
 
   hideModal = () => {
     this.setState({ show: false });
-  }
+  };
 
   payment(event) {
     event.preventDefault();
@@ -89,10 +89,9 @@ class EditUnitProperty extends Component {
     this.setState({ pays: paymentItem });
   }
 
-
   handleSubmit(events, values) {
     const selectAgent = () => {
-      if(values?.agentIds !== "") {
+      if (values?.agentIds !== "") {
         return [
           this.props.landlordAgents?.data?.agents.find((agent) => {
             if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
@@ -101,10 +100,10 @@ class EditUnitProperty extends Component {
           }).id,
         ];
       }
-      if(values?.agentIds === "") {
+      if (values?.agentIds === "") {
         return [];
       }
-    }
+    };
 
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
@@ -119,7 +118,7 @@ class EditUnitProperty extends Component {
     formData.price = Number(values.price);
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = selectAgent();
-    
+
     this.props.updateUnitProperty(formData, this.props.match.params.id);
   }
 
@@ -144,11 +143,14 @@ class EditUnitProperty extends Component {
       this.props.getLandlordAgents(this.props.user?.id);
       this.props.getPropertyTypes();
     }
-    if (PrevProps.editMessage !== this.props.editMessage || PrevProps.propertiesError !== this.props.propertiesError) {
+    if (
+      PrevProps.editMessage !== this.props.editMessage ||
+      PrevProps.propertiesError !== this.props.propertiesError
+    ) {
       setTimeout(() => {
-        this.props.clearUnitMessage()
+        this.props.clearUnitMessage();
         window.location.reload(true);
-      }, 4000)
+      }, 4000);
     }
   }
 
@@ -163,12 +165,12 @@ class EditUnitProperty extends Component {
   }
 
   includeCommas(str) {
-    const num = Number(str.split(',').join(''));
+    const num = Number(str.split(",").join(""));
     const comma = num.toLocaleString();
     return String(comma);
   }
 
-  render() { 
+  render() {
     return (
       <React.Fragment>
         <div className="page-content">
@@ -194,7 +196,7 @@ class EditUnitProperty extends Component {
                     {this.props.editMessage}
                   </Alert>
                 )}
-                
+
                 {this.props.property && (
                   <AvForm
                     className="form-horizontal"
@@ -240,7 +242,9 @@ class EditUnitProperty extends Component {
                             required
                           >
                             {this.props.propertyTypes?.map((type) => (
-                              <option key={type.id} value={type.name}>{type.name}</option>
+                              <option key={type.id} value={type.name}>
+                                {type.name}
+                              </option>
                             ))}
                           </AvField>
                         </FormGroup>
@@ -254,7 +258,10 @@ class EditUnitProperty extends Component {
                           >
                             {this.props.propertySubcategories?.map(
                               (subcategory) => (
-                                <option key={subcategory.id} value={subcategory.name}>
+                                <option
+                                  key={subcategory.id}
+                                  value={subcategory.name}
+                                >
                                   {subcategory.name}
                                 </option>
                               )
@@ -401,7 +408,6 @@ class EditUnitProperty extends Component {
                               onChange={(e) =>
                                 this.setState({ name: e.target.value })
                               }
-
                             />
                             <p className="mt-3">Percentage Amount %</p>
                             <Input
@@ -433,26 +439,22 @@ class EditUnitProperty extends Component {
                                   name="agentIds"
                                   label="Add Agent"
                                   placeholder="Select an Agent"
-                                  // value={
-                                  //   this.props.landlordAgents &&
-                                  //   `${
-                                  //     this.props.landlordAgents?.data?.agents?.unshift()
-                                  //       .firstName
-                                  //   } ${
-                                  //     this.props.landlordAgents?.data?.agents?.unshift()
-                                  //       .lastName
-                                  //   }`
-                                  // }
-                                  // helpMessage="Location"
                                 >
-                                  <option value="">Select Agent...</option>
+                                  <option value="" hidden disabled>
+                                    Select Agent...
+                                  </option>
                                   {this.props.landlordAgents?.data?.agents
                                     ?.length !== 0 ? (
-                                    this.props.landlordAgents?.data?.agents?.map((agent) => (
-                                      <option key={agent.id} value={`${agent?.firstName} ${agent?.lastName}`}>
-                                        {agent?.firstName} {agent?.lastName}
-                                      </option>
-                                    ))
+                                    this.props.landlordAgents?.data?.agents?.map(
+                                      (agent) => (
+                                        <option
+                                          key={agent.id}
+                                          value={`${agent?.firstName} ${agent?.lastName}`}
+                                        >
+                                          {agent?.firstName} {agent?.lastName}
+                                        </option>
+                                      )
+                                    )
                                   ) : this.props.loadlordAgents === null ? (
                                     <option value="">Loading ...</option>
                                   ) : (
@@ -604,17 +606,21 @@ class EditUnitProperty extends Component {
                                     value="Communication system"
                                   />
                                   <div className="d-flex align-items-center">
-                                    <AvCheckbox 
+                                    <AvCheckbox
                                       className="mb-2"
                                       label="others"
                                       value={this.state.others}
                                       disabled={!this.state.others}
                                     />
-                                    <Input 
-                                      className="form-control ml-2" 
-                                      value={this.state.others} 
-                                      style={{fontSize: "12px"}}
-                                      onChange={(e) => this.setState({others: e.target.value})}
+                                    <Input
+                                      className="form-control ml-2"
+                                      value={this.state.others}
+                                      style={{ fontSize: "12px" }}
+                                      onChange={(e) =>
+                                        this.setState({
+                                          others: e.target.value,
+                                        })
+                                      }
                                       placeholder="Enter other amenities seperated by commas then check the box"
                                     />
                                   </div>
@@ -643,8 +649,8 @@ class EditUnitProperty extends Component {
                     <div className="text-center">
                       <Button type="submit" color="success" className="px-2">
                         {this.props.loading
-                          ? 'Sending ...'
-                          : ' Update Property'}
+                          ? "Sending ..."
+                          : " Update Property"}
                       </Button>
                     </div>
                   </AvForm>

@@ -12,7 +12,7 @@ import {
   ModalBody,
   ModalHeader,
   Input,
-  Form
+  Form,
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -106,7 +106,7 @@ class CreateProperty extends Component {
     // }
 
     const selectAgent = () => {
-      if(values?.agentIds !== ""){
+      if (values?.agentIds !== "") {
         return [
           +this.props.landlordAgents?.data?.agents?.find((agent) => {
             if (`${agent?.firstName} ${agent?.lastName}` === values?.agentIds) {
@@ -115,10 +115,10 @@ class CreateProperty extends Component {
           })?.id,
         ];
       }
-      if(values?.agentIds === ""){
+      if (values?.agentIds === "") {
         return [];
       }
-    }
+    };
 
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
@@ -159,7 +159,7 @@ class CreateProperty extends Component {
 
   componentDidMount() {
     this.props.fetchEachProperties(this.props.match.params.id);
-    if(this.props.user){
+    if (this.props.user) {
       this.props.getLandlordAgents(this.props.user?.id);
     }
     this.props.getPropertyTypes();
@@ -196,11 +196,14 @@ class CreateProperty extends Component {
       this.props.fetchLga(state?.id);
     }
 
-    if (PrevProps.message !== this.props.message || PrevProps.propertiesError !== this.props.propertiesError) {
+    if (
+      PrevProps.message !== this.props.message ||
+      PrevProps.propertiesError !== this.props.propertiesError
+    ) {
       setTimeout(() => {
-        this.props.clearUnitMessage()
+        this.props.clearUnitMessage();
         window.location.reload(true);
-      }, 4000)
+      }, 4000);
     }
   }
 
@@ -311,7 +314,9 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="" hidden>Select Type...</option>
+                              <option value="" hidden>
+                                Select Type...
+                              </option>
                               {this.props.propertyTypes?.map((type) => (
                                 <option key={type.id} value={type.name}>
                                   {type.name}
@@ -363,7 +368,9 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="" hidden>Select Country...</option>
+                              <option value="" hidden>
+                                Select Country...
+                              </option>
                               {this.props.countries?.map((country) => (
                                 <option key={country.id} value={country.name}>
                                   {country.name}
@@ -383,7 +390,9 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="" hidden>Select...</option>
+                              <option value="" hidden>
+                                Select...
+                              </option>
                               {this.props.states?.map((state) => (
                                 <option key={state.id} value={state.name}>
                                   {state.name}
@@ -403,7 +412,9 @@ class CreateProperty extends Component {
                               }
                               required
                             >
-                              <option value="" hidden>Select...</option>
+                              <option value="" hidden>
+                                Select...
+                              </option>
                               {this.props.lgas?.map((lga) => (
                                 <option key={lga.id} value={lga.name}>
                                   {lga.name}
@@ -560,33 +571,32 @@ class CreateProperty extends Component {
                           </ModalHeader>
                           <ModalBody>
                             <Form>
-                                <p>Name</p>
-                                <Input
+                              <p>Name</p>
+                              <Input
                                 placeholder="Write name"
                                 name="name"
                                 value={this.state.name}
                                 onChange={(e) =>
-                                    this.setState({ name: e.target.value })
+                                  this.setState({ name: e.target.value })
                                 }
-
-                                />
-                                <p className="mt-3">Percentage Amount %</p>
-                                <Input
+                              />
+                              <p className="mt-3">Percentage Amount %</p>
+                              <Input
                                 placeholder="Write payment percentage"
                                 name="percentageAmount"
                                 value={this.state.percentageAmount}
                                 onChange={(e) =>
-                                    this.setState({
+                                  this.setState({
                                     percentageAmount: e.target.value,
-                                    })
+                                  })
                                 }
-                                />
-                                <Button
+                              />
+                              <Button
                                 className=" mt-3 btn btn-success btn-lg"
                                 onClick={this.payment}
-                                >
+                              >
                                 Add
-                                </Button>
+                              </Button>
                             </Form>
                           </ModalBody>
                         </Modal>
@@ -601,12 +611,17 @@ class CreateProperty extends Component {
                                     label="Add Agent"
                                     // helpMessage="Location"
                                   >
-                                    <option value="">Select Agent...</option>
+                                    <option value="" hidden disabled>
+                                      Select Agent...
+                                    </option>
                                     {this.props.landlordAgents?.data?.agents
                                       ?.length !== 0 ? (
                                       this.props.landlordAgents?.data?.agents?.map(
                                         (agent) => (
-                                          <option key={agent.id} value={`${agent?.firstName} ${agent?.lastName}`}>
+                                          <option
+                                            key={agent.id}
+                                            value={`${agent?.firstName} ${agent?.lastName}`}
+                                          >
                                             {agent?.firstName} {agent?.lastName}
                                           </option>
                                         )
@@ -762,17 +777,21 @@ class CreateProperty extends Component {
                                       value="Communication system"
                                     />
                                     <div className="d-flex align-items-center">
-                                      <AvCheckbox 
+                                      <AvCheckbox
                                         className="mb-2"
                                         label="others"
                                         value={this.state.others}
                                         disabled={!this.state.others}
                                       />
-                                      <Input 
-                                        className="form-control ml-2" 
-                                        value={this.state.others} 
-                                        style={{fontSize: "12px"}}
-                                        onChange={(e) => this.setState({others: e.target.value})}
+                                      <Input
+                                        className="form-control ml-2"
+                                        value={this.state.others}
+                                        style={{ fontSize: "12px" }}
+                                        onChange={(e) =>
+                                          this.setState({
+                                            others: e.target.value,
+                                          })
+                                        }
                                         placeholder="Enter other amenities seperated by commas then check the box"
                                       />
                                     </div>
