@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FormGroup, Input, Label } from "reactstrap";
 import File from "../../../../assets/images/File.png";
 import Check from "../../../../assets/images/checked.png";
 import Cloud from "../../../../assets/images/Cloud.png";
@@ -7,6 +8,7 @@ import Trash from "../../../../assets/images/trash.png";
 const DocsUpload = ({ name, documentName, setFile }) => {
   const [base64File, setBase64File] = useState({});
   const fileInputRef = useRef(null);
+  const [docName, setDocName] = useState("");
 
   const handleFileChange = (e, stringName) => {
     const { files } = e.target;
@@ -20,6 +22,7 @@ const DocsUpload = ({ name, documentName, setFile }) => {
             ...base64File,
             name,
             [stringName]: reader.result.split("base64,")[1],
+            title: name === "OTHERS" ? docName : documentName,
           });
         };
         reader.onerror = (error) => {
@@ -37,6 +40,7 @@ const DocsUpload = ({ name, documentName, setFile }) => {
   useEffect(() => {
     if (Object.keys(base64File).length > 0) {
       setFile(base64File);
+      setDocName("");
     }
   }, [base64File]);
 
@@ -47,30 +51,44 @@ const DocsUpload = ({ name, documentName, setFile }) => {
 
   const handleDelete = () => {
     setBase64File({});
-  }
+  };
 
   return (
-    <div className="d-flex align-items-center justify-content-between">
-      <div className="grey-box-background d-flex justify-content-between p-3">
-        <div className="d-flex align-items-center">
-          <img src={File} alt="file" />
-          <h6 className="ml-2 pt-2">{documentName}</h6>
+    <div className="d-flex align-items-end">
+      {name === "OTHERS" ? (
+        <div style={{width: "100%"}}>
+          <Label>Title</Label>
+          <Input
+            type="text"
+            className="form-control grey-box-background"
+            name="docName"
+            value={docName}
+            onChange={(e) => setDocName(e.target.value)}
+          />
         </div>
-        {base64File.encodedUpload ? (
-          <div>
-            <img
-              src={Trash}
-              alt="trash"
-              width="20"
-              height="20"
-              className="mr-2"
-              onClick={handleDelete}
-              style={{cursor: "pointer"}}
-            />
-            <img src={Check} alt="check" width="20" height="20" />
+      ) : (
+        <div className="grey-box-background d-flex justify-content-between p-3">
+          <div className="d-flex align-items-center">
+            <img src={File} alt="file" />
+            <h6 className="ml-2 pt-2">{documentName}</h6>
           </div>
-        ) : null}
-      </div>
+          {base64File.encodedUpload ? (
+            <div>
+              <img
+                src={Trash}
+                alt="trash"
+                width="20"
+                height="20"
+                className="mr-2"
+                onClick={handleDelete}
+                style={{ cursor: "pointer" }}
+              />
+              <img src={Check} alt="check" width="20" height="20" />
+            </div>
+          ) : null}
+        </div>
+      )}
+
       <button
         className="file-button"
         onClick={(e) => handleFileSelect(e, fileInputRef)}

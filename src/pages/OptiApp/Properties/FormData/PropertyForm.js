@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Row, Col, Button, FormGroup, Input, Label, Alert } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  FormGroup,
+  Input,
+  Label,
+  Alert,
+  Collapse,
+} from "reactstrap";
 
 // availity-reactstrap-validation
 import { AvForm, AvField } from "availity-reactstrap-validation";
@@ -14,6 +23,10 @@ import {
 
 import DropZone from "../../../../components/Common/imageUpload";
 import DocsUpload from "../cardProperty/DocsUpload";
+import plus from "../images/plus.svg";
+import Check from "../../../../assets/images/checked.png";
+import Trash from "../../../../assets/images/trash.png";
+import File from "../../../../assets/images/File.png";
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -28,6 +41,7 @@ class CreateProperty extends Component {
       conveyImage: {},
       concentImage: {},
       othersImage: {},
+      otherDocs: [],
       description: "no description",
       LGA: "",
       country: "",
@@ -36,10 +50,21 @@ class CreateProperty extends Component {
       formType: "",
       imageError: "",
       id: 1,
+      open: false,
     };
     this.toggleTab = this.toggleTab.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSaleDocuments = this.handleSaleDocuments.bind(this);
+    this.combineOtherDocs = this.combineOtherDocs.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  combineOtherDocs() {
+    this.state.otherDocs.push(this.state.othersImage);
+    this.setState({
+      otherDocs: this.state.otherDocs,
+      open: false,
+    });
   }
 
   handleSaleDocuments() {
@@ -62,8 +87,8 @@ class CreateProperty extends Component {
     if (Object.keys(this.state.concentImage).length > 0) {
       combineDocs.push(this.state.concentImage);
     }
-    if (Object.keys(this.state.othersImage).length > 0) {
-      combineDocs.push(this.state.othersImage);
+    if (this.state.otherDocs?.length > 0) {
+      combineDocs.push(...this.state.otherDocs);
     }
     return combineDocs;
   }
@@ -126,6 +151,9 @@ class CreateProperty extends Component {
     if (PrevState.state !== this.state.state) {
       this.props.fetchLga(state?.id);
     }
+    if (PrevState.othersImage !== this.state.othersImage) {
+      this.combineOtherDocs();
+    }
   }
 
   toggleTab(tab) {
@@ -138,7 +166,15 @@ class CreateProperty extends Component {
     }
   }
 
+  handleDelete(id) {
+    const remainingDocs = this.state.otherDocs?.filter(
+      (data, index) => index !== id
+    );
+    this.setState({ otherDocs: remainingDocs });
+  }
+
   render() {
+    console.log(this.handleSaleDocuments());
     return (
       <React.Fragment>
         <div>
@@ -334,9 +370,9 @@ class CreateProperty extends Component {
                         </option>
                         {this.props.landlordAgents?.data?.agents?.length !==
                         0 ? (
-                          this.props.agents?.agents.map((agent) => (
+                          this.props.agents?.agents.map((agent, index) => (
                             <option
-                              key={agent.id}
+                              key={index}
                               value={`${agent?.firstName} ${agent?.lastName}`}
                             >
                               {agent?.firstName} {agent?.lastName}
@@ -365,6 +401,8 @@ class CreateProperty extends Component {
                       </AvField>
                     </FormGroup>
                   </Col>
+                </Row>
+                <Row>
                   <Col xs={12}>
                     <>
                       <DropZone
@@ -393,7 +431,7 @@ class CreateProperty extends Component {
                       <Col xs={12} className="mb-4">
                         <DocsUpload
                           name="FAMILY_AGREEMENT"
-                          documentName="Family agreement"
+                          documentName="Family Agreement"
                           setFile={(files) => this.setState({ faImage: files })}
                         />
                       </Col>
@@ -442,15 +480,60 @@ class CreateProperty extends Component {
                           }
                         />
                       </Col>
+                      {this.state.otherDocs?.map((item, index) => (
+                        <Col xs={12} key={index} className="mb-4">
+                          <div className="grey-box-background d-flex justify-content-between p-3">
+                            <div className="d-flex align-items-center">
+                              <img src={File} alt="file" />
+                              <h6 className="ml-2 pt-2">{item.title}</h6>
+                            </div>
+                            <div>
+                              <img
+                                src={Trash}
+                                alt="trash"
+                                width="20"
+                                height="20"
+                                className="mr-2"
+                                onClick={() => this.handleDelete(index)}
+                                style={{ cursor: "pointer" }}
+                              />
+                              <img
+                                src={Check}
+                                alt="check"
+                                width="20"
+                                height="20"
+                              />
+                            </div>
+                          </div>
+                        </Col>
+                      ))}
                       <Col xs={12} className="mb-4">
-                        <DocsUpload
-                          name="OTHERS"
-                          documentName="Others"
-                          setFile={(files) =>
-                            this.setState({ othersImage: files })
+                        <div
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            this.setState({ open: !this.state.open })
                           }
-                        />
+                        >
+                          <img src={plus} alt="plus" />
+                          <span
+                            className="text-success ml-3"
+                            style={{ fontWeight: "600" }}
+                          >
+                            Add other Document
+                          </span>
+                        </div>
                       </Col>
+                      <Collapse isOpen={this.state.open}>
+                        <Col xs={12} className="mb-4">
+                          <DocsUpload
+                            name="OTHERS"
+                            documentName="Others"
+                            setFile={(files) =>
+                              this.setState({ othersImage: files })
+                            }
+                          />
+                        </Col>
+                      </Collapse>
                     </>
                   )}
                 </Row>

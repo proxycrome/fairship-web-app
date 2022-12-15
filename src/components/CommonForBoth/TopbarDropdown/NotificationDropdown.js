@@ -78,11 +78,11 @@ class NotificationDropdown extends Component {
               </Row>
             </div>
             <SimpleBar style={{ maxHeight: "230px" }}>
-              {currentNofifications?.map((item) => (
+              {currentNofifications?.map((item, index) => (
                 <Link
                   to="#"
                   className="text-reset notification-item"
-                  key={item.id}
+                  key={index}
                 >
                   <Media>
                     <div className="d-flex pr-4">

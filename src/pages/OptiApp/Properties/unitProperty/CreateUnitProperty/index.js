@@ -14,6 +14,7 @@ import {
   Input,
   Form,
   Label,
+  Collapse,
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -38,9 +39,11 @@ import {
 
 import { connect } from "react-redux";
 import plus from "../../images/plus.svg";
-
 import DropZone from "../../../../../components/Common/imageUpload";
 import DocsUpload from "../../cardProperty/DocsUpload";
+import Check from "../../../../../assets/images/checked.png";
+import Trash from "../../../../../assets/images/trash.png";
+import File from "../../../../../assets/images/File.png";
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -55,10 +58,12 @@ class CreateProperty extends Component {
       conveyImage: {},
       concentImage: {},
       othersImage: {},
+      otherDocs: [],
       name: "",
       percentageAmount: "",
       pays: [],
       show: false,
+      open: false,
       imageError: "",
       feature: "RENT",
       type: "Agricultural",
@@ -77,6 +82,16 @@ class CreateProperty extends Component {
     this.payment = this.payment.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSaleDocuments = this.handleSaleDocuments.bind(this);
+    this.combineOtherDocs = this.combineOtherDocs.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  combineOtherDocs() {
+    this.state.otherDocs.push(this.state.othersImage);
+    this.setState({
+      otherDocs: this.state.otherDocs,
+      open: false,
+    });
   }
 
   showModal = () => {
@@ -94,6 +109,8 @@ class CreateProperty extends Component {
     this.setState({
       pays: this.state.pays,
       show: false,
+      name: "",
+      percentageAmount: "",
     });
   }
 
@@ -127,8 +144,8 @@ class CreateProperty extends Component {
     if (Object.keys(this.state.concentImage).length > 0) {
       combineDocs.push(this.state.concentImage);
     }
-    if (Object.keys(this.state.othersImage).length > 0) {
-      combineDocs.push(this.state.othersImage);
+    if (this.state.otherDocs?.length > 0) {
+      combineDocs.push(...this.state.otherDocs);
     }
     return combineDocs;
   }
@@ -176,7 +193,7 @@ class CreateProperty extends Component {
     };
     formData.images = this.state.selectedFiles;
 
-    console.log(formData)
+    console.log(formData);
     this.props.createProperties(formData, payload);
 
     // setTimeout(() => {
@@ -231,12 +248,22 @@ class CreateProperty extends Component {
     if (PrevState.state !== this.state.state) {
       this.props.fetchLga(state?.id);
     }
+    if (PrevState.othersImage !== this.state.othersImage) {
+      this.combineOtherDocs();
+    }
   }
 
   includeCommas(str) {
     const num = Number(str.split(",").join(""));
     const comma = num.toLocaleString();
     return String(comma);
+  }
+
+  handleDelete(id) {
+    const remainingDocs = this.state.otherDocs?.filter(
+      (data, index) => index !== id
+    );
+    this.setState({ otherDocs: remainingDocs });
   }
 
   render() {
@@ -905,15 +932,62 @@ class CreateProperty extends Component {
                                   }
                                 />
                               </Col>
+                              {this.state.otherDocs?.map((item, index) => (
+                                <Col xs={12} key={index} className="mb-4">
+                                  <div className="grey-box-background d-flex justify-content-between p-3">
+                                    <div className="d-flex align-items-center">
+                                      <img src={File} alt="file" />
+                                      <h6 className="ml-2 pt-2">
+                                        {item.title}
+                                      </h6>
+                                    </div>
+                                    <div>
+                                      <img
+                                        src={Trash}
+                                        alt="trash"
+                                        width="20"
+                                        height="20"
+                                        className="mr-2"
+                                        onClick={() => this.handleDelete(index)}
+                                        style={{ cursor: "pointer" }}
+                                      />
+                                      <img
+                                        src={Check}
+                                        alt="check"
+                                        width="20"
+                                        height="20"
+                                      />
+                                    </div>
+                                  </div>
+                                </Col>
+                              ))}
                               <Col xs={12} className="mb-4">
-                                <DocsUpload
-                                  name="OTHERS"
-                                  documentName="Others"
-                                  setFile={(files) =>
-                                    this.setState({ othersImage: files })
+                                <div
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    this.setState({ open: !this.state.open })
                                   }
-                                />
+                                >
+                                  <img src={plus} alt="plus" />
+                                  <span
+                                    className="text-success ml-3"
+                                    style={{ fontWeight: "600" }}
+                                  >
+                                    Add other Document
+                                  </span>
+                                </div>
                               </Col>
+                              <Collapse isOpen={this.state.open}>
+                                <Col xs={12} className="mb-4">
+                                  <DocsUpload
+                                    name="OTHERS"
+                                    documentName="Others"
+                                    setFile={(files) =>
+                                      this.setState({ othersImage: files })
+                                    }
+                                  />
+                                </Col>
+                              </Collapse>
                             </>
                           )}
                         </Col>

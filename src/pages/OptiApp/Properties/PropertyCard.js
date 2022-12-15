@@ -342,6 +342,7 @@ const PropertyCard = ({
                               <th>Action</th>
                             </tr>
                           </thead>
+
                           <tbody>
                             {properties?.entities?.map((unit) => (
                               <tr key={unit.id}>
@@ -433,6 +434,13 @@ const PropertyCard = ({
                             ))}
                           </tbody>
                         </Table>
+                        {properties?.entities?.length === 0 && (
+                          <div className="d-flex justify-content-center my-4">
+                            <h6>
+                              No Approved Unit(s) for this Multi-Unit Property
+                            </h6>
+                          </div>
+                        )}
                         <div className="d-flex justify-content-center mt-3">
                           <Link to={`/create_more_unit/${property?.id}`}>
                             <Button color="success">Add Unit</Button>

@@ -527,7 +527,11 @@ const ListUnitPreview = ({
                                 rel="noopener noreferrer"
                               >
                                 <CardBody>
-                                  <h1 className="card-title">{item.name}</h1>
+                                  <h1 className="card-title">
+                                    {item.name === "OTHERS"
+                                      ? item?.title
+                                      : item.name}
+                                  </h1>
                                 </CardBody>
                               </a>
                             </Card>

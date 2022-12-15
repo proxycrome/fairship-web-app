@@ -20,7 +20,7 @@ const CreateMoreUnit = ({
   const createUnitHandler = (formData) => {
     const payload = {
       type: 'collective',
-      id: createdProperty[0]?.parentProperty.id,
+      id: createdProperty[0]?.id,
     };
     createProperties(formData, payload);
   };
@@ -49,7 +49,7 @@ const CreateMoreUnit = ({
                 {propertiesError}
               </Alert>
             )}
-            <h4 className="card-title text-capitalize"> {createdProperty[0]?.parentProperty?.title} </h4>
+            <h4 className="card-title text-capitalize"> {createdProperty[0]?.title} </h4>
             {createdProperty &&
               createdProperty.map((property) => (
                 <Row
@@ -63,7 +63,7 @@ const CreateMoreUnit = ({
                       className="avatar-lg mr-2 rounded"
                     />
                     <div>
-                      <h5 className="card-title text-capitalize">Unit No: {property?.unitNo}</h5>
+                      <h5 className="card-title text-capitalize">Property Ref: {property?.propertyRef}</h5>
                       <p>Title: {property.title} </p>
                       <p className="text-muted text-capitalize">
                         {property?.address.houseNoAddress}
@@ -85,10 +85,10 @@ const CreateMoreUnit = ({
                 color="light" className="text-success mr-2" size="sm">
                   Add More
                 </Button>
-                <Button  onClick={() => duplicateUnitProperty(createdProperty[0].id)}
+                {/* <Button  onClick={() => duplicateUnitProperty(createdProperty[0]?.id)}
                 color="light" className="text-success " size="sm">
                   Duplicate First Unit
-                </Button>
+                </Button> */}
               </div>
             ) : (
               <div className="border-top pt-5">
