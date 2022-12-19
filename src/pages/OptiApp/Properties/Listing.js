@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Input,
   Button,
@@ -13,20 +13,20 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-} from 'reactstrap';
-import Loading from '../../../components/Common/Loading';
+} from "reactstrap";
+import Loading from "../../../components/Common/Loading";
 import {
   AvForm,
   AvField,
   AvRadioGroup,
   AvRadio,
-} from 'availity-reactstrap-validation';
+} from "availity-reactstrap-validation";
 
 // actions
-import { fetchProperties, fetchState } from '../../../store/actions';
+import { fetchProperties, fetchState } from "../../../store/actions";
 
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 
 const Listing = ({
@@ -37,8 +37,7 @@ const Listing = ({
   fetchState,
   states,
 }) => {
-  const [searchName, setSearchName] = useState('');
-  // const [sortedProperties, setSortedProperties] = useState([]);
+  const [searchName, setSearchName] = useState("");
   const [show, setShow] = useState(false);
   const [values, setValues] = useState({});
 
@@ -69,28 +68,17 @@ const Listing = ({
     setShow(false);
   };
 
-  // useEffect(() => {
-  //   if(properties !== null) {
-  //     setSortedProperties(
-  //       properties?.entities?.sort((a, b) =>
-  //         a.title > b.title ? 1 : b.title > a.title ? -1 : 0
-  //       )
-  //     );
-  //   }
-  // }, [properties]);
-
   useEffect(() => {
     fetchState(1);
-  }, []);
+  }, [fetchState]);
 
   useEffect(() => {
     const isAuth = {
-      type: 'general',
+      type: "general",
       query: { ...values, search: searchName },
     };
     fetchProperties(isAuth);
-  }, [searchName, values]);
-
+  }, [searchName, values, fetchProperties]);
 
   return (
     <div className="page-content">
@@ -124,7 +112,7 @@ const Listing = ({
 
         {properties !== null ? (
           <Row>
-            {properties.entities.length > 0 ?
+            {properties.entities.length > 0 ? (
               properties?.entities?.map((data) => (
                 <Col mg={6} xl={3} key={data.id}>
                   <Link to={`list/${data.id}`}>
@@ -138,42 +126,43 @@ const Listing = ({
                       />
                       <CardBody className="mb-1">
                         <span className="text-muted">
-                          {data.bedrooms} {data.bedrooms && "Beds,"} {data.bathrooms} {data.bathrooms && "Baths."}
+                          {data.bedrooms} {data.bedrooms && "Beds,"}{" "}
+                          {data.bathrooms} {data.bathrooms && "Baths."}
                         </span>
                         <p className="mt-2 card-title">
                           <span
                             style={{
-                              display: 'block',
-                              fontWeight: '800',
-                              color: 'black',
+                              display: "block",
+                              fontWeight: "800",
+                              color: "black",
                             }}
                           >
                             {data?.parentProperty?.title}
                           </span>
-                          <span style={{ display: 'block', color: 'black' }}>
+                          <span style={{ display: "block", color: "black" }}>
                             {data?.title}
                           </span>
                         </p>
                         <p>
-                          From{' '}
+                          From{" "}
                           <span className="text-primary">
                             ₦{data?.price?.toLocaleString()}
-                          </span>{' '}
+                          </span>{" "}
                           /y
                         </p>
                       </CardBody>
                     </Card>
                   </Link>
                 </Col>
-              )) : (
-                
-                <Col xl={12} className="d-flex justify-content-center">
-                  <div>
-                    <img src={emptyCan} alt="empty" className="rounded mb-2" />
-                    <h4> No Properties Found </h4>
-                  </div>  
-                </Col>
-              )}
+              ))
+            ) : (
+              <Col xl={12} className="d-flex justify-content-center">
+                <div>
+                  <img src={emptyCan} alt="empty" className="rounded mb-2" />
+                  <h4> No Properties Found </h4>
+                </div>
+              </Col>
+            )}
           </Row>
         ) : (
           <Loading />
@@ -183,13 +172,13 @@ const Listing = ({
           <ModalBody>
             <AvForm onValidSubmit={handleSubmit}>
               <div
-                style={{ float: 'right', color: 'red', cursor: 'pointer' }}
+                style={{ float: "right", color: "red", cursor: "pointer" }}
                 onClick={clearFilter}
               >
                 Clear Filter
               </div>
               <AvField type="select" name="state" label="State">
-                <option value=""></option>
+                <option value="" hidden></option>
                 {states?.map((state) => (
                   <option key={state.id} value={state.name}>
                     {state.name}
