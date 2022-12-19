@@ -114,22 +114,6 @@ const Listing = ({
               Filter
             </Button>
           </div>
-          {/* <div className="text-right">
-            <Button
-              color={feature === 'SALE' ? 'success' : 'light'}
-              onClick={() => setFeature("SALE")}
-              className="mr-2 px-4"
-            >
-              Sale
-            </Button>
-            <Button
-              color={feature === 'RENT' ? 'success' : 'light'}
-              onClick={() => setFeature('RENT')}
-              className="px-4"
-            >
-              Rent
-            </Button>
-          </div> */}
         </div>
 
         {propertiesError && (
