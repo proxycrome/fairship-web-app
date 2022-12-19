@@ -1,10 +1,10 @@
-import HttpService from './HttpService';
+import HttpService from "./HttpService";
 
 export const getAgentsService = (landlordID) => {
   const http = new HttpService();
-  let url = 'auth/users/all?role=AGENT&limit=100';
+  let url = "auth/freelance-agents/all?status=ACTIVE";
   if (landlordID) {
-    url = `property-owner/all-agents/${landlordID}?page=0&size=10
+    url = `property-owner/all-agents/${landlordID}?size=1000000
       `;
   }
   return http.getData(url);
@@ -12,7 +12,7 @@ export const getAgentsService = (landlordID) => {
 
 export const postAgentService = (data) => {
   const http = new HttpService();
-  const url = 'property-owner/create-agents';
+  const url = "property-owner/create-agents";
   return http.postDataWithToken(data, url);
 };
 
@@ -36,6 +36,6 @@ export const getCompanyAgentsService = (companyId) => {
 
 export const updateAgentSubService = () => {
   const http = new HttpService();
-  const url = 'property-owner/update-after-agent-subscription';
+  const url = "property-owner/update-after-agent-subscription";
   return http.postDataWithToken(null, url);
 };

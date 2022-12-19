@@ -16,8 +16,6 @@ const Agent = ({
   getLandlordAgents,
   loading,
   getCompanyAgents,
-  companyAgents,
-  companyAgentsError,
 }) => {
   const [isNewAgent, setIsNewAgent] = useState(false);
   const [preview, setPreview] = useState(false);
@@ -28,34 +26,9 @@ const Agent = ({
 
   useEffect(() => {
     if (user) {
-      if (user?.agentDetail?.type === "COMPANY") {
-        // getCompanyAgents(user?.agentDetail?.company?.id);
-        getLandlordAgents(user?.id);
-      } else {
-        getLandlordAgents(user?.id);
-      }
+      getLandlordAgents(user?.id);
     }
   }, [user, getLandlordAgents, getCompanyAgents]);
-
-  console.log(landlordAgents);
-
-  // console.log(companyAgents);
-
-  // useEffect(() => {
-  //   if (companyAgents) {
-  //     setFilteredCompanyAgents(
-  //       companyAgents?.entities?.filter(
-  //         (agent) =>
-  //           agent.firstName.toLowerCase().includes(searchName.toLowerCase()) ||
-  //           agent.lastName.toLowerCase().includes(searchName.toLowerCase()) ||
-  //           agent.email.toLowerCase().includes(searchName.toLowerCase()) ||
-  //           (agent.firstName + " " + agent.lastName)
-  //             .toLowerCase()
-  //             .includes(searchName.toLowerCase())
-  //       )
-  //     );
-  //   }
-  // }, [searchName, companyAgents]);
 
   useEffect(() => {
     if (landlordAgents) {
@@ -88,8 +61,6 @@ const Agent = ({
       />
     );
   }
-
-  console.log(user);
 
   return (
     <div className="page-content">

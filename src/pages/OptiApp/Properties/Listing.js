@@ -140,48 +140,7 @@ const Listing = ({
 
         {properties !== null ? (
           <Row>
-            {//properties?.entities?.length > 0 && sortedProperties?.length > 0
-              // ? sortedProperties?.map((data) => (
-              //     <Col mg={6} xl={3} key={data.id}>
-              //       <Link to={`list/${data.id}`}>
-              //         <Card>
-              //           <CardImg
-              //             top
-              //             height="200"
-              //             className="w-100"
-              //             src={data.indexImage}
-              //             alt="property"
-              //           />
-              //           <CardBody className="mb-1">
-              //             <span className="text-muted">
-              //               {data.bedrooms} Beds, {data.bathrooms} Baths.
-              //             </span>
-              //             <p className="mt-2 card-title">
-              //               <span
-              //                 style={{
-              //                   display: "block",
-              //                   fontWeight: "800",
-              //                   color: "black",
-              //                 }}
-              //               >
-              //                 {data?.parentProperty?.title}
-              //               </span>
-              //               <span style={{ display: "block", color: "black" }}>
-              //                 {data?.title}
-              //               </span>
-              //             </p>
-              //             <p>
-              //               From{" "}
-              //               <span className="text-primary">₦{data?.price?.toLocaleString()}</span>{" "}
-              //               /y
-              //             </p>
-              //           </CardBody>
-              //         </Card>
-              //       </Link>
-              //     </Col>
-              //   ))
-              // : 
-              properties.entities.length > 0 ?
+            {properties.entities.length > 0 ?
               properties?.entities?.map((data) => (
                 <Col mg={6} xl={3} key={data.id}>
                   <Link to={`list/${data.id}`}>
@@ -195,7 +154,7 @@ const Listing = ({
                       />
                       <CardBody className="mb-1">
                         <span className="text-muted">
-                          {data.bedrooms} Beds, {data.bathrooms} Baths.
+                          {data.bedrooms} {data.bedrooms && "Beds,"} {data.bathrooms} {data.bathrooms && "Baths."}
                         </span>
                         <p className="mt-2 card-title">
                           <span

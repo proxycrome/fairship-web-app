@@ -56,15 +56,15 @@ const CreateAgent = ({ BackToHome, userId }) => {
     agentSubMsgError } =
     useSelector((state) => state.Agents);
 
-  console.log(postAgentError);
+  // console.log(agents);
 
   const AgentsIdArray = landlordAgents?.data?.agents?.map((agent) => agent.id);
 
-  const filteredAgents = agents?.entities?.filter(
+  const filteredAgents = agents?.filter(
     (agent) => !AgentsIdArray?.find((id) => id === agent?.id)
   );
 
-  // console.log(filteredAgents);
+  console.log({filteredAgents});
 
   console.log(agents);
 

@@ -689,9 +689,9 @@ const MaintenanceSummary = (props) => {
           <Modal
             // size="sm"
             isOpen={showReview}
-            toggle={() => setShowReview(!show)}
+            toggle={() => setShowReview(!showReview)}
           >
-            <ModalHeader toggle={() => setShowReview(!show)}>
+            <ModalHeader toggle={() => setShowReview(!showReview)}>
               Review Vendor
             </ModalHeader>
             <ModalBody>
