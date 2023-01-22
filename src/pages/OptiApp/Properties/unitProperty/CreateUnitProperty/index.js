@@ -102,10 +102,9 @@ class CreateProperty extends Component {
     event.preventDefault();
     const payee = {};
 
-    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.percentageAmount = parseFloat(this.state.percentageAmount);
     payee.name = this.state.name;
     this.state.pays.push(payee);
-    // console.log(payee);
     this.setState({
       pays: this.state.pays,
       show: false,
@@ -159,13 +158,11 @@ class CreateProperty extends Component {
 
     const selectAgent = () => {
       if (values?.agentIds !== "") {
-        return [
-          +this.props.landlordAgents?.data?.agents?.find((agent) => {
-            if (`${agent?.firstName} ${agent?.lastName}` === values?.agentIds) {
-              return agent?.id;
-            }
-          })?.id,
-        ];
+        const agentObj = this.props.agents?.agents?.find(
+          (agent) =>
+            `${agent?.firstName} ${agent?.lastName}` === values?.agentIds
+        );
+        return [+agentObj.id];
       }
       if (values?.agentIds === "") {
         return [];
@@ -193,7 +190,6 @@ class CreateProperty extends Component {
     };
     formData.images = this.state.selectedFiles;
 
-    console.log(formData);
     this.props.createProperties(formData, payload);
 
     // setTimeout(() => {
@@ -320,7 +316,7 @@ class CreateProperty extends Component {
                   onValidSubmit={this.handleSubmit}
                 >
                   <Row>
-                    <Col xs={4}>
+                    <Col md={4}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="title"
@@ -344,7 +340,7 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col> */}
-                    <Col xs={4}>
+                    <Col md={4}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -364,7 +360,7 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={4}>
+                    <Col md={4}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -381,11 +377,12 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col sm={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="address.houseNoAddress"
                           type="text"
+                          helpMessage="Address"
                           className="form-ctrl"
                           id="text"
                           placeholder="address"
@@ -393,7 +390,7 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col>
-                    <Col sm={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -416,7 +413,7 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col sm={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -440,7 +437,7 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col sm={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -463,18 +460,19 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col sm={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="address.zipcode"
                           type="text"
                           className="form-ctrl"
                           id="text"
+                          helpMessage="Zipcode"
                           placeholder="zipcode"
                         />
                       </FormGroup>
                     </Col>
-                    <Col xs={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="size"
@@ -486,7 +484,7 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col>
-                    <Col xs={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="bedrooms"
@@ -497,7 +495,7 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col>
-                    <Col xs={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="bathrooms"
@@ -508,7 +506,7 @@ class CreateProperty extends Component {
                         />
                       </FormGroup>
                     </Col>
-                    <Col xs={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -521,7 +519,7 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -534,7 +532,7 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={3}>
+                    <Col md={3}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           name="price"
@@ -553,7 +551,7 @@ class CreateProperty extends Component {
                       </FormGroup>
                     </Col>
                     {this.state.feature === "RENT" ? (
-                      <Col xs={3}>
+                      <Col md={3}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             type="Number"
@@ -565,7 +563,7 @@ class CreateProperty extends Component {
                       </Col>
                     ) : null}
 
-                    <Col xs={6}>
+                    <Col md={6}>
                       <FormGroup className="form-group-custom mb-4">
                         <AvField
                           type="select"
@@ -578,7 +576,7 @@ class CreateProperty extends Component {
                         </AvField>
                       </FormGroup>
                     </Col>
-                    <Col xs={6}>
+                    <Col md={6}>
                       <FormGroup className="form-group-custom mb-4">
                         <img src={plus} alt="plus" onClick={this.showModal} />
                         <span> Payment Item</span>
@@ -640,8 +638,8 @@ class CreateProperty extends Component {
                     </Modal>
                     <Col md={12}>
                       <Row>
-                        <Col xs={6}>
-                          <Col xs={12}>
+                        <Col md={6}>
+                          <Col md={12}>
                             <FormGroup className="form-group-custom mb-4">
                               <AvField
                                 type="select"
@@ -655,9 +653,9 @@ class CreateProperty extends Component {
                                 {this.props.landlordAgents?.data?.agents
                                   ?.length !== 0 ? (
                                   this.props.landlordAgents?.data?.agents?.map(
-                                    (agent) => (
+                                    (agent, index) => (
                                       <option
-                                        key={agent.id}
+                                        key={index}
                                         value={`${agent?.firstName} ${agent?.lastName}`}
                                       >
                                         {agent?.firstName} {agent?.lastName}
@@ -672,7 +670,7 @@ class CreateProperty extends Component {
                               </AvField>
                             </FormGroup>
                           </Col>
-                          <Col xs={12}>
+                          <Col md={12}>
                             <FormGroup className="form-group-custom mb-4">
                               <Label for="description">Description</Label>
                               <Input
@@ -688,7 +686,7 @@ class CreateProperty extends Component {
                               />
                             </FormGroup>
                           </Col>
-                          <Col xs={12}>
+                          <Col md={12}>
                             <FormGroup className="form-group-custom mb-4">
                               <AvCheckboxGroup
                                 name="otherAmenities"
@@ -851,8 +849,8 @@ class CreateProperty extends Component {
                             </FormGroup>
                           </Col>
                         </Col>
-                        <Col xs={6}>
-                          <Col xs={12}>
+                        <Col md={6}>
+                          <Col md={12}>
                             <>
                               <DropZone
                                 selectedFiles={this.state.selectedFiles}
@@ -878,62 +876,68 @@ class CreateProperty extends Component {
                                 Documents must be in pdf format and less than
                                 250mb
                               </label>
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <DocsUpload
                                   name="FAMILY_AGREEMENT"
-                                  documentName="Family agreement"
-                                  setFile={(files) =>
-                                    this.setState({ faImage: files })
+                                  documentName="Family Agreement"
+                                  setBase64File={(data) =>
+                                    this.setState({ faImage: data })
                                   }
+                                  base64File={this.state.faImage}
                                 />
                               </Col>
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <DocsUpload
                                   name="CERTIFICATE_OF_OCCUPANCY"
                                   documentName="Certificate of Occupancy"
-                                  setFile={(files) =>
-                                    this.setState({ cooImage: files })
+                                  setBase64File={(data) =>
+                                    this.setState({ cooImage: data })
                                   }
+                                  base64File={this.state.cooImage}
                                 />
                               </Col>
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <DocsUpload
                                   name="LETTER_OF_ALLOCATION"
                                   documentName="Letter of Allocation"
-                                  setFile={(files) =>
-                                    this.setState({ loaImage: files })
+                                  setBase64File={(data) =>
+                                    this.setState({ loaImage: data })
                                   }
+                                  base64File={this.state.loaImage}
                                 />
                               </Col>
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <DocsUpload
                                   name="LAND_CERTIFICATE"
                                   documentName="Land Certificate"
-                                  setFile={(files) =>
-                                    this.setState({ landCertImage: files })
+                                  setBase64File={(data) =>
+                                    this.setState({ landCertImage: data })
                                   }
+                                  base64File={this.state.landCertImage}
                                 />
                               </Col>
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <DocsUpload
                                   name="CONVEYANCE_LETTER"
                                   documentName="Conveyance"
-                                  setFile={(files) =>
-                                    this.setState({ conveyImage: files })
+                                  setBase64File={(data) =>
+                                    this.setState({ conveyImage: data })
                                   }
+                                  base64File={this.state.conveyImage}
                                 />
                               </Col>
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <DocsUpload
                                   name="CONSENT_LETTER"
                                   documentName="Concent"
-                                  setFile={(files) =>
-                                    this.setState({ concentImage: files })
+                                  setBase64File={(data) =>
+                                    this.setState({ concentImage: data })
                                   }
+                                  base64File={this.state.concentImage}
                                 />
                               </Col>
                               {this.state.otherDocs?.map((item, index) => (
-                                <Col xs={12} key={index} className="mb-4">
+                                <Col md={12} key={index} className="mb-4">
                                   <div className="grey-box-background d-flex justify-content-between p-3">
                                     <div className="d-flex align-items-center">
                                       <img src={File} alt="file" />
@@ -961,7 +965,7 @@ class CreateProperty extends Component {
                                   </div>
                                 </Col>
                               ))}
-                              <Col xs={12} className="mb-4">
+                              <Col md={12} className="mb-4">
                                 <div
                                   style={{ cursor: "pointer" }}
                                   onClick={() =>
@@ -978,13 +982,14 @@ class CreateProperty extends Component {
                                 </div>
                               </Col>
                               <Collapse isOpen={this.state.open}>
-                                <Col xs={12} className="mb-4">
+                                <Col md={12} className="mb-4">
                                   <DocsUpload
                                     name="OTHERS"
                                     documentName="Others"
-                                    setFile={(files) =>
-                                      this.setState({ othersImage: files })
+                                    setBase64File={(data) =>
+                                      this.setState({ othersImage: data })
                                     }
+                                    base64File={this.state.othersImage}
                                   />
                                 </Col>
                               </Collapse>

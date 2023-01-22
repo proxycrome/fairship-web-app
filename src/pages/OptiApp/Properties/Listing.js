@@ -113,8 +113,8 @@ const Listing = ({
         {properties !== null ? (
           <Row>
             {properties.entities.length > 0 ? (
-              properties?.entities?.map((data) => (
-                <Col mg={6} xl={3} key={data.id}>
+              properties?.entities?.map((data, index) => (
+                <Col mg={6} xl={3} key={index}>
                   <Link to={`list/${data.id}`}>
                     <Card>
                       <CardImg

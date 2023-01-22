@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Table, Card, CardBody } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import { MDBDataTable } from 'mdbreact';
 // import NewInspection from './NewInspection';
 // import { Link } from 'react-router-dom'
@@ -18,7 +18,6 @@ const Inspection = ({ inspections, fetchInspections, loading }) => {
     dispatch(fetchInspections(payloadStatus));
   }, [dispatch, payloadStatus, fetchInspections]);
 
-  // console.log(inspections);
 
   const data = {
     columns: [

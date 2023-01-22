@@ -16,7 +16,7 @@ import { AvForm, AvField, AvInput } from "availity-reactstrap-validation";
 
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import walkIcon from "../../../assets/images/walkIcon.png";
+// import walkIcon from "../../../assets/images/walkIcon.png";
 import {
   fetchEachProperties,
   getAllApartmentTypes,
@@ -44,7 +44,6 @@ const WalkThroughPayment = ({ match }) => {
     walkVideoPlans,
   } = useSelector((state) => state.Properties);
 
-  console.log(walkVideoPlans);
 
   const cardStyle = {
     boxShadow: "0px 4px 30px rgba(98, 134, 154, 0.38)",
@@ -54,19 +53,17 @@ const WalkThroughPayment = ({ match }) => {
 
   useEffect(() => {
     dispatch(getAllApartmentTypes());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (apartmentType) {
       dispatch(getWalkByApartment(apartmentType));
     }
-  }, [apartmentType]);
+  }, [dispatch, apartmentType]);
 
   useEffect(() => {
     dispatch(fetchEachProperties(id));
   }, [dispatch, id]);
-
-  console.log(property);
 
   return (
     <div className="page-content">

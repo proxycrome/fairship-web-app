@@ -18,7 +18,7 @@ const ServiceRequest = () => {
   }, [dispatch]);
 
   const { services, loading } = useSelector((state) => state.Maintenance);
-  // console.log(services);
+
   
 
   const data = {

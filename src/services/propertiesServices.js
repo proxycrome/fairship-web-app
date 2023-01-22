@@ -1,9 +1,8 @@
 import HttpService from './HttpService';
 
 export const fetchPropertiesService = (payload, collectiveId) => {
-  // console.log(payload);
   const http = new HttpService();
-  let url = 'auth/properties?limit=100&entityLevel=COLLECTIVE_ENTITY';
+  let url = 'auth/properties?limit=100000000&entityLevel=COLLECTIVE_ENTITY';
   if (payload?.type === 'general') {
     url = `properties?limit=100000&status=ACTIVE${
       payload?.query.maxPrice ? `&maxPrice=${payload?.query.maxPrice}` : ''
@@ -19,9 +18,9 @@ export const fetchPropertiesService = (payload, collectiveId) => {
       payload?.query.search ? `&search=${payload?.query.search}` : ''
     }`;
   } else if (payload?.type === 'unit_entity') {
-    url = 'auth/properties?limit=10000&entityLevel=SINGLE_ENTITY';
+    url = 'auth/properties?limit=100000000&entityLevel=SINGLE_ENTITY';
   } else if (payload?.type === 'all_user_properties') {
-    url = 'auth/properties-all-levels?limit=10000';
+    url = 'auth/properties-all-levels?limit=1000000';
   } else if (payload?.type === 'collective_units') {
     url = `auth/collective-entity-properties/property-units/${collectiveId}`;
   }

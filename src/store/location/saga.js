@@ -21,9 +21,7 @@ function* fetchCountry() {
   try {
     const response = yield call(fetchCountryService);
     yield put(fetchCountrySuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
     yield put(fetchCountryError(error?.response?.data));
   }
 }
@@ -32,9 +30,7 @@ function* fetchState({ payload: { countryId } }) {
   try {
     const response = yield call(fetchStateService, countryId);
     yield put(fetchStateSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
     yield put(fetchStateError(error?.response?.data));
   }
 }
@@ -43,9 +39,7 @@ function* fetchLga({ payload: { stateId } }) {
   try {
     const response = yield call(fetchLgaService, stateId);
     yield put(fetchLgaSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
     yield put(fetchLgaError(error?.response?.data));
   }
 }

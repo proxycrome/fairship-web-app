@@ -13,6 +13,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  Collapse,
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -35,7 +36,11 @@ import {
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import plus from "./images/plus.svg";
-import DropZone from "../../../components/Common/imageUpload";
+// import DropZone from "../../../components/Common/imageUpload";
+import DocsUpload from "./cardProperty/DocsUpload";
+import Check from "../../../assets/images/checked.png";
+import Trash from "../../../assets/images/trash.png";
+import File from "../../../assets/images/File.png";
 // import Loading from "../../../components/Common/Loading";
 
 class EditUnitProperty extends Component {
@@ -47,11 +52,20 @@ class EditUnitProperty extends Component {
       type: "Agricultural",
       id: 1,
       pays: [],
+      cooImage: {},
+      faImage: {},
+      loaImage: {},
+      landCertImage: {},
+      conveyImage: {},
+      concentImage: {},
+      othersImage: {},
+      otherDocs: [],
       formType: "",
       price: "",
       name: "",
       percentageAmount: "",
       show: false,
+      open: false,
       others: "",
     };
     this.toggleTab = this.toggleTab.bind(this);
@@ -59,6 +73,17 @@ class EditUnitProperty extends Component {
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
     this.payment = this.payment.bind(this);
+    this.handleSaleDocuments = this.handleSaleDocuments.bind(this);
+    this.combineOtherDocs = this.combineOtherDocs.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  combineOtherDocs() {
+    this.state.otherDocs.push(this.state.othersImage);
+    this.setState({
+      otherDocs: this.state.otherDocs,
+      open: false,
+    });
   }
 
   showModal = () => {
@@ -73,13 +98,14 @@ class EditUnitProperty extends Component {
     event.preventDefault();
     const payee = {};
 
-    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.percentageAmount = parseFloat(this.state.percentageAmount);
     payee.name = this.state.name;
     this.state.pays.push(payee);
-    // console.log(payee);
     this.setState({
       pays: this.state.pays,
       show: false,
+      name: "",
+      percentageAmount: "",
     });
   }
 
@@ -89,16 +115,40 @@ class EditUnitProperty extends Component {
     this.setState({ pays: paymentItem });
   }
 
+  handleSaleDocuments() {
+    let combineDocs = [];
+    if (Object.keys(this.state.faImage).length > 0) {
+      combineDocs.push(this.state.faImage);
+    }
+    if (Object.keys(this.state.cooImage).length > 0) {
+      combineDocs.push(this.state.cooImage);
+    }
+    if (Object.keys(this.state.loaImage).length > 0) {
+      combineDocs.push(this.state.loaImage);
+    }
+    if (Object.keys(this.state.landCertImage).length > 0) {
+      combineDocs.push(this.state.landCertImage);
+    }
+    if (Object.keys(this.state.conveyImage).length > 0) {
+      combineDocs.push(this.state.conveyImage);
+    }
+    if (Object.keys(this.state.concentImage).length > 0) {
+      combineDocs.push(this.state.concentImage);
+    }
+    if (this.state.otherDocs?.length > 0) {
+      combineDocs.push(...this.state.otherDocs);
+    }
+    return combineDocs;
+  }
+
   handleSubmit(events, values) {
     const selectAgent = () => {
       if (values?.agentIds !== "") {
-        return [
-          this.props.landlordAgents?.data?.agents.find((agent) => {
-            if (`${agent.firstName} ${agent.lastName}` === values.agentIds) {
-              return agent.id;
-            }
-          }).id,
-        ];
+        const agentObj = this.props.agents?.agents?.find(
+          (agent) =>
+            `${agent?.firstName} ${agent?.lastName}` === values?.agentIds
+        );
+        return [+agentObj.id];
       }
       if (values?.agentIds === "") {
         return [];
@@ -108,25 +158,31 @@ class EditUnitProperty extends Component {
     const formData = { ...values };
     formData.paymentItems = this.state.pays;
     formData.description = this.props.property?.description;
-    formData.isServiced = values.isServiced === "Yes" ? true : false;
-    formData.isFurnished = values.isFurnished === "Yes" ? true : false;
-    formData.isShared = values.isShared === "Yes" ? true : false;
-    formData.parkingLot = values.parkingLot === "Yes" ? true : false;
-    formData.otherAmenities = values.otherAmenities.toString();
-    formData.bathrooms = Number(values.bathrooms);
-    formData.bedrooms = Number(values.bedrooms);
-    formData.price = Number(values.price);
-    formData.periodInMonths = Number(values.periodInMonths);
+    formData.isServiced = values?.isServiced === "Yes" ? true : false;
+    formData.isFurnished = values?.isFurnished === "Yes" ? true : false;
+    formData.isShared = values?.isShared === "Yes" ? true : false;
+    formData.parkingLot = values?.parkingLot === "Yes" ? true : false;
+    formData.otherAmenities = values?.otherAmenities?.toString();
+    formData.bathrooms = Number(values?.bathrooms);
+    formData.bedrooms = Number(values?.bedrooms);
+    formData.price = Number(values?.price);
+    formData.periodInMonths = Number(values?.periodInMonths);
     formData.agentIds = selectAgent();
+    formData.propertyDocumentImages =
+      this.props.property?.feature === "RENT"
+        ? null
+        : this.handleSaleDocuments();
 
-    this.props.updateUnitProperty(formData, this.props.match.params.id);
+    this.props.updateUnitProperty(formData, this.props.match?.params?.id);
   }
 
   componentDidMount() {
     this.props.fetchEachProperties(this.props.match.params.id);
     this.props.getPropertySubcategory(this.state.id);
     this.props.getPropertyTypes();
-    this.props.getLandlordAgents(this.props.user?.id);
+    if(this.props.user?.id){
+      this.props.getLandlordAgents(this.props.user?.id);
+    } 
     this.props.clearUnitMessage();
   }
 
@@ -152,6 +208,9 @@ class EditUnitProperty extends Component {
         window.location.reload(true);
       }, 4000);
     }
+    if (PrevState.othersImage !== this.state.othersImage) {
+      this.combineOtherDocs();
+    }
   }
 
   toggleTab(tab) {
@@ -168,6 +227,13 @@ class EditUnitProperty extends Component {
     const num = Number(str.split(",").join(""));
     const comma = num.toLocaleString();
     return String(comma);
+  }
+
+  handleDelete(id) {
+    const remainingDocs = this.state.otherDocs?.filter(
+      (data, index) => index !== id
+    );
+    this.setState({ otherDocs: remainingDocs });
   }
 
   render() {
@@ -204,7 +270,7 @@ class EditUnitProperty extends Component {
                     model={this.props.property}
                   >
                     <Row>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="title"
@@ -216,7 +282,7 @@ class EditUnitProperty extends Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      {/* <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="unitNo"
@@ -227,8 +293,8 @@ class EditUnitProperty extends Component {
                             helpMessage="Unit No"
                           />
                         </FormGroup>
-                      </Col>
-                      <Col xs={4}>
+                      </Col> */}
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             type="select"
@@ -249,7 +315,7 @@ class EditUnitProperty extends Component {
                           </AvField>
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             type="select"
@@ -269,7 +335,7 @@ class EditUnitProperty extends Component {
                           </AvField>
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="size"
@@ -281,7 +347,7 @@ class EditUnitProperty extends Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="bedrooms"
@@ -292,7 +358,7 @@ class EditUnitProperty extends Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="bathrooms"
@@ -303,7 +369,7 @@ class EditUnitProperty extends Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             type="select"
@@ -316,7 +382,7 @@ class EditUnitProperty extends Component {
                           </AvField>
                         </FormGroup>
                       </Col>
-                      <Col xs={4}>
+                      <Col md={4}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             type="select"
@@ -329,7 +395,7 @@ class EditUnitProperty extends Component {
                           </AvField>
                         </FormGroup>
                       </Col>
-                      <Col xs={6}>
+                      <Col md={6}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             name="price"
@@ -345,18 +411,20 @@ class EditUnitProperty extends Component {
                           />
                         </FormGroup>
                       </Col>
-                      <Col xs={6}>
-                        <FormGroup className="form-group-custom mb-4">
-                          <AvField
-                            type="number"
-                            name="periodInMonths"
-                            id="periodInMonths"
-                            helpMessage="Months of Rent"
-                            placeholder="Enter No. of Months"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col xs={6}>
+                      {this.props.property?.feature === "RENT" && (
+                        <Col md={6}>
+                          <FormGroup className="form-group-custom mb-4">
+                            <AvField
+                              type="number"
+                              name="periodInMonths"
+                              id="periodInMonths"
+                              helpMessage="Months of Rent"
+                              placeholder="Enter No. of Months"
+                            />
+                          </FormGroup>
+                        </Col>
+                      )}
+                      <Col md={6}>
                         <FormGroup className="form-group-custom mb-4">
                           <AvField
                             type="select"
@@ -369,7 +437,7 @@ class EditUnitProperty extends Component {
                           </AvField>
                         </FormGroup>
                       </Col>
-                      <Col xs={6}>
+                      <Col md={6}>
                         <FormGroup className="form-group-custom mb-4">
                           <img src={plus} alt="plus" onClick={this.showModal} />
                           <span> Payment Item</span>
@@ -431,14 +499,15 @@ class EditUnitProperty extends Component {
                       </Modal>
                       <Col md={12}>
                         <Row>
-                          <Col xs={6}>
-                            <Col xs={12}>
+                          <Col md={6}>
+                            <Col md={12}>
                               <FormGroup className="form-group-custom mb-4">
                                 <AvField
                                   type="select"
                                   name="agentIds"
                                   label="Add Agent"
                                   placeholder="Select an Agent"
+                                  value=""
                                 >
                                   <option value="" hidden disabled>
                                     Select Agent...
@@ -446,9 +515,9 @@ class EditUnitProperty extends Component {
                                   {this.props.landlordAgents?.data?.agents
                                     ?.length !== 0 ? (
                                     this.props.landlordAgents?.data?.agents?.map(
-                                      (agent) => (
+                                      (agent, i) => (
                                         <option
-                                          key={agent.id}
+                                          key={i}
                                           value={`${agent?.firstName} ${agent?.lastName}`}
                                         >
                                           {agent?.firstName} {agent?.lastName}
@@ -463,7 +532,7 @@ class EditUnitProperty extends Component {
                                 </AvField>
                               </FormGroup>
                             </Col>
-                            <Col xs={12}>
+                            <Col md={12}>
                               <FormGroup className="form-group-custom mb-4">
                                 <AvCheckboxGroup
                                   name="otherAmenities"
@@ -628,21 +697,203 @@ class EditUnitProperty extends Component {
                               </FormGroup>
                             </Col>
                           </Col>
-                          {/* <Col xs={6}>
-                            <>
-                              <DropZone
-                                selectedFiles={this.state.selectedFiles}
-                                setFile={(files) =>
-                                  this.setState({ selectedFiles: files })
-                                }
-                              />
-                              {this.state.imageError && (
-                                <Alert color="danger" className="text-danger">
-                                  {this.state.imageError}
-                                </Alert>
-                              )}
-                            </>
-                          </Col> */}
+                          <Col md={6}>
+                            {/* <Col md={12}>
+                              <>
+                                <DropZone
+                                  selectedFiles={this.state.selectedFiles}
+                                  setFile={(files) =>
+                                    this.setState({ selectedFiles: files })
+                                  }
+                                />
+                                {this.state.imageError && (
+                                  <Alert color="danger" className="text-danger">
+                                    {this.state.imageError}
+                                  </Alert>
+                                )}
+                              </>
+                            </Col> */}
+                            {this.state.property?.feature === "RENT" ? (
+                              <></>
+                            ) : (
+                              <>
+                                <label
+                                  style={{ fontSize: "12px" }}
+                                  className="ml-3 text-danger"
+                                >
+                                  Documents must be in pdf format and less than
+                                  250mb
+                                </label>
+                                <Col md={12} className="mb-4">
+                                  <DocsUpload
+                                    name="FAMILY_AGREEMENT"
+                                    documentName="Family Agreement"
+                                    setBase64File={(data) =>
+                                      this.setState({ faImage: data })
+                                    }
+                                    base64File={this.state.faImage}
+                                    propertyDocs={
+                                      this.props.property?.documents
+                                    }
+                                  />
+                                </Col>
+                                <Col md={12} className="mb-4">
+                                  <DocsUpload
+                                    name="CERTIFICATE_OF_OCCUPANCY"
+                                    documentName="Certificate of Occupancy"
+                                    setBase64File={(data) =>
+                                      this.setState({ cooImage: data })
+                                    }
+                                    base64File={this.state.cooImage}
+                                    propertyDocs={
+                                      this.props.property?.documents
+                                    }
+                                  />
+                                </Col>
+                                <Col md={12} className="mb-4">
+                                  <DocsUpload
+                                    name="LETTER_OF_ALLOCATION"
+                                    documentName="Letter of Allocation"
+                                    setBase64File={(data) =>
+                                      this.setState({ loaImage: data })
+                                    }
+                                    base64File={this.state.loaImage}
+                                    propertyDocs={
+                                      this.props.property?.documents
+                                    }
+                                  />
+                                </Col>
+                                <Col md={12} className="mb-4">
+                                  <DocsUpload
+                                    name="LAND_CERTIFICATE"
+                                    documentName="Land Certificate"
+                                    setBase64File={(data) =>
+                                      this.setState({ landCertImage: data })
+                                    }
+                                    base64File={this.state.landCertImage}
+                                    propertyDocs={
+                                      this.props.property?.documents
+                                    }
+                                  />
+                                </Col>
+                                <Col md={12} className="mb-4">
+                                  <DocsUpload
+                                    name="CONVEYANCE_LETTER"
+                                    documentName="Conveyance"
+                                    setBase64File={(data) =>
+                                      this.setState({ conveyImage: data })
+                                    }
+                                    base64File={this.state.conveyImage}
+                                    propertyDocs={
+                                      this.props.property?.documents
+                                    }
+                                  />
+                                </Col>
+                                <Col md={12} className="mb-4">
+                                  <DocsUpload
+                                    name="CONSENT_LETTER"
+                                    documentName="Concent"
+                                    setBase64File={(data) =>
+                                      this.setState({ concentImage: data })
+                                    }
+                                    base64File={this.state.concentImage}
+                                    propertyDocs={
+                                      this.props.property?.documents
+                                    }
+                                  />
+                                </Col>
+                                {this.props.property?.documents
+                                  ?.filter((item) => item.name === "OTHERS")
+                                  .map((item, index) => (
+                                    <Col md={12} key={index} className="mb-4">
+                                      <div className="grey-box-background d-flex justify-content-between p-3">
+                                        <div className="d-flex align-items-center">
+                                          <img src={File} alt="file" />
+                                          <h6 className="ml-2 pt-2">
+                                            {item.title}
+                                          </h6>
+                                        </div>
+                                        <div>
+                                          <img
+                                            src={Check}
+                                            alt="check"
+                                            width="20"
+                                            height="20"
+                                          />
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  ))}
+                                {this.state.otherDocs?.map((item, index) => (
+                                  <Col md={12} key={index} className="mb-4">
+                                    <div className="grey-box-background d-flex justify-content-between p-3">
+                                      <div className="d-flex align-items-center">
+                                        <img src={File} alt="file" />
+                                        <h6 className="ml-2 pt-2">
+                                          {item.title}
+                                        </h6>
+                                      </div>
+                                      <div>
+                                        <img
+                                          src={Trash}
+                                          alt="trash"
+                                          width="20"
+                                          height="20"
+                                          className="mr-2"
+                                          onClick={() =>
+                                            this.handleDelete(index)
+                                          }
+                                          style={{ cursor: "pointer" }}
+                                        />
+                                        <img
+                                          src={Check}
+                                          alt="check"
+                                          width="20"
+                                          height="20"
+                                        />
+                                      </div>
+                                    </div>
+                                  </Col>
+                                ))}
+                                <Col md={12} className="mb-4">
+                                  <div
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() =>
+                                      this.setState({ open: !this.state.open })
+                                    }
+                                  >
+                                    <img src={plus} alt="plus" />
+                                    <span
+                                      className="text-success ml-3"
+                                      style={{ fontWeight: "600" }}
+                                    >
+                                      Add other Document
+                                    </span>
+                                  </div>
+                                </Col>
+                                <Collapse isOpen={this.state.open}>
+                                  <Col md={12} className="mb-4">
+                                    {this.props.property?.documents
+                                      ?.filter((item) => item.name === "OTHERS")
+                                      ?.map((item, index) => (
+                                        <DocsUpload
+                                          key={index}
+                                          name="OTHERS"
+                                          documentName="Others"
+                                          setBase64File={(data) =>
+                                            this.setState({ othersImage: data })
+                                          }
+                                          base64File={this.state.othersImage}
+                                          propertyDocs={
+                                            this.props.property?.documents
+                                          }
+                                        />
+                                      ))}
+                                  </Col>
+                                </Collapse>
+                              </>
+                            )}
+                          </Col>
                         </Row>
                       </Col>
                     </Row>

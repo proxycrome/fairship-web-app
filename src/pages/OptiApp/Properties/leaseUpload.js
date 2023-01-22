@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import AxiosInstance from '../../../utils/axiosInstance';
-import { Button, Alert } from 'reactstrap';
+import { Button } from 'reactstrap';
 import { AvForm, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
 import Uploader from './cardProperty/uploadFile';
 const defaultInput = { uploadType: 'default' };
 
 const LeaseUpload = ({ propertyId, closeModal, reloadProperty, name }) => {
-  const [msg, setMsg] = useState(null);
+  const [ , setMsg] = useState(null);
   const [uploadField, setUploadField] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const handleSubmit = (e, values) => {
     setUploadField(values.uploadType);
   };
 
-  console.log(selectedFile);
   const submitUpload = () => {
     let formData = [{ ...selectedFile[0], documentName: name }];
     let url = `auth/properties/documents/${propertyId}`;
@@ -22,11 +21,12 @@ const LeaseUpload = ({ propertyId, closeModal, reloadProperty, name }) => {
         setMsg('upload successfully');
         closeModal(false);
         reloadProperty(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000)
       })
       .catch((error) => {
         alert('error found, please refresh');
-        console.log(error);
-        console.log(error.response);
       });
   };
 

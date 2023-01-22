@@ -15,7 +15,7 @@ const TransactionTable = () => {
 
   const { loading, transactions } = useSelector(state => state.Accounting);
 
-  // console.log(transactions);
+
 
   return (
     <>

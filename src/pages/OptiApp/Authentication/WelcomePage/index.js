@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Row, Col, Button, Alert, Container } from 'reactstrap';
+import { Row, Col, Button, Container } from 'reactstrap';
 
 import WelcomeLandlord from '../Register/WelcomeLandlord';
 
@@ -48,7 +48,6 @@ class Welcome extends Component {
       return <WelcomeLandlord />;
     }
 
-    // console.log(this.props.login);
 
     return (
       <React.Fragment>

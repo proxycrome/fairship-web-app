@@ -80,8 +80,6 @@ const MaintenanceSummary = (props) => {
     (state) => state.payment
   );
 
-  console.log(invoiceDetails);
-
   const handleClick = async (ref) => {
     await dispatch(getInvoiceDets(ref));
     setShow(true);
@@ -96,7 +94,7 @@ const MaintenanceSummary = (props) => {
     if (isChecked && maintenanceSummary) {
       dispatch(acceptServiceAgreement(maintenanceSummary?.id, dispatch));
     }
-  }, [isChecked]);
+  }, [isChecked, dispatch, maintenanceSummary]);
 
   const acceptMainInvoice = (id) => {
     dispatch(acceptInvoice(parseInt(id), setShow, dispatch));
@@ -126,7 +124,7 @@ const MaintenanceSummary = (props) => {
     ) {
       dispatch(initPartPayment(maintenanceSummary?.id));
     }
-  }, [maintenanceSummary?.signedContractAgreement]);
+  }, [maintenanceSummary, dispatch]);
 
   useEffect(() => {
     if (
@@ -136,15 +134,12 @@ const MaintenanceSummary = (props) => {
     ) {
       dispatch(initCompletePayment(maintenanceSummary?.id));
     }
-  }, [maintenanceSummary]);
+  }, [maintenanceSummary, dispatch]);
 
   useEffect(() => {
     dispatch(clearMessages());
   }, [dispatch]);
 
-
-  console.log(maintenanceSummary);
-  console.log(completePaymentMsg);
 
   return (
     <div className="page-content">

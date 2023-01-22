@@ -13,6 +13,7 @@ import {
   ModalHeader,
   Input,
   Form,
+  Collapse,
 } from "reactstrap";
 
 // availity-reactstrap-validation
@@ -38,9 +39,13 @@ import {
 
 import { connect } from "react-redux";
 import plus from "./images/plus.svg";
-import Loading from "../../../components/Common/Loading";
+// import Loading from "../../../components/Common/Loading";
+import Check from "../../../assets/images/checked.png";
+import Trash from "../../../assets/images/trash.png";
+import File from "../../../assets/images/File.png";
+import DocsUpload from "./cardProperty/DocsUpload";
 
-import DropZone from "../../../components/Common/imageUpload";
+// import DropZone from "../../../components/Common/imageUpload";
 
 class CreateProperty extends Component {
   constructor(props) {
@@ -51,6 +56,14 @@ class CreateProperty extends Component {
       name: "",
       percentageAmount: "",
       pays: [],
+      cooImage: {},
+      faImage: {},
+      loaImage: {},
+      landCertImage: {},
+      conveyImage: {},
+      concentImage: {},
+      othersImage: {},
+      otherDocs: [],
       show: false,
       imageError: "",
       feature: "RENT",
@@ -68,6 +81,17 @@ class CreateProperty extends Component {
     this.toggleTab = this.toggleTab.bind(this);
     this.payment = this.payment.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSaleDocuments = this.handleSaleDocuments.bind(this);
+    this.combineOtherDocs = this.combineOtherDocs.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  combineOtherDocs() {
+    this.state.otherDocs.push(this.state.othersImage);
+    this.setState({
+      otherDocs: this.state.otherDocs,
+      open: false,
+    });
   }
 
   showModal = () => {
@@ -78,13 +102,14 @@ class CreateProperty extends Component {
     event.preventDefault();
     const payee = {};
 
-    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.percentageAmount = parseFloat(this.state.percentageAmount);
     payee.name = this.state.name;
     this.state.pays.push(payee);
-    // console.log(payee);
     this.setState({
       pays: this.state.pays,
       show: false,
+      name: "",
+      percentageAmount: "",
     });
   }
 
@@ -98,22 +123,40 @@ class CreateProperty extends Component {
     this.setState({ pays: paymentItem });
   }
 
-  handleSubmit(events, values) {
-    // this.setState({ ...this.state, imageError: "" });
-    // if (this.state.selectedFiles.length === 0) {
-    //   this.setState({ ...this.state, imageError: "image can't be empty" });
-    //   return;
-    // }
+  handleSaleDocuments() {
+    let combineDocs = [];
+    if (Object.keys(this.state.faImage).length > 0) {
+      combineDocs.push(this.state.faImage);
+    }
+    if (Object.keys(this.state.cooImage).length > 0) {
+      combineDocs.push(this.state.cooImage);
+    }
+    if (Object.keys(this.state.loaImage).length > 0) {
+      combineDocs.push(this.state.loaImage);
+    }
+    if (Object.keys(this.state.landCertImage).length > 0) {
+      combineDocs.push(this.state.landCertImage);
+    }
+    if (Object.keys(this.state.conveyImage).length > 0) {
+      combineDocs.push(this.state.conveyImage);
+    }
+    if (Object.keys(this.state.concentImage).length > 0) {
+      combineDocs.push(this.state.concentImage);
+    }
+    if (this.state.otherDocs?.length > 0) {
+      combineDocs.push(...this.state.otherDocs);
+    }
+    return combineDocs;
+  }
 
+  handleSubmit(events, values) {
     const selectAgent = () => {
       if (values?.agentIds !== "") {
-        return [
-          +this.props.landlordAgents?.data?.agents?.find((agent) => {
-            if (`${agent?.firstName} ${agent?.lastName}` === values?.agentIds) {
-              return agent?.id;
-            }
-          })?.id,
-        ];
+        const agentObj = this.props.agents?.agents?.find(
+          (agent) =>
+            `${agent?.firstName} ${agent?.lastName}` === values?.agentIds
+        );
+        return [+agentObj.id];
       }
       if (values?.agentIds === "") {
         return [];
@@ -134,17 +177,12 @@ class CreateProperty extends Component {
     formData.price = Number(values.price);
     formData.periodInMonths = Number(values.periodInMonths);
     formData.agentIds = selectAgent();
-    // const payload = {
-    //   type: "singleUnit",
-    // };
+    formData.propertyDocumentImages =
+      this.props.property?.feature === "RENT"
+        ? null
+        : this.handleSaleDocuments();
 
-    formData.images = this.state.selectedFiles;
     this.props.putUnitProperty(formData, this.props.match.params.id);
-    // console.log(formData);
-
-    // setTimeout(() => {
-    //   this.props.history.push("/unit_properties");
-    // }, 5000);
   }
 
   toggleTab(tab) {
@@ -205,6 +243,9 @@ class CreateProperty extends Component {
         window.location.reload(true);
       }, 4000);
     }
+    if (PrevState.othersImage !== this.state.othersImage) {
+      this.combineOtherDocs();
+    }
   }
 
   includeCommas(str) {
@@ -213,8 +254,14 @@ class CreateProperty extends Component {
     return String(comma);
   }
 
+  handleDelete(id) {
+    const remainingDocs = this.state.otherDocs?.filter(
+      (data, index) => index !== id
+    );
+    this.setState({ otherDocs: remainingDocs });
+  }
+
   render() {
-    console.log(this.props.property);
     return (
       <React.Fragment>
         <div className="page-content">
@@ -245,34 +292,6 @@ class CreateProperty extends Component {
 
                 {this.props.property && (
                   <>
-                    <div className="mb-4">
-                      <Button
-                        color={
-                          this.state.feature === "SALE" ? "primary" : "light"
-                        }
-                        onClick={() =>
-                          this.setState({
-                            feature: "SALE",
-                          })
-                        }
-                        className="mr-2 px-4"
-                      >
-                        Sale
-                      </Button>
-                      <Button
-                        color={
-                          this.state.feature === "RENT" ? "primary" : "light"
-                        }
-                        onClick={() =>
-                          this.setState({
-                            feature: "RENT",
-                          })
-                        }
-                        className="px-4"
-                      >
-                        Rent
-                      </Button>
-                    </div>
                     <AvForm
                       className="form-horizontal"
                       onValidSubmit={this.handleSubmit}
@@ -512,17 +531,19 @@ class CreateProperty extends Component {
                             />
                           </FormGroup>
                         </Col>
-                        <Col xs={3}>
-                          <FormGroup className="form-group-custom mb-4">
-                            <AvField
-                              type="Number"
-                              name="periodInMonths"
-                              id="periodInMonths"
-                              helpMessage="Months of Rent"
-                              placeholder="Enter No. of Months"
-                            />
-                          </FormGroup>
-                        </Col>
+                        {this.props.property?.feature === "RENT" && (
+                          <Col xs={3}>
+                            <FormGroup className="form-group-custom mb-4">
+                              <AvField
+                                type="Number"
+                                name="periodInMonths"
+                                id="periodInMonths"
+                                helpMessage="Months of Rent"
+                                placeholder="Enter No. of Months"
+                              />
+                            </FormGroup>
+                          </Col>
+                        )}
                         <Col xs={6}>
                           <FormGroup className="form-group-custom mb-4">
                             <AvField
@@ -617,9 +638,9 @@ class CreateProperty extends Component {
                                     {this.props.landlordAgents?.data?.agents
                                       ?.length !== 0 ? (
                                       this.props.landlordAgents?.data?.agents?.map(
-                                        (agent) => (
+                                        (agent, index) => (
                                           <option
-                                            key={agent.id}
+                                            key={index}
                                             value={`${agent?.firstName} ${agent?.lastName}`}
                                           >
                                             {agent?.firstName} {agent?.lastName}
@@ -799,8 +820,8 @@ class CreateProperty extends Component {
                                 </FormGroup>
                               </Col>
                             </Col>
-                            {/* <Col xs={6}>
-                              <>
+                            <Col xs={6}>
+                              {/* <>
                                 <DropZone
                                   selectedFiles={this.state.selectedFiles}
                                   setFile={(files) =>
@@ -812,8 +833,187 @@ class CreateProperty extends Component {
                                     {this.state.imageError}
                                   </Alert>
                                 )}
-                              </>
-                            </Col> */}
+                              </> */}
+                              {this.state.property?.feature === "RENT" ? (
+                                <></>
+                              ) : (
+                                <>
+                                  <label
+                                    style={{ fontSize: "12px" }}
+                                    className="ml-3 text-danger"
+                                  >
+                                    Documents must be in pdf format and less
+                                    than 250mb
+                                  </label>
+                                  <Col xs={12} className="mb-4">
+                                    <DocsUpload
+                                      name="FAMILY_AGREEMENT"
+                                      documentName="Family Agreement"
+                                      setBase64File={(data) =>
+                                        this.setState({ faImage: data })
+                                      }
+                                      base64File={this.state.faImage}
+                                      propertyDocs={
+                                        this.props.property?.documents
+                                      }
+                                    />
+                                  </Col>
+                                  <Col xs={12} className="mb-4">
+                                    <DocsUpload
+                                      name="CERTIFICATE_OF_OCCUPANCY"
+                                      documentName="Certificate of Occupancy"
+                                      setBase64File={(data) =>
+                                        this.setState({ cooImage: data })
+                                      }
+                                      base64File={this.state.cooImage}
+                                      propertyDocs={
+                                        this.props.property?.documents
+                                      }
+                                    />
+                                  </Col>
+                                  <Col xs={12} className="mb-4">
+                                    <DocsUpload
+                                      name="LETTER_OF_ALLOCATION"
+                                      documentName="Letter of Allocation"
+                                      setBase64File={(data) =>
+                                        this.setState({ loaImage: data })
+                                      }
+                                      base64File={this.state.loaImage}
+                                      propertyDocs={
+                                        this.props.property?.documents
+                                      }
+                                    />
+                                  </Col>
+                                  <Col xs={12} className="mb-4">
+                                    <DocsUpload
+                                      name="LAND_CERTIFICATE"
+                                      documentName="Land Certificate"
+                                      setBase64File={(data) =>
+                                        this.setState({ landCertImage: data })
+                                      }
+                                      base64File={this.state.landCertImage}
+                                      propertyDocs={
+                                        this.props.property?.documents
+                                      }
+                                    />
+                                  </Col>
+                                  <Col xs={12} className="mb-4">
+                                    <DocsUpload
+                                      name="CONVEYANCE_LETTER"
+                                      documentName="Conveyance"
+                                      setBase64File={(data) =>
+                                        this.setState({ conveyImage: data })
+                                      }
+                                      base64File={this.state.conveyImage}
+                                      propertyDocs={
+                                        this.props.property?.documents
+                                      }
+                                    />
+                                  </Col>
+                                  <Col xs={12} className="mb-4">
+                                    <DocsUpload
+                                      name="CONSENT_LETTER"
+                                      documentName="Concent"
+                                      setBase64File={(data) =>
+                                        this.setState({ concentImage: data })
+                                      }
+                                      base64File={this.state.concentImage}
+                                      propertyDocs={
+                                        this.props.property?.documents
+                                      }
+                                    />
+                                  </Col>
+                                  {this.props.property?.documents
+                                    ?.filter((item) => item.name === "OTHERS")
+                                    .map((item, index) => (
+                                      <Col xs={12} key={index} className="mb-4">
+                                        <div className="grey-box-background d-flex justify-content-between p-3">
+                                          <div className="d-flex align-items-center">
+                                            <img src={File} alt="file" />
+                                            <h6 className="ml-2 pt-2">
+                                              {item.title}
+                                            </h6>
+                                          </div>
+                                          <div>
+                                            <img
+                                              src={Check}
+                                              alt="check"
+                                              width="20"
+                                              height="20"
+                                            />
+                                          </div>
+                                        </div>
+                                      </Col>
+                                    ))}
+                                  {this.state.otherDocs?.map((item, index) => (
+                                    <Col xs={12} key={index} className="mb-4">
+                                      <div className="grey-box-background d-flex justify-content-between p-3">
+                                        <div className="d-flex align-items-center">
+                                          <img src={File} alt="file" />
+                                          <h6 className="ml-2 pt-2">
+                                            {item.title}
+                                          </h6>
+                                        </div>
+                                        <div>
+                                          <img
+                                            src={Trash}
+                                            alt="trash"
+                                            width="20"
+                                            height="20"
+                                            className="mr-2"
+                                            onClick={() =>
+                                              this.handleDelete(index)
+                                            }
+                                            style={{ cursor: "pointer" }}
+                                          />
+                                          <img
+                                            src={Check}
+                                            alt="check"
+                                            width="20"
+                                            height="20"
+                                          />
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  ))}
+                                  <Col xs={12} className="mb-4">
+                                    <div
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() =>
+                                        this.setState({
+                                          open: !this.state.open,
+                                        })
+                                      }
+                                    >
+                                      <img src={plus} alt="plus" />
+                                      <span
+                                        className="text-success ml-3"
+                                        style={{ fontWeight: "600" }}
+                                      >
+                                        Add other Document
+                                      </span>
+                                    </div>
+                                  </Col>
+                                  <Collapse isOpen={this.state.open}>
+                                    <Col xs={12} className="mb-4">
+                                      <DocsUpload
+                                        name="OTHERS"
+                                        documentName="Others"
+                                        setBase64File={(data) =>
+                                          this.setState({
+                                            othersImage: data,
+                                          })
+                                        }
+                                        base64File={this.state.othersImage}
+                                        propertyDocs={
+                                          this.props.property?.documents
+                                        }
+                                      />
+                                    </Col>
+                                  </Collapse>
+                                </>
+                              )}
+                            </Col>
                           </Row>
                         </Col>
                       </Row>

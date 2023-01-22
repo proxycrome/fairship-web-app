@@ -58,11 +58,9 @@ class RentalApplication extends Component {
   }
 
   fair = (e) => {
-    // console.log(e.target[e.target.selectedIndex].value)
     this.setState({
       filter: e.target[e.target.selectedIndex].value
     })
-    // console.log(this.state.filter)
   }
 
   componentDidMount() {
@@ -77,7 +75,6 @@ class RentalApplication extends Component {
   }
 
   render() {
-    // console.log(this.props.rental)
   const processingRental = this.props?.rental?.entities?.map((rents) => ({
       application: (
         /*map data from api here for each Tenant */

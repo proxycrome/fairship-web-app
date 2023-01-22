@@ -94,7 +94,6 @@ const MoveIn = ({
       return el.length <= 0 ? [] : el;
     });
     foundItems.items.push(newItems);
-    // console.log(foundItems);
     setAddInspectColumn(false);
     SetInspectionField([...inspectionField, foundItems]);
     setNewInspect('');
@@ -117,7 +116,6 @@ const MoveIn = ({
       return el.length <= 0 ? [] : el;
     });
     foundItems.inventories.push(newItems);
-    // console.log(foundItems);
     setAddInventColumn(false);
     SetInspectionField([...inspectionField, foundItems]);
     setNewInvent('');
@@ -173,7 +171,6 @@ const MoveIn = ({
   // };
 
   const handleSubmit = (event, values) => {
-    // console.log(values);
     SetImageError(false);
     const formData = {};
     formData.type = type;
@@ -219,7 +216,6 @@ const MoveIn = ({
         // e.images = inspectionField[index].items[i].images;
       });
     });
-    // console.log(cloneFormData);
     dispatch(postInspection(cloneFormData));
   };
 
@@ -268,8 +264,6 @@ const MoveIn = ({
     fetchRentalRecommendation,
   ]);
 
-  // console.log(match, location)
-
   useEffect(() => {
     if (message) {
       setTimeout(() => {
@@ -277,8 +271,6 @@ const MoveIn = ({
       }, 3000);
     }
   }, [history, message]);
-
-  // console.log(inspection);
 
   useEffect(() => {
     SetInspectionField([]); 
@@ -335,10 +327,6 @@ const MoveIn = ({
     setPrevInspections(prevInspection);
   }, [inspection]);
 
-  // console.log(prevInspections);
-  // console.log(inspectionField);
-
-  // console.log(inspection);
   return (
     <div className="page-content">
       <Container fluid>

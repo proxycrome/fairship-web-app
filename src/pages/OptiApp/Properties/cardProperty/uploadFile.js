@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Card, Row, Col, Alert } from 'reactstrap';
+import { Card, Row, Col, } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 //Dropzone
@@ -10,7 +10,7 @@ const ImageUpload = ({
   selectedFile,
   typeName = 'encodedUpload',
 }) => {
-  const [isFileError, setFileError] = useState(null);
+  const [, setFileError] = useState(null);
   const [base64File, setBase64File] = useState([]);
   const [selectedUploadFiles, setUploadFile] = useState([]);
   const onDrop = useCallback((acceptedFiles, rejectFiles) => {
@@ -24,7 +24,7 @@ const ImageUpload = ({
     }
   }, []);
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxSize: 250000,
     accept: '.pdf',

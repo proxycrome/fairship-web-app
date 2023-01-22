@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Card, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 
 //Dropzone
 import { useDropzone } from 'react-dropzone';
@@ -20,7 +19,7 @@ const ImageUpload = ({ setFile, selectedFiles }) => {
     }
   }, []);
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     maxSize: 5000000,
     accept: 'image/jpeg, image/png',

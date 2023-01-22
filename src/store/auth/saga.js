@@ -49,7 +49,6 @@ function* loadUserHandler() {
     yield put(loadUserSuccessful(response.data));
     localStorage.setItem("authUser", JSON.stringify(response.data.result));
   } catch (error) {
-    console.log(error);
     yield put(authError(error?.response?.data));
   }
 }
@@ -59,15 +58,17 @@ function* loginUser({ payload: { user, history } }) {
   try {
     const response = yield call(LoginService, user);
     if (response.data.role.name === "TENANT") {
-      throw "error found";
+      // eslint-disable-next-line no-throw-literal
+      throw  "error found";
     }
     yield put(loginUserSuccessful(response.data));
     yield call(loadUserHandler);
     history.push("/dashboard");
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
     yield put(apiError("User not authorized or wrong details"));
+    if(error){
+      yield put(apiError(error))
+    }
   }
 }
 
@@ -84,11 +85,8 @@ function* logoutUser({ payload: { history } }) {
 function* registerUser({ payload: { userInfo, history } }) {
   try {
     const response = yield call(RegisterService, userInfo);
-    console.log(response);
     yield put(registerUserSuccessful(response));
   } catch (error) {
-    console.log(error);
-    console.log(error?.response);
     yield put(registerUserFailed(error?.response.data.message));
   }
 }
@@ -96,11 +94,8 @@ function* registerUser({ payload: { userInfo, history } }) {
 function* activateUser({ payload: { values } }) {
   try {
     const response = yield call(ActivateServices, values);
-    console.log(response);
     yield put(activateAccountSuccess(response));
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
     yield put(activateAccountFailed(error));
   }
 }
@@ -112,7 +107,6 @@ function* forgetUser({ payload: { email } }) {
       yield put(forgetUserSuccessful(response.data));
     }
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(userForgetPasswordError(error?.response?.data));
   }
 }
@@ -129,7 +123,6 @@ function* CreateNewPassword({ payload: { user, history } }) {
       );
     }
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(createNewPasswordError(error?.response?.data));
   }
 }
@@ -140,7 +133,6 @@ function* fetchDashboard() {
     const response = yield call(fetchDashboardService);
     yield put(fetchDashboardSuccessful(response));
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(fetchDashboardError(error?.response?.data));
   }
 }
@@ -150,7 +142,6 @@ function* fetchProfile() {
     const response = yield call(fetchProfileService);
     yield put(fetchProfileSuccessful(response.data));
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(fetchProfileError(error?.response?.data));
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
   Container,
   Card,
@@ -7,24 +7,24 @@ import {
   Col,
   CardImg,
   Alert,
-} from 'reactstrap';
+} from "reactstrap";
 
-import Loader from '../../../../components/Common/Loading/index';
+import Loader from "../../../../components/Common/Loading/index";
 
 // import RejectionForm from '../RejectionForm';
 
 // user
 // import avatar4 from '../../../../assets/images/users/avatar-2.jpg';
-import { Link, withRouter } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link, withRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getEachBuyApplication,
   reviewOffer,
   reviewApplication,
   reviewGuarantor,
-} from '../../../../store/actions';
-import { clearMessages } from '../../../../store/Buy/actions';
-// import DueDiligence from '../DueDiligence';
+} from "../../../../store/actions";
+import { clearMessages } from "../../../../store/Buy/actions";
+import emptyCan from "../../../../assets/images/EmptyCan.png";
 
 const BuyPreview = (props) => {
   // const [approved, setApproved] = useState(false);
@@ -35,17 +35,14 @@ const BuyPreview = (props) => {
 
   const buyId = props?.match?.params?.id;
 
-  // console.log(tenantId)
-
   // const { user } = useSelector((state) => state.Account);
-  // console.log(user)
 
   const handleApplication = (e, action) => {
     e.preventDefault();
     const data = {
       buyPropertyId: buyId,
       reviewAction: action,
-      reviewComments: 'comments',
+      reviewComments: "comments",
     };
     dispatch(reviewApplication(data));
   };
@@ -61,10 +58,8 @@ const BuyPreview = (props) => {
   } = useSelector((state) => state.Buy);
 
   useEffect(() => {
-    dispatch(getEachBuyApplication(buyId)); 
+    dispatch(getEachBuyApplication(buyId));
   }, [dispatch, buyId, appMessage]);
-
-  console.log(application);
 
   const handleOffer = (e, action) => {
     e.preventDefault();
@@ -83,20 +78,22 @@ const BuyPreview = (props) => {
     const data = {
       buyPropertyId: buyId,
       status: action,
-    }
+    };
     dispatch(reviewGuarantor(data));
-  }
+  };
 
   useEffect(() => {
     dispatch(clearMessages());
-  }, []);
+  }, [dispatch]);
+
+  console.log(application);
 
   return (
     <React.Fragment>
       <div>
-        <Container fluid style={{ margin: '80px 0' }}>
+        <Container fluid style={{ margin: "80px 0" }}>
           <Link
-            style={{ color: 'Black' }}
+            style={{ color: "Black" }}
             to="/buy_application"
             className="mx-2 font-size-14"
           >
@@ -114,7 +111,7 @@ const BuyPreview = (props) => {
                 <Loader loading={loading} />
               </CardBody>
             </Card>
-          ) : (
+          ) : application ? (
             <Row className="my-3">
               <Col lg={12}>
                 <Card>
@@ -126,21 +123,13 @@ const BuyPreview = (props) => {
                           <Col sm={6}>
                             <p className="text-muted mb-0">First Name</p>
                             <h5 className="font-size-12 text-capitalize mt-2">
-                              {
-                                application?.applicationForm?.name?.split(
-                                  ' '
-                                )[0]
-                              }
+                              {`${application?.tenant?.firstName}`}
                             </h5>
                           </Col>
                           <Col sm={6}>
                             <p className="text-muted mb-0">Last Name</p>
                             <h5 className="font-size-12 text-capitalize mt-2">
-                              {
-                                application?.applicationForm?.name?.split(
-                                  ' '
-                                )[1]
-                              }
+                              {`${application?.tenant?.lastName}`}
                             </h5>
                           </Col>
                         </Row>
@@ -194,17 +183,17 @@ const BuyPreview = (props) => {
                         </div>
                         <div className="text-center">
                           {application?.status ===
-                          'PENDING_VERIFICATION_SELECTION' ? (
+                          "PENDING_VERIFICATION_SELECTION" ? (
                             <h4 className="text-success">
-                              {' '}
-                              Application Accepted{' '}
+                              {" "}
+                              Application Accepted{" "}
                             </h4>
-                          ) : application?.status === 'PENDING_APPROVAL' ? (
+                          ) : application?.status === "PENDING_APPROVAL" ? (
                             <>
                               <div>
                                 <button
                                   onClick={(e) =>
-                                    handleApplication(e, 'APPROVED')
+                                    handleApplication(e, "APPROVED")
                                   }
                                   className="btn btn-success mb-2 w-100"
                                 >
@@ -214,7 +203,7 @@ const BuyPreview = (props) => {
                               <div>
                                 <button
                                   onClick={(e) =>
-                                    handleApplication(e, 'REJECTED')
+                                    handleApplication(e, "REJECTED")
                                   }
                                   className="btn btn-outline-success w-100"
                                 >
@@ -222,10 +211,10 @@ const BuyPreview = (props) => {
                                 </button>
                               </div>
                             </>
-                          ) : application?.status === 'APPLICATION_REJECTED' ? (
+                          ) : application?.status === "APPLICATION_REJECTED" ? (
                             <h4 className="text-danger">
-                              {' '}
-                              Application Rejected{' '}
+                              {" "}
+                              Application Rejected{" "}
                             </h4>
                           ) : null}
                         </div>
@@ -245,9 +234,9 @@ const BuyPreview = (props) => {
                       <Col sm={4} className="text-center">
                         <p className="text-muted mb-0">Status</p>
                         <h5 className="font-size-12 text-capitalize mt-2">
-                          {application?.status !== 'PURCHASED'
-                            ? 'Processing'
-                            : 'Completed'}
+                          {application?.status !== "PURCHASED"
+                            ? "Processing"
+                            : "Completed"}
                         </h5>
                       </Col>
                       <Col sm={4} className="text-center">
@@ -255,7 +244,7 @@ const BuyPreview = (props) => {
                         <h5 className="font-size-12 text-capitalize mt-2">
                           {application?.buyersOffer
                             ? `₦${application?.buyersOffer?.toLocaleString()}`
-                            : ''}
+                            : ""}
                         </h5>
                       </Col>
                     </Row>
@@ -273,7 +262,7 @@ const BuyPreview = (props) => {
                               <h5 className="font-size-12 text-capitalize mt-2">
                                 {
                                   application?.guarantorDetails?.fullName?.split(
-                                    ' '
+                                    " "
                                   )[0]
                                 }
                               </h5>
@@ -283,7 +272,7 @@ const BuyPreview = (props) => {
                               <h5 className="font-size-12 text-capitalize mt-2">
                                 {
                                   application?.guarantorDetails?.fullName?.split(
-                                    ' '
+                                    " "
                                   )[1]
                                 }
                               </h5>
@@ -350,7 +339,7 @@ const BuyPreview = (props) => {
                     </Alert>
                   )}
 
-                  {application?.status === 'PENDING_OFFER_APPROVAL' ? (
+                  {application?.status === "PENDING_OFFER_APPROVAL" ? (
                     <Row>
                       <Col
                         sm={12}
@@ -359,7 +348,7 @@ const BuyPreview = (props) => {
                         <div className="mr-3">
                           <button
                             className="btn btn-success"
-                            onClick={(e) => handleOffer(e, 'APPROVED')}
+                            onClick={(e) => handleOffer(e, "APPROVED")}
                           >
                             Accept Offer
                           </button>
@@ -367,14 +356,14 @@ const BuyPreview = (props) => {
                         <div>
                           <button
                             className="btn btn-outline-success"
-                            onClick={(e) => handleOffer(e, 'REJECTED')}
+                            onClick={(e) => handleOffer(e, "REJECTED")}
                           >
                             Reject Offer
                           </button>
                         </div>
                       </Col>
                     </Row>
-                  ) : application?.status === 'AWAITING_GUARANTOR_APPROVAL' ? (
+                  ) : application?.status === "AWAITING_GUARANTOR_APPROVAL" ? (
                     <Row>
                       <Col
                         sm={12}
@@ -383,7 +372,7 @@ const BuyPreview = (props) => {
                         <div className="mr-3">
                           <button
                             className="btn btn-success"
-                            onClick={(e) => handleGuarantor(e, 'ACCEPT')}
+                            onClick={(e) => handleGuarantor(e, "ACCEPT")}
                           >
                             Accept Guarantor
                           </button>
@@ -391,7 +380,7 @@ const BuyPreview = (props) => {
                         <div>
                           <button
                             className="btn btn-outline-success"
-                            onClick={(e) => handleGuarantor(e, 'REJECT')}
+                            onClick={(e) => handleGuarantor(e, "REJECT")}
                           >
                             Reject Guarantor
                           </button>
@@ -402,6 +391,15 @@ const BuyPreview = (props) => {
                 </div>
               </Col>
             </Row>
+          ) : (
+            <Card>
+              <CardBody>
+                <div className="text-center mt-4">
+                  <img src={emptyCan} alt="empty" className="rounded mb-2" />
+                  <h4> No Buy Application Details </h4>
+                </div>
+              </CardBody>
+            </Card>
           )}
         </Container>
       </div>

@@ -28,7 +28,6 @@ const Preview = (props) => {
 
   const {agent, loading} = useSelector(state => state.Agents)
 
-  // console.log(agent);
 
   return (
     <div className="page-content">

@@ -23,7 +23,6 @@ function* getLeaseTerminations() {
     const response = yield call(getLeaseTerminationsService);
     yield put(getLeaseTerminationsSuccess(response.data));
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(getLeaseTerminationsError(error?.response?.data));
   }
 }
@@ -33,7 +32,6 @@ function* reviewLeaseTermination({ payload }) {
     const response = yield call(reviewLeaseTerminationService, payload);
     yield put(reviewLeaseTerminationSuccess(response.data));
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(reviewLeaseTerminationError(error?.response?.data));
   }
 }
@@ -43,7 +41,6 @@ function* requestLeaseTermination({ payload }) {
     const response = yield call(requestLeaseTerminationService, payload);
     yield put(requestLeaseTerminationSuccess(response.data));
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(requestLeaseTerminationError(error?.response?.data));
   }
 }

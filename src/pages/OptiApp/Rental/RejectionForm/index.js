@@ -37,7 +37,7 @@ const RejectionForm = ({id}) => {
  const Optis = first + "," + second + ',' + third + ',' + fourth + ',' + fifth + ',' + sixth + ',' + seventh + ',' + eight
         + ',' + nineth + ',' + tenth + ',' + eleventh + ',' + twelveth + ',' + thirteenth + ',' + fourteenth;
 
-  // console.log(Afeez)
+  
 
   const review = (e) => {
     e.preventDefault()
@@ -47,7 +47,6 @@ const RejectionForm = ({id}) => {
       reviewComments: Optis
     }
     dispatch(PutDataRecommendation(data))
-    // console.log(Optis)
     setFirst('') 
     setSecond('')
     setThird('')
@@ -61,11 +60,10 @@ const RejectionForm = ({id}) => {
     setTwelveth('')
     setThirteenth('')
     setFourteenth('')
-    // window.location.reload(1)
   }
 
   const {put, rentaldError} = useSelector((state) => state.PreviewReducer);
-  // console.log(put)
+
   return (
 
     <div>

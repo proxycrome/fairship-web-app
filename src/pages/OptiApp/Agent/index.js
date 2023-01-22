@@ -4,7 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 // import profileImage from "../../../assets/images/ProfileImage.svg";
 import Preview from "./Preview";
 import CreateAgent from "./CreateAgent";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { getCompanyAgents, getLandlordAgents } from "../../../store/actions";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
@@ -21,8 +21,8 @@ const Agent = ({
   const [preview, setPreview] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [filteredLandAgents, setFilteredLandAgents] = useState([]);
-  const [filteredCompanyAgents, setFilteredCompanyAgents] = useState([]);
-  const dispatch = useDispatch();
+  // const [filteredCompanyAgents, setFilteredCompanyAgents] = useState([]);
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     if (user) {
@@ -112,8 +112,8 @@ const Agent = ({
                     </thead>
                     <tbody>
                       {searchName
-                        ? filteredLandAgents?.map((agent) => (
-                            <tr key={agent.id}>
+                        ? filteredLandAgents?.map((agent, index) => (
+                            <tr key={index}>
                               <td className="d-flex align-items-center">
                                 <Link
                                   to={`/agentpreview/${agent.email}`}
@@ -151,8 +151,8 @@ const Agent = ({
                               </td>
                             </tr>
                           ))
-                        : landlordAgents?.data?.agents.map((agent) => (
-                            <tr key={agent.id}>
+                        : landlordAgents?.data?.agents.map((agent, index) => (
+                            <tr key={index}>
                               <td className="d-flex align-items-center">
                                 <Link
                                   to={`/agentpreview/${agent.email}`}

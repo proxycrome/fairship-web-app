@@ -218,8 +218,8 @@ const Properties = (state = initialState, action) => {
         editMessage: null,
         deleteMessage: null,
         duppleMessage: null,
-        // notifyMsg: null,
-        // notifyMsgError: null,
+        notifyMsg: null,
+        notifyMsgError: null,
       };
       break;
 

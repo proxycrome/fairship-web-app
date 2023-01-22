@@ -18,7 +18,6 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
     fetchEachProperties(match.params.id);
   }, [fetchEachProperties, match.params.id]);
 
-  // console.log(property);
 
   useEffect(() => {
     if (property) {
@@ -39,10 +38,6 @@ const ListPreview = ({ match, fetchEachProperties, property, loading }) => {
     }, 3000);
     return () => clearInterval(slider);
   }, [index]);
-
-  // console.log(property);
-
-  // console.log(people);
 
   return (
     <div className="page-content">

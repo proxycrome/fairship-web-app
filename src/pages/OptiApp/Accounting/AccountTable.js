@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 // import { SearchOutlined } from '@mui/icons-material'
-import { Row, Col, Card, CardBody, Table, UncontrolledTooltip, Alert } from 'reactstrap';
-import { Link } from "react-router-dom"
-import { getAccounts, deleteAccount } from '../../../store/actions';
-import { clearMessages } from '../../../store/Accounting/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import {
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Table,
+  UncontrolledTooltip,
+  Alert,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { getAccounts, deleteAccount } from "../../../store/actions";
+import { clearMessages } from "../../../store/Accounting/actions";
+import { useSelector, useDispatch } from "react-redux";
 import emptyCan from "../../../assets/images/EmptyCan.png";
 import Loader from "../../../components/Common/Loading/index";
 
@@ -17,21 +25,18 @@ const AccountTable = () => {
 
   useEffect(() => {
     dispatch(clearMessages());
-  }, [dispatch])
-
+  }, [dispatch]);
 
   const deleteAccountHandler = (id) => {
     dispatch(deleteAccount(id));
     setTimeout(() => {
       window.location.reload(true);
     }, 1000);
-  }
+  };
 
-  const { accounts, loading, deleteMessage, deleteErrorMessage } = useSelector(state => state.Accounting);
-
-  // console.log(accounts);
-
-  // console.log(deleteMessage);
+  const { accounts, loading, deleteMessage, deleteErrorMessage } = useSelector(
+    (state) => state.Accounting
+  );
 
   return (
     <>
@@ -39,10 +44,14 @@ const AccountTable = () => {
         <Row>
           <Col xs={12}>
             {deleteMessage && (
-              <Alert color="success" className="text-center">{deleteMessage}</Alert>
+              <Alert color="success" className="text-center">
+                {deleteMessage}
+              </Alert>
             )}
             {deleteErrorMessage && (
-              <Alert color="danger" className="text-center">{deleteErrorMessage.error}</Alert>
+              <Alert color="danger" className="text-center">
+                {deleteErrorMessage.error}
+              </Alert>
             )}
             {loading ? (
               <Card>
@@ -72,7 +81,7 @@ const AccountTable = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {accounts?.map(acc => (
+                            {accounts?.map((acc) => (
                               <tr key={acc.id}>
                                 <th>{acc.accountName}</th>
                                 <td>{acc.accountNumber}</td>
@@ -85,9 +94,7 @@ const AccountTable = () => {
                                     to="#"
                                     className="mx-2 text-danger"
                                     id="delete"
-                                    onClick={() =>
-                                      deleteAccountHandler(acc.id)
-                                    }
+                                    onClick={() => deleteAccountHandler(acc.id)}
                                   >
                                     <i className="fas fa-trash font-size-12"></i>
                                   </Link>
@@ -106,13 +113,17 @@ const AccountTable = () => {
                     </div>
                   ) : (
                     <div className="text-center">
-                      <img src={emptyCan} alt="empty" className="rounded mb-2" />
+                      <img
+                        src={emptyCan}
+                        alt="empty"
+                        className="rounded mb-2"
+                      />
                       <h4> Table is Empty </h4>
                     </div>
-                  )}  
+                  )}
                 </CardBody>
               </Card>
-            )}   
+            )}
           </Col>
         </Row>
       </div>

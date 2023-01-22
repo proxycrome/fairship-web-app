@@ -35,11 +35,11 @@ const ListUnitPreview = ({
 }) => {
   const [leaseUploadModal, setLeaseUploadModal] = useState(false);
   const [purchaseUploadModal, setPurchaseUploadModal] = useState(false);
-  const [cooUploadModal, setCooUploadModal] = useState(false);
-  const [loaUploadModal, setLoaUploadModal] = useState(false);
-  const [lcUploadModal, setLcUploadModal] = useState(false);
-  const [conveyUploadModal, setConveyUploadModal] = useState(false);
-  const [concentUploadModal, setConcentUploadModal] = useState(false);
+  // const [cooUploadModal, setCooUploadModal] = useState(false);
+  // const [loaUploadModal, setLoaUploadModal] = useState(false);
+  // const [lcUploadModal, setLcUploadModal] = useState(false);
+  // const [conveyUploadModal, setConveyUploadModal] = useState(false);
+  // const [concentUploadModal, setConcentUploadModal] = useState(false);
   const [reload, reloadProperty] = useState(false);
   const [taskContents, setTaskContents] = useState(false);
   const [propImages, setPropImages] = useState([]);
@@ -69,9 +69,11 @@ const ListUnitPreview = ({
   }, [index]);
 
   useEffect(() => {
-    fetchEachProperties(match.params.id);
+    if(match.params.id){
+      fetchEachProperties(match.params.id);
+    } 
     clearUnitMessage();
-  }, []);
+  }, [match.params.id]);
 
   useEffect(() => {
     if (reload) {
@@ -98,6 +100,7 @@ const ListUnitPreview = ({
     cursor: "pointer",
   };
 
+  // console.log(property);
   return (
     <div className="page-content">
       <Container fluid>
@@ -120,7 +123,7 @@ const ListUnitPreview = ({
             <Card>
               <CardBody>
                 <Row>
-                  <Col md={4} sm={12}>
+                  <Col md={4} sm={12} className="d-flex flex-column align-items-center">
                     <div className="section-center">
                       {propImages?.map((propImage, propIndex) => {
                         const { id, imageUrl } = propImage;
@@ -167,6 +170,22 @@ const ListUnitPreview = ({
                       >
                         <i className="fas fa-angle-right"></i>
                       </button>
+                    </div>
+                    <div className="mt-4">
+                      <a
+                        href={property && property?.video?.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button
+                          color="success"
+                          disabled={!property?.video?.videoUrl}
+                        >
+                          {property?.video?.videoUrl
+                            ? "View WalkThrough Video"
+                            : "Walkthrough Video Not Available"}
+                        </Button>
+                      </a>
                     </div>
                   </Col>
                   <Col ls={5}>
@@ -319,7 +338,7 @@ const ListUnitPreview = ({
                       <div className="mb-3">
                         <h6>Status</h6>
                         <span>
-                          {property?.status !== "SOLD" ? "Processing" : "Sold"}
+                          {property?.feature === "SALE" && property?.purchasedBy ? "Sold" : "Processing"}
                         </span>
                       </div>
                       <div className="mb-3">
@@ -400,7 +419,7 @@ const ListUnitPreview = ({
                           </UncontrolledTooltip>
                         )}
                       </div>
-                      <div className="ml-5">
+                      <div className="ml-3">
                         <a
                           href={
                             property?.agentDetail &&
@@ -485,7 +504,7 @@ const ListUnitPreview = ({
                         </UncontrolledTooltip>
                       )}
                     </div>
-                    <div className="ml-5">
+                    <div className="ml-3">
                       <a
                         href={
                           property?.rentedBy &&

@@ -1,45 +1,40 @@
-import React, { useEffect } from 'react';
-import {
-  Container,
-  Card,
-  CardBody,
-  Col,
-  FormGroup,
-  Alert,
-} from 'reactstrap';
+import React, { useEffect } from "react";
+import { Container, Card, CardBody, Col, FormGroup, Alert } from "reactstrap";
 
-import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
-import { postTransaction,getAccounts, fetchRental } from '../../../store/actions';
-import { clearMessages } from '../../../store/Accounting/actions';
-import { useSelector, useDispatch } from 'react-redux';
+import { AvForm, AvField, AvGroup } from "availity-reactstrap-validation";
+import {
+  postTransaction,
+  getAccounts,
+  fetchRental,
+} from "../../../store/actions";
+import { clearMessages } from "../../../store/Accounting/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const RecordTransaction = ({ closePage }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAccounts());
-    dispatch(fetchRental('CURRENT'))
+    dispatch(fetchRental("CURRENT"));
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(clearMessages());
-  }, [dispatch])
+  }, [dispatch]);
 
-  const {accounts, transMessage, transErrorMessage } = useSelector(state => state.Accounting);
+  const { accounts, transMessage, transErrorMessage } = useSelector(
+    (state) => state.Accounting
+  );
 
-  const { rental } = useSelector(state => state.Rental);
-
-  // console.log(transMessage);
-
-  // console.log(transErrorMessage);
+  const { rental } = useSelector((state) => state.Rental);
 
   useEffect(() => {
-    if(transMessage) {
+    if (transMessage) {
       setTimeout(() => {
         dispatch(clearMessages());
         dispatch(getAccounts());
-        dispatch(fetchRental('CURRENT'))
-      }, 3000)
+        dispatch(fetchRental("CURRENT"));
+      }, 3000);
     }
   }, [dispatch, transMessage]);
 
@@ -51,20 +46,22 @@ const RecordTransaction = ({ closePage }) => {
       balance: +values.balance,
       propertyId: +values.propertyId,
       tenantId: +values.tenantId,
-    }
-    // console.log(formData);
-    dispatch(postTransaction(formData));
-  }
+    };
+
+    dispatch(postTransaction(formData, closePage));
+  };
 
   return (
     <React.Fragment>
       <div>
         <Container fluid>
-          <span onClick={closePage} className="mx-2 font-size-14 mb-2" style={{cursor: "pointer"}}>
+          <span
+            onClick={closePage}
+            className="mx-2 font-size-14 mb-2"
+            style={{ cursor: "pointer" }}
+          >
             <span>
-              <i
-                className="fas fa-arrow-left font-size-14 mr-2"
-              />
+              <i className="fas fa-arrow-left font-size-14 mr-2" />
             </span>
             Back
           </span>
@@ -74,15 +71,19 @@ const RecordTransaction = ({ closePage }) => {
                 <b>Add Account</b>
               </h5>
               {transMessage && (
-                <Alert color="success" className="text-center">{transMessage?.message}</Alert>
+                <Alert color="success" className="text-center">
+                  {transMessage?.message}
+                </Alert>
               )}
               {transErrorMessage && (
-                <Alert color="danger" className="text-center">{transErrorMessage?.message}</Alert>
+                <Alert color="danger" className="text-center">
+                  {transErrorMessage?.message}
+                </Alert>
               )}
               <AvForm className="mx-4 mt-2" onValidSubmit={handleSubmit}>
                 <AvGroup row>
                   <Col md={6}>
-                    <AvField 
+                    <AvField
                       className="form-control bg-light border border-0"
                       type="select"
                       label="Account"
@@ -90,8 +91,10 @@ const RecordTransaction = ({ closePage }) => {
                       required
                     >
                       <option value="">Select...</option>
-                      {accounts?.map(acc => (
-                        <option key={acc.id} value={acc.id}>{acc.accountName}</option>
+                      {accounts?.map((acc) => (
+                        <option key={acc.id} value={acc.id}>
+                          {acc.accountName}
+                        </option>
                       ))}
                     </AvField>
                   </Col>
@@ -139,8 +142,11 @@ const RecordTransaction = ({ closePage }) => {
                       required
                     >
                       <option value="">Select...</option>
-                      {rental?.entities?.map(data => (
-                        <option key={data.property.id} value={data.property.id}>{data.property.parentProperty?.title} {data.property.title}</option>
+                      {rental?.entities?.map((data) => (
+                        <option key={data.property.id} value={data.property.id}>
+                          {data.property.parentProperty?.title}{" "}
+                          {data.property.title}
+                        </option>
                       ))}
                     </AvField>
                   </Col>
@@ -154,15 +160,17 @@ const RecordTransaction = ({ closePage }) => {
                       required
                     >
                       <option value="">Select...</option>
-                      {rental?.entities?.map(data => (
-                        <option key={data.id} value={data.tenant.id}>{data.tenant.firstName} {data.tenant.lastName}</option>
+                      {rental?.entities?.map((data) => (
+                        <option key={data.id} value={data.tenant.id}>
+                          {data.tenant.firstName} {data.tenant.lastName}
+                        </option>
                       ))}
                     </AvField>
                   </Col>
                 </AvGroup>
                 <AvGroup row>
                   <Col md={6}>
-                    <AvField 
+                    <AvField
                       className="form-control bg-light border border-0"
                       type="text"
                       label="Payment Category"

@@ -5,7 +5,6 @@ import {
   CardBody,
   Row,
   Col,
-  CardImg,
   Alert,
   Button,
 } from 'reactstrap';
@@ -23,7 +22,6 @@ import {
   getLeaseTerminations,
   clearLeaseTermMessages,
 } from '../../../../store/actions';
-import { clearMessages } from '../../../../store/Buy/actions';
 
 const LeaseTermPreview = (props) => {
   const [propImages, setPropImages] = useState([]);
@@ -40,9 +38,6 @@ const LeaseTermPreview = (props) => {
     (data) => data?.id === +termId
   );
 
-  console.log(application);
-  console.log(termId);
-  console.log(terminationRequests?.entities);
 
   useEffect(() => {
     if (application?.rent?.property) {
@@ -81,7 +76,7 @@ const LeaseTermPreview = (props) => {
   useEffect(() => {
     dispatch(getLeaseTerminations());
     dispatch(clearLeaseTermMessages())
-  }, []);
+  }, [dispatch]);
 
   return (
     <React.Fragment>

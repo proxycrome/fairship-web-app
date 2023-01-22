@@ -28,10 +28,6 @@ const CreateAccount = ({ closePage }) => {
 
   const sortedBanks = banks?.sort((a, b) => (a.name > b.name ? 1 : -1));
 
-  // console.log(message)
-
-  // console.log(errorMessage);
-
   useEffect(() => {
     if(message) {
       setTimeout(() => {
@@ -43,7 +39,6 @@ const CreateAccount = ({ closePage }) => {
 
   const handleSubmit = (event, values) => {
     const formData = { ...values, bankId: +values.bankId };
-    // console.log(formData);
     dispatch(postAccount(formData));
   }
 

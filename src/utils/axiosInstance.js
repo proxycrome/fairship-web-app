@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
     return res;
   },
   async (error) => {
-    const originalConfig = error.config;
+    // const originalConfig = error.config;
     if (error.response) {
       if (error.response.status === 401) {
         // window.location.href = `/`;

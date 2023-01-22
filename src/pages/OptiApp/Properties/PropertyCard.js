@@ -5,7 +5,6 @@ import {
   Col,
   Row,
   Container,
-  CardImg,
   Table,
   Alert,
   UncontrolledTooltip,
@@ -104,8 +103,6 @@ const PropertyCard = ({
     }
   }, [match.params.id, fetchProperties]);
 
-  console.log(property);
-
   return (
     <>
       <div className="page-content">
@@ -130,12 +127,11 @@ const PropertyCard = ({
                 <Card>
                   <CardBody>
                     <Row>
-                      <Col md={4}>
+                      <Col md={4} className="d-flex flex-column align-items-center">
                         <div className="section-center">
                           {propImages?.map((propImage, propIndex) => {
                             const { id, imageUrl } = propImage;
                             // more stuff coming up
-                            console.log(imageUrl);
                             let position = "nextSlide";
                             if (propIndex === index) {
                               position = "activeSlide";
@@ -182,6 +178,22 @@ const PropertyCard = ({
                           >
                             <i className="fas fa-angle-right"></i>
                           </button>
+                        </div>
+                        <div className="my-4">
+                          <a
+                            href={property && property?.video?.videoUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Button
+                              color="success"
+                              disabled={!property?.video?.videoUrl}
+                            >
+                              {property?.video?.videoUrl
+                                ? "View WalkThrough Video"
+                                : "Walkthrough Video Not Available"}
+                            </Button>
+                          </a>
                         </div>
                       </Col>
                       <Col md={8}>
@@ -282,7 +294,7 @@ const PropertyCard = ({
                               </UncontrolledTooltip>
                             )}
                           </div>
-                          <div className="ml-5">
+                          <div className="ml-3">
                             <a
                               href={
                                 property?.agentDetail &&
@@ -344,8 +356,8 @@ const PropertyCard = ({
                           </thead>
 
                           <tbody>
-                            {properties?.entities?.map((unit) => (
-                              <tr key={unit.id}>
+                            {properties?.entities?.map((unit, index) => (
+                              <tr key={index}>
                                 <td>
                                   {property?.title}
                                   <br />
@@ -445,6 +457,40 @@ const PropertyCard = ({
                           <Link to={`/create_more_unit/${property?.id}`}>
                             <Button color="success">Add Unit</Button>
                           </Link>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Card>
+                  <Card>
+                    <CardBody>
+                      <div>
+                        <h6>Documents</h6>
+                        <div>
+                          {/* <span>Lease Agreement</span> */}
+                          <div className="d-flex flex-wrap mt-2">
+                            {property?.documents?.length > 0
+                              ? property?.documents?.map((item) => (
+                                  <Card
+                                    key={item.id}
+                                    className="shadow-lg mr-3"
+                                  >
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <CardBody>
+                                        <h1 className="card-title">
+                                          {item.name === "OTHERS"
+                                            ? item?.title
+                                            : item.name}
+                                        </h1>
+                                      </CardBody>
+                                    </a>
+                                  </Card>
+                                ))
+                              : "No document found"}
+                          </div>
                         </div>
                       </div>
                     </CardBody>

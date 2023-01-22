@@ -1,23 +1,23 @@
-import React, {useState, useEffect } from 'react';
-import { Row, Col, Card, CardBody, ButtonGroup, Button } from 'reactstrap';
+import React, { useState, useEffect } from "react";
+import { Row, Col, Card, CardBody, ButtonGroup, Button } from "reactstrap";
 
 //Import Charts
-import ReactApexChart from 'react-apexcharts';
-import './dashboard.scss';
+import ReactApexChart from "react-apexcharts";
+import "./dashboard.scss";
 
 const RevenueAnalytics = (props) => {
   const [series, setSeries] = useState([
     {
-      name: 'Rent Completed',
-      type: 'column',
-      data: []  //[23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
+      name: "Rent Completed",
+      type: "column",
+      data: [], //[23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
     },
     {
-      name: 'Active Rent',
-      type: 'line',
-      data: []  //[23, 32, 27, 38, 27, 32, 27, 38, 22, 31, 21, 16],
+      name: "Active Rent",
+      type: "line",
+      data: [], //[23, 32, 27, 38, 27, 32, 27, 38, 22, 31, 21, 16],
     },
-  ])
+  ]);
 
   const [options] = useState({
     chart: {
@@ -27,12 +27,12 @@ const RevenueAnalytics = (props) => {
     },
     stroke: {
       width: [0, 3],
-      curve: 'smooth',
+      curve: "smooth",
     },
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '20%',
+        columnWidth: "20%",
       },
     },
     dataLabels: {
@@ -42,74 +42,130 @@ const RevenueAnalytics = (props) => {
     legend: {
       show: false,
     },
-    colors: ['#5664d2', '#1cbb8c'],
-    labels: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec', 
-    ],
-  })
-
-  
+    colors: ["#5664d2", "#1cbb8c"],
+    xaxis: {
+      categories: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ],
+    },
+    // labels: [
+    //   "Jan",
+    //   "Feb",
+    //   "Mar",
+    //   "Apr",
+    //   "May",
+    //   "Jun",
+    //   "Jul",
+    //   "Aug",
+    //   "Sep",
+    //   "Oct",
+    //   "Nov",
+    //   "Dec",
+    // ],
+  });
 
   useEffect(() => {
     const activeRentAnalytics = () => {
-      let obj = {Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, Aug: 0, Sep: 0, Oct: 0, Nov: 0, Dec: 0};
-      const may = props.allrentals?.entities?.forEach(rentals => {
-        for (let month of options.labels) {
-          if(rentals.status === "ACTIVE"){
-            if (options.labels[+rentals?.originalRentStartDate?.split("-")[1] - 1] === month){
+      let obj = {
+        Jan: 0,
+        Feb: 0,
+        Mar: 0,
+        Apr: 0,
+        May: 0,
+        Jun: 0,
+        Jul: 0,
+        Aug: 0,
+        Sep: 0,
+        Oct: 0,
+        Nov: 0,
+        Dec: 0,
+      };
+      const may = props.allrentals?.entities?.forEach((rentals) => {
+        for (let month of options.xaxis.categories) {
+          if (rentals.status === "ACTIVE") {
+            if (
+              options.xaxis.categories[
+                +rentals?.originalRentStartDate?.split("-")[1] - 1
+              ] === month
+            ) {
               obj[month] = (obj[month] || 0) + 1;
-            }  
-          }  
-        }  
-      })
+            }
+          }
+        }
+      });
       return Object.values(obj);
-    }
+    };
 
     const completeRentAnalytics = () => {
-      let obj = {Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, Aug: 0, Sep: 0, Oct: 0, Nov: 0, Dec: 0};
-      const may = props.allrentals?.entities?.forEach(rentals => {
-        for (let month of options.labels) {
-          if(rentals.status === "EXPIRED" || rentals.status === 'WAITING_TO_BE_MOVED_OUT' || rentals.status === 'EXITED'){
-            if (options.labels[+rentals?.dueDate?.split("-")[1] - 1] === month){
+      let obj = {
+        Jan: 0,
+        Feb: 0,
+        Mar: 0,
+        Apr: 0,
+        May: 0,
+        Jun: 0,
+        Jul: 0,
+        Aug: 0,
+        Sep: 0,
+        Oct: 0,
+        Nov: 0,
+        Dec: 0,
+      };
+      const may = props.allrentals?.entities?.forEach((rentals) => {
+        for (let month of options.xaxis.categories) {
+          if (
+            rentals.status === "EXPIRED" ||
+            rentals.status === "WAITING_TO_BE_MOVED_OUT" ||
+            rentals.status === "EXITED"
+          ) {
+            if (
+              options.xaxis.categories[+rentals?.dueDate?.split("-")[1] - 1] ===
+              month
+            ) {
               obj[month] = (obj[month] || 0) + 1;
-            }  
-          }  
-        }  
-      })
+            }
+          }
+        }
+      });
       return Object.values(obj);
-    }
+    };
 
     setSeries([
       {
-        name: 'Rent Completed',
-        type: 'column',
-        data:  completeRentAnalytics(), //[23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
+        name: "Rent Completed",
+        type: "column",
+        data: completeRentAnalytics(), //[23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16],
       },
       {
-        name: 'Active Rent',
-        type: 'line',
+        name: "Active Rent",
+        type: "line",
         data: activeRentAnalytics(), //[23, 32, 27, 38, 27, 32, 27, 38, 22, 31, 21, 16],
       },
-    ])
-    
-  }, [props.allrentals, options.labels])
+    ]);
+  }, [props.allrentals, options.xaxis.categories]);
 
+  const rentComplete = props?.allrentals?.entities?.filter(
+    (rentals) =>
+      rentals.status === "EXPIRED" ||
+      rentals.status === "WAITING_TO_BE_MOVED_OUT" ||
+      rentals.status === "EXITED"
+  )?.length;
 
-  const rentComplete = props?.allrentals?.entities?.filter((rentals) => rentals.status === 'EXPIRED' ||  rentals.status === 'WAITING_TO_BE_MOVED_OUT' || rentals.status === 'EXITED')?.length;
-  // console.log(props.allrentals)
-  const rentActive = props?.allrentals?.entities?.filter((rentals) => rentals.status === 'ACTIVE')?.length;
-  // console.log(series);
+  const rentActive = props?.allrentals?.entities?.filter(
+    (rentals) => rentals.status === "ACTIVE"
+  )?.length;
+
   return (
     <React.Fragment>
       <Card>
@@ -142,11 +198,10 @@ const RevenueAnalytics = (props) => {
 
         <CardBody className="border-top text-center">
           <Row>
-
             <Col sm={6}>
               <div className="mt-4 mt-sm-0">
                 <p className="mb-2 text-muted text-truncate">
-                  <i className="mdi mdi-circle text-primary font-size-10 mr-1"></i>{' '}
+                  <i className="mdi mdi-circle text-primary font-size-10 mr-1"></i>{" "}
                   Rent Completed
                 </p>
                 <div className="d-inline-flex">
@@ -157,7 +212,7 @@ const RevenueAnalytics = (props) => {
             <Col sm={6}>
               <div className="mt-4 mt-sm-0">
                 <p className="mb-2 text-muted text-truncate">
-                  <i className="mdi mdi-circle text-success font-size-10 mr-1"></i>{' '}
+                  <i className="mdi mdi-circle text-success font-size-10 mr-1"></i>{" "}
                   Active Rent
                 </p>
                 <div className="d-inline-flex">
@@ -169,7 +224,7 @@ const RevenueAnalytics = (props) => {
         </CardBody>
       </Card>
     </React.Fragment>
-  );  
-}
+  );
+};
 
 export default RevenueAnalytics;

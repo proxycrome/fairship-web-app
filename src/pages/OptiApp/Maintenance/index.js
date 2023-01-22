@@ -17,8 +17,6 @@ const MaintenanceRequest = () => {
 
   const { maintenanceRequests, loading } = useSelector((state) => state.Maintenance);
 
-  // console.log(maintenanceRequests);
-
 
   const data = {
     columns: [

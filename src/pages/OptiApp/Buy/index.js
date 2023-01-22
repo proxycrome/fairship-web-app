@@ -72,7 +72,6 @@ class BuyApplication extends Component {
   // }
 
   render() {
-    // console.log(this.props.buyApplications)
   const buyApplications = this.props?.buyApplications?.purchase?.map((data) => ({
       application: (
         /*map data from api here for each Tenant */

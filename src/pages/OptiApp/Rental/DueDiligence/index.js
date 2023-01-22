@@ -21,7 +21,6 @@ const DueDiligenceForm = ({rentId}) => {
    
   const dispatch = useDispatch();
 
-  // console.log(defaultDate.toLocaleDateString('es-CL'))
 
   // const handleDefault = (date) => {
   //   setDefaultDate(date);
@@ -41,9 +40,8 @@ const DueDiligenceForm = ({rentId}) => {
           // "workAddress": values.workAddress 
       }
   
-      // console.log(formData)
-      dispatch(DiligenceRecommendation(formData)) 
-      // console.log(rentId)    
+      
+      dispatch(DiligenceRecommendation(formData))   
   }
   
   const {diligence, errordilligence} = useSelector((state) => state.PreviewReducer)
@@ -195,7 +193,7 @@ const DueDiligenceForm = ({rentId}) => {
 
 // const dispatch = useDispatch();
 
-// console.log(tenantId)
+
 // const handleSubmit = (e, values) => {
 //     e.preventDefault();
 //     const formData = {
@@ -207,7 +205,6 @@ const DueDiligenceForm = ({rentId}) => {
 //         "workAddress": values.workAddress 
 //     }
 
-//     console.log(values)
 
 //     dispatch(DiligenceRecommendation(tenantId, formData)) 
 // }

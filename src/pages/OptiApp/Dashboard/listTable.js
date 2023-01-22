@@ -38,8 +38,8 @@ const ListTable = ({ Title, services, loading }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {recentServices?.map(service => (
-                        <tr key={service.id}>
+                      {recentServices?.map((service, index) => (
+                        <tr key={index}>
                           <td className="d-flex align-items-center">
                             {service?.user?.profilePhoto ? (
                               <img

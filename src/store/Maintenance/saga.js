@@ -66,10 +66,8 @@ function* getAllServiceReq() {
   try {
     const response = yield call(getAllServicesServer);
     yield put(getAllServiceReqSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(getAllServiceReqFailure(error?.response?.data));
-    // console.log(error?.response)
   }
 }
 
@@ -86,9 +84,7 @@ function* postMaintenanceReq({ payload: { formData } }) {
   try {
     const response = yield call(postMaintenanceReqService, formData);
     yield put(postMaintenanceReqSuccess(response?.data));
-    console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
     yield put(postMaintenanceReqFailure(error?.response?.data));
   }
 }
@@ -133,10 +129,8 @@ function* getInvoiceDets({ payload: { invoiceRef } }) {
   try {
     const response = yield call(getInvoiceDetsService, invoiceRef);
     yield put(getInvoiceDetsSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(getInvoiceDetsError(error?.response?.data));
-    // console.log(error?.response)
   }
 }
 
@@ -144,12 +138,12 @@ function* acceptInvoice({ payload: { id, setShow, dispatch } }) {
   try {
     const response = yield call(acceptInvoiceService, id);
     yield put(acceptInvoiceSuccess(response.data));
-    console.log(response.data);
-    setShow(false);
-    dispatch(fetchMaintenance(id));
+    if (response) {
+      setShow(false);
+      dispatch(fetchMaintenance(id));
+    }
   } catch (error) {
     yield put(acceptInvoiceError(error?.response?.data));
-    console.log(error?.response?.data);
     setShow(false);
   }
 }
@@ -158,12 +152,12 @@ function* rejectInvoice({ payload: { id, setShow, dispatch } }) {
   try {
     const response = yield call(rejectInvoiceService, id);
     yield put(rejectInvoiceSuccess(response.data));
-    console.log(response.data);
-    setShow(false);
-    dispatch(fetchMaintenance(id));
+    if (response) {
+      setShow(false);
+      dispatch(fetchMaintenance(id));
+    }
   } catch (error) {
     yield put(rejectInvoiceError(error?.response?.data));
-    console.log(error?.response?.data);
     setShow(false);
   }
 }
@@ -175,7 +169,6 @@ function* acceptServiceAgreement({ payload: { id, dispatch } }) {
     dispatch(fetchMaintenance(id));
   } catch (error) {
     yield put(acceptServiceAgreementError(error?.response?.data));
-    // console.log(error?.response?.data)
   }
 }
 
@@ -183,10 +176,8 @@ function* initPartPayment({ payload: { id } }) {
   try {
     const response = yield call(initPartPaymentService, id);
     yield put(initPartPaymentSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(initPartPaymentError(error?.response?.data));
-    // console.log(error?.response?.data)
   }
 }
 
@@ -194,10 +185,8 @@ function* initCompletePayment({ payload: { id } }) {
   try {
     const response = yield call(initCompletePaymentService, id);
     yield put(initCompletePaymentSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(initCompletePaymentError(error?.response?.data));
-    // console.log(error?.response?.data)
   }
 }
 

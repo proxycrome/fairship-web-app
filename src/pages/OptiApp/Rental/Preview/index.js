@@ -52,12 +52,10 @@ const Preview = (props) => {
 
   const tenantId = props?.match?.params?.id;
 
-  // console.log(tenantId)
   const { requestMsg, requestMsgError } = useSelector(
     (state) => state.terminationReducer
   );
   const { user } = useSelector((state) => state.Account);
-  // console.log(user)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,7 +84,6 @@ const Preview = (props) => {
       reasonForLeaving,
       rentId: tenantId,
     };
-    console.log(data);
     dispatch(requestLeaseTermination(data));
   };
 
@@ -109,8 +106,6 @@ const Preview = (props) => {
     };
     dispatch(PutDataRecommendation(data));
     SetApprove(true);
-    // console.log(data)
-    // window.location.reload(1)
   };
 
   useEffect(() => {
@@ -121,21 +116,16 @@ const Preview = (props) => {
     (state) => state.PreviewReducer
   );
 
-  // console.log(rentalId)
-
-  // console.log(loading)
 
   const TenantRecom = (e) => {
     e.preventDefault();
-    // console.log('first')
     const data = {
       recommendationNotes: tenant,
     };
-    // console.log(data)
     dispatch(PutTenantRecommendation(tenantId, data));
     setTenant('');
   };
-  // console.log(data)
+
 
   return (
     <React.Fragment>

@@ -12,7 +12,6 @@ import {
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { getAgents, getAgentSubFee, postAgents } from "../../../store/actions";
-import Loader from "../../../components/Common/Loading/index";
 import { clearMessages } from "../../../store/Agent/actions";
 import PaystackIntegration from "../../../components/Common/paystackIntegration";
 
@@ -26,7 +25,6 @@ const CreateAgent = ({ BackToHome, userId }) => {
   });
 
   const { agentSubFee } = useSelector((state) => state.payment);
-  console.log(agentSubFee);
 
   useEffect(() => {
     dispatch(getAgents());
@@ -34,7 +32,6 @@ const CreateAgent = ({ BackToHome, userId }) => {
     dispatch(getAgentSubFee());
   }, [dispatch]);
 
-  console.log(userId);
 
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
@@ -48,15 +45,14 @@ const CreateAgent = ({ BackToHome, userId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(formData);
     dispatch(postAgents(formData));
   };
 
-  const { agents, postAgentData, landlordAgents, loading, postAgentError, agentSubMsg, 
+  const { agents, postAgentData, landlordAgents, postAgentError, agentSubMsg, 
     agentSubMsgError } =
     useSelector((state) => state.Agents);
 
-  // console.log(agents);
+
 
   const AgentsIdArray = landlordAgents?.data?.agents?.map((agent) => agent.id);
 
@@ -64,11 +60,6 @@ const CreateAgent = ({ BackToHome, userId }) => {
     (agent) => !AgentsIdArray?.find((id) => id === agent?.id)
   );
 
-  console.log({filteredAgents});
-
-  console.log(agents);
-
-  // console.log(postAgentData?.message);
 
   const optionGroup = [
     {
@@ -84,6 +75,7 @@ const CreateAgent = ({ BackToHome, userId }) => {
 
   return (
     <React.Fragment>
+      {show}
       <div className="page-content" style={{ height: "100vh" }}>
         <Container fluid>
           <span onClick={BackToHome} className="mx-2 font-size-14 mb-2">

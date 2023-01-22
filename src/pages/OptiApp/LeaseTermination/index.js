@@ -63,7 +63,6 @@ class LeaseTermination extends Component {
   // }
 
   render() {
-    console.log(this.props.terminationRequests)
   const LeaseTerminations = this.props?.terminationRequests?.entities?.map((data) => ({
       property: (
         /*map data from api here for each Tenant */

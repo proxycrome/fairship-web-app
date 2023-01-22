@@ -27,8 +27,6 @@ class WelcomeLandlord extends Component {
   }
 
   handleSubmit(event, values) {
-    // console.log(this.props.landlordType);
-    // console.log(values);
     // this.props.checkLogin(values, this.props.history);
   }
 

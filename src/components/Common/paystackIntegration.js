@@ -2,14 +2,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPaymentGateways,
-  initPartPayment,
   loadUser,
   notifyAdminWalkthrough,
   updateAgentSub,
   verifyTransaction,
 } from "../../store/actions";
 import { usePaystackPayment } from "react-paystack";
-import { useHistory } from "react-router-dom";
 
 const PaystackIntegration = ({
   amount,
@@ -24,7 +22,6 @@ const PaystackIntegration = ({
   const { user } = useSelector((state) => state.Account);
   const { noteLoading } = useSelector((state) => state.Properties);
   const { loading } = useSelector((state) => state.Maintenance);
-  console.log(paymentData);
 
   const config = {
     reference: transactionRef,
@@ -33,7 +30,6 @@ const PaystackIntegration = ({
     publicKey: paymentData && paymentData[0]?.publicKey.split(" ")[1],
   };
   const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     if (!paymentData) {
@@ -44,7 +40,6 @@ const PaystackIntegration = ({
     }
   }, [dispatch, user, paymentData]);
 
-  console.log(user);
 
   // you can call this function anything
   const onSuccess = (reference) => {

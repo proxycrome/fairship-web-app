@@ -26,7 +26,6 @@ function* fetchAppointment() {
     const response = yield call(fetchAppointmentService);
     yield put(fetchAppointmentSuccessful(response.data));
   } catch (error) {
-    console.log(error.response);
     yield put(fetchAppointmentError(error?.response?.data));
   }
 }
@@ -35,9 +34,7 @@ function* putAcceptAppointment({ payload }) {
   try {
     const response = yield call(putAcceptAppointmentService, payload);
     yield put(putAcceptAppointmentSuccess(response.data));
-    console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
     yield put(putAcceptAppointmentError(error?.response?.data));
   }
 }
@@ -46,9 +43,7 @@ function* putRejectAppointment({ payload }) {
   try {
     const response = yield call(putRejectAppointmentService, payload);
     yield put(putRejectAppointmentSuccess(response.data));
-    console.log(response.data);
   } catch (error) {
-    console.log(error?.response);
     yield put(putRejectAppointmentError(error?.response?.data))
   }
 }

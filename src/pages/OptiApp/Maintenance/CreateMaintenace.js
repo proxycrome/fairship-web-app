@@ -12,10 +12,7 @@ import {
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { clearMessages } from "../../../store/Maintenance/actions";
-import DateTimePicker from "react-datetime-picker";
 import moment from "moment";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
 
 const Maintenance = ({
   fetchProperties,
@@ -39,9 +36,6 @@ const Maintenance = ({
   const [serviceName, setServiceName] = useState("");
   // const dispatch = useDispatch();
 
-  console.log(serviceProviders);
-  // console.log(moment(value).format("DD-MM-YYYY HH:mm"));
-
   useEffect(() => {
     const isAuth = {
       type: "all_user_properties",
@@ -59,10 +53,6 @@ const Maintenance = ({
       getServiceProviders(String(serviceName));
     }
   }, [serviceName, getServiceProviders]);
-
-  useEffect(() => {
-    clearMessages();
-  }, []);
 
   // const handleDefault = (date) => {
   //   setDefaultDate(date);
@@ -92,26 +82,21 @@ const Maintenance = ({
     const formData = {
       ...values,
       propertyId: +values.propertyId,
-      serviceTypeId: +serviceTypes?.find((service) => {
-        if (service.name === values.serviceTypeId) {
-          return service.id;
-        }
-      }).id,
+      serviceTypeId: +serviceTypes?.find(
+        (service) => service.name === values.serviceTypeId
+      ).id,
       images: selectedFiles,
       serviceProviderAccountIds: serviceProvidersId(),
       appointedDateTime: String(moment(value).format("DD-MM-YYYY HH:mm")),
     };
     const { serviceProvider1, serviceProvider2, serviceProvider3, ...others } =
       formData;
-    // console.log(others);
     postMaintenanceReq(others);
   };
 
   const sortedServiceTypes = serviceTypes?.sort((a, b) =>
     a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
   );
-  // console.log(serviceProviders);
-  // console.log(serviceTypes);
 
   return (
     <div className="page-content">
@@ -144,9 +129,11 @@ const Maintenance = ({
                     className="form-ctrl"
                     required
                   >
-                    <option value="" hidden>Select Property</option>
-                    {properties?.entities?.map((property) => (
-                      <option key={property.id} value={property.id}>
+                    <option value="" hidden>
+                      Select Property
+                    </option>
+                    {properties?.entities?.map((property, index) => (
+                      <option key={index} value={property.id}>
                         {property.parentProperty?.title} {property.title}
                       </option>
                     ))}
@@ -175,7 +162,9 @@ const Maintenance = ({
                     required
                     onChange={(e) => setServiceName(e.target.value)}
                   >
-                    <option value="" hidden>Select Service type</option>
+                    <option value="" hidden>
+                      Select Service type
+                    </option>
                     {sortedServiceTypes?.map((service) => (
                       <option key={service.id} value={service.name}>
                         {service.name}
@@ -192,7 +181,9 @@ const Maintenance = ({
                     label="Service Provider 1"
                     required
                   >
-                    <option value="" hidden>Select Service Provider 1</option>
+                    <option value="" hidden>
+                      Select Service Provider 1
+                    </option>
                     {serviceProviders?.entities?.map((provider, idx) => (
                       <option key={idx} value={provider.id}>
                         {provider.firstName} {provider.lastName}
@@ -208,7 +199,9 @@ const Maintenance = ({
                     className="form-ctrl"
                     label="Service Provider 2"
                   >
-                    <option value="" hidden>Select Service Provider 2</option>
+                    <option value="" hidden>
+                      Select Service Provider 2
+                    </option>
                     {serviceProviders?.entities?.map((provider, idx) => (
                       <option key={idx} value={provider.id}>
                         {provider.firstName} {provider.lastName}
@@ -224,7 +217,9 @@ const Maintenance = ({
                     className="form-ctrl"
                     label="Service Provider 3"
                   >
-                    <option value="" hidden>Select Service Provider 3</option>
+                    <option value="" hidden>
+                      Select Service Provider 3
+                    </option>
                     {serviceProviders?.entities?.map((provider, idx) => (
                       <option key={idx} value={provider.id}>
                         {provider.firstName} {provider.lastName}

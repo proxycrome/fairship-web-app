@@ -69,10 +69,16 @@ function* getTransactions() {
   }
 }
 
-function* postTransaction({ payload: { formData } }) {
+function* postTransaction({ payload: { formData, closePage } }) {
   try {
     const response = yield call(postTransactionService, formData);
     yield put(postTransactionSuccessful(response.data));
+    if(response){
+      setTimeout(() => {
+        closePage();
+      }, 3000)
+    }
+
   } catch (error) {
     yield put(postTransactionError(error?.response?.data));
   }
@@ -82,9 +88,7 @@ function* deleteAccount({ payload: { accountId } }) {
   try {
     const response = yield call(deleteAccountService, accountId);
     yield put(deleteAccountSuccess(response.data));
-    console.log(response.data);
   } catch (error) {
-    console.log(error?.response?.data);
     yield put(deleteAccountError(error?.response?.data));
   }
 }

@@ -19,6 +19,9 @@ const PropertiesTable = ({ tableData }) => {
     setIsLoading(false);
   }, []);
 
+  console.log(tableData);
+
+
   const tableDataHandler = () => {
     const rowData = tableData?.map((data) => {
       const newData = {
@@ -43,7 +46,7 @@ const PropertiesTable = ({ tableData }) => {
         state: data.address.state,
         feature: data.feature,
         entityLevel: data.entityLevel,
-        date: Moment(data.createdAt).format('l'),
+        date: Moment(data.createdAt, "DD-MM-YYYY").format('DD-MM-YYYY'),
         status: (
           <span
             className={`badge badge-${

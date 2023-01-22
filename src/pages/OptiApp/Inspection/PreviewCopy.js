@@ -46,8 +46,6 @@ const PreviewCopy = ({
     }
   }, [match.params.id, fetchEachInspection]);
 
-  // console.log(inspection);
-
   return (
     <div className="page-content">
       <div>

@@ -22,8 +22,8 @@ import UpcomingPayment from "./UpcomingPayment";
 import ServiceAnalytics from "./listTable";
 import MaintenanceAnalytics from "./maintenaceListTable";
 import Loader from "../../../components/Common/Loading/index";
-import { useSelector, useDispatch } from "react-redux";
-import moment from "moment";
+import { useSelector } from "react-redux";
+// import moment from "moment";
 
 const Dashboard = ({
   fetchDashboard,
@@ -75,8 +75,6 @@ const Dashboard = ({
 
   const cardLoading = useSelector((state) => state.Maintenance.loading);
 
-  console.log(recentAppointment);
-
   const appDate = new Date(
     recentAppointment &&
       recentAppointment[0]?.startDateTime?.split(" ")[0].split("-")[1] +
@@ -91,7 +89,7 @@ const Dashboard = ({
   );
   const dd = appDate.getDay();
 
-  const testDate = new Date("2023-02-20");
+  // const testDate = new Date("2023-02-20");
 
   function getDifferenceInHours(date1, date2) {
     if (date2 >= date1) {
@@ -102,7 +100,6 @@ const Dashboard = ({
 
   const remainingHours = getDifferenceInHours(date, appDate);
 
-  console.log(moment().to());
   return (
     <React.Fragment>
       <div className="page-content">
@@ -126,7 +123,7 @@ const Dashboard = ({
                   }}
                   className="p-4"
                 >
-                  <CardBody style={{ display: "flex", position: "relative" }}>
+                  <CardBody style={{ display: "flex", position: "relative", width: "auto", height: "auto"}}>
                     <div>
                       <div style={{ width: "90px", height: "50px" }}>
                         <p
@@ -159,35 +156,41 @@ const Dashboard = ({
                         }}
                       ></div>
                     </div>
-                    <div style={{ width: "85%" }} className="d-flex flex-column">
-                      <p
-                        className="text-white d-flex flex-wrap"
-                        style={{
-                          height: "42px",
-                          font: "Poppins",
-                          fontWeight: 600,
-                          fontSize: "28px",
-                          lineHeight: "42px",
-                        }}
-                      >
-                        Welcome {user?.fullName}
-                      </p>
-                      <p
-                        className=" text-white"
-                        style={{
-                          height: "27px",
-                          font: "Poppins",
-                          fontWeight: 500,
-                          fontSize: "18px",
-                          lineHeight: 4
-                        }}
-                      >
-                        {date.getDate() +
-                          " " +
-                          month[mm] +
-                          " " +
-                          date.getFullYear()}
-                      </p>
+                    <div
+                      style={{ width: "85%" }}
+                      className="d-flex flex-column"
+                    >
+                      <div className="d-flex flex-column">
+                        <p
+                          className="text-white d-flex flex-wrap"
+                          style={{
+                            height: "42px",
+                            font: "Poppins",
+                            fontWeight: 600,
+                            fontSize: "28px",
+                            lineHeight: "42px",
+                          }}
+                        >
+                          Welcome {user?.fullName}
+                        </p>
+                        <p
+                          className="text-white"
+                          style={{
+                            height: "27px",
+                            font: "Poppins",
+                            fontWeight: 500,
+                            fontSize: "18px",
+                            lineHeight: "4rem",
+                            paddingTop: "3rem"
+                          }}
+                        >
+                          {date.getDate() +
+                            " " +
+                            month[mm] +
+                            " " +
+                            date.getFullYear()}
+                        </p>
+                      </div>
                       <hr
                         style={{
                           width: "252.14px",
@@ -274,7 +277,7 @@ const Dashboard = ({
                         </div>
                       </div>
                       <div className="d-flex flex-wrap">
-                        <div className="d-flex">
+                        <div className="d-flex flex-wrap">
                           <p
                             className={
                               day[dd] === "Mo" ? "appointDay" : "nonAppDay"

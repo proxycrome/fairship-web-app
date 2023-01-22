@@ -101,10 +101,10 @@ export const getTransactionsError = (error) => {
     }
 }
 
-export const postTransaction = (formData) => {
+export const postTransaction = (formData, closePage) => {
     return {
         type: POST_TRANSACTION,
-        payload: {formData},
+        payload: {formData, closePage},
     }
 }
 

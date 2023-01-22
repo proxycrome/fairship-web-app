@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FormGroup, Input, Label } from "reactstrap";
+import { Input, Label } from "reactstrap";
 import File from "../../../../assets/images/File.png";
 import Check from "../../../../assets/images/checked.png";
 import Cloud from "../../../../assets/images/Cloud.png";
 import Trash from "../../../../assets/images/trash.png";
 
-const DocsUpload = ({ name, documentName, setFile }) => {
-  const [base64File, setBase64File] = useState({});
+const DocsUpload = ({
+  name,
+  documentName,
+  base64File = {},
+  setBase64File,
+  propertyDocs,
+}) => {
   const fileInputRef = useRef(null);
   const [docName, setDocName] = useState("");
 
@@ -26,7 +31,7 @@ const DocsUpload = ({ name, documentName, setFile }) => {
           });
         };
         reader.onerror = (error) => {
-          console.log("error", error);
+          console.log(error);
         };
       }
     };
@@ -39,7 +44,7 @@ const DocsUpload = ({ name, documentName, setFile }) => {
 
   useEffect(() => {
     if (Object.keys(base64File).length > 0) {
-      setFile(base64File);
+      setBase64File(base64File);
       setDocName("");
     }
   }, [base64File]);
@@ -53,10 +58,35 @@ const DocsUpload = ({ name, documentName, setFile }) => {
     setBase64File({});
   };
 
+
   return (
     <div className="d-flex align-items-end">
-      {name === "OTHERS" ? (
-        <div style={{width: "100%"}}>
+      {propertyDocs?.length > 0 &&
+      propertyDocs?.find((item) => item.name === name) ? (
+        name === "OTHERS" ? (
+          <div style={{ width: "100%" }}>
+            <Label>Title</Label>
+            <Input
+              type="text"
+              className="form-control grey-box-background"
+              name="docName"
+              value={docName}
+              onChange={(e) => setDocName(e.target.value)}
+            />
+          </div>
+        ) : (
+          <div className="grey-box-background d-flex justify-content-between p-3">
+            <div className="d-flex align-items-center">
+              <img src={File} alt="file" />
+              <h6 className="ml-2 pt-2">{documentName}</h6>
+            </div>
+            <div>
+              <img src={Check} alt="check" width="20" height="20" />
+            </div>
+          </div>
+        )
+      ) : name === "OTHERS" ? (
+        <div style={{ width: "100%" }}>
           <Label>Title</Label>
           <Input
             type="text"
@@ -72,7 +102,7 @@ const DocsUpload = ({ name, documentName, setFile }) => {
             <img src={File} alt="file" />
             <h6 className="ml-2 pt-2">{documentName}</h6>
           </div>
-          {base64File.encodedUpload ? (
+          {base64File?.encodedUpload ? (
             <div>
               <img
                 src={Trash}
@@ -85,7 +115,9 @@ const DocsUpload = ({ name, documentName, setFile }) => {
               />
               <img src={Check} alt="check" width="20" height="20" />
             </div>
-          ) : null}
+          ) : (
+            <></>
+          )}
         </div>
       )}
 

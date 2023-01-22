@@ -154,7 +154,6 @@ class Tenants extends Component {
         ),
       })),
     };
-    // console.log(this.props.rental);
     return (
       <React.Fragment>
         <div className="page-content">

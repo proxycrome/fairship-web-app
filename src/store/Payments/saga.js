@@ -23,9 +23,7 @@ function* getPaymentGateways() {
   try {
     const response = yield call(getPaymentGatewayService);
     yield put(getPaymentGatewaysSuccess(response.data));
-    //   console.log(response.data)
   } catch (error) {
-    //   console.log(error?.response?.data);
     yield put(getPaymentGatewaysError(error?.response?.data));
   }
 }
@@ -38,9 +36,7 @@ function* verifyTransaction({ payload: { transRef, setShow, dispatch, id } }) {
       dispatch(fetchMaintenance(id));
       setShow(false);
     }
-    //   console.log(response.data)
   } catch (error) {
-    //   console.log(error?.response?.data);
     yield put(verifyTransactionError(error?.response?.data));
     if (error?.response?.data) {
       setShow(false);
@@ -52,9 +48,7 @@ function* getAgentSubFee() {
   try {
     const response = yield call(getAgentSubFeeService);
     yield put(getAgentSubFeeSuccess(response.data));
-    //   console.log(response.data)
   } catch (error) {
-    //   console.log(error?.response?.data);
     yield put(getAgentSubFeeError(error?.response?.data));
   }
 }

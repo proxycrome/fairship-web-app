@@ -84,15 +84,14 @@ class CreateProperty extends Component {
     event.preventDefault();
     const payee = {};
 
-    payee.percentageAmount = Number(this.state.percentageAmount);
+    payee.percentageAmount = parseFloat(this.state.percentageAmount);
     payee.name = this.state.name;
     this.state.pays.push(payee);
-    // console.log(payee);
     this.setState({
       pays: this.state.pays,
       show: false,
       name: "",
-      percentageAmount: ""
+      percentageAmount: "",
     });
   }
 
@@ -141,13 +140,11 @@ class CreateProperty extends Component {
 
     const selectAgent = () => {
       if (values?.agentIds !== "") {
-        return [
-          +this.props.agents?.agents?.find((agent) => {
-            if (`${agent?.firstName} ${agent?.lastName}` === values?.agentIds) {
-              return agent?.id;
-            }
-          })?.id,
-        ];
+        const agentObj = this.props.agents?.agents?.find(
+          (agent) =>
+            `${agent?.firstName} ${agent?.lastName}` === values?.agentIds
+        );
+        return [+agentObj.id];
       }
       if (values?.agentIds === "") {
         return [];
@@ -676,55 +673,61 @@ class CreateProperty extends Component {
                         <Col xs={12} className="mb-4">
                           <DocsUpload
                             name="FAMILY_AGREEMENT"
-                            documentName="Family agreement"
-                            setFile={(files) =>
-                              this.setState({ faImage: files })
+                            documentName="Family Agreement"
+                            setBase64File={(data) =>
+                              this.setState({ faImage: data })
                             }
+                            base64File={this.state.faImage}
                           />
                         </Col>
                         <Col xs={12} className="mb-4">
                           <DocsUpload
                             name="CERTIFICATE_OF_OCCUPANCY"
                             documentName="Certificate of Occupancy"
-                            setFile={(files) =>
-                              this.setState({ cooImage: files })
+                            setBase64File={(data) =>
+                              this.setState({ cooImage: data })
                             }
+                            base64File={this.state.cooImage}
                           />
                         </Col>
                         <Col xs={12} className="mb-4">
                           <DocsUpload
                             name="LETTER_OF_ALLOCATION"
                             documentName="Letter of Allocation"
-                            setFile={(files) =>
-                              this.setState({ loaImage: files })
+                            setBase64File={(data) =>
+                              this.setState({ loaImage: data })
                             }
+                            base64File={this.state.loaImage}
                           />
                         </Col>
                         <Col xs={12} className="mb-4">
                           <DocsUpload
                             name="LAND_CERTIFICATE"
                             documentName="Land Certificate"
-                            setFile={(files) =>
-                              this.setState({ landCertImage: files })
+                            setBase64File={(data) =>
+                              this.setState({ landCertImage: data })
                             }
+                            base64File={this.state.landCertImage}
                           />
                         </Col>
                         <Col xs={12} className="mb-4">
                           <DocsUpload
                             name="CONVEYANCE_LETTER"
                             documentName="Conveyance"
-                            setFile={(files) =>
-                              this.setState({ conveyImage: files })
+                            setBase64File={(data) =>
+                              this.setState({ conveyImage: data })
                             }
+                            base64File={this.state.conveyImage}
                           />
                         </Col>
                         <Col xs={12} className="mb-4">
                           <DocsUpload
                             name="CONSENT_LETTER"
                             documentName="Concent"
-                            setFile={(files) =>
-                              this.setState({ concentImage: files })
+                            setBase64File={(data) =>
+                              this.setState({ concentImage: data })
                             }
+                            base64File={this.state.concentImage}
                           />
                         </Col>
                         {this.state.otherDocs?.map((item, index) => (
@@ -775,9 +778,10 @@ class CreateProperty extends Component {
                             <DocsUpload
                               name="OTHERS"
                               documentName="Others"
-                              setFile={(files) =>
-                                this.setState({ othersImage: files })
+                              setBase64File={(data) =>
+                                this.setState({ othersImage: data })
                               }
+                              base64File={this.state.othersImage}
                             />
                           </Col>
                         </Collapse>

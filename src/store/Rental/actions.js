@@ -52,7 +52,6 @@ import {
   };
   
   export const fetchRentalRecommendationSuccessful = (data) => {
-    // console.log(data)
     return {
       type: FETCH_RENTAL_RECOMMENDATION_SUCCESSFUL,
       payload: data
@@ -69,7 +68,6 @@ import {
   //PutTenant Recommendation
 
   export const PutTenantRecommendation = (tenantId, data) => {
-    // console.log(tenantId, data)
     return {
       type: PUT_TENANT_RECOMMENDATION,
       payload : {tenantId, data}
@@ -93,7 +91,6 @@ import {
   ////Put data for review part of rejection
 
   export const PutDataRecommendation = (data) => {
-    // console.log(data)
     return {
       type: PUT_DATA_RECOMMENDATION,
       payload : {data}

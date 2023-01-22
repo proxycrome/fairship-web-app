@@ -10,9 +10,7 @@ function* getAllNotifications() {
   try {
     const response = yield call(getAllNotificationsService);
     yield put(getAllNotificationsSuccess(response.data));
-    //   console.log(response.data)
   } catch (error) {
-    //   console.log(error?.response?.data);
     yield put(getAllNotificationsError(error?.response?.data));
   }
 }

@@ -69,11 +69,8 @@ function* PutDiligenceTenantRecommendation({payload:{data}}) {
   try {
     const response = yield call(DiligenceRecommendationService,data);
     yield put(DiligenceRecommendationSuccessful(response?.data));
-    
   } catch (error) {
-    
     yield put( DiligenceRecommendationError(error?.response?.data));
-    console.log(error?.response)
   }
 }
 

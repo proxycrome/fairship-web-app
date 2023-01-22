@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, Table } from 'reactstrap';
 import { Link } from 'react-router-dom';
+// import moment from 'moment';
 
 //Import Images
 import img1 from '../../../assets/images/home.png';
@@ -22,25 +23,23 @@ class Sources extends Component {
     };
 
     const rentActive = this.props?.allrentals?.entities?.filter(
-      (rentals) => rentals.status === 'ACTIVE'
+      (rentals) => rentals.status === 'ACTIVE' || rentals.status === 'EXPIRED'
     );
 
-    const total = rentActive?.reduce((acc, data) => {
+    const total = this.props?.allrentals?.entities?.reduce((acc, data) => {
       if (
         new Date(
-          `${data.dueDate.split('-')[1]}-${data.dueDate.split('-')[0]}-${
-            data.dueDate.split('-')[2]
+          `${data?.dueDate?.split('-')[1]}-${data?.dueDate?.split('-')[0]}-${
+            data?.dueDate?.split('-')[2]
           }`
         ) < new Date()
       ) {
-        acc += data.property.price;
+        acc += data?.property?.price;
       }
       return acc;
     }, 0);
 
-    // console.log(total);
 
-    // console.log(rentActive);
     return (
       <React.Fragment>
         <Card>
@@ -53,14 +52,14 @@ class Sources extends Component {
               <div className="table-responsive mt-4">
                 <Table hover className=" mb-0 table-centered table-nowrap">
                   <tbody>
-                    {rentActive?.map((data) => (
-                      <tr key={data.id}>
+                    {rentActive?.slice(0, 4)?.map((data) => (
+                      <tr key={data?.id}>
                         <td>
                           <div className="avatar-xs">
                             <div className="avatar-title rounded bg-light">
-                              {data.tenant.profilePhoto ? (
+                              {data?.tenant?.profilePhoto ? (
                                 <img
-                                  src={data.tenant.profilePhoto}
+                                  src={data?.tenant?.profilePhoto}
                                   alt=""
                                   height="20"
                                 />
@@ -89,9 +88,9 @@ class Sources extends Component {
                             {getDifferenceInDays(
                               new Date(),
                               new Date(
-                                `${data.dueDate.split('-')[1]}-${
-                                  data.dueDate.split('-')[0]
-                                }-${data.dueDate.split('-')[2]}`
+                                `${data?.dueDate?.split('-')[1]}-${
+                                  data?.dueDate?.split('-')[0]
+                                }-${data?.dueDate?.split('-')[2]}`
                               )
                             ) >= 0
                               ? '₦' + 0

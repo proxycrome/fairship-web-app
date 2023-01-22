@@ -20,8 +20,6 @@ const ServiceSummary = (props) => {
 
   const { serviceSummary } = useSelector((state) => state.Maintenance);
 
-  // console.log(serviceSummary);
-
 
   return (
     <div className="page-content">

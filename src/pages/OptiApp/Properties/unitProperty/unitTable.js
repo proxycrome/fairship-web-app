@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
 import Loader from '../../../../components/Common/Loading';
@@ -13,13 +13,7 @@ const PropertiesTable = ({ tableData }) => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    setData(tableDataHandler());
-    setIsLoading(false);
-  }, []);
-
-
-  const tableDataHandler = () => {
+  const tableDataHandler = useCallback(() => {
     const rowData = tableData?.map((data) => {
       const newData = {
         property: (
@@ -40,7 +34,7 @@ const PropertiesTable = ({ tableData }) => {
         price: data?.price?.toLocaleString(),
         feature: data.feature,
         entityLevel: data.entityLevel,
-        date: Moment(data.createdAt).format('l'),
+        date: Moment(data.createdAt, "DD-MM-YYYY").format("DD-MM-YYYY"),
         status: (
           <span
             className={`badge badge-${
@@ -147,7 +141,13 @@ const PropertiesTable = ({ tableData }) => {
       ],
       rows: rowData,
     };
-  };
+  }, [tableData])
+
+  useEffect(() => {
+    setData(tableDataHandler());
+    setIsLoading(false);
+  }, [tableDataHandler]);
+
 
   return (
     <React.Fragment>

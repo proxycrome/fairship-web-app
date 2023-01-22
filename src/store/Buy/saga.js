@@ -33,10 +33,8 @@ function* getBuyApplications() {
   try {
     const response = yield call(getBuyApplicationsService);
     yield put(getBuyApplicationsSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(getBuyApplicationsError(error?.response?.data));
-    // console.log(error?.response)
   }
 }
 
@@ -44,10 +42,8 @@ function* getEachBuyApplication({ payload }) {
   try {
     const response = yield call(getEachBuyApplicationService, payload);
     yield put(getEachBuyApplicationSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(getEachBuyApplicationError(error?.response?.data));
-    // console.log(error?.response)
   }
 }
 
@@ -55,10 +51,8 @@ function* reviewApplication({ payload }) {
   try {
     const response = yield call(reviewApplicationService, payload);
     yield put(reviewApplicationSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(reviewApplicationError(error?.response?.data));
-    // console.log(error?.response)
   }
 }
 
@@ -66,10 +60,8 @@ function* reviewOffer({ payload }) {
   try {
     const response = yield call(reviewOfferService, payload);
     yield put(reviewOfferSuccess(response.data));
-    // console.log(response.data);
   } catch (error) {
     yield put(reviewOfferError(error?.response?.data));
-    // console.log(error?.response)
   }
 }
 
@@ -77,10 +69,8 @@ function* reviewGuarantor({ payload }) {
     try {
       const response = yield call(reviewGuarantorService, payload);
       yield put(reviewGuarantorSuccess(response.data));
-      // console.log(response.data);
     } catch (error) {
       yield put(reviewGuarantorError(error?.response?.data));
-      // console.log(error?.response)
     }
   }
 
