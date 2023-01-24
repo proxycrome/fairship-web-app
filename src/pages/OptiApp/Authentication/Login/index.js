@@ -91,8 +91,8 @@ class Login extends Component {
 
                           <div className="p-2 mt-5">
                             {this.props.loginError && this.props.loginError ? (
-                              <Alert color="danger">
-                                {this.props.loginError}
+                              <Alert color="danger" className="text-center">
+                                {this.props.loginError?.message}
                               </Alert>
                             ) : null}
                             <AvForm

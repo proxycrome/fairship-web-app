@@ -61,7 +61,7 @@ class Layout extends Component {
     let currentage = title.charAt(1).toUpperCase() + title.slice(2);
 
     document.title =
-      currentage + " | Nazox - Responsive Bootstrap 4 Admin Dashboard";
+      currentage + " | PManager - Landlord / Agent";
 
     this.props.changeLayout('horizontal');
     if (this.props.topbarTheme) {

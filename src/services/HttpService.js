@@ -1,10 +1,11 @@
 import axiosInstance from '../utils/axiosInstance';
 import axios from 'axios';
+import domain from '../domain';
 // import { getAccessToken, verifyToken } from '../utils/utilities';
 
 class HttpService {
   constructor() {
-    this.baseUrl = process.env.REACT_APP_BASE_URL;
+    this.baseUrl = `${domain}`;
   }
 
   postData = async (payload, url) => {

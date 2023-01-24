@@ -1,16 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
+import domain from "../domain";
 
 const checkAuthTokens = () => {
-  let authTokens = localStorage.getItem('fairshipToken')
-    ? localStorage.getItem('fairshipToken')
+  let authTokens = localStorage.getItem("fairshipToken")
+    ? localStorage.getItem("fairshipToken")
     : null;
   return authTokens;
 };
 
 const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: `${domain}`,
   headers: { Authorization: checkAuthTokens() },
 });
+
 
 axiosInstance.interceptors.request.use(async (req) => {
   if (checkAuthTokens()) {

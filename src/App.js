@@ -32,7 +32,7 @@ class App extends Component {
     return (
       <React.Fragment>
         {this.props.auth.isAuthenticated !== null ? (
-          <HashRouter>
+          // <HashRouter>
             <Switch>
               {publicRoutes.map((route, idx) => (
                 <AppRoutePublic
@@ -54,7 +54,7 @@ class App extends Component {
                 />
               ))}
             </Switch>
-          </HashRouter>
+          // </HashRouter>
         ) : (
           <div className="vh-100">
             <Loader />

@@ -58,7 +58,6 @@ function* loginUser({ payload: { user, history } }) {
   try {
     const response = yield call(LoginService, user);
     if (response.data.role.name === "TENANT") {
-      // eslint-disable-next-line no-throw-literal
       throw  "error found";
     }
     yield put(loginUserSuccessful(response.data));
