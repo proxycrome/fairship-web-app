@@ -66,6 +66,8 @@ import Preview from '../pages/OptiApp/Rental/Preview';
 import CreateMaintenance from '../pages/OptiApp/Maintenance/CreateMaintenace';
 import LeaseTermination from '../pages/OptiApp/LeaseTermination';
 import PreviewLeaseTermination from '../pages/OptiApp/LeaseTermination/Preview';
+import Privacy from '../pages/OptiApp/Authentication/Register/Privacy';
+import Tos from '../pages/OptiApp/Authentication/Register/Tos';
 
 const authProtectedRoutes = [
   //FairShip Board
@@ -126,7 +128,7 @@ const authProtectedRoutes = [
 const publicRoutes = [
   // { path: '/logout', component: Logout },
   { path: '/welcome_page', component: WelcomePage },
-  { path: '/privacy', component: Opti_Privacy },
+  // { path: '/privacy', component: Opti_Privacy },
   { path: '/activation', component: Opti_AccountActivation },
   { path: '/login', component: Opti_Login },
   { path: '/forget_password', component: Opti_ForgetPassword },
@@ -134,6 +136,8 @@ const publicRoutes = [
   { path: '/landLord_register', component: Opti_Register },
   { path: '/agent_register', component: Opti_agentRegister },
   { path: '/register', component: Opti_Welcome },
+  { path: '/privacy', component: Privacy },
+  { path: '/terms', component: Tos },
 ];
 
 export { authProtectedRoutes, publicRoutes };
