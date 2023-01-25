@@ -396,7 +396,7 @@ const BuyPreview = (props) => {
               <CardBody>
                 <div className="text-center mt-4">
                   <img src={emptyCan} alt="empty" className="rounded mb-2" />
-                  <h4> No Buy Application Details </h4>
+                  <h4> No Buy Application Details</h4>
                 </div>
               </CardBody>
             </Card>
