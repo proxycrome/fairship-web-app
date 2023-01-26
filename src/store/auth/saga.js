@@ -65,9 +65,9 @@ function* loginUser({ payload: { user, history } }) {
     history.push("/dashboard");
   } catch (error) {
     yield put(apiError("User not authorized or wrong details"));
-    if(error){
-      yield put(apiError(error))
-    }
+    // if(error){
+    //   yield put(apiError(error))
+    // }
   }
 }
 
